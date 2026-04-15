@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Lumalia</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial;
+      background: linear-gradient(to bottom, #0a0f2c, #1a1f4c);
+      color: white;
+    }
+
+    .topbar {
+      background: #05081a;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .topbar a {
+      color: white;
+      text-decoration: none;
+    }
+
+    .login-btn {
+      background: #5865F2;
+      padding: 8px 15px;
+      border-radius: 8px;
+    }
+
+    .navbar {
+      background: #0d1235;
+      display: flex;
+      justify-content: center;
+      padding: 15px;
+    }
+
+    .navbar a {
+      margin: 0 20px;
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .navbar a:hover {
+      color: #5865F2;
+    }
+
+    .hero {
+      text-align: center;
+      margin-top: 100px;
+    }
+
+    .btn {
+      background: #5865F2;
+      padding: 15px 30px;
+      border-radius: 10px;
+      color: white;
+      border: none;
+      font-size: 18px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="topbar">
+  <a href="https://discord.gg/NZZQhWP9G5">Discord Lumalia</a>
+  <a href="login.html" class="login-btn">Connexion / Inscription</a>
+</div>
+
+<div class="navbar">
+  <a href="#">Accueil</a>
+  <a href="#">Serveur</a>
+  <a href="#">Boutique</a>
+  <a href="#">Règlement</a>
+  <a href="#">Support</a>
+</div>
+
+<div class="hero">
+  <h1>Lumalia</h1>
+  <p>Un serveur Minecraft unique ⚔️</p>
+
+  <button class="btn" onclick="copyIP()">Copier l'IP</button>
+</div>
+
+<script>
+function copyIP() {
+  const ip = "play.lumalia.fr";
+  navigator.clipboard.writeText(ip);
+  alert("IP copiée : " + ip);
+}
+</script>
+
+</body>
+</html>
