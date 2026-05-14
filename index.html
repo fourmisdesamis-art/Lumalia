@@ -101,6 +101,39 @@
   }
 
       }
+/* BURGER */
+.burger {
+  display: none;
+  font-size: 35px;
+  padding: 10px 20px;
+  cursor: pointer;
+  background: #05081a;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+
+  .burger {
+    display: block;
+    text-align: right;
+  }
+
+  .navbar {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .navbar.active {
+    display: flex;
+  }
+
+  .navbar a {
+    margin: 15px 0;
+    font-size: 18px;
+  }
+
+    }
   </style>
 </head>
 
@@ -125,7 +158,9 @@
 <div class="hero">
   <h1>Lumalia</h1>
   <p>Un serveur Minecraft unique ou tu peux créer ton pays, ta faction et même ta ville !</p>
-
+  <p>Le serveur ouvre le 29 juin 2026 on t'attend !</p>
+  
+  
   <button class="btn" onclick="copyIP()">Copier l'IP</button>
 </div>
 
