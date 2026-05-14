@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Wiki Lumalia</title>
+
+<style>
+
+/* GLOBAL */
+
+body{
+    margin:0;
+    font-family:Arial;
+    background:#0a0f2c;
+    color:white;
+    display:flex;
+    min-height:100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+    width:280px;
+    background:#05081a;
+    padding:25px;
+    box-shadow:0 0 20px rgba(0,0,0,0.5);
+}
+
+.logo{
+    font-size:35px;
+    font-weight:bold;
+    margin-bottom:40px;
+    text-align:center;
+    color:#8ea2ff;
+}
+
+.menu-item{
+    background:#151c4f;
+    padding:15px;
+    margin-bottom:15px;
+    border-radius:15px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.menu-item:hover{
+    background:#5865F2;
+    transform:translateX(5px);
+}
+
+/* MAIN */
+
+.main{
+    flex:1;
+    padding:40px;
+}
+
+/* SEARCH */
+
+.search-box{
+    margin-bottom:30px;
+}
+
+.search-box input{
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:15px;
+    background:#151c4f;
+    color:white;
+    font-size:16px;
+}
+
+/* ARTICLE */
+
+.article{
+    background:#151c4f;
+    padding:30px;
+    border-radius:20px;
+    box-shadow:0 0 20px rgba(0,0,0,0.4);
+    animation:fade 0.3s ease;
+}
+
+.article h1{
+    color:#8ea2ff;
+    margin-top:0;
+}
+
+.article p{
+    line-height:1.8;
+    color:#d6d6d6;
+}
+
+/* BUTTON */
+
+.back-btn{
+    display:inline-block;
+    margin-top:25px;
+    padding:12px 25px;
+    background:#5865F2;
+    border-radius:12px;
+    color:white;
+    text-decoration:none;
+    transition:0.3s;
+}
+
+.back-btn:hover{
+    transform:scale(1.05);
+}
+
+/* ANIMATION */
+
+@keyframes fade{
+    from{
+        opacity:0;
+        transform:translateY(10px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* MOBILE */
+
+.mobile-top{
+    display:none;
+}
+
+@media(max-width:768px){
+
+body{
+    flex-direction:column;
+}
+
+.sidebar{
+    display:none;
+    width:100%;
+    padding:15px;
+}
+
+.sidebar.active{
+    display:block;
+}
+
+.mobile-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:#05081a;
+    padding:15px;
+}
+
+.burger{
+    font-size:30px;
+    cursor:pointer;
+}
+
+.main{
+    padding:20px;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- MOBILE TOP -->
+
+<div class="mobile-top">
+
+<div class="logo">
+Lumalia
+</div>
+
+<div class="burger" onclick="toggleMenu()">
+☰
+</div>
+
+</div>
+
+<!-- SIDEBAR -->
+
+<div class="sidebar" id="sidebar">
+
+<div class="logo">
+📚 Lumalia
+</div>
+
+<div class="menu-item" onclick="showArticle('lore')">
+🌍 Lore
+</div>
+
+<div class="menu-item" onclick="showArticle('nations')">
+🏰 Nations
+</div>
+
+<div class="menu-item" onclick="showArticle('pvp')">
+⚔ PvP
+</div>
+
+<div class="menu-item" onclick="showArticle('economy')">
+💰 Économie
+</div>
+
+<div class="menu-item" onclick="showArticle('codex')">
+📜 Codex
+</div>
+
+</div>
+
+<!-- MAIN -->
+
+<div class="main">
+
+<div class="search-box">
+<input type="text" placeholder="Rechercher dans le wiki...">
+</div>
+
+<div class="article" id="article">
+
+<h1>Bienvenue sur le Wiki Lumalia</h1>
+
+<p>
+Explorez l'univers officiel de Lumalia.
+Découvrez les royaumes, les guerres, les métiers,
+les règles et toute l'histoire du serveur.
+</p>
+
+<p>
+Ce wiki évoluera avec les mises à jour du serveur.
+</p>
+
+<a href="index.html" class="back-btn">
+⬅ Retour au site
+</a>
+
+</div>
+
+</div>
+
+<script>
+
+function toggleMenu(){
+    document.getElementById("sidebar").classList.toggle("active");
+}
+
+function showArticle(type){
+
+    const article = document.getElementById("article");
+
+    if(type === "lore"){
+        article.innerHTML = `
+        <h1>🌍 Lore de Lumalia</h1>
+
+        <p>
+        Lumalia est un monde ancien déchiré par les guerres entre royaumes.
+        Les anciennes civilisations ont laissé derrière elles des reliques
+        légendaires et des donjons oubliés.
+        </p>
+
+        <p>
+        Chaque joueur peut choisir son destin :
+        devenir roi, marchand, guerrier ou explorateur.
+        </p>
+        `;
+    }
+
+    if(type === "nations"){
+        article.innerHTML = `
+        <h1>🏰 Nations</h1>
+
+        <p>
+        Les nations dominent le monde de Lumalia.
+        Chaque nation possède ses propres lois,
+        territoires et alliances.
+        </p>
+
+        <p>
+        Les guerres entre nations influencent
+        l'économie et le contrôle des ressources.
+        </p>
+        `;
+    }
+
+    if(type === "pvp"){
+        article.innerHTML = `
+        <h1>⚔ PvP</h1>
+
+        <p>
+        Le système PvP de Lumalia permet des combats stratégiques
+        entre joueurs et nations.
+        </p>
+
+        <p>
+        Des arènes et événements spéciaux sont organisés régulièrement.
+        </p>
+        `;
+    }
+
+    if(type === "economy"){
+        article.innerHTML = `
+        <h1>💰 Économie</h1>
+
+        <p>
+        L'économie repose sur les métiers, les échanges
+        et les hôtels de vente.
+        </p>
+
+        <p>
+        Chaque ressource possède une valeur influencée
+        par les actions des joueurs.
+        </p>
+        `;
+    }
+
+    if(type === "codex"){
+        article.innerHTML = `
+        <h1>📜 Codex</h1>
+
+        <p>
+        Le Codex rassemble toutes les règles officielles
+        du serveur Lumalia.
+        </p>
+
+        <p>
+        Le respect des règles garantit une expérience agréable
+        pour tous les joueurs.
+        </p>
+        `;
+    }
+
+}
+
+</script>
+
+</body>
+</html>
