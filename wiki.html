@@ -230,12 +230,12 @@ Lumalia
 
 <p>
 Explorez l'univers officiel de Lumalia.
-Découvrez les royaumes, les guerres, les métiers,
+Découvrez les pays, les factions, les villes, les guerres, les métiers,
 les règles et toute l'histoire du serveur.
 </p>
 
 <p>
-Ce wiki évoluera avec les mises à jour du serveur.
+Ce wiki n'est pas encore fini et évoluera sûrement au fil des mise a jour du serveur.
 </p>
 
 <a href="index.html" class="back-btn">
@@ -261,31 +261,45 @@ function showArticle(type){
         <h1>🌍 Lore de Lumalia</h1>
 
         <p>
-        Lumalia est un monde ancien déchiré par les guerres entre royaumes.
-        Les anciennes civilisations ont laissé derrière elles des reliques
-        légendaires et des donjons oubliés.
+        Lumalia est un monde ancien qui aujourd'hui se renouvelle avec de nouveaux pays, factions et villes.
+        Tous ceci deviendront plus tard des empires et des cités indestructibles 
         </p>
 
         <p>
-        Chaque joueur peut choisir son destin :
-        devenir roi, marchand, guerrier ou explorateur.
+        Chaque joueur peut choisir son destin.
+        
         </p>
         `;
     }
-
     if(type === "nations"){
         article.innerHTML = `
-        <h1>🏰 Nations</h1>
+        <h1>🏞️ Pays</h1>
 
         <p>
-        Les nations dominent le monde de Lumalia.
-        Chaque nation possède ses propres lois,
-        territoires et alliances.
+        Chaque pays peut posséder ses propres lois,
+        territoires et alliances
         </p>
+
+        <h2>Comment créer votre pays ?<h2>
+        
+        <p>
+        Les nations peuvent être créer avec la commande /pa create.
+        Ensuite vous entrez le nom du pays, ses tags ainsi que la description,
+        puis vous faites entrer. Votre pays est créé, mais vous devez posé le premier claim !
+        </p>
+
+        <h2>Les guerres entre pays<h2>
 
         <p>
         Les guerres entre nations influencent
-        l'économie et le contrôle des ressources.
+        l'économie et les ressources du serveur disponible pour tout le monde.
+        </p>
+
+        <h2>Comment faire une guerre ?<h2>
+
+        <p>
+        Pour créer une guerre avec un pays ou une faction
+        il vous faut une raison de guerre.
         </p>
         `;
     }
