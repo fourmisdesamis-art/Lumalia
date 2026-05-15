@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Wiki Lumalia</title>
+<title>Wiki de Lumalia</title>
 
 <style>
 
@@ -203,7 +203,7 @@ Lumalia
 </div>
 
 <div class="menu-item" onclick="showArticle('pvp')">
-⚔ PvP
+⚔ Killzone
 </div>
 
 <div class="menu-item" onclick="showArticle('economy')">
@@ -266,7 +266,7 @@ function showArticle(type){
         </p>
 
         <p>
-        Chaque joueur peut choisir son destin.
+        Chaque joueur peut choisir son destin, sa vie.
         
         </p>
         `;
@@ -300,15 +300,18 @@ function showArticle(type){
 
     if(type === "pvp"){
         article.innerHTML = `
-        <h1>⚔ PvP</h1>
+        <h1>⚔ Killzone</h1>
 
         <p>
-        Le système PvP de Lumalia permet des combats stratégiques
-        entre joueurs et nations.
+        la Killzone est utilisée pour vous rapporter des bonus pour votre pays, factions et villes.
+        Il y aura une zone que vous devrez conquérir dans la Killzone pour avoir les bonus.
+        La zone prend 30 minutes a être prise et quand la zone sera conquise, une interface 
+        s'ouvrira pour vous demander quel bonus vous voulez avoir comme de l'argent, des minerais,
+        des outils... etc
         </p>
 
         <p>
-        Des arènes et événements spéciaux sont organisés régulièrement.
+        Des événements spéciaux seront organisés régulièrement dans la Killzone comme des évents pvp.
         </p>
         `;
     }
@@ -319,7 +322,7 @@ function showArticle(type){
 
         <p>
         L'économie repose sur les métiers, les échanges
-        et les hôtels de vente.
+        et le shop du serveur.
         </p>
 
         <p>
@@ -335,13 +338,17 @@ function showArticle(type){
 
         <p>
         Le Codex rassemble toutes les règles officielles
-        du serveur Lumalia.
+        de Lumalia, il peut dépendre de certains serveurs de Lumalia.
         </p>
 
         <p>
         Le respect des règles garantit une expérience agréable
-        pour tous les joueurs.
+        pour tous les joueurs ainsi que les staffs des serveurs.
         </p>
+
+        <a href="codex.html" class="back-btn">
+        ⬅ Le Codex
+        </a>
         `;
     }
 
