@@ -198,8 +198,12 @@ Lumalia
 🌍 Lore
 </div>
 
-<div class="menu-item" onclick="showArticle('nations')">
+<div class="menu-item" onclick="showArticle('pays')">
 🏞️ Pays
+</div>
+
+<div class="menu-item" onclick="showArticle('factions')">
+🏠 Factions
 </div>
 
 <div class="menu-item" onclick="showArticle('pvp')">
@@ -271,7 +275,7 @@ function showArticle(type){
         </p>
         `;
     }
-    if(type === "nations"){
+    if(type === "pays"){
         article.innerHTML = `
         <h1>🏞️ Pays</h1>
 
@@ -281,7 +285,7 @@ function showArticle(type){
         </p>
         
         <p>
-        Les nations peuvent être créer avec la commande /pa create.
+        Les factions peuvent être créer avec la commande /pa create.
         Ensuite vous entrez le nom du pays, ses tags ainsi que la description,
         puis vous faites entrer. Votre pays est créé, mais vous devez posé le premier claim !
         </p>
@@ -298,6 +302,33 @@ function showArticle(type){
         `;
     }
 
+    if(type === "factions"){
+        article.innerHTML = `
+        <h1>🏠 factions</h1>
+
+        <p>
+        Chaque factions possède ses propres lois et règles.
+        </p>
+        
+        <p>
+        Les factions peuvent être créer avec la commande /f create.
+        Ensuite vous entrez le nom de la factions, ses tags ainsi que la description,
+        puis vous faites entrer. Votre factions est créé, mais vous devez posé le premier claim 
+        avec /f claim
+        </p>
+
+        <p>
+        Les guerres entre factions influencent
+        l'économie et les ressources du serveur disponible pour tout le monde.
+        </p>
+
+        <p>
+        Pour créer une guerre avec un pays ou une faction
+        il vous faut une raison de guerre.
+        </p>
+        `;
+    }
+    
     if(type === "pvp"){
         article.innerHTML = `
         <h1>⚔ Killzone</h1>
@@ -315,6 +346,7 @@ function showArticle(type){
         </p>
         `;
     }
+    
 
     if(type === "economy"){
         article.innerHTML = `
