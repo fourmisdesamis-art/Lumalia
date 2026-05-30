@@ -245,7 +245,9 @@ window.login = async function () {
       return;
     }
 
-    window.location.href = "profil.html";
+   console.log("Connexion réussie");
+window.location.href = "profil.html";
+      
   } catch (error) {
 
     document.getElementById("message").innerText =
