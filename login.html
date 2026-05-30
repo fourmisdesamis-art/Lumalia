@@ -157,8 +157,15 @@ input:focus{
 </div>
 
 <script type="module">
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  sendEmailVerification
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBSCqSsBTXk9Q8sBX88NgrdDHUAHT0Cq6I",
@@ -169,48 +176,68 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-window.register = function () {
+/* INSCRIPTION */
+
+window.register = async function () {
+
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
 
-createUserWithEmailAndPassword(auth, email, password)
-.then(async (userCredential) => {
+  try {
 
-  await sendEmailVerification(userCredential.user);
+    const userCredential =
+      await createUserWithEmailAndPassword(auth, email, password);
 
-  document.getElementById("message").innerText =
-  "✅ Compte créé ! Vérifie ta boîte mail.";
+    await sendEmailVerification(userCredential.user);
 
-})
-    .catch(error => {
-      document.getElementById("message").innerText = error.message;
-    });
+    document.getElementById("message").innerText =
+      "✅ Compte créé ! Vérifie ton email.";
+
+  } catch (error) {
+
+    document.getElementById("message").innerText =
+      "❌ " + error.message;
+
+  }
+
 }
 
-window.login = function () {
+/* CONNEXION */
+
+window.login = async function () {
+
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
 
-  .then((userCredential) => {
+  try {
 
- const user = userCredential.user;
+    const userCredential =
+      await signInWithEmailAndPassword(auth, email, password);
 
- if(!user.emailVerified){
+    const user = userCredential.user;
 
-   document.getElementById("message").innerText =
-   "❌ Vérifie ton email avant de te connecter.";
+    await user.reload();
 
-   return;
- }
+    if (!user.emailVerified) {
 
- document.getElementById("message").innerText =
- "✅ Connexion réussie !";
+      document.getElementById("message").innerText =
+        "❌ Vérifie ton email avant de te connecter.";
 
-})
-    .catch(error => {
-      document.getElementById("message").innerText = error.message;
-    });
+      return;
+    }
+
+    document.getElementById("message").innerText =
+      "✅ Connexion réussie !";
+
+  } catch (error) {
+
+    document.getElementById("message").innerText =
+      "❌ " + error.message;
+
+  }
+
 }
+
 </script>
 
 </body>
