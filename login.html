@@ -191,10 +191,22 @@ window.login = function () {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
 
-  signInWithEmailAndPassword(auth, email, password)
-    .then(() => {
-      document.getElementById("message").innerText = "✅ Connexion réussie !";
-    })
+  .then((userCredential) => {
+
+ const user = userCredential.user;
+
+ if(!user.emailVerified){
+
+   document.getElementById("message").innerText =
+   "❌ Vérifie ton email avant de te connecter.";
+
+   return;
+ }
+
+ document.getElementById("message").innerText =
+ "✅ Connexion réussie !";
+
+})
     .catch(error => {
       document.getElementById("message").innerText = error.message;
     });
