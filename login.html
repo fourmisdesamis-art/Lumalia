@@ -140,6 +140,8 @@ input:focus{
 
     <input type="password" id="password" placeholder="Mot de passe">
 
+    <input type="text" id="pseudo" placeholder="Pseudo Minecraft">
+
     <button class="btn btn-register" onclick="register()">
         Créer un compte
     </button>
@@ -167,6 +169,12 @@ import {
   sendEmailVerification
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
+import {
+  getFirestore,
+  doc,
+  setDoc
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
 const firebaseConfig = {
   apiKey: "AIzaSyBSCqSsBTXk9Q8sBX88NgrdDHUAHT0Cq6I",
   authDomain: "lumalia.firebaseapp.com",
@@ -175,6 +183,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const db = getFirestore(app);
 
 /* INSCRIPTION */
 
@@ -182,6 +191,7 @@ window.register = async function () {
 
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
+  const pseudo = document.getElementById("pseudo").value;
 
   try {
 
@@ -189,6 +199,15 @@ window.register = async function () {
       await createUserWithEmailAndPassword(auth, email, password);
 
     await sendEmailVerification(userCredential.user);
+
+    await setDoc(
+  doc(db, "users", userCredential.user.uid),
+  {
+    email: email,
+    pseudoMinecraft: pseudo,
+    createdAt: new Date().toISOString()
+  }
+);    
 
     document.getElementById("message").innerText =
       "✅ Compte créé ! Vérifie ton email(spam).";
