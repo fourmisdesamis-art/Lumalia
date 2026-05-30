@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Serveurs - Lumalia</title>
+
+<link rel="icon" type="image/png" href="logo-lumalia.png">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+background:#080808;
+color:white;
+font-family:Arial,sans-serif;
+}
+
+/* HEADER */
+
+header{
+background:#050505;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 50px;
+border-bottom:1px solid rgba(255,255,255,0.08);
+}
+
+.logo img{
+height:60px;
+}
+
+.nav-links{
+display:flex;
+gap:30px;
+}
+
+.nav-links a{
+color:white;
+text-decoration:none;
+transition:0.3s;
+}
+
+.nav-links a:hover{
+color:#8b7cff;
+}
+
+.header-buttons{
+display:flex;
+gap:15px;
+}
+
+.btn-login{
+padding:12px 20px;
+border-radius:10px;
+background:#1b1b1b;
+color:white;
+text-decoration:none;
+}
+
+.btn-play{
+padding:12px 20px;
+border-radius:10px;
+background:linear-gradient(90deg,#6b5cff,#9b6cff);
+color:white;
+text-decoration:none;
+font-weight:bold;
+}
+
+/* TITRE */
+
+.hero{
+text-align:center;
+padding:100px 20px 50px;
+}
+
+.hero h1{
+font-size:70px;
+background:linear-gradient(90deg,#ff70d9,#9b6cff,#6b5cff);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+margin-bottom:20px;
+}
+
+.hero p{
+color:#cfcfcf;
+max-width:700px;
+margin:auto;
+line-height:1.8;
+}
+
+/* SERVEURS */
+
+.servers{
+max-width:1400px;
+margin:auto;
+padding:50px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(350px,1fr));
+gap:30px;
+}
+
+.server-card{
+background:#111111;
+border:1px solid rgba(255,255,255,0.05);
+border-radius:25px;
+padding:30px;
+transition:0.3s;
+}
+
+.server-card:hover{
+transform:translateY(-10px);
+border-color:#7d6bff;
+}
+
+.server-icon{
+font-size:60px;
+margin-bottom:20px;
+}
+
+.server-card h2{
+margin-bottom:15px;
+color:#9b6cff;
+}
+
+.server-card p{
+color:#cfcfcf;
+line-height:1.7;
+margin-bottom:25px;
+}
+
+.server-btn{
+display:inline-block;
+padding:12px 25px;
+background:linear-gradient(90deg,#6b5cff,#9b6cff);
+border-radius:10px;
+color:white;
+text-decoration:none;
+}
+
+/* FOOTER */
+
+footer{
+padding:40px;
+text-align:center;
+color:#777;
+}
+
+/* MOBILE */
+
+@media(max-width:900px){
+
+header{
+flex-direction:column;
+gap:20px;
+padding:20px;
+}
+
+.nav-links{
+flex-wrap:wrap;
+justify-content:center;
+}
+
+.hero h1{
+font-size:50px;
+}
+
+.servers{
+padding:20px;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">
+<img src="logo-lumalia.png">
+</div>
+
+<nav class="nav-links">
+<a href="index.html">Accueil</a>
+<a href="serveurs.html">Serveurs</a>
+<a href="wiki.html">Wiki</a>
+<a href="forum.html">Forum</a>
+<a href="#">Support</a>
+<a href="https://discord.gg/NZZQhWP9G5">Discord</a>
+</nav>
+
+<div class="header-buttons">
+<a href="login.html" class="btn-login">Connexion</a>
+<a href="#" class="btn-play">Jouer</a>
+</div>
+
+</header>
+
+<section class="hero">
+
+<h1>Serveurs Lumalia</h1>
+
+<p>
+Découvrez tous les univers disponibles sur Lumalia.
+Choisissez votre aventure et écrivez votre propre histoire.
+</p>
+
+</section>
+
+<section class="servers">
+
+<div class="server-card">
+
+<div class="server-icon">🏰</div>
+
+<h2>Royaumes</h2>
+
+<p>
+Créez votre royaume, gérez votre économie,
+fondez des alliances et partez à la conquête du monde.
+</p>
+
+<a href="#" class="server-btn">
+Découvrir
+</a>
+
+</div>
+
+<div class="server-card">
+
+<div class="server-icon">⚔️</div>
+
+<h2>PvP & Guerres</h2>
+
+<p>
+Affrontez les autres nations dans des guerres
+épiques et dominez le classement.
+</p>
+
+<a href="#" class="server-btn">
+Découvrir
+</a>
+
+</div>
+
+<div class="server-card">
+
+<div class="server-icon">🏹</div>
+
+<h2>Donjons</h2>
+
+<p>
+Explorez des donjons dangereux,
+battez des boss et récupérez des récompenses légendaires.
+</p>
+
+<a href="#" class="server-btn">
+Découvrir
+</a>
+
+</div>
+
+</section>
+
+<footer>
+© 2026 Lumalia - Tous droits réservés
+</footer>
+
+</body>
+</html>
