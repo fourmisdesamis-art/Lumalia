@@ -1,21 +1,160 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Login Lumalia</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Connexion - Lumalia</title>
+
+<link rel="icon" type="image/png" href="logo-lumalia.png">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:#080808;
+    color:white;
+    font-family:Arial,sans-serif;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.background{
+    position:absolute;
+    width:100%;
+    height:100%;
+    background:
+    radial-gradient(circle at top left,#6b5cff33,transparent 30%),
+    radial-gradient(circle at bottom right,#ff70d933,transparent 30%);
+    z-index:-1;
+}
+
+.login-box{
+    width:90%;
+    max-width:450px;
+    background:#111111;
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:25px;
+    padding:40px;
+    text-align:center;
+    box-shadow:0 0 40px rgba(107,92,255,0.15);
+}
+
+.logo{
+    width:100px;
+    margin-bottom:20px;
+}
+
+h1{
+    margin-bottom:10px;
+}
+
+.subtitle{
+    color:#bdbdbd;
+    margin-bottom:30px;
+}
+
+input{
+    width:100%;
+    padding:15px;
+    margin-bottom:15px;
+    border:none;
+    border-radius:12px;
+    background:#1a1a1a;
+    color:white;
+    font-size:16px;
+}
+
+input:focus{
+    outline:none;
+    border:1px solid #7d6bff;
+}
+
+.btn{
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:12px;
+    cursor:pointer;
+    font-size:16px;
+    font-weight:bold;
+    margin-top:10px;
+}
+
+.btn-register{
+    background:linear-gradient(90deg,#6b5cff,#9b6cff);
+    color:white;
+}
+
+.btn-login{
+    background:#1f1f1f;
+    color:white;
+}
+
+.btn:hover{
+    opacity:0.9;
+}
+
+#message{
+    margin-top:20px;
+    color:#9b6cff;
+    font-weight:bold;
+}
+
+.back{
+    display:block;
+    margin-top:25px;
+    color:#9b6cff;
+    text-decoration:none;
+}
+
+.back:hover{
+    text-decoration:underline;
+}
+
+</style>
 </head>
 
 <body>
 
-<h1>Lumalia</h1>
+<div class="background"></div>
 
-<input type="email" id="email" placeholder="Email">
-<input type="password" id="password" placeholder="Mot de passe">
+<div class="login-box">
 
-<button onclick="register()">S'inscrire</button>
-<button onclick="login()">Se connecter</button>
+    <img src="logo-lumalia.png" class="logo" alt="Lumalia">
 
-<p id="message"></p>
+    <h1>Connexion Lumalia</h1>
+
+    <p class="subtitle">
+        Connecte-toi ou crée ton compte Lumalia.
+    </p>
+
+    <input type="email" id="email" placeholder="Adresse email">
+
+    <input type="password" id="password" placeholder="Mot de passe">
+
+    <button class="btn btn-register" onclick="register()">
+        Créer un compte
+    </button>
+
+    <button class="btn btn-login" onclick="login()">
+        Se connecter
+    </button>
+
+    <p id="message"></p>
+
+    <a href="index.html" class="back">
+        ← Retour à l'accueil
+    </a>
+
+</div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
@@ -36,7 +175,7 @@ window.register = function () {
 
   createUserWithEmailAndPassword(auth, email, password)
     .then(() => {
-      document.getElementById("message").innerText = "Compte créé !";
+      document.getElementById("message").innerText = "✅ Compte créé avec succès !";
     })
     .catch(error => {
       document.getElementById("message").innerText = error.message;
@@ -49,7 +188,7 @@ window.login = function () {
 
   signInWithEmailAndPassword(auth, email, password)
     .then(() => {
-      document.getElementById("message").innerText = "Connecté !";
+      document.getElementById("message").innerText = "✅ Connexion réussie !";
     })
     .catch(error => {
       document.getElementById("message").innerText = error.message;
