@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Profil - Lumalia</title>
+
+<link rel="icon" type="image/png" href="logo-lumalia.png">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+background:#080808;
+font-family:Arial,sans-serif;
+color:white;
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+.background{
+position:absolute;
+width:100%;
+height:100%;
+background:
+radial-gradient(circle at top left,#6b5cff33,transparent 30%),
+radial-gradient(circle at bottom right,#ff70d933,transparent 30%);
+z-index:-1;
+}
+
+.profile-box{
+width:90%;
+max-width:500px;
+background:#111111;
+padding:40px;
+border-radius:25px;
+text-align:center;
+border:1px solid rgba(255,255,255,0.08);
+box-shadow:0 0 40px rgba(107,92,255,0.15);
+}
+
+.logo{
+width:100px;
+margin-bottom:20px;
+}
+
+.avatar{
+width:120px;
+height:120px;
+border-radius:15px;
+margin-bottom:20px;
+}
+
+.info{
+background:#1a1a1a;
+padding:15px;
+border-radius:12px;
+margin-bottom:15px;
+text-align:left;
+}
+
+.label{
+color:#9b6cff;
+font-weight:bold;
+}
+
+.logout-btn{
+width:100%;
+padding:15px;
+border:none;
+border-radius:12px;
+cursor:pointer;
+font-size:16px;
+font-weight:bold;
+background:linear-gradient(90deg,#ff4d4d,#ff7070);
+color:white;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="background"></div>
+
+<div class="profile-box">
+
+<img src="logo-lumalia.png" class="logo">
+
+<h1>Mon Profil</h1>
+
+<img id="avatar" class="avatar">
+
+<div class="info">
+<div class="label">Pseudo Minecraft</div>
+<div id="pseudo">Chargement...</div>
+</div>
+
+<div class="info">
+<div class="label">Email</div>
+<div id="email">Chargement...</div>
+</div>
+
+<div class="info">
+<div class="label">Compte vérifié</div>
+<div id="verified">Chargement...</div>
+</div>
+
+<button class="logout-btn" onclick="logout()">
+Déconnexion
+</button>
+
+</div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+  getAuth,
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+import {
+  getFirestore,
+  doc,
+  getDoc
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBSCqSsBTXk9Q8sBX88NgrdDHUAHT0Cq6I",
+  authDomain: "lumalia.firebaseapp.com",
+  projectId: "lumalia"
+};
+
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+onAuthStateChanged(auth, async (user) => {
+
+  if (!user) {
+    window.location.href = "login.html";
+    return;
+  }
+
+  document.getElementById("email").innerText = user.email;
+
+  document.getElementById("verified").innerText =
+    user.emailVerified ? "✅ Oui" : "❌ Non";
+
+  const userRef = doc(db, "users", user.uid);
+  const userSnap = await getDoc(userRef);
+
+  if (userSnap.exists()) {
+
+    const data = userSnap.data();
+
+    document.getElementById("pseudo").innerText =
+      data.pseudoMinecraft;
+
+    document.getElementById("avatar").src =
+      "https://mc-heads.net/avatar/" +
+      data.pseudoMinecraft;
+
+  } else {
+
+    document.getElementById("pseudo").innerText =
+      "Pseudo introuvable";
+
+  }
+
+});
+
+window.logout = function () {
+
+  signOut(auth)
+    .then(() => {
+      window.location.href = "login.html";
+    });
+
+}
+
+</script>
+
+</body>
+</html>
