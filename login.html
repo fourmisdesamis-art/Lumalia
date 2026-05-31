@@ -213,12 +213,14 @@ window.register = async function () {
     document.getElementById("message").innerText =
       "✅ Compte créé ! Vérifie ton email(spam).";
 
-  } catch (error) {
+  catch (error) {
 
-    document.getElementById("message").innerText =
-      "❌ " + error.message;
+  console.error("Erreur inscription :", error);
 
-  }
+  document.getElementById("message").innerText =
+    "❌ " + error.code + " - " + error.message;
+
+}
 
 }
 
@@ -250,12 +252,14 @@ window.login = async function () {
       
    window.location.href = "index.html";
       
-  } catch (error) {
+  catch (error) {
 
-    document.getElementById("message").innerText =
-      "❌ " + error.message;
+  console.error("Erreur connexion :", error);
 
-  }
+  document.getElementById("message").innerText =
+    "❌ " + error.code + " - " + error.message;
+
+}
 
 }
 
