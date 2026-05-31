@@ -110,6 +110,16 @@ color:white;
 </div>
 
 <div class="info">
+<div class="label">Rang Lumalia</div>
+<div id="rang">Chargement...</div>
+</div>
+
+<div class="info">
+<div class="label">Date d'inscription</div>
+<div id="date">Chargement...</div>
+</div>
+
+<div class="info">
 <div class="label">Compte vérifié</div>
 <div id="verified">Chargement...</div>
 </div>
@@ -168,6 +178,12 @@ onAuthStateChanged(auth, async (user) => {
 
     document.getElementById("pseudo").innerText =
       data.pseudoMinecraft;
+
+    document.getElementById("rang").innerText =
+      data.rang || "Joueur";
+
+document.getElementById("date").innerText =
+new Date(data.createdAt).toLocaleDateString("fr-FR");
 
     document.getElementById("avatar").src =
       "https://mc-heads.net/avatar/" +
