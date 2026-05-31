@@ -321,5 +321,59 @@ function toggleMenu(){
 }
 </script>
 
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+  getAuth,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+import {
+  getFirestore,
+  doc,
+  getDoc
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBSCqSsBTXk9Q8sBX88NgrdDHUAHT0Cq6I",
+  authDomain: "lumalia.firebaseapp.com",
+  projectId: "lumalia"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+onAuthStateChanged(auth, async (user) => {
+
+  if (!user) return;
+
+  const userSnap = await getDoc(
+    doc(db,"users",user.uid)
+  );
+
+  if (!userSnap.exists()) return;
+
+  const data = userSnap.data();
+
+  document.getElementById("user-area").innerHTML = `
+    <a href="profil.html">
+      <img
+      src="https://mc-heads.net/avatar/${data.pseudoMinecraft}"
+      style="
+      width:50px;
+      height:50px;
+      border-radius:10px;
+      border:2px solid #6b5cff;
+      ">
+    </a>
+  `;
+
+});
+
+</script>
+
 </body>
 </html>
