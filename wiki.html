@@ -1,250 +1,231 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Wiki de Lumalia</title>
+<title>Wiki Lumalia</title>
+
+<link rel="icon" type="image/png" href="logo-lumalia.png">
 
 <style>
 
-/* GLOBAL */
-
-body{
-    margin:0;
-    font-family:Arial;
-    background:#0a0f2c;
-    color:white;
-    display:flex;
-    min-height:100vh;
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
 }
 
-/* SIDEBAR */
+body{
+background:#080808;
+color:white;
+}
 
-.sidebar{
-    width:280px;
-    background:#05081a;
-    padding:25px;
-    box-shadow:0 0 20px rgba(0,0,0,0.5);
+.topbar{
+background:#05081a;
+padding:15px 25px;
+display:flex;
+justify-content:space-between;
+align-items:center;
 }
 
 .logo{
-    font-size:35px;
-    font-weight:bold;
-    margin-bottom:40px;
-    text-align:center;
-    color:#8ea2ff;
+height:60px;
 }
 
-.menu-item{
-    background:#151c4f;
-    padding:15px;
-    margin-bottom:15px;
-    border-radius:15px;
-    cursor:pointer;
-    transition:0.3s;
+.navbar{
+display:flex;
+gap:25px;
 }
 
-.menu-item:hover{
-    background:#5865F2;
-    transform:translateX(5px);
+.navbar a{
+color:white;
+text-decoration:none;
+font-weight:bold;
 }
 
-/* MAIN */
-
-.main{
-    flex:1;
-    padding:40px;
+.navbar a:hover{
+color:#9b6cff;
 }
 
-/* SEARCH */
-
-.search-box{
-    margin-bottom:30px;
+.burger{
+display:none;
+font-size:30px;
+cursor:pointer;
 }
 
-.search-box input{
-    width:100%;
-    padding:15px;
-    border:none;
-    border-radius:15px;
-    background:#151c4f;
-    color:white;
-    font-size:16px;
+.hero{
+text-align:center;
+padding:60px 20px;
 }
 
-/* ARTICLE */
-
-.article{
-    background:#151c4f;
-    padding:30px;
-    border-radius:20px;
-    box-shadow:0 0 20px rgba(0,0,0,0.4);
-    animation:fade 0.3s ease;
+.hero h1{
+font-size:55px;
+margin-bottom:15px;
 }
 
-.article h1{
-    color:#8ea2ff;
-    margin-top:0;
+.hero p{
+color:#bdbdbd;
 }
 
-.article p{
-    line-height:1.8;
-    color:#d6d6d6;
+.wiki-container{
+display:flex;
+max-width:1400px;
+margin:auto;
+padding:30px;
+gap:20px;
 }
 
-/* BUTTON */
-
-.back-btn{
-    display:inline-block;
-    margin-top:25px;
-    padding:12px 25px;
-    background:#5865F2;
-    border-radius:12px;
-    color:white;
-    text-decoration:none;
-    transition:0.3s;
+.sidebar{
+width:300px;
+background:#111111;
+border-radius:20px;
+padding:20px;
 }
 
-.back-btn:hover{
-    transform:scale(1.05);
+.sidebar button{
+width:100%;
+padding:15px;
+margin-bottom:10px;
+background:#1a1a1a;
+color:white;
+border:none;
+border-radius:12px;
+cursor:pointer;
+font-size:16px;
+transition:0.3s;
 }
 
-/* ANIMATION */
-
-@keyframes fade{
-    from{
-        opacity:0;
-        transform:translateY(10px);
-    }
-
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
+.sidebar button:hover{
+background:#6b5cff;
 }
 
-/* MOBILE */
+.content{
+flex:1;
+background:#111111;
+padding:30px;
+border-radius:20px;
+min-height:600px;
+}
 
-.mobile-top{
-    display:none;
+.content h2{
+margin-bottom:20px;
+color:#9b6cff;
+}
+
+.content p{
+line-height:1.8;
+color:#d6d6d6;
 }
 
 @media(max-width:768px){
 
-body{
-    flex-direction:column;
+.burger{
+display:block;
+}
+
+.navbar{
+display:none;
+flex-direction:column;
+position:absolute;
+top:90px;
+left:0;
+width:100%;
+background:#05081a;
+padding:20px;
+}
+
+.navbar.active{
+display:flex;
+}
+
+.wiki-container{
+flex-direction:column;
 }
 
 .sidebar{
-    display:none;
-    width:100%;
-    padding:15px;
+width:100%;
 }
 
-.sidebar.active{
-    display:block;
-}
-
-.mobile-top{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    background:#05081a;
-    padding:15px;
-}
-
-.burger{
-    font-size:30px;
-    cursor:pointer;
-}
-
-.main{
-    padding:20px;
+.hero h1{
+font-size:40px;
 }
 
 }
 
 </style>
-
 </head>
 
 <body>
 
-<!-- MOBILE TOP -->
+<div class="topbar">
 
-<div class="mobile-top">
-
-<div class="logo">
-Lumalia
-</div>
+<img src="logo-lumalia.png" class="logo">
 
 <div class="burger" onclick="toggleMenu()">
 ☰
 </div>
 
+<div class="navbar" id="menu">
+<a href="index.html">Accueil</a>
+<a href="serveur.html">Serveurs</a>
+<a href="wiki.html">Wiki</a>
+<a href="profil.html">Profil</a>
 </div>
 
-<!-- SIDEBAR -->
-
-<div class="sidebar" id="sidebar">
-
-<div class="logo">
-📚 Lumalia
 </div>
 
-<div class="menu-item" onclick="showArticle('lore')">
-🌍 Lore
+<div class="hero">
+<h1>📖 Wiki Lumalia</h1>
+<p>Toute la documentation officielle du serveur.</p>
 </div>
 
-<div class="menu-item" onclick="showArticle('pays')">
-🏞️ Pays
-</div>
+<div class="wiki-container">
 
-<div class="menu-item" onclick="showArticle('factions')">
-🏠 Factions
-</div>
+<div class="sidebar">
 
-<div class="menu-item" onclick="showArticle('pvp')">
-⚔ Killzone
-</div>
+<button onclick="showPage('nations')">
+🏰 Nations
+</button>
 
-<div class="menu-item" onclick="showArticle('economy')">
+<button onclick="showPage('guerre')">
+⚔️ Guerre
+</button>
+
+<button onclick="showPage('villes')">
+🏙️ Villes
+</button>
+
+<button onclick="showPage('economie')">
 💰 Économie
+</button>
+
+<button onclick="showPage('donjons')">
+🏹 Donjons
+</button>
+
+<button onclick="showPage('royaumes')">
+🐲 Royaumes
+</button>
+
+<button onclick="showPage('reglement')">
+📜 Règlement
+</button>
+
 </div>
 
-<div class="menu-item" onclick="showArticle('codex')">
-📜 Codex
-</div>
+<div class="content" id="content">
 
-</div>
-
-<!-- MAIN -->
-
-<div class="main">
-
-<div class="search-box">
-<input type="text" placeholder="Rechercher dans le wiki...">
-</div>
-
-<div class="article" id="article">
-
-<h1>Bienvenue sur le Wiki Lumalia</h1>
+<h2>Bienvenue sur le Wiki Lumalia</h2>
 
 <p>
-Explorez l'univers officiel de Lumalia.
-Découvrez les pays, les factions, les villes, les guerres, les métiers,
-les règles et toute l'histoire du serveur.
+Sélectionne une catégorie à gauche pour découvrir les mécaniques du serveur.
 </p>
 
 <p>
-Ce wiki n'est pas encore fini et évoluera sûrement au fil des mise a jour du serveur.
+Tu retrouveras ici toutes les informations sur les nations, les guerres, les villes, les donjons et bien plus encore.
 </p>
-
-<a href="index.html" class="back-btn">
-⬅ Retour au site
-</a>
 
 </div>
 
@@ -253,137 +234,99 @@ Ce wiki n'est pas encore fini et évoluera sûrement au fil des mise a jour du s
 <script>
 
 function toggleMenu(){
-    document.getElementById("sidebar").classList.toggle("active");
+document.getElementById("menu").classList.toggle("active");
 }
 
-function showArticle(type){
+const pages = {
 
-    const article = document.getElementById("article");
+nations: `
+<h2>🏰 Nations</h2>
 
-    if(type === "lore"){
-        article.innerHTML = `
-        <h1>🌍 Lore de Lumalia</h1>
+<p>
+Crée ton propre pays et développe ton territoire.
+</p>
 
-        <p>
-        Lumalia est un monde ancien qui aujourd'hui se renouvelle avec de nouveaux pays, factions et villes.
-        Tous ceci deviendront plus tard des empires et des cités indestructibles 
-        </p>
+<p>
+Tu pourras recruter des citoyens, établir des lois et signer des alliances avec d'autres nations.
+</p>
+`,
 
-        <p>
-        Chaque joueur peut choisir son destin, sa vie.
-        
-        </p>
-        `;
-    }
-    if(type === "pays"){
-        article.innerHTML = `
-        <h1>🏞️ Pays</h1>
+guerre: `
+<h2>⚔️ Guerre</h2>
 
-        <p>
-        Chaque pays peut posséder ses propres lois,
-        territoires et alliances
-        </p>
-        
-        <p>
-        Les factions peuvent être créer avec la commande /pa create.
-        Ensuite vous entrez le nom du pays, ses tags ainsi que la description,
-        puis vous faites entrer. Votre pays est créé, mais vous devez posé le premier claim !
-        </p>
+<p>
+Les nations peuvent déclarer la guerre pour conquérir des territoires ennemis.
+</p>
 
-        <p>
-        Les guerres entre nations influencent
-        l'économie et les ressources du serveur disponible pour tout le monde.
-        </p>
+<p>
+Prépare ton armée et protège tes villes.
+</p>
+`,
 
-        <p>
-        Pour créer une guerre avec un pays ou une faction
-        il vous faut une raison de guerre.
-        </p>
-        `;
-    }
+villes: `
+<h2>🏙️ Villes</h2>
 
-    if(type === "factions"){
-        article.innerHTML = `
-        <h1>🏠 factions</h1>
+<p>
+Chaque nation peut posséder plusieurs villes.
+</p>
 
-        <p>
-        Chaque factions possède ses propres lois et règles.
-        </p>
-        
-        <p>
-        Les factions peuvent être créer avec la commande /f create.
-        Ensuite vous entrez le nom de la factions, ses tags ainsi que la description,
-        puis vous faites entrer. Votre factions est créé, mais vous devez posé le premier claim 
-        avec /f claim
-        </p>
+<p>
+Les villes permettent d'accueillir des habitants et de développer l'économie.
+</p>
+`,
 
-        <p>
-        Les guerres entre factions influencent
-        l'économie et les ressources du serveur disponible pour tout le monde.
-        </p>
+economie: `
+<h2>💰 Économie</h2>
 
-        <p>
-        Pour créer une guerre avec un pays ou une faction
-        il vous faut une raison de guerre.
-        </p>
-        `;
-    }
-    
-    if(type === "pvp"){
-        article.innerHTML = `
-        <h1>⚔ Killzone</h1>
+<p>
+Gagne de l'argent grâce au commerce, aux métiers et aux échanges.
+</p>
 
-        <p>
-        la Killzone est utilisée pour vous rapporter des bonus pour votre pays, factions et villes.
-        Il y aura une zone que vous devrez conquérir dans la Killzone pour avoir les bonus.
-        La zone prend 30 minutes a être prise et quand la zone sera conquise, une interface 
-        s'ouvrira pour vous demander quel bonus vous voulez avoir comme de l'argent, des minerais,
-        des outils... etc
-        </p>
+<p>
+L'économie est au cœur du développement de ton pays.
+</p>
+`,
 
-        <p>
-        Des événements spéciaux seront organisés régulièrement dans la Killzone comme des évents pvp.
-        </p>
-        `;
-    }
-    
+donjons: `
+<h2>🏹 Donjons</h2>
 
-    if(type === "economy"){
-        article.innerHTML = `
-        <h1>💰 Économie</h1>
+<p>
+Explore des donjons uniques remplis de monstres et de trésors.
+</p>
 
-        <p>
-        L'économie repose sur les métiers, les échanges
-        et le shop du serveur.
-        </p>
+<p>
+Affronte des boss puissants pour obtenir des récompenses rares.
+</p>
+`,
 
-        <p>
-        Chaque ressource possède une valeur influencée
-        par les actions des joueurs.
-        </p>
-        `;
-    }
+royaumes: `
+<h2>🐲 Royaumes</h2>
 
-    if(type === "codex"){
-        article.innerHTML = `
-        <h1>📜 Codex</h1>
+<p>
+Découvre les différents royaumes et l'histoire de Lumalia.
+</p>
 
-        <p>
-        Le Codex rassemble toutes les règles officielles
-        de Lumalia, il peut dépendre de certains serveurs de Lumalia.
-        </p>
+<p>
+Chaque royaume possède sa propre culture et ses propres légendes.
+</p>
+`,
 
-        <p>
-        Le respect des règles garantit une expérience agréable
-        pour tous les joueurs ainsi que les staffs des serveurs.
-        </p>
+reglement: `
+<h2>📜 Règlement</h2>
 
-        <a href="codex.html" class="back-btn">
-        ⬅ Le Codex
-        </a>
-        `;
-    }
+<p>
+Respecte les autres joueurs et les constructions.
+</p>
 
+<p>
+Le fair-play est obligatoire sur Lumalia.
+</p>
+`
+
+};
+
+function showPage(page){
+document.getElementById("content").innerHTML = pages[page];
 }
 
 </script>
