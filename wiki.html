@@ -101,6 +101,25 @@ transition:0.3s;
 background:#6b5cff;
 }
 
+.search-box{
+margin-bottom:20px;
+}
+
+.search-box input{
+width:100%;
+padding:15px;
+border:none;
+border-radius:12px;
+background:#1a1a1a;
+color:white;
+font-size:16px;
+}
+
+.search-box input:focus{
+outline:none;
+border:1px solid #6b5cff;
+}
+
 .content{
 flex:1;
 background:#111111;
@@ -215,6 +234,16 @@ font-size:40px;
 
 </div>
 
+<div class="search-box">
+
+<input
+type="text"
+id="searchInput"
+placeholder="🔍 Rechercher dans le wiki..."
+onkeyup="searchWiki()">
+
+</div>
+
 <div class="content" id="content">
 
 <h2>Bienvenue sur le Wiki Lumalia</h2>
@@ -324,6 +353,36 @@ Le fair-play est obligatoire sur Lumalia.
 `
 
 };
+
+function searchWiki(){
+
+const search =
+document.getElementById("searchInput")
+.value
+.toLowerCase();
+
+for(const page in pages){
+
+if(
+page.toLowerCase().includes(search) ||
+pages[page].toLowerCase().includes(search)
+){
+
+document.getElementById("content").innerHTML =
+pages[page];
+
+return;
+
+}
+
+}
+
+document.getElementById("content").innerHTML = `
+<h2>❌ Aucun résultat</h2>
+<p>Aucun article ne correspond à votre recherche.</p>
+`;
+
+}
 
 function showPage(page){
 document.getElementById("content").innerHTML = pages[page];
