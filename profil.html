@@ -409,6 +409,36 @@ container.innerHTML =
 
 }
 
+window.promouvoir = async function(id){
+
+const ref = doc(db,"users",id);
+
+const snap = await getDoc(ref);
+
+const data = snap.data();
+
+let rang = data.rang || "Joueur";
+
+if(rang === "Joueur")
+rang = "Guide";
+
+else if(rang === "Guide")
+rang = "Moderateur";
+
+else if(rang === "Moderateur")
+rang = "SuperModerateur";
+
+else if(rang === "SuperModerateur")
+rang = "Administrateur";
+
+await updateDoc(ref,{
+rang: rang
+});
+
+chargerUtilisateurs();
+
+}
+
 window.logout = function () {
 
   signOut(auth)
