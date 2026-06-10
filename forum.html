@@ -40,7 +40,7 @@ justify-content:space-between;
 align-items:center;
 padding:20px 40px;
 background:#111111;
-border-bottom:1px solid rgba(255,255,255,0.05);
+border-bottom:1px solid rgba(255,255,255,0.08);
 }
 
 .logo{
@@ -65,49 +65,89 @@ color:#9b6cff;
 .container{
 max-width:1200px;
 margin:auto;
-padding:50px 20px;
+padding:40px 20px;
 }
 
 .title{
 text-align:center;
-font-size:42px;
-margin-bottom:15px;
+font-size:45px;
+margin-bottom:10px;
 }
 
 .subtitle{
 text-align:center;
 color:#bdbdbd;
-margin-bottom:50px;
+margin-bottom:40px;
 }
 
-.categories{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-gap:25px;
-}
-
-.card{
+.forum-category{
 background:#111111;
 border:1px solid rgba(255,255,255,0.08);
 border-radius:20px;
-padding:30px;
+margin-bottom:25px;
+overflow:hidden;
+box-shadow:0 0 20px rgba(107,92,255,0.08);
+}
+
+.category-header{
+background:linear-gradient(90deg,#6b5cff,#9b6cff);
+padding:18px;
+font-size:22px;
+font-weight:bold;
+}
+
+.subforum{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:18px;
+border-top:1px solid rgba(255,255,255,0.05);
 transition:0.3s;
 cursor:pointer;
 }
 
-.card:hover{
-transform:translateY(-5px);
-border-color:#6b5cff;
+.subforum:hover{
+background:#1a1a1a;
 }
 
-.card h2{
-margin-bottom:10px;
+.subforum-info h3{
+margin-bottom:5px;
 }
 
-.card p{
+.subforum-info p{
 color:#bdbdbd;
+font-size:14px;
 }
 
+.stats{
+text-align:right;
+color:#9b6cff;
+font-size:14px;
+}
+
+@media(max-width:768px){
+
+.topbar{
+flex-direction:column;
+gap:15px;
+}
+
+.nav{
+flex-wrap:wrap;
+justify-content:center;
+}
+
+.subforum{
+flex-direction:column;
+align-items:flex-start;
+gap:10px;
+}
+
+.stats{
+text-align:left;
+}
+
+}
 </style>
 </head>
 
@@ -134,39 +174,233 @@ color:#bdbdbd;
 <h1 class="title">Forum Lumalia</h1>
 
 <p class="subtitle">
-Discute avec la communauté de Lumalia.
+Discute avec toute la communauté Lumalia.
 </p>
 
-<div class="categories">
+<div class="forum-category">
 
-<div class="card">
-<h2>📢 Annonces</h2>
-<p>Actualités officielles du serveur.</p>
+<div class="category-header">
+📢 Annonces
 </div>
 
-<div class="card">
-<h2>❓ Aide</h2>
-<p>Questions et assistance.</p>
+<div class="subforum">
+<div class="subforum-info">
+<h3>📅 Mises à jour</h3>
+<p>Toutes les nouveautés de Lumalia.</p>
+</div>
+<div class="stats">
+0 sujets<br>0 messages
+</div>
 </div>
 
-<div class="card">
-<h2>🏰 Diamant</h2>
-<p>Le serveur Diamant</p>
+<div class="subforum">
+<div class="subforum-info">
+<h3>🎉 Événements</h3>
+<p>Tournois, animations et événements.</p>
+</div>
+<div class="stats">
+0 sujets<br>0 messages
+</div>
 </div>
 
-<div class="card">
-<h2>⚔️ Or</h2>
-<p>Le sereur Or</p>
+<div class="subforum">
+<div class="subforum-info">
+<h3>📜 Règlement</h3>
+<p>Règlement officiel du serveur.</p>
+</div>
+<div class="stats">
+0 sujets<br>0 messages
+</div>
 </div>
 
-<div class="card">
-<h2>💡 Suggestions</h2>
-<p>Proposez vos idées.</p>
 </div>
 
-<div class="card">
-<h2>🐛 Bugs</h2>
-<p>Signalez un problème.</p>
+<div class="forum-category">
+
+<div class="category-header">
+❓ Aide
+</div>
+
+<div class="subforum">
+<div class="subforum-info">
+<h3>🎮 Minecraft</h3>
+<p>Questions sur le gameplay.</p>
+</div>
+<div class="stats">
+0 sujets<br>0 messages
+</div>
+</div>
+
+<div class="subforum">
+<div class="subforum-info">
+<h3>🌍 Nations</h3>
+<p>Aide concernant les nations.</p>
+</div>
+<div class="stats">
+0 sujets<br>0 messages
+</div>
+</div>
+
+<div class="subforum">
+<div class="subforum-info">
+<h3>💰 Économie</h3>
+<p>Questions sur l'argent et le commerce.</p>
+</div>
+<div class="stats">
+0 sujets<br>0 messages
+</div>
+</div>
+
+<div class="subforum">
+<div class="subforum-info">
+<h3>🛠 Support</h3>
+<p>Besoin d'aide ? C'est ici.</p>
+</div>
+<div class="stats">
+0 sujets<br>0 messages
+</div>
+</div>
+
+</div>
+
+<div class="forum-category">
+
+<div class="category-header">
+🏰 Nations
+</div>
+
+<div class="subforum">
+<div class="subforum-info">
+<h3>👑 Présentations</h3>
+<p>Présentez votre nation.</p>
+</div>
+<div class="stats">
+0 sujets<br>0 messages
+</div>
+</div>
+
+<div class="subforum">
+<div class="subforum-info">
+<h3>🤝 Diplomatie</h3>
+<p>Alliances et relations diplomatiques.</p>
+</div>
+<div class="stats">
+0 sujets<br>0 messages
+</div>
+</div>
+
+<div class="subforum">
+<div class="subforum-info">
+<h3>📣 Recrutement</h3><div class="forum-category">
+
+<div class="category-header">
+⚔️ Guerres
+</div>
+
+<div class="subforum">
+<div class="subforum-info">
+<h3>⚔️ Déclarations de guerre</h3>
+<p>Annonces officielles de guerre.</p>
+</div>
+<div class="stats">
+0 sujets<br>0 messages
+</div>
+</div>
+
+<div class="subforum">
+<div class="subforum-info">
+<h3>🏹 Batailles</h3>
+<p>Rapports et récits de batailles.</p>
+</div>
+<div class="stats">
+0 sujets<br>0 messages
+</div>
+</div>
+
+<div class="subforum">
+<div class="subforum-info">
+<h3>🕊 Traités de paix</h3>
+<p>Accords et négociations.</p>
+</div>
+<div class="stats">
+0 sujets<br>0 messages
+</div>
+</div>
+
+</div>
+
+<div class="forum-category">
+
+<div class="category-header">
+🐛 Bugs
+</div>
+
+<div class="subforum">
+<div class="subforum-info">
+<h3>🎮 Minecraft</h3>
+<p>Signalement de bugs en jeu.</p>
+</div>
+<div class="stats">
+0 sujets<br>0 messages
+</div>
+</div>
+
+<div class="subforum">
+<div class="subforum-info">
+<h3>🌐 Site Web</h3>
+<p>Bugs du site Lumalia.</p>
+</div>
+<div class="stats">
+0 sujets<br>0 messages
+</div>
+</div>
+
+<div class="subforum">
+<div class="subforum-info">
+<h3>📚 Wiki</h3>
+<p>Bugs du Wiki.</p>
+</div>
+<div class="stats">
+0 sujets<br>0 messages
+</div>
+</div>
+
+</div>
+
+<div class="forum-category">
+
+<div class="category-header">
+🐉 Royaumes de Feu
+</div>
+
+<div class="subforum">
+<div class="subforum-info">
+<h3>🐲 Dragons</h3>
+<p>Discussions sur les dragons.</p>
+</div>
+<div class="stats">
+0 sujets<br>0 messages
+</div>
+</div>
+
+<div class="subforum">
+<div class="subforum-info">
+<h3>📖 Lore</h3>
+<p>Histoire et univers.</p>
+</div>
+<div class="stats">
+0 sujets<br>0 messages
+</div>
+</div>
+
+<div class="subforum">
+<div class="subforum-info">
+<h3>🎨 Créations</h3>
+<p>Fan arts et créations.</p>
+</div>
+<div class="stats">
+0 sujets<br>0 messages
+</div>
 </div>
 
 </div>
@@ -175,3 +409,12 @@ Discute avec la communauté de Lumalia.
 
 </body>
 </html>
+<p>Recrutez des citoyens.</p>
+</div>
+<div class="stats">
+0 sujets<br>0 messages
+</div>
+</div>
+
+</div>
+
