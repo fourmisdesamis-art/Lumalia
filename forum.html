@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Forum - Lumalia</title>
+
+<link rel="icon" href="logo-lumalia.png">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+background:#080808;
+font-family:Arial,sans-serif;
+color:white;
+min-height:100vh;
+}
+
+.background{
+position:fixed;
+width:100%;
+height:100%;
+background:
+radial-gradient(circle at top left,#6b5cff33,transparent 30%),
+radial-gradient(circle at bottom right,#ff70d933,transparent 30%);
+z-index:-1;
+}
+
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 40px;
+background:#111111;
+border-bottom:1px solid rgba(255,255,255,0.05);
+}
+
+.logo{
+height:60px;
+}
+
+.nav{
+display:flex;
+gap:25px;
+}
+
+.nav a{
+color:white;
+text-decoration:none;
+font-weight:bold;
+}
+
+.nav a:hover{
+color:#9b6cff;
+}
+
+.container{
+max-width:1200px;
+margin:auto;
+padding:50px 20px;
+}
+
+.title{
+text-align:center;
+font-size:42px;
+margin-bottom:15px;
+}
+
+.subtitle{
+text-align:center;
+color:#bdbdbd;
+margin-bottom:50px;
+}
+
+.categories{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:25px;
+}
+
+.card{
+background:#111111;
+border:1px solid rgba(255,255,255,0.08);
+border-radius:20px;
+padding:30px;
+transition:0.3s;
+cursor:pointer;
+}
+
+.card:hover{
+transform:translateY(-5px);
+border-color:#6b5cff;
+}
+
+.card h2{
+margin-bottom:10px;
+}
+
+.card p{
+color:#bdbdbd;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="background"></div>
+
+<div class="topbar">
+
+<img src="logo-lumalia.png" class="logo">
+
+<div class="nav">
+<a href="index.html">Accueil</a>
+<a href="serveurs.html">Serveurs</a>
+<a href="wiki.html">Wiki</a>
+<a href="forum.html">Forum</a>
+<a href="profil.html">Profil</a>
+</div>
+
+</div>
+
+<div class="container">
+
+<h1 class="title">Forum Lumalia</h1>
+
+<p class="subtitle">
+Discute avec la communauté de Lumalia.
+</p>
+
+<div class="categories">
+
+<div class="card">
+<h2>📢 Annonces</h2>
+<p>Actualités officielles du serveur.</p>
+</div>
+
+<div class="card">
+<h2>❓ Aide</h2>
+<p>Questions et assistance.</p>
+</div>
+
+<div class="card">
+<h2>🏰 Diamant</h2>
+<p>Le serveur Diamant</p>
+</div>
+
+<div class="card">
+<h2>⚔️ Or</h2>
+<p>Le sereur Or</p>
+</div>
+
+<div class="card">
+<h2>💡 Suggestions</h2>
+<p>Proposez vos idées.</p>
+</div>
+
+<div class="card">
+<h2>🐛 Bugs</h2>
+<p>Signalez un problème.</p>
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>
