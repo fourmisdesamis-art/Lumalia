@@ -124,6 +124,67 @@ color:white;
 <div id="verified">Chargement...</div>
 </div>
 
+<div id="adminPanel" style="display:none; margin-top:20px;">
+
+<h2 style="margin-bottom:20px;">
+👑 Dashboard Administrateur
+</h2>
+
+<input
+type="text"
+id="adminPseudo"
+placeholder="Pseudo Minecraft"
+style="
+width:100%;
+padding:12px;
+margin-bottom:10px;
+background:#1a1a1a;
+border:none;
+border-radius:10px;
+color:white;
+">
+
+<select
+id="adminRang"
+style="
+width:100%;
+padding:12px;
+margin-bottom:10px;
+background:#1a1a1a;
+border:none;
+border-radius:10px;
+color:white;
+">
+
+<option value="Joueur">Joueur</option>
+<option value="Guide">Guide</option>
+<option value="Moderateur">Modérateur</option>
+<option value="SuperModerateur">Super Modérateur</option>
+<option value="Administrateur">Administrateur</option>
+
+</select>
+
+<button
+onclick="changerRang()"
+style="
+width:100%;
+padding:15px;
+border:none;
+border-radius:12px;
+background:linear-gradient(90deg,#6b5cff,#9b6cff);
+color:white;
+font-weight:bold;
+cursor:pointer;
+">
+
+Modifier le grade
+
+</button>
+
+<p id="adminMessage" style="margin-top:10px;"></p>
+
+</div>
+
 <button class="logout-btn" onclick="logout()">
 Déconnexion
 </button>
@@ -143,7 +204,10 @@ import {
 import {
   getFirestore,
   doc,
-  getDoc
+  getDoc,
+  collection,
+  getDocs,
+  updateDoc
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -221,6 +285,70 @@ new Date(data.createdAt).toLocaleDateString("fr-FR");
   }
 
 });
+
+function afficherAdmin(){
+
+document.getElementById("adminPanel").style.display =
+"block";
+
+}
+
+window.changerRang = async function(){
+
+const pseudo =
+document.getElementById("adminPseudo").value;
+
+const nouveauRang =
+document.getElementById("adminRang").value;
+
+try{
+
+const users =
+await getDocs(collection(db,"users"));
+
+let trouve = false;
+
+for(const utilisateur of users.docs){
+
+const data = utilisateur.data();
+
+if(data.pseudoMinecraft === pseudo){
+
+await updateDoc(utilisateur.ref,{
+
+rang: nouveauRang
+
+});
+
+document.getElementById("adminMessage").innerText =
+"✅ Grade modifié";
+
+trouve = true;
+
+break;
+
+}
+
+}
+
+if(!trouve){
+
+document.getElementById("adminMessage").innerText =
+"❌ Joueur introuvable";
+
+}
+
+}
+catch(error){
+
+console.error(error);
+
+document.getElementById("adminMessage").innerText =
+error.message;
+
+}
+
+}
 
 window.logout = function () {
 
