@@ -130,6 +130,22 @@ color:white;
 👑 Dashboard Administrateur
 </h2>
 
+<button
+onclick="chargerUtilisateurs()"
+style="
+width:100%;
+padding:12px;
+margin-bottom:15px;
+background:#6b5cff;
+border:none;
+border-radius:10px;
+color:white;
+cursor:pointer;
+font-weight:bold;
+">
+👥 Voir les utilisateurs
+</button>
+
 <input
 type="text"
 id="adminPseudo"
@@ -180,6 +196,14 @@ cursor:pointer;
 Modifier le grade
 
 </button>
+
+<div
+id="listeUtilisateurs"
+style="
+margin-top:20px;
+text-align:left;
+">
+</div>
 
 <p id="adminMessage" style="margin-top:10px;"></p>
 
@@ -330,6 +354,56 @@ console.error(error);
 
 document.getElementById("adminMessage").innerText =
 error.message;
+
+}
+
+}
+
+window.chargerUtilisateurs = async function(){
+
+const container =
+document.getElementById("listeUtilisateurs");
+
+container.innerHTML =
+"<p>Chargement...</p>";
+
+try{
+
+const users =
+await getDocs(collection(db,"users"));
+
+container.innerHTML = "";
+
+users.forEach((docu)=>{
+
+const data = docu.data();
+
+container.innerHTML += `
+
+<div style="
+background:#1a1a1a;
+padding:12px;
+margin-top:10px;
+border-radius:10px;
+">
+
+👤 ${data.pseudoMinecraft || "Aucun pseudo"}
+
+<br>
+
+🏆 ${data.rang || "Joueur"}
+
+</div>
+
+`;
+
+});
+
+}
+catch(error){
+
+container.innerHTML =
+"Erreur : " + error.message;
 
 }
 
