@@ -236,6 +236,9 @@ onAuthStateChanged(auth, async (user) => {
   const userRef = doc(db, "users", user.uid);
   const userSnap = await getDoc(userRef);
 
+console.log(user.uid);
+console.log(userSnap.exists());
+
   if (userSnap.exists()) {
 
     const data = userSnap.data();
