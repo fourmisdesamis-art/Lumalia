@@ -82,35 +82,25 @@ margin-bottom:40px;
 
 .create-btn{
 display:block;
-width:250px;
-margin:0 auto 30px auto;
-padding:15px;
+margin:auto;
+padding:15px 30px;
+background:linear-gradient(90deg,#6b5cff,#9b6cff);
 border:none;
 border-radius:12px;
-background:linear-gradient(90deg,#6b5cff,#9b6cff);
 color:white;
-font-size:16px;
 font-weight:bold;
 cursor:pointer;
-}
-
-.create-btn:hover{
-opacity:0.9;
-}
-
-.subject-list{
-display:flex;
-flex-direction:column;
-gap:15px;
+margin-bottom:30px;
 }
 
 .subject{
 background:#111111;
-border:1px solid rgba(255,255,255,0.08);
-border-radius:15px;
 padding:20px;
-transition:0.3s;
+border-radius:15px;
+margin-bottom:15px;
+border:1px solid rgba(255,255,255,0.08);
 cursor:pointer;
+transition:0.3s;
 }
 
 .subject:hover{
@@ -162,7 +152,7 @@ color:white;
 }
 
 .modal-content textarea{
-height:150px;
+height:180px;
 resize:none;
 }
 
@@ -176,3 +166,165 @@ color:white;
 font-weight:bold;
 cursor:pointer;
 }
+
+</style>
+
+</head>
+
+<body>
+
+<div class="background"></div>
+
+<div class="topbar">
+
+<img src="logo-lumalia.png" class="logo">
+
+<div class="nav">
+<a href="index.html">Accueil</a>
+<a href="serveurs.html">Serveurs</a>
+<a href="wiki.html">Wiki</a>
+<a href="forum.html">Forum</a>
+<a href="profil.html">Profil</a>
+</div>
+
+</div>
+
+<div class="container">
+
+<h1 id="sectionTitle" class="title">
+Forum Lumalia
+</h1>
+
+<p class="subtitle">
+Discute avec la communauté Lumalia.
+</p>
+
+<button class="create-btn" onclick="ouvrirSujet()">
+➕ Créer un sujet
+</button>
+
+<div id="subjectList">
+
+<div class="subject">
+
+<div class="subject-title">
+Bienvenue sur le forum
+</div>
+
+<div class="subject-info">
+Lumalia • Sujet exemple
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div id="createModal" class="modal">
+
+<div class="modal-content">
+
+<h2>Créer un sujet</h2>
+
+<input
+type="text"
+id="titreSujet"
+placeholder="Titre du sujet">
+
+<textarea
+id="contenuSujet"
+placeholder="Votre message..."></textarea>
+
+<button onclick="publierSujet()">
+Publier
+</button>
+
+<br><br>
+
+<button
+onclick="fermerSujet()"
+style="background:#444;">
+Fermer
+</button>
+
+</div>
+
+</div>
+
+<script>
+
+const params =
+new URLSearchParams(window.location.search);
+
+const section =
+params.get("section");
+
+if(section){
+
+document.getElementById("sectionTitle")
+.innerText = section
+.replaceAll("-"," ")
+.replace(/\b\w/g,l=>l.toUpperCase());
+
+}
+
+function ouvrirSujet(){
+
+document.getElementById("createModal")
+.style.display = "flex";
+
+}
+
+function fermerSujet(){
+
+document.getElementById("createModal")
+.style.display = "none";
+
+}
+
+function publierSujet(){
+
+const titre =
+document.getElementById("titreSujet").value;
+
+const contenu =
+document.getElementById("contenuSujet").value;
+
+if(!titre || !contenu){
+
+alert("Remplissez tous les champs.");
+return;
+
+}
+
+const liste =
+document.getElementById("subjectList");
+
+liste.innerHTML += `
+
+<div class="subject">
+
+<div class="subject-title">
+${titre}
+</div>
+
+<div class="subject-info">
+Sujet créé localement
+</div>
+
+</div>
+
+`;
+
+fermerSujet();
+
+document.getElementById("titreSujet").value="";
+document.getElementById("contenuSujet").value="";
+
+}
+
+</script>
+
+</body>
+</html>
