@@ -254,6 +254,28 @@ Fermer
 
 <script type="module">
 
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+getFirestore,
+collection,
+addDoc,
+getDocs
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+apiKey: "AIzaSyBSCqSsBTXk9Q8sBX88NgrdDHUAHT0Cq6I",
+authDomain: "lumalia.firebaseapp.com",
+projectId: "lumalia"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
 const params =
 new URLSearchParams(window.location.search);
 
@@ -269,21 +291,60 @@ document.getElementById("sectionTitle")
 
 }
 
-function ouvrirSujet(){
+chargerSujets();
+
+window.ouvrirSujet = function(){
 
 document.getElementById("createModal")
 .style.display = "flex";
 
 }
 
-function fermerSujet(){
+window.fermerSujet = function(){
 
 document.getElementById("createModal")
 .style.display = "none";
 
 }
 
-async function publierSujet(){
+async function chargerSujets(){
+
+const liste =
+document.getElementById("subjectList");
+
+liste.innerHTML = "";
+
+const snapshot =
+await getDocs(collection(db,"forum"));
+
+snapshot.forEach((docu)=>{
+
+const sujet = docu.data();
+
+if(sujet.section !== section)
+return;
+
+liste.innerHTML += `
+
+<div class="subject">
+
+<div class="subject-title">
+${sujet.titre}
+</div>
+
+<div class="subject-info">
+${sujet.auteur}
+</div>
+
+</div>
+
+`;
+
+});
+
+}
+
+window.publierSujet = async function(){
 
 const titre =
 document.getElementById("titreSujet").value;
@@ -298,31 +359,40 @@ return;
 
 }
 
-const liste =
-document.getElementById("subjectList");
+try{
 
-liste.innerHTML += `
+await addDoc(
+collection(db,"forum"),
+{
+titre: titre,
+contenu: contenu,
+section: section,
+auteur: "Joueur",
+date: new Date().toISOString()
+}
+);
 
-<div class="subject">
-
-<div class="subject-title">
-${titre}
-</div>
-
-<div class="subject-info">
-Sujet créé localement
-</div>
-
-</div>
-
-`;
+document.getElementById("titreSujet").value = "";
+document.getElementById("contenuSujet").value = "";
 
 fermerSujet();
 
-document.getElementById("titreSujet").value="";
-document.getElementById("contenuSujet").value="";
+chargerSujets();
+
+alert("Sujet publié !");
 
 }
+catch(error){
+
+console.error(error);
+
+alert("Erreur Firebase : " + error.message);
+
+}
+
+}
+
+</script>
 
 </script>
 
