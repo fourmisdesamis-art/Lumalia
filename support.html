@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Support - Lumania</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: radial-gradient(circle at top, #1a1a2e, #0b0b12);
+      color: white;
+    }
+
+    /* HEADER */
+    .hero {
+      text-align: center;
+      padding: 80px 20px;
+    }
+
+    .hero h1 {
+      font-size: 48px;
+      background: linear-gradient(90deg, #7f5af0, #2cb67d);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin: 0;
+    }
+
+    .hero p {
+      opacity: 0.7;
+      margin-top: 10px;
+    }
+
+    /* CONTAINER */
+    .container {
+      max-width: 900px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    /* CARD STYLE */
+    .card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .card:hover {
+      transform: scale(1.01);
+      border-color: rgba(127,90,240,0.5);
+    }
+
+    .card h3 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .card p {
+      display: none;
+      opacity: 0.75;
+      margin-top: 10px;
+    }
+
+    /* CONTACT */
+    .contact {
+      margin-top: 40px;
+      padding: 20px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+    }
+
+    input, textarea {
+      width: 100%;
+      margin-top: 10px;
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      background: rgba(255,255,255,0.08);
+      color: white;
+      outline: none;
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 12px;
+      width: 100%;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      background: linear-gradient(90deg, #7f5af0, #2cb67d);
+      color: white;
+      font-weight: bold;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="hero">
+  <h1>Support Lumania</h1>
+  <p>Une question ? On t’aide en quelques secondes ⚡</p>
+</div>
+
+<div class="container">
+
+  <h2>FAQ</h2>
+
+  <div class="card" onclick="toggle(this)">
+    <h3>Comment créer un compte ?</h3>
+    <p>Tu peux créer un compte directement depuis la page d’inscription du site.</p>
+  </div>
+
+  <div class="card" onclick="toggle(this)">
+    <h3>Je n’arrive pas à me connecter</h3>
+    <p>Vérifie ton email / mot de passe. Sinon utilise la récupération de mot de passe.</p>
+  </div>
+
+  <div class="card" onclick="toggle(this)">
+    <h3>Comment contacter le support ?</h3>
+    <p>Utilise le formulaire ci-dessous ou envoie un mail au support.</p>
+  </div>
+
+  <div class="contact">
+    <h2>Contact direct</h2>
+    <form>
+      <input type="text" placeholder="Ton nom" />
+      <input type="email" placeholder="Ton email" />
+      <textarea rows="5" placeholder="Ton message"></textarea>
+      <button type="submit">Envoyer</button>
+    </form>
+  </div>
+
+</div>
+
+<script>
+function toggle(el) {
+  const p = el.querySelector("p");
+  p.style.display = (p.style.display === "block") ? "none" : "block";
+}
+</script>
+
+</body>
+</html>
