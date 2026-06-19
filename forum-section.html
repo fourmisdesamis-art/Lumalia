@@ -252,7 +252,7 @@ Fermer
 
 </div>
 
-<script>
+<script type="module">
 
 const params =
 new URLSearchParams(window.location.search);
@@ -283,7 +283,7 @@ document.getElementById("createModal")
 
 }
 
-function publierSujet(){
+async function publierSujet(){
 
 const titre =
 document.getElementById("titreSujet").value;
