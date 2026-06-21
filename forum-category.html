@@ -119,16 +119,53 @@ Chargement...
 
 </div>
 
-<script>
+<script type="module">
 
-const params =
-new URLSearchParams(window.location.search);
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
-const id =
-params.get("id");
+import {
+  getFirestore,
+  collection,
+  getDocs
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-document.getElementById("categoryTitle")
-.innerText = id;
+const firebaseConfig = {
+  apiKey: "AIzaSyBSCqSsBTXk9Q8sBX88NgrdDHUAHT0Cq6I",
+  authDomain: "lumalia.firebaseapp.com",
+  projectId: "lumalia"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const params = new URLSearchParams(window.location.search);
+const id = params.get("id");
+
+document.getElementById("categoryTitle").innerText =
+  id.charAt(0).toUpperCase() + id.slice(1);
+
+const container = document.getElementById("subcategories");
+
+const snapshot = await getDocs(collection(db, "categories"));
+
+snapshot.forEach((docu) => {
+
+  const data = docu.data();
+
+  if (data.parent !== id) return;
+
+  container.innerHTML += `
+    <div class="subcategory"
+         onclick="location.href='forum-section.html?id=${encodeURIComponent(data.nom)}'">
+
+      <h2>${data.nom}</h2>
+
+      <p>${data.description}</p>
+
+    </div>
+  `;
+
+});
 
 </script>
 
