@@ -148,6 +148,12 @@ const container = document.getElementById("subcategories");
 
 const snapshot = await getDocs(collection(db, "categories"));
 
+console.log("Documents trouvés :", snapshot.size);
+
+snapshot.forEach((docu)=>{
+  console.log(docu.data());
+});
+
 snapshot.forEach((docu) => {
 
   const data = docu.data();
