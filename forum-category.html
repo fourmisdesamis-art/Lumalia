@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Catégorie - Lumalia</title>
+
+<link rel="icon" href="logo-lumalia.png">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+background:#080808;
+font-family:Arial,sans-serif;
+color:white;
+}
+
+.background{
+position:fixed;
+width:100%;
+height:100%;
+background:
+radial-gradient(circle at top left,#6b5cff33,transparent 30%),
+radial-gradient(circle at bottom right,#ff70d933,transparent 30%);
+z-index:-1;
+}
+
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 40px;
+background:#111111;
+border-bottom:1px solid rgba(255,255,255,0.08);
+}
+
+.logo{
+height:60px;
+}
+
+.nav{
+display:flex;
+gap:25px;
+}
+
+.nav a{
+color:white;
+text-decoration:none;
+font-weight:bold;
+}
+
+.container{
+max-width:1200px;
+margin:auto;
+padding:40px 20px;
+}
+
+.title{
+font-size:42px;
+text-align:center;
+margin-bottom:40px;
+}
+
+.subcategory{
+background:#111111;
+padding:20px;
+border-radius:15px;
+margin-bottom:15px;
+cursor:pointer;
+border:1px solid rgba(255,255,255,0.08);
+transition:0.3s;
+}
+
+.subcategory:hover{
+border-color:#6b5cff;
+transform:translateY(-3px);
+}
+
+.subcategory h2{
+margin-bottom:10px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="background"></div>
+
+<div class="topbar">
+
+<img src="logo-lumalia.png" class="logo">
+
+<div class="nav">
+<a href="index.html">Accueil</a>
+<a href="forum.html">Forum</a>
+<a href="wiki.html">Wiki</a>
+<a href="profil.html">Profil</a>
+</div>
+
+</div>
+
+<div class="container">
+
+<h1 id="categoryTitle" class="title">
+Chargement...
+</h1>
+
+<div id="subcategories"></div>
+
+</div>
+
+<script>
+
+const params =
+new URLSearchParams(window.location.search);
+
+const id =
+params.get("id");
+
+document.getElementById("categoryTitle")
+.innerText = id;
+
+</script>
+
+</body>
+</html>
