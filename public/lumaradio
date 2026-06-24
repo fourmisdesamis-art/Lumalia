@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LumaRadio 🎧</title>
+
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    color: white;
+    background: radial-gradient(circle at top, #1a0033, #000);
+    overflow-x: hidden;
+  }
+
+  /* Fond animé glow */
+  .glow {
+    position: fixed;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(0,255,255,0.15), transparent 70%);
+    filter: blur(60px);
+    animation: move 10s infinite alternate;
+  }
+
+  @keyframes move {
+    from { transform: translate(-100px, -100px); }
+    to { transform: translate(200px, 200px); }
+  }
+
+  header {
+    text-align: center;
+    padding: 60px 20px 20px;
+  }
+
+  h1 {
+    font-size: 3rem;
+    text-shadow: 0 0 20px cyan, 0 0 40px magenta;
+  }
+
+  .sub {
+    opacity: 0.7;
+    margin-top: -10px;
+  }
+
+  .player {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+  }
+
+  audio {
+    width: 300px;
+    filter: drop-shadow(0 0 10px cyan);
+  }
+
+  .now-playing {
+    margin-top: 40px;
+    text-align: center;
+  }
+
+  .card {
+    display: inline-block;
+    padding: 20px 40px;
+    border-radius: 15px;
+    background: rgba(255,255,255,0.05);
+    box-shadow: 0 0 20px rgba(0,255,255,0.2);
+    backdrop-filter: blur(10px);
+  }
+
+  .title {
+    font-size: 1.3rem;
+    color: cyan;
+  }
+
+  .artist {
+    font-size: 1rem;
+    opacity: 0.8;
+  }
+
+  .live {
+    color: lime;
+    font-weight: bold;
+    margin-top: 10px;
+    animation: blink 1s infinite;
+  }
+
+  @keyframes blink {
+    50% { opacity: 0.3; }
+  }
+</style>
+</head>
+
+<body>
+
+<div class="glow"></div>
+
+<header>
+  <h1>🎧 LumaRadio</h1>
+  <div class="sub">La radio qui pulse 24/7 ✨</div>
+</header>
+
+<div class="player">
+  <audio controls autoplay>
+    <source src="https://TON-SERVEUR/listen/lumaradio/radio.mp3" type="audio/mpeg">
+    Ton navigateur ne supporte pas l’audio.
+  </audio>
+</div>
+
+<div class="now-playing">
+  <div class="card">
+    <div class="live">🔴 LIVE</div>
+    <div class="title" id="title">Chargement...</div>
+    <div class="artist" id="artist"></div>
+  </div>
+</div>
+
+<script>
+const API_URL = "https://TON-SERVEUR/api/nowplaying/lumaradio";
+
+async function updateNowPlaying() {
+  try {
+    const res = await fetch(API_URL);
+    const data = await res.json();
+
+    // Structure AzuraCast standard
+    const song = data.nowplaying.song;
+
+    document.getElementById("title").innerText = song.title || "Inconnu";
+    document.getElementById("artist").innerText = song.artist || "";
+  } catch (e) {
+    document.getElementById("title").innerText = "Radio hors ligne";
+    document.getElementById("artist").innerText = "";
+  }
+}
+
+updateNowPlaying();
+setInterval(updateNowPlaying, 10000); // refresh toutes les 10s
+</script>
+
+</body>
+</html>
