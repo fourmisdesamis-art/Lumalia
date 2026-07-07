@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Connexion • Lumalia</title>
+
+<link rel="icon" href="images/logo-lumalia.png">
+
+<link rel="stylesheet" href="css/login.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="background">
+
+<div class="stars"></div>
+
+<div class="gradient gradient1"></div>
+
+<div class="gradient gradient2"></div>
+
+</div>
+
+<header>
+
+<a href="index.html" class="back">
+
+<i class="fa-solid fa-arrow-left"></i>
+
+Retour au site
+
+</a>
+
+<img src="images/logo-lumalia.png" class="logo">
+
+</header>
+
+<section class="container">
+
+<div class="auth-card">
+
+<!-- ========================= -->
+
+<div class="left-panel">
+
+<div class="panel-icon">
+
+<i class="fa-solid fa-user"></i>
+
+</div>
+
+<h2>
+
+Connexion
+
+</h2>
+
+<p>
+
+Retrouve ton aventure sur Lumalia.
+
+</p>
+
+<div class="input-group">
+
+<i class="fa-solid fa-envelope"></i>
+
+<input
+type="email"
+id="email"
+placeholder="Adresse e-mail">
+
+</div>
+
+<div class="input-group">
+
+<i class="fa-solid fa-lock"></i>
+
+<input
+type="password"
+id="password"
+placeholder="Mot de passe">
+
+<i class="fa-solid fa-eye togglePassword"></i>
+
+</div>
+
+<button
+class="main-button"
+onclick="login()">
+
+Se connecter
+
+</button>
+
+<div class="separator">
+
+<span>OU</span>
+
+</div>
+
+<div class="socials">
+
+<button>
+
+<i class="fa-brands fa-discord"></i>
+
+Discord
+
+</button>
+
+<button>
+
+<i class="fa-brands fa-google"></i>
+
+Google
+
+</button>
+
+<button>
+
+<i class="fa-brands fa-microsoft"></i>
+
+Microsoft
+
+</button>
+
+</div>
+
+<p class="switch">
+
+Pas encore inscrit ?
+
+<a id="showRegister">
+
+Créer un compte
+
+</a>
+
+</p>
+
+</div>
+
+<!-- ========================= -->
+
+<div class="right-panel">
+
+<div class="panel-icon">
+
+<i class="fa-solid fa-user-plus"></i>
+
+</div>
+
+<h2>
+
+Créer un compte
+
+</h2>
+
+<p>
+
+Rejoins des centaines de joueurs.
+
+</p>
+
+<div class="input-group">
+
+<i class="fa-solid fa-user"></i>
+
+<input
+type="text"
+id="pseudo"
+placeholder="Pseudo Minecraft">
+
+</div>
+
+<div class="input-group">
+
+<i class="fa-solid fa-envelope"></i>
+
+<input
+type="email"
+id="register-email"
+placeholder="Adresse e-mail">
+
+</div>
+
+<div class="input-group">
+
+<i class="fa-solid fa-lock"></i>
+
+<input
+type="password"
+id="register-password"
+placeholder="Mot de passe">
+
+<i class="fa-solid fa-eye togglePassword"></i>
+
+</div>
+
+<button
+class="main-button"
+onclick="register()">
+
+Créer mon compte
+
+</button>
+
+<p class="switch">
+
+Déjà un compte ?
+
+<a id="showLogin">
+
+Connexion
+
+</a>
+
+</p>
+
+</div>
+
+</div>
+
+<div id="message"></div>
+
+<div class="features">
+
+<div>
+
+<i class="fa-solid fa-cube"></i>
+
+<h3>
+
+Univers unique
+
+</h3>
+
+<p>
+
+Explore Lumalia.
+
+</p>
+
+</div>
+
+<div>
+
+<i class="fa-solid fa-shield-halved"></i>
+
+<h3>
+
+Compte sécurisé
+
+</h3>
+
+<p>
+
+Protection Firebase.
+
+</p>
+
+</div>
+
+<div>
+
+<i class="fa-solid fa-bolt"></i>
+
+<h3>
+
+Aventure
+
+</h3>
+
+<p>
+
+Rejoins la communauté.
+
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+<script src="js/login.js"></script>
+
+<!-- TON SCRIPT FIREBASE RESTE JUSTE EN DESSOUS -->
+
+</body>
+
+</html>
