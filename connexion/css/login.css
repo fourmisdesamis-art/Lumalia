@@ -1212,3 +1212,21 @@ font-size:28px;
 }
 
 }
+
+.remember-me{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-top:18px;
+    margin-bottom:10px;
+    color:#cfcfcf;
+    font-size:15px;
+    cursor:pointer;
+}
+
+.remember-me input{
+    width:18px;
+    height:18px;
+    accent-color:#00e5ff;
+    cursor:pointer;
+}
