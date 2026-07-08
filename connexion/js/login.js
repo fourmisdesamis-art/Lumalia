@@ -10,6 +10,14 @@ const rightPanel = document.querySelector(".right-panel");
 const showRegister = document.getElementById("showRegister");
 const showLogin = document.getElementById("showLogin");
 
+import {
+    getAuth,
+    browserLocalPersistence,
+    browserSessionPersistence,
+    setPersistence,
+    ...
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
 /*=========================================
             ETAT INITIAL
 =========================================*/
@@ -520,6 +528,19 @@ loginButton.addEventListener("click", async () => {
     try{
 
         const userCredential =
+
+        const rememberMe =
+    document.getElementById("rememberMe").checked;
+
+await setPersistence(
+
+    auth,
+
+    rememberMe
+        ? browserLocalPersistence
+        : browserSessionPersistence
+
+);
         await signInWithEmailAndPassword(
 
             auth,
