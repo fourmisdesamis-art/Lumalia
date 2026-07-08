@@ -2,6 +2,10 @@
                     LUMALIA ARTICLES V2
 ==================================================*/
 
+body{
+    padding-top:120px;
+}
+
 *{
     margin:0;
     padding:0;
@@ -86,210 +90,99 @@ body{
     animation-delay:3s;
 }
 
-/*==========================
-        HEADER
-==========================*/
+/*==============================
+        NAVBAR
+==============================*/
 
-header{
-
+.header{
     position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    z-index:1000;
+    display:flex;
+    justify-content:center;
+    padding:22px 0;
+}
 
-    top:25px;
-
-    left:50%;
-
-    transform:translateX(-50%);
-
+.navbar{
     width:92%;
-
-    height:80px;
-
-    padding:0 35px;
-
+    max-width:1550px;
     display:flex;
-
     align-items:center;
-
     justify-content:space-between;
-
-    border-radius:22px;
-
-    background:rgba(16,16,30,.60);
-
-    backdrop-filter:blur(22px);
-
+    padding:12px 35px;
+    background:rgba(15,18,35,.82);
+    backdrop-filter:blur(20px);
     border:1px solid rgba(255,255,255,.08);
-
-    z-index:100;
-
+    border-radius:22px;
+    position:relative;
 }
 
-/*==========================
-      HEADER GLOW
-==========================*/
-
-header::after{
-
+.navbar::after{
     content:"";
-
     position:absolute;
-
-    left:40px;
-
-    right:40px;
-
-    bottom:-1px;
-
+    left:35px;
+    right:35px;
+    bottom:-8px;
     height:2px;
-
-    background:linear-gradient(
-
-    90deg,
-
-    var(--pink),
-
-    var(--purple),
-
-    var(--cyan)
-
-    );
-
-    box-shadow:
-
-    0 0 20px var(--cyan),
-
-    0 0 30px var(--purple);
-
-}
-
-/*==========================
-        LOGO
-==========================*/
-
-.logo{
-
-    display:flex;
-
-    align-items:center;
-
+    background:linear-gradient(90deg,#ff1493,#6c63ff,#00d4ff);
 }
 
 .logo img{
-
-    width:58px;
-
+    height:52px;
 }
 
-/*==========================
-        NAVBAR
-==========================*/
-
-nav{
-
+.nav-links{
     display:flex;
-
-    align-items:center;
-
-    gap:38px;
-
+    gap:42px;
+    list-style:none;
 }
 
-nav a{
-
-    position:relative;
-
-    font-size:15px;
-
+.nav-links a{
+    color:#fff;
+    text-decoration:none;
     font-weight:600;
-
-    color:#ececec;
-
-    transition:.35s;
-
+    transition:.3s;
 }
 
-nav a:hover{
-
-    color:white;
-
+.nav-links a:hover,
+.nav-links a.active{
+    color:#5ec7ff;
 }
 
-nav a::after{
-
-    content:"";
-
-    position:absolute;
-
-    left:0;
-
-    bottom:-8px;
-
-    width:0;
-
-    height:2px;
-
-    border-radius:20px;
-
-    background:linear-gradient(
-
-    90deg,
-
-    var(--pink),
-
-    var(--cyan)
-
-    );
-
-    transition:.35s;
-
-}
-
-nav a:hover::after{
-
-    width:100%;
-
-}
-
-/*==========================
-      BUTTONS
-==========================*/
-
-.header-buttons{
-
+.nav-buttons{
     display:flex;
-
-    align-items:center;
-
     gap:14px;
-
 }
 
-/*==========================
-      CONNEXION
-==========================*/
-
-.login{
-
+.btn-login,
+.btn-play{
     padding:14px 28px;
-
     border-radius:14px;
-
-    background:#4d4d55;
-
-    color:white;
-
-    font-weight:600;
-
-    transition:.35s;
-
+    text-decoration:none;
+    font-weight:700;
+    transition:.3s;
 }
 
-.login:hover{
+.btn-login{
+    background:#50515c;
+    color:#fff;
+}
 
+.btn-login:hover{
     transform:translateY(-3px);
+}
 
-    background:#666;
+.btn-play{
+    color:#fff;
+    background:linear-gradient(90deg,#ff1493,#8a5cff);
+    box-shadow:0 0 25px rgba(255,20,147,.35);
+}
 
+.btn-play:hover{
+    transform:translateY(-3px);
+    box-shadow:0 0 40px rgba(255,20,147,.55);
 }
 
 /*==================================================
