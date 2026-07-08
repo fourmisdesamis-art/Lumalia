@@ -1,1 +1,423 @@
+<!DOCTYPE html>
+<html lang="fr">
 
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Articles • Lumalia</title>
+
+    <link rel="icon" href="../logo-lumalia.png">
+
+    <link rel="stylesheet" href="css/articles.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+</head>
+
+<body>
+
+    <!-- ================= BACKGROUND ================= -->
+
+    <div class="background">
+
+        <div class="stars"></div>
+
+        <div class="gradient gradient1"></div>
+
+        <div class="gradient gradient2"></div>
+
+    </div>
+
+    <!-- ================= HEADER ================= -->
+
+    <header>
+
+        <a href="../index.html" class="logo">
+
+            <img src="../logo-lumalia.png" alt="Lumalia">
+
+        </a>
+
+        <nav>
+
+            <a href="../index.html">Accueil</a>
+
+            <a href="../wiki/">Wiki</a>
+
+            <a href="../vote/">Vote</a>
+
+            <a href="../boutique/">Boutique</a>
+
+            <a href="../connexion/">Connexion</a>
+
+        </nav>
+
+    </header>
+
+    <!-- ================= HERO ================= -->
+
+    <section class="hero">
+
+        <span class="badge">
+
+            <i class="fa-solid fa-newspaper"></i>
+
+            ACTUALITÉS
+
+        </span>
+
+        <h1>
+
+            Les actualités de <span>Lumalia</span>
+
+        </h1>
+
+        <p>
+
+            Toutes les nouveautés, événements, mises à jour
+            et annonces du serveur.
+
+        </p>
+
+        <div class="hero-buttons">
+
+            <a href="#articles" class="button button-primary">
+
+                Découvrir
+
+            </a>
+
+            <a href="../connexion/" class="button button-secondary">
+
+                Jouer maintenant
+
+            </a>
+
+        </div>
+
+    </section>
+
+    <!-- ================= SEARCH ================= -->
+
+    <section class="search-section">
+
+        <div class="search">
+
+            <i class="fa-solid fa-magnifying-glass"></i>
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Rechercher un article...">
+
+        </div>
+
+    </section>
+
+    <!-- ================= FILTERS ================= -->
+
+    <section class="filters">
+
+        <button class="filter active" data-category="all">
+
+            Tous
+
+        </button>
+
+        <button class="filter" data-category="actualite">
+
+            Actualités
+
+        </button>
+
+        <button class="filter" data-category="update">
+
+            Mises à jour
+
+        </button>
+
+        <button class="filter" data-category="event">
+
+            Événements
+
+        </button>
+
+        <button class="filter" data-category="developpement">
+
+            Développement
+
+        </button>
+
+    </section>
+
+    <!-- ================= ARTICLES ================= -->
+
+    <section class="articles" id="articles">
+
+        <!-- ARTICLE -->
+
+        <article
+            class="card"
+            data-category="actualite">
+
+            <img
+                src="images/saison1.jpg"
+                alt="Saison 1">
+
+            <div class="content">
+
+                <span class="category">
+
+                    Actualité
+
+                </span>
+
+                <h2>
+
+                    Ouverture de la Saison 1
+
+                </h2>
+
+                <p>
+
+                    Découvrez toutes les nouveautés de
+                    la première saison de Lumalia.
+
+                </p>
+
+                <div class="bottom">
+
+                    <span>
+
+                        <i class="fa-regular fa-calendar"></i>
+
+                        15 Juin 2026
+
+                    </span>
+
+                    <a href="saison-1.html">
+
+                        Lire →
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </article>
+
+        <!-- ARTICLE -->
+
+        <article
+            class="card"
+            data-category="update">
+
+            <img
+                src="images/economie.jpg"
+                alt="Économie">
+
+            <div class="content">
+
+                <span class="category">
+
+                    Mise à jour
+
+                </span>
+
+                <h2>
+
+                    Nouvelle économie
+
+                </h2>
+
+                <p>
+
+                    Les Lumis arrivent avec un système
+                    économique entièrement repensé.
+
+                </p>
+
+                <div class="bottom">
+
+                    <span>
+
+                        <i class="fa-regular fa-calendar"></i>
+
+                        18 Juin 2026
+
+                    </span>
+
+                    <a href="#">
+
+                        Lire →
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </article>
+
+        <!-- ARTICLE -->
+
+        <article
+            class="card"
+            data-category="event">
+
+            <img
+                src="images/event.jpg"
+                alt="Événement">
+
+            <div class="content">
+
+                <span class="category">
+
+                    Événement
+
+                </span>
+
+                <h2>
+
+                    Premier Event PvP
+
+                </h2>
+
+                <p>
+
+                    Préparez vos équipements pour le tout
+                    premier tournoi officiel Lumalia.
+
+                </p>
+
+                <div class="bottom">
+
+                    <span>
+
+                        <i class="fa-regular fa-calendar"></i>
+
+                        22 Juin 2026
+
+                    </span>
+
+                    <a href="#">
+
+                        Lire →
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </article>
+
+        <!-- ARTICLE -->
+
+        <article
+            class="card"
+            data-category="developpement">
+
+            <img
+                src="images/dev.jpg"
+                alt="Développement">
+
+            <div class="content">
+
+                <span class="category">
+
+                    Développement
+
+                </span>
+
+                <h2>
+
+                    Les coulisses de Lumalia
+
+                </h2>
+
+                <p>
+
+                    Découvrez comment le serveur est
+                    développé et les nouveautés à venir.
+
+                </p>
+
+                <div class="bottom">
+
+                    <span>
+
+                        <i class="fa-regular fa-calendar"></i>
+
+                        25 Juin 2026
+
+                    </span>
+
+                    <a href="#">
+
+                        Lire →
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </article>
+
+    </section>
+
+    <!-- ================= NEWSLETTER ================= -->
+
+    <section class="newsletter">
+
+        <h2>
+
+            Ne manquez aucune actualité
+
+        </h2>
+
+        <p>
+
+            Suivez Lumalia pour rester informé des prochaines
+            mises à jour.
+
+        </p>
+
+        <a href="../connexion/" class="button button-primary">
+
+            Rejoindre Lumalia
+
+        </a>
+
+    </section>
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        <img src="../logo-lumalia.png" alt="Lumalia">
+
+        <p>
+
+            © 2026 Lumalia - Tous droits réservés.
+
+        </p>
+
+    </footer>
+
+    <script src="js/articles.js"></script>
+
+</body>
+
+</html>
