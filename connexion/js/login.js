@@ -2,363 +2,8 @@
                 LUMALIA LOGIN V2
 ==================================================*/
 
-const authCard = document.querySelector(".auth-card");
-
-const leftPanel = document.querySelector(".left-panel");
-const rightPanel = document.querySelector(".right-panel");
-
-const showRegister = document.getElementById("showRegister");
-const showLogin = document.getElementById("showLogin");
-
-import {
-    getAuth,
-    browserLocalPersistence,
-    browserSessionPersistence,
-    setPersistence,
-    ...
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-/*=========================================
-            ETAT INITIAL
-=========================================*/
-
-rightPanel.style.display = "none";
-
-/*=========================================
-        OUVRIR INSCRIPTION
-=========================================*/
-
-showRegister.addEventListener("click", () => {
-
-    leftPanel.animate([
-
-        {
-            opacity:1,
-            transform:"translateX(0)"
-        },
-
-        {
-            opacity:0,
-            transform:"translateX(-60px)"
-        }
-
-    ],{
-
-        duration:300,
-
-        fill:"forwards"
-
-    });
-
-    setTimeout(()=>{
-
-        leftPanel.style.display="none";
-
-        rightPanel.style.display="flex";
-
-        rightPanel.animate([
-
-            {
-                opacity:0,
-                transform:"translateX(60px)"
-            },
-
-            {
-                opacity:1,
-                transform:"translateX(0)"
-            }
-
-        ],{
-
-            duration:350,
-
-            fill:"forwards"
-
-        });
-
-    },280);
-
-});
-
-/*=========================================
-        RETOUR CONNEXION
-=========================================*/
-
-showLogin.addEventListener("click",()=>{
-
-    rightPanel.animate([
-
-        {
-            opacity:1,
-            transform:"translateX(0)"
-        },
-
-        {
-            opacity:0,
-            transform:"translateX(60px)"
-        }
-
-    ],{
-
-        duration:300,
-
-        fill:"forwards"
-
-    });
-
-    setTimeout(()=>{
-
-        rightPanel.style.display="none";
-
-        leftPanel.style.display="flex";
-
-        leftPanel.animate([
-
-            {
-                opacity:0,
-                transform:"translateX(-60px)"
-            },
-
-            {
-                opacity:1,
-                transform:"translateX(0)"
-            }
-
-        ],{
-
-            duration:350,
-
-            fill:"forwards"
-
-        });
-
-    },280);
-
-});
-
-/*=========================================
-        AFFICHER MOT DE PASSE
-=========================================*/
-
-document
-.querySelectorAll(".togglePassword")
-.forEach(icon=>{
-
-    icon.addEventListener("click",()=>{
-
-        const input =
-        icon.parentElement.querySelector("input");
-
-        if(input.type==="password"){
-
-            input.type="text";
-
-            icon.classList.remove("fa-eye");
-
-            icon.classList.add("fa-eye-slash");
-
-        }
-
-        else{
-
-            input.type="password";
-
-            icon.classList.remove("fa-eye-slash");
-
-            icon.classList.add("fa-eye");
-
-        }
-
-    });
-
-});
-
-/*=========================================
-        ANIMATION INPUTS
-=========================================*/
-
-document
-.querySelectorAll("input")
-.forEach(input=>{
-
-    input.addEventListener("focus",()=>{
-
-        input.parentElement.style.transform="scale(1.02)";
-
-    });
-
-    input.addEventListener("blur",()=>{
-
-        input.parentElement.style.transform="scale(1)";
-
-    });
-
-});
-
 /*==================================================
-            MESSAGES ANIMÉS
-==================================================*/
-
-const message = document.getElementById("message");
-
-window.showMessage = function(text, type = "info") {
-
-    message.textContent = text;
-
-    message.style.opacity = "0";
-    message.style.transform = "translateY(15px)";
-
-    switch(type){
-
-        case "success":
-
-            message.style.borderColor = "#00ff88";
-            message.style.color = "#00ff88";
-            break;
-
-        case "error":
-
-            message.style.borderColor = "#ff4d6d";
-            message.style.color = "#ff4d6d";
-            break;
-
-        default:
-
-            message.style.borderColor = "#00e5ff";
-            message.style.color = "#00e5ff";
-
-    }
-
-    setTimeout(()=>{
-
-        message.style.transition=".35s";
-
-        message.style.opacity="1";
-
-        message.style.transform="translateY(0px)";
-
-    },50);
-
-}
-
-/*==================================================
-            BOUTONS
-==================================================*/
-
-document.querySelectorAll("button").forEach(button=>{
-
-    button.addEventListener("mousedown",()=>{
-
-        button.style.transform="scale(.96)";
-
-    });
-
-    button.addEventListener("mouseup",()=>{
-
-        button.style.transform="scale(1)";
-
-    });
-
-    button.addEventListener("mouseleave",()=>{
-
-        button.style.transform="scale(1)";
-
-    });
-
-});
-
-/*==================================================
-        PARALLAX DU FOND
-==================================================*/
-
-const gradient1 = document.querySelector(".gradient1");
-const gradient2 = document.querySelector(".gradient2");
-
-document.addEventListener("mousemove",(e)=>{
-
-    const x = e.clientX / window.innerWidth;
-    const y = e.clientY / window.innerHeight;
-
-    gradient1.style.transform =
-        `translate(${x*40}px, ${y*40}px)`;
-
-    gradient2.style.transform =
-        `translate(${-x*40}px, ${-y*40}px)`;
-
-});
-
-/*==================================================
-            LOGO
-==================================================*/
-
-const logo = document.querySelector(".logo");
-
-setInterval(()=>{
-
-    logo.animate([
-
-        {
-            transform:"translateY(0px)"
-        },
-
-        {
-            transform:"translateY(-6px)"
-        },
-
-        {
-            transform:"translateY(0px)"
-        }
-
-    ],{
-
-        duration:2500
-
-    });
-
-},2500);
-
-/*==================================================
-        FEATURES
-==================================================*/
-
-document.querySelectorAll(".features div").forEach(card=>{
-
-    card.addEventListener("mouseenter",()=>{
-
-        card.animate([
-
-            {
-                transform:"translateY(0)"
-            },
-
-            {
-                transform:"translateY(-8px)"
-            }
-
-        ],{
-
-            duration:200,
-
-            fill:"forwards"
-
-        });
-
-    });
-
-});
-
-/*==================================================
-            CHARGEMENT
-==================================================*/
-
-window.addEventListener("load",()=>{
-
-    document.body.style.opacity="1";
-
-});
-
-/*==================================================
-                FIREBASE
+                IMPORTS FIREBASE
 ==================================================*/
 
 import { initializeApp }
@@ -368,7 +13,10 @@ import {
     getAuth,
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
-    sendEmailVerification
+    sendEmailVerification,
+    browserLocalPersistence,
+    browserSessionPersistence,
+    setPersistence
 }
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
@@ -380,7 +28,7 @@ import {
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 /*==================================================
-            CONFIG FIREBASE
+                CONFIG FIREBASE
 ==================================================*/
 
 const firebaseConfig = {
@@ -400,26 +48,266 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 /*==================================================
-            BOUTONS
+                VARIABLES
 ==================================================*/
+
+const leftPanel = document.querySelector(".left-panel");
+const rightPanel = document.querySelector(".right-panel");
+
+const showRegister = document.getElementById("showRegister");
+const showLogin = document.getElementById("showLogin");
 
 const loginButton = document.getElementById("loginButton");
 const registerButton = document.getElementById("registerButton");
 
+const message = document.getElementById("message");
+
+const gradient1 = document.querySelector(".gradient1");
+const gradient2 = document.querySelector(".gradient2");
+
+const logo = document.querySelector(".logo");
+
 /*==================================================
-            INSCRIPTION
+                ETAT INITIAL
+==================================================*/
+
+rightPanel.style.display = "none";
+
+/*==================================================
+            AFFICHER LES MESSAGES
+==================================================*/
+
+function showMessage(text, type = "info") {
+
+    message.textContent = text;
+
+    message.style.opacity = "0";
+    message.style.transform = "translateY(15px)";
+
+    switch(type){
+
+        case "success":
+
+            message.style.color="#00ff88";
+            message.style.borderColor="#00ff88";
+            break;
+
+        case "error":
+
+            message.style.color="#ff5c7c";
+            message.style.borderColor="#ff5c7c";
+            break;
+
+        default:
+
+            message.style.color="#00e5ff";
+            message.style.borderColor="#00e5ff";
+
+    }
+
+    setTimeout(()=>{
+
+        message.style.transition=".35s";
+        message.style.opacity="1";
+        message.style.transform="translateY(0px)";
+
+    },50);
+
+}
+
+/*==================================================
+            OUVRIR INSCRIPTION
+==================================================*/
+
+showRegister.addEventListener("click",()=>{
+
+    leftPanel.animate([
+
+        {opacity:1,transform:"translateX(0)"},
+        {opacity:0,transform:"translateX(-60px)"}
+
+    ],{
+
+        duration:300,
+        fill:"forwards"
+
+    });
+
+    setTimeout(()=>{
+
+        leftPanel.style.display="none";
+
+        rightPanel.style.display="flex";
+
+        rightPanel.animate([
+
+            {opacity:0,transform:"translateX(60px)"},
+            {opacity:1,transform:"translateX(0)"}
+
+        ],{
+
+            duration:350,
+            fill:"forwards"
+
+        });
+
+    },280);
+
+});
+
+/*==================================================
+            RETOUR CONNEXION
+==================================================*/
+
+showLogin.addEventListener("click",()=>{
+
+    rightPanel.animate([
+
+        {opacity:1,transform:"translateX(0)"},
+        {opacity:0,transform:"translateX(60px)"}
+
+    ],{
+
+        duration:300,
+        fill:"forwards"
+
+    });
+
+    setTimeout(()=>{
+
+        rightPanel.style.display="none";
+
+        leftPanel.style.display="flex";
+
+        leftPanel.animate([
+
+            {opacity:0,transform:"translateX(-60px)"},
+            {opacity:1,transform:"translateX(0)"}
+
+        ],{
+
+            duration:350,
+            fill:"forwards"
+
+        });
+
+    },280);
+
+});
+
+/*==================================================
+        AFFICHER / MASQUER LE MOT DE PASSE
+==================================================*/
+
+document.querySelectorAll(".togglePassword").forEach(icon=>{
+
+    icon.addEventListener("click",()=>{
+
+        const input = icon.parentElement.querySelector("input");
+
+        if(input.type==="password"){
+
+            input.type="text";
+
+            icon.classList.replace("fa-eye","fa-eye-slash");
+
+        }else{
+
+            input.type="password";
+
+            icon.classList.replace("fa-eye-slash","fa-eye");
+
+        }
+
+    });
+
+});
+
+/*==================================================
+            PARALLAX
+==================================================*/
+
+document.addEventListener("mousemove",(e)=>{
+
+    const x=e.clientX/window.innerWidth;
+    const y=e.clientY/window.innerHeight;
+
+    gradient1.style.transform=`translate(${x*35}px,${y*35}px)`;
+    gradient2.style.transform=`translate(${-x*35}px,${-y*35}px)`;
+
+});
+
+/*==================================================
+            LOGO FLOTTANT
+==================================================*/
+
+setInterval(()=>{
+
+    logo.animate([
+
+        {transform:"translateY(0px)"},
+        {transform:"translateY(-6px)"},
+        {transform:"translateY(0px)"}
+
+    ],{
+
+        duration:2500
+
+    });
+
+},2500);
+
+/*==================================================
+            ANIMATION DES INPUTS
+==================================================*/
+
+document.querySelectorAll(".input-group").forEach(group=>{
+
+    const input=group.querySelector("input");
+
+    input.addEventListener("focus",()=>{
+
+        group.style.transform="scale(1.02)";
+
+    });
+
+    input.addEventListener("blur",()=>{
+
+        group.style.transform="scale(1)";
+
+    });
+
+});
+
+/*==================================================
+            CHARGEMENT
+==================================================*/
+
+window.addEventListener("load",()=>{
+
+    document.body.style.opacity="1";
+
+});
+
+/*==================================================
+                INSCRIPTION
 ==================================================*/
 
 registerButton.addEventListener("click", async () => {
 
-    const pseudo =
-        document.getElementById("pseudo").value.trim();
+    const pseudo = document
+        .getElementById("pseudo")
+        .value
+        .trim();
 
-    const email =
-        document.getElementById("register-email").value.trim();
+    const email = document
+        .getElementById("register-email")
+        .value
+        .trim();
 
-    const password =
-        document.getElementById("register-password").value;
+    const password = document
+        .getElementById("register-password")
+        .value;
 
     if(!pseudo || !email || !password){
 
@@ -432,13 +320,28 @@ registerButton.addEventListener("click", async () => {
 
     }
 
+    if(password.length < 6){
+
+        showMessage(
+            "Le mot de passe doit contenir au moins 6 caractères.",
+            "error"
+        );
+
+        return;
+
+    }
+
     try{
 
         const userCredential =
         await createUserWithEmailAndPassword(
+
             auth,
+
             email,
+
             password
+
         );
 
         await sendEmailVerification(
@@ -455,19 +358,19 @@ registerButton.addEventListener("click", async () => {
 
             {
 
-                pseudoMinecraft:pseudo,
+                pseudoMinecraft: pseudo,
 
-                email:email,
+                email: email,
 
-                rang:"Joueur",
+                rang: "Joueur",
 
-                coins:0,
+                niveau: 1,
 
-                niveau:1,
+                experience: 0,
 
-                experience:0,
+                coins: 0,
 
-                createdAt:new Date().toISOString()
+                createdAt: new Date().toISOString()
 
             }
 
@@ -481,19 +384,78 @@ registerButton.addEventListener("click", async () => {
 
         );
 
+        setTimeout(()=>{
+
+            window.location.href="../index.html";
+
+        },1800);
+
     }
 
     catch(error){
 
-        showMessage(
+        switch(error.code){
 
-            error.message,
+            case "auth/email-already-in-use":
 
-            "error"
+                showMessage(
+                    "Cette adresse e-mail est déjà utilisée.",
+                    "error"
+                );
 
-        );
+                break;
+
+            case "auth/invalid-email":
+
+                showMessage(
+                    "Adresse e-mail invalide.",
+                    "error"
+                );
+
+                break;
+
+            case "auth/weak-password":
+
+                showMessage(
+                    "Mot de passe trop faible.",
+                    "error"
+                );
+
+                break;
+
+            default:
+
+                showMessage(
+                    "Une erreur est survenue.",
+                    "error"
+                );
+
+        }
 
         console.error(error);
+
+    }
+
+});
+
+/*==================================================
+                CONNEXION
+==================================================*/
+
+import {
+    onAuthStateChanged
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+/*==================================================
+        DEJA CONNECTE ?
+==================================================*/
+
+onAuthStateChanged(auth, (user)=>{
+
+    if(user && user.emailVerified){
+
+        window.location.href="../index.html";
 
     }
 
@@ -503,13 +465,16 @@ registerButton.addEventListener("click", async () => {
             CONNEXION
 ==================================================*/
 
-loginButton.addEventListener("click", async () => {
+loginButton.addEventListener("click", async ()=>{
 
     const email =
-        document.getElementById("email").value.trim();
+        document.getElementById("email")
+        .value
+        .trim();
 
     const password =
-        document.getElementById("password").value;
+        document.getElementById("password")
+        .value;
 
     if(!email || !password){
 
@@ -527,20 +492,22 @@ loginButton.addEventListener("click", async () => {
 
     try{
 
-        const userCredential =
-
         const rememberMe =
-    document.getElementById("rememberMe").checked;
+            document.getElementById("rememberMe").checked;
 
-await setPersistence(
+        await setPersistence(
 
-    auth,
+            auth,
 
-    rememberMe
-        ? browserLocalPersistence
-        : browserSessionPersistence
+            rememberMe
 
-);
+            ? browserLocalPersistence
+
+            : browserSessionPersistence
+
+        );
+
+        const userCredential =
         await signInWithEmailAndPassword(
 
             auth,
@@ -560,7 +527,7 @@ await setPersistence(
 
             showMessage(
 
-                "❌ Vérifie ton adresse e-mail avant de te connecter.",
+                "Vérifie ton adresse e-mail avant de te connecter.",
 
                 "error"
 
@@ -580,7 +547,7 @@ await setPersistence(
 
         setTimeout(()=>{
 
-            window.location.href="index.html";
+            window.location.href="../index.html";
 
         },1200);
 
@@ -588,15 +555,81 @@ await setPersistence(
 
     catch(error){
 
-        showMessage(
+        switch(error.code){
 
-            error.message,
+            case "auth/invalid-email":
 
-            "error"
+                showMessage(
 
-        );
+                    "Adresse e-mail invalide.",
 
-        console.error(error);
+                    "error"
+
+                );
+
+                break;
+
+            case "auth/user-not-found":
+
+                showMessage(
+
+                    "Aucun compte n'existe avec cette adresse.",
+
+                    "error"
+
+                );
+
+                break;
+
+            case "auth/wrong-password":
+
+                showMessage(
+
+                    "Mot de passe incorrect.",
+
+                    "error"
+
+                );
+
+                break;
+
+            case "auth/invalid-credential":
+
+                showMessage(
+
+                    "Adresse e-mail ou mot de passe incorrect.",
+
+                    "error"
+
+                );
+
+                break;
+
+            case "auth/too-many-requests":
+
+                showMessage(
+
+                    "Trop de tentatives. Réessaie plus tard.",
+
+                    "error"
+
+                );
+
+                break;
+
+            default:
+
+                showMessage(
+
+                    "Une erreur est survenue.",
+
+                    "error"
+
+                );
+
+                console.error(error);
+
+        }
 
     }
 
