@@ -1,51 +1,7 @@
 /*==================================================
                 LUMALIA LOGIN V2
+                PARTIE 1
 ==================================================*/
-
-/*==================================================
-                IMPORTS FIREBASE
-==================================================*/
-
-import { initializeApp }
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-
-import {
-    getAuth,
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-    sendEmailVerification,
-    browserLocalPersistence,
-    browserSessionPersistence,
-    setPersistence
-}
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-import {
-    getFirestore,
-    doc,
-    setDoc
-}
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-/*==================================================
-                CONFIG FIREBASE
-==================================================*/
-
-const firebaseConfig = {
-
-    apiKey: "AIzaSyBSCqSsBTXk9Q8sBX88NgrdDHUAHT0Cq6I",
-
-    authDomain: "lumalia.firebaseapp.com",
-
-    projectId: "lumalia"
-
-};
-
-const app = initializeApp(firebaseConfig);
-
-const auth = getAuth(app);
-
-const db = getFirestore(app);
 
 /*==================================================
                 VARIABLES
@@ -84,119 +40,58 @@ function showMessage(text, type = "info") {
     message.style.opacity = "0";
     message.style.transform = "translateY(15px)";
 
+    message.className = "";
+
     switch(type){
 
         case "success":
 
-            message.style.color="#00ff88";
-            message.style.borderColor="#00ff88";
+            message.style.color = "#00ff88";
+            message.style.borderColor = "#00ff88";
             break;
 
         case "error":
 
-            message.style.color="#ff5c7c";
-            message.style.borderColor="#ff5c7c";
+            message.style.color = "#ff5c7c";
+            message.style.borderColor = "#ff5c7c";
             break;
 
         default:
 
-            message.style.color="#00e5ff";
-            message.style.borderColor="#00e5ff";
+            message.style.color = "#00e5ff";
+            message.style.borderColor = "#00e5ff";
 
     }
 
     setTimeout(()=>{
 
-        message.style.transition=".35s";
         message.style.opacity="1";
-        message.style.transform="translateY(0px)";
+        message.style.transform="translateY(0)";
 
     },50);
 
 }
 
 /*==================================================
-            OUVRIR INSCRIPTION
+            CHANGER DE PANNEAU
 ==================================================*/
 
 showRegister.addEventListener("click",()=>{
 
-    leftPanel.animate([
-
-        {opacity:1,transform:"translateX(0)"},
-        {opacity:0,transform:"translateX(-60px)"}
-
-    ],{
-
-        duration:300,
-        fill:"forwards"
-
-    });
-
-    setTimeout(()=>{
-
-        leftPanel.style.display="none";
-
-        rightPanel.style.display="flex";
-
-        rightPanel.animate([
-
-            {opacity:0,transform:"translateX(60px)"},
-            {opacity:1,transform:"translateX(0)"}
-
-        ],{
-
-            duration:350,
-            fill:"forwards"
-
-        });
-
-    },280);
+    leftPanel.style.display="none";
+    rightPanel.style.display="flex";
 
 });
-
-/*==================================================
-            RETOUR CONNEXION
-==================================================*/
 
 showLogin.addEventListener("click",()=>{
 
-    rightPanel.animate([
-
-        {opacity:1,transform:"translateX(0)"},
-        {opacity:0,transform:"translateX(60px)"}
-
-    ],{
-
-        duration:300,
-        fill:"forwards"
-
-    });
-
-    setTimeout(()=>{
-
-        rightPanel.style.display="none";
-
-        leftPanel.style.display="flex";
-
-        leftPanel.animate([
-
-            {opacity:0,transform:"translateX(-60px)"},
-            {opacity:1,transform:"translateX(0)"}
-
-        ],{
-
-            duration:350,
-            fill:"forwards"
-
-        });
-
-    },280);
+    rightPanel.style.display="none";
+    leftPanel.style.display="flex";
 
 });
 
 /*==================================================
-        AFFICHER / MASQUER LE MOT DE PASSE
+        AFFICHER LE MOT DE PASSE
 ==================================================*/
 
 document.querySelectorAll(".togglePassword").forEach(icon=>{
@@ -224,46 +119,12 @@ document.querySelectorAll(".togglePassword").forEach(icon=>{
 });
 
 /*==================================================
-            PARALLAX
-==================================================*/
-
-document.addEventListener("mousemove",(e)=>{
-
-    const x=e.clientX/window.innerWidth;
-    const y=e.clientY/window.innerHeight;
-
-    gradient1.style.transform=`translate(${x*35}px,${y*35}px)`;
-    gradient2.style.transform=`translate(${-x*35}px,${-y*35}px)`;
-
-});
-
-/*==================================================
-            LOGO FLOTTANT
-==================================================*/
-
-setInterval(()=>{
-
-    logo.animate([
-
-        {transform:"translateY(0px)"},
-        {transform:"translateY(-6px)"},
-        {transform:"translateY(0px)"}
-
-    ],{
-
-        duration:2500
-
-    });
-
-},2500);
-
-/*==================================================
-            ANIMATION DES INPUTS
+        ANIMATION DES INPUTS
 ==================================================*/
 
 document.querySelectorAll(".input-group").forEach(group=>{
 
-    const input=group.querySelector("input");
+    const input = group.querySelector("input");
 
     input.addEventListener("focus",()=>{
 
@@ -280,6 +141,69 @@ document.querySelectorAll(".input-group").forEach(group=>{
 });
 
 /*==================================================
+            PARALLAX
+==================================================*/
+
+document.addEventListener("mousemove",(e)=>{
+
+    const x = e.clientX / window.innerWidth;
+    const y = e.clientY / window.innerHeight;
+
+    gradient1.style.transform =
+        `translate(${x*30}px, ${y*30}px)`;
+
+    gradient2.style.transform =
+        `translate(${-x*30}px, ${-y*30}px)`;
+
+});
+
+/*==================================================
+            LOGO FLOTTANT
+==================================================*/
+
+setInterval(()=>{
+
+    logo.animate([
+
+        { transform:"translateY(0px)" },
+        { transform:"translateY(-6px)" },
+        { transform:"translateY(0px)" }
+
+    ],{
+
+        duration:2500
+
+    });
+
+},2500);
+
+/*==================================================
+            EFFET DES BOUTONS
+==================================================*/
+
+document.querySelectorAll("button").forEach(button=>{
+
+    button.addEventListener("mousedown",()=>{
+
+        button.style.transform="scale(.97)";
+
+    });
+
+    button.addEventListener("mouseup",()=>{
+
+        button.style.transform="scale(1)";
+
+    });
+
+    button.addEventListener("mouseleave",()=>{
+
+        button.style.transform="scale(1)";
+
+    });
+
+});
+
+/*==================================================
             CHARGEMENT
 ==================================================*/
 
@@ -290,6 +214,70 @@ window.addEventListener("load",()=>{
 });
 
 /*==================================================
+                LUMALIA LOGIN V2
+                PARTIE 2
+                FIREBASE
+==================================================*/
+
+/*==================================================
+                IMPORTS
+==================================================*/
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    sendEmailVerification,
+    setPersistence,
+    browserLocalPersistence,
+    browserSessionPersistence
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+import {
+    getFirestore,
+    doc,
+    setDoc
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+/*==================================================
+                CONFIG FIREBASE
+==================================================*/
+
+const firebaseConfig = {
+
+    apiKey: "AIzaSyBSCqSsBTXk9Q8sBX88NgrdDHUAHT0Cq6I",
+
+    authDomain: "lumalia.firebaseapp.com",
+
+    projectId: "lumalia",
+
+    storageBucket: "lumalia.appspot.com",
+
+    messagingSenderId: "722559383104",
+
+    appId: "1:722559383104:web:xxxxxxxxxxxxxxxx"
+
+};
+
+/*==================================================
+            INITIALISATION
+==================================================*/
+
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+
+const db = getFirestore(app);
+
+console.log("✅ Firebase initialisé");
+
+/*==================================================
+                PARTIE 3
                 INSCRIPTION
 ==================================================*/
 
@@ -309,10 +297,10 @@ registerButton.addEventListener("click", async () => {
         .getElementById("register-password")
         .value;
 
-    if(!pseudo || !email || !password){
+    if (!pseudo || !email || !password) {
 
         showMessage(
-            "Remplis tous les champs.",
+            "Merci de remplir tous les champs.",
             "error"
         );
 
@@ -320,7 +308,7 @@ registerButton.addEventListener("click", async () => {
 
     }
 
-    if(password.length < 6){
+    if (password.length < 6) {
 
         showMessage(
             "Le mot de passe doit contenir au moins 6 caractères.",
@@ -331,18 +319,14 @@ registerButton.addEventListener("click", async () => {
 
     }
 
-    try{
+    try {
 
         const userCredential =
-        await createUserWithEmailAndPassword(
-
-            auth,
-
-            email,
-
-            password
-
-        );
+            await createUserWithEmailAndPassword(
+                auth,
+                email,
+                password
+            );
 
         await sendEmailVerification(
             userCredential.user
@@ -377,24 +361,23 @@ registerButton.addEventListener("click", async () => {
         );
 
         showMessage(
-
             "✅ Compte créé ! Vérifie ton adresse e-mail.",
-
             "success"
-
         );
 
-        setTimeout(()=>{
+        setTimeout(() => {
 
-            window.location.href="../index.html";
+            window.location.href = "../index.html";
 
-        },1800);
+        }, 2000);
 
     }
 
-    catch(error){
+    catch (error) {
 
-        switch(error.code){
+        console.error(error);
+
+        switch (error.code) {
 
             case "auth/email-already-in-use":
 
@@ -432,68 +415,46 @@ registerButton.addEventListener("click", async () => {
 
         }
 
-        console.error(error);
-
     }
 
 });
 
 /*==================================================
+                PARTIE 4
                 CONNEXION
 ==================================================*/
 
-import {
-    onAuthStateChanged
-}
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+loginButton.addEventListener("click", async () => {
 
-/*==================================================
-        DEJA CONNECTE ?
-==================================================*/
-
-onAuthStateChanged(auth, (user)=>{
-
-    if(user && user.emailVerified){
-
-        window.location.href="../index.html";
-
-    }
-
-});
-
-/*==================================================
-            CONNEXION
-==================================================*/
-
-loginButton.addEventListener("click", async ()=>{
-
-    const email =
-        document.getElementById("email")
+    const email = document
+        .getElementById("email")
         .value
         .trim();
 
-    const password =
-        document.getElementById("password")
+    const password = document
+        .getElementById("password")
         .value;
 
-    if(!email || !password){
+    const rememberMe = document
+        .getElementById("rememberMe")
+        .checked;
+
+    if (!email || !password) {
 
         showMessage(
-
-            "Remplis tous les champs.",
-
+            "Merci de remplir tous les champs.",
             "error"
-
         );
 
         return;
 
     }
 
-    try{
+    try {
 
-        const rememberMe =
-            document.getElementById("rememberMe").checked;
+        /*==============================
+            RESTER CONNECTÉ
+        ==============================*/
 
         await setPersistence(
 
@@ -501,33 +462,40 @@ loginButton.addEventListener("click", async ()=>{
 
             rememberMe
 
-            ? browserLocalPersistence
+                ? browserLocalPersistence
 
-            : browserSessionPersistence
+                : browserSessionPersistence
 
         );
+
+        /*==============================
+            CONNEXION FIREBASE
+        ==============================*/
 
         const userCredential =
-        await signInWithEmailAndPassword(
+            await signInWithEmailAndPassword(
 
-            auth,
+                auth,
 
-            email,
+                email,
 
-            password
+                password
 
-        );
+            );
 
-        const user =
-            userCredential.user;
+        const user = userCredential.user;
 
         await user.reload();
 
-        if(!user.emailVerified){
+        /*==============================
+            EMAIL VERIFIE
+        ==============================*/
+
+        if (!user.emailVerified) {
 
             showMessage(
 
-                "Vérifie ton adresse e-mail avant de te connecter.",
+                "Tu dois vérifier ton adresse e-mail avant de te connecter.",
 
                 "error"
 
@@ -545,50 +513,29 @@ loginButton.addEventListener("click", async ()=>{
 
         );
 
-        setTimeout(()=>{
+        /*==============================
+            REDIRECTION
+        ==============================*/
 
-            window.location.href="../index.html";
+        setTimeout(() => {
 
-        },1200);
+            window.location.href = "../index.html";
+
+        }, 1200);
 
     }
 
-    catch(error){
+    catch (error) {
 
-        switch(error.code){
+        console.error(error);
+
+        switch (error.code) {
 
             case "auth/invalid-email":
 
                 showMessage(
-
                     "Adresse e-mail invalide.",
-
                     "error"
-
-                );
-
-                break;
-
-            case "auth/user-not-found":
-
-                showMessage(
-
-                    "Aucun compte n'existe avec cette adresse.",
-
-                    "error"
-
-                );
-
-                break;
-
-            case "auth/wrong-password":
-
-                showMessage(
-
-                    "Mot de passe incorrect.",
-
-                    "error"
-
                 );
 
                 break;
@@ -596,11 +543,17 @@ loginButton.addEventListener("click", async ()=>{
             case "auth/invalid-credential":
 
                 showMessage(
-
                     "Adresse e-mail ou mot de passe incorrect.",
-
                     "error"
+                );
 
+                break;
+
+            case "auth/user-disabled":
+
+                showMessage(
+                    "Ce compte est désactivé.",
+                    "error"
                 );
 
                 break;
@@ -608,11 +561,8 @@ loginButton.addEventListener("click", async ()=>{
             case "auth/too-many-requests":
 
                 showMessage(
-
                     "Trop de tentatives. Réessaie plus tard.",
-
                     "error"
-
                 );
 
                 break;
@@ -620,14 +570,9 @@ loginButton.addEventListener("click", async ()=>{
             default:
 
                 showMessage(
-
                     "Une erreur est survenue.",
-
                     "error"
-
                 );
-
-                console.error(error);
 
         }
 
