@@ -477,3 +477,35 @@ main{
     opacity:1;
     transform:translateY(0);
 }
+
+/*==================================================
+            IMAGE PLEIN ÉCRAN
+==================================================*/
+
+.image-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.85);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:9999;
+    backdrop-filter:blur(8px);
+    animation:fadeOverlay .3s;
+}
+
+.image-overlay img{
+    max-width:90%;
+    max-height:90%;
+    border-radius:20px;
+    box-shadow:0 0 50px rgba(0,217,255,.35);
+}
+
+@keyframes fadeOverlay{
+    from{
+        opacity:0;
+    }
+    to{
+        opacity:1;
+    }
+}
