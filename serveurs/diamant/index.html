@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Serveur Diamant • Lumalia</title>
+
+<link rel="icon" href="../../logo-lumalia.png">
+
+<link rel="stylesheet" href="diamant.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="background">
+
+<div class="stars"></div>
+
+<div class="gradient gradient1"></div>
+
+<div class="gradient gradient2"></div>
+
+</div>
+
+<header class="header">
+
+<nav class="navbar">
+
+<a href="../../index.html" class="logo">
+
+<img src="../../logo-lumalia.png" alt="Lumalia">
+
+</a>
+
+<ul class="nav-links">
+
+<li><a href="../../articles/">Articles</a></li>
+
+<li><a href="../" class="active">Serveurs</a></li>
+
+<li><a href="../../wiki/">Wiki</a></li>
+
+<li><a href="../../forum/">Forum</a></li>
+
+<li><a href="../../vote/">Voter</a></li>
+
+<li><a href="../../boutique/">Boutique</a></li>
+
+</ul>
+
+<div class="nav-buttons">
+
+<a href="../../connexion/" class="btn-login">
+Connexion
+</a>
+
+<a href="../../jouer/" class="btn-play">
+Jouer
+</a>
+
+</div>
+
+</nav>
+
+</header>
+
+<section class="hero">
+
+<div class="hero-image">
+
+<div class="overlay"></div>
+
+<div class="hero-content">
+
+<div class="server-icon">
+
+💎
+
+</div>
+
+<div>
+
+<span class="status">
+
+<i class="fa-solid fa-circle"></i>
+
+Serveur ouvert
+
+</span>
+
+<h1>
+
+Serveur Diamant
+
+</h1>
+
+<p>
+
+Le premier royaume de Lumalia.
+Explore un immense monde médiéval inspiré des Royaumes de Feu,
+fonde ton pays et écris ta propre histoire.
+
+</p>
+
+<div class="hero-buttons">
+
+<a href="#" class="play-button">
+
+<i class="fa-solid fa-play"></i>
+
+Jouer
+
+</a>
+
+<a href="#about" class="secondary-button">
+
+Découvrir
+
+</a>
+
+</div>
+
+<div class="server-info">
+
+<div>
+
+<h3>IP</h3>
+
+<span>play.lumalia.fr</span>
+
+</div>
+
+<div>
+
+<h3>Version</h3>
+
+<span>1.21.x</span>
+
+</div>
+
+<div>
+
+<h3>Mode</h3>
+
+<span>Pays • Villes • Factions</span>
+
+</div>
+
+<div>
+
+<h3>Joueurs</h3>
+
+<span id="onlinePlayers">
+
+Chargement...
+
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<section class="main">
+
+<aside class="sidebar">
+
+<h3>
+
+Navigation
+
+</h3>
+
+<ul>
+
+<li class="active">
+
+<a href="#about">
+
+🌍 À propos
+
+</a>
+
+</li>
+
+<li>
+
+<a href="#staff">
+
+👑 Staff
+
+</a>
+
+</li>
+
+<li>
+
+<a href="#countries">
+
+🏰 Pays
+
+</a>
+
+</li>
+
+<li>
+
+<a href="#cities">
+
+🏙️ Villes
+
+</a>
+
+</li>
+
+<li>
+
+<a href="#factions">
+
+⚔️ Factions
+
+</a>
+
+</li>
+
+<li>
+
+<a href="#bank">
+
+💰 Banque
+
+</a>
+
+</li>
+
+<li>
+
+<a href="#news">
+
+📰 Actualités
+
+</a>
+
+</li>
+
+<li>
+
+<a href="#events">
+
+📅 Évènements
+
+</a>
+
+</li>
+
+<li>
+
+<a href="#rules">
+
+📜 Règlement
+
+</a>
+
+</li>
+
+<li>
+
+<a href="#map">
+
+🗺️ Carte interactive
+
+</a>
+
+</li>
+
+</ul>
+
+</aside>
+
+<div class="content">
+
+<section id="about" class="card">
+
+<h2>
+
+À propos
+
+</h2>
+
+<p>
+
+Le serveur <strong>Diamant</strong> est le premier serveur officiel de Lumalia.
+
+Il est entièrement inspiré de l'univers des <strong>Royaumes de Feu</strong>, avec une immense carte, des royaumes à construire, des villes à développer, des factions, une économie complète et de nombreuses aventures.
+
+</p>
+
+<div class="stats">
+
+<div class="stat">
+
+<h3 id="countriesCount">
+
+0
+
+</h3>
+
+<span>Pays</span>
+
+</div>
+
+<div class="stat">
+
+<h3 id="citiesCount">
+
+0
+
+</h3>
+
+<span>Villes</span>
+
+</div>
+
+<div class="stat">
+
+<h3 id="playersCount">
+
+0
+
+</h3>
+
+<span>Joueurs</span>
+
+</div>
+
+<div class="stat">
+
+<h3>
+
+24/7
+
+</h3>
+
+<span>Disponibilité</span>
+
+</div>
+
+</div>
+
+</section>
+
+<section id="staff" class="card">
+
+<h2>
+
+👑 Staff
+
+</h2>
+
+<p>
+
+L'équipe du serveur veille au bon fonctionnement de Lumalia et accompagne les joueurs chaque jour.
+
+</p>
+
+<div class="staff-grid">
+
+<div class="staff-card">
+
+<img src="../../images/staff/fondateur.png" alt="Fondateur">
+
+<h3>
+
+Fondateur
+
+</h3>
+
+<span>
+
+À définir
+
+</span>
+
+</div>
+
+<div class="staff-card">
+
+<img src="../../images/staff/admin.png" alt="Administrateur">
+
+<h3>
+
+Administrateur
+
+</h3>
+
+<span>
+
+À définir
+
+</span>
+
+</div>
+
+<div class="staff-card">
+
+<img src="../../images/staff/modo.png" alt="Modérateur">
+
+<h3>
+
+Modérateur
+
+</h3>
+
+<span>
+
+À définir
+
+</span>
+
+</div>
+
+</div>
+
+</section>
+
+<section id="countries" class="card">
+
+<h2>
+
+🏰 Les pays
+
+</h2>
+
+<p>
+
+Les joueurs peuvent créer leur propre pays, recruter des habitants, gérer leur économie et devenir une puissance mondiale.
+
+</p>
+
+</section>
+
+<section id="cities" class="card">
+
+<h2>
+
+🏙️ Les villes
+
+</h2>
+
+<p>
+
+Chaque pays peut posséder plusieurs villes reliées entre elles grâce à un vaste réseau de routes, de ports et de chemins.
+
+</p>
+
+</section>
+
+<section id="factions" class="card">
+
+<h2>
+
+⚔️ Les factions
+
+</h2>
+
+<p>
+
+Crée une faction avec tes amis, construisez une base, participez aux guerres et défendez votre territoire contre les autres joueurs.
+
+</p>
+
+</section>
+
+<section id="bank" class="card">
+
+<h2>
+
+💰 Banque
+
+</h2>
+
+<p>
+
+Dépose ton argent, effectue des virements, crée une entreprise ou finance le développement de ton pays grâce au système économique de Lumalia.
+
+</p>
+
+</section>
+
+<section id="news" class="card">
+
+<h2>
+
+📰 Actualités
+
+</h2>
+
+<div class="news-list">
+
+<article class="news-card">
+
+<span class="news-date">
+
+09 Juillet 2026
+
+</span>
+
+<h3>
+
+Ouverture prochaine du Serveur Diamant
+
+</h3>
+
+<p>
+
+Prépare-toi à rejoindre le premier serveur officiel de Lumalia. De nombreuses fonctionnalités inédites seront disponibles dès l'ouverture.
+
+</p>
+
+</article>
+
+<article class="news-card">
+
+<span class="news-date">
+
+À venir
+
+</span>
+
+<h3>
+
+Premier évènement communautaire
+
+</h3>
+
+<p>
+
+Un grand évènement sera organisé quelques jours après l'ouverture du serveur avec plusieurs récompenses exclusives.
+
+</p>
+
+</article>
+
+</div>
+
+</section>
+
+<section id="events" class="card">
+
+<h2>
+
+📅 Évènements
+
+</h2>
+
+<div class="events">
+
+<div class="event">
+
+<h3>
+
+🏆 Tournoi PvP
+
+</h3>
+
+<p>
+
+Affronte les meilleurs combattants de Lumalia.
+
+</p>
+
+</div>
+
+<div class="event">
+
+<h3>
+
+👑 Élection Royale
+
+</h3>
+
+<p>
+
+Les joueurs pourront élire leur souverain.
+
+</p>
+
+</div>
+
+<div class="event">
+
+<h3>
+
+🐉 Les Royaumes de Feu
+
+</h3>
+
+<p>
+
+Des évènements inspirés de l'univers des Royaumes de Feu seront organisés régulièrement.
+
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+<section id="rules" class="card">
+
+<h2>
+
+📜 Règlement
+
+</h2>
+
+<p>
+
+Le respect des autres joueurs est obligatoire.
+
+Toute triche, exploitation de bugs ou comportement toxique pourra entraîner des sanctions.
+
+Le règlement complet sera disponible prochainement.
+
+</p>
+
+</section>
+
+<section id="map" class="card">
+
+<h2>
+
+🗺️ Carte Interactive
+
+</h2>
+
+<p>
+
+La carte interactive du serveur sera disponible après l'ouverture.
+
+</p>
+
+<div class="map-placeholder">
+
+<i class="fa-solid fa-earth-europe"></i>
+
+<span>
+
+Carte bientôt disponible
+
+</span>
+
+</div>
+
+</section>
+
+</div>
+
+</section>
+
+<footer class="footer">
+
+<div class="footer-content">
+
+<img src="../../logo-lumalia.png" alt="Lumalia">
+
+<p>
+
+© 2026 Lumalia • Tous droits réservés
+
+</p>
+
+<div class="footer-links">
+
+<a href="../../articles/">Articles</a>
+
+<a href="../../wiki/">Wiki</a>
+
+<a href="../../support/">Support</a>
+
+<a href="../../boutique/">Boutique</a>
+
+</div>
+
+</div>
+
+</footer>
+
+<script src="diamant.js"></script>
+
+</body>
+
+</html>
