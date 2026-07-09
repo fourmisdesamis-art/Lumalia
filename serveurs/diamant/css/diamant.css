@@ -1,1 +1,464 @@
+/*==================================================
+                    LUMALIA
+              PAGE SERVEUR DIAMANT
+==================================================*/
 
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+:root{
+    --bg:#090812;
+    --bg2:#12091f;
+
+    --blue:#00d9ff;
+    --purple:#8b5cf6;
+    --pink:#ff0f7b;
+
+    --white:#ffffff;
+    --text:#cfcfcf;
+
+    --glass:rgba(255,255,255,.05);
+    --border:rgba(255,255,255,.08);
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:'Poppins',sans-serif;
+    background:linear-gradient(180deg,var(--bg),var(--bg2));
+    color:var(--white);
+    overflow-x:hidden;
+}
+
+/*==================================================
+                    BACKGROUND
+==================================================*/
+
+.background{
+    position:fixed;
+    inset:0;
+    z-index:-10;
+    overflow:hidden;
+}
+
+.stars{
+    position:absolute;
+    inset:0;
+    background-image:
+        radial-gradient(circle,#ffffff 1px,transparent 1px);
+    background-size:120px 120px;
+    opacity:.08;
+}
+
+.gradient{
+    position:absolute;
+    width:600px;
+    height:600px;
+    border-radius:50%;
+    filter:blur(130px);
+}
+
+.gradient1{
+    top:-200px;
+    left:-200px;
+    background:#8b5cf6;
+    opacity:.25;
+}
+
+.gradient2{
+    bottom:-200px;
+    right:-200px;
+    background:#00d9ff;
+    opacity:.18;
+}
+
+/*==================================================
+                    HERO
+==================================================*/
+
+.hero{
+    width:100%;
+    height:520px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+
+    position:relative;
+
+    background:
+    linear-gradient(rgba(5,5,20,.55),rgba(5,5,20,.75)),
+    url("../../images/diamant-banner.jpg") center/cover;
+}
+
+.hero-content{
+    max-width:900px;
+    padding:20px;
+}
+
+.hero h1{
+    font-size:70px;
+    font-weight:800;
+
+    background:linear-gradient(
+        90deg,
+        #00d9ff,
+        #8b5cf6,
+        #ffffff
+    );
+
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+
+    margin-bottom:20px;
+}
+
+.hero p{
+    font-size:20px;
+    color:#dddddd;
+    line-height:34px;
+    max-width:750px;
+    margin:auto;
+}
+
+/*==================================================
+                CONTENU PRINCIPAL
+==================================================*/
+
+main{
+    width:min(1400px,92%);
+    margin:80px auto;
+}
+
+/*==================================================
+                CARTES INFORMATIONS
+==================================================*/
+
+.info-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:25px;
+    margin-bottom:70px;
+}
+
+.info-card{
+    background:var(--glass);
+    border:1px solid var(--border);
+    backdrop-filter:blur(18px);
+    border-radius:22px;
+    padding:30px;
+    transition:.35s;
+    position:relative;
+    overflow:hidden;
+}
+
+.info-card::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(
+        135deg,
+        rgba(0,217,255,.08),
+        rgba(139,92,246,.08)
+    );
+    opacity:0;
+    transition:.35s;
+}
+
+.info-card:hover{
+    transform:translateY(-8px);
+    border-color:var(--blue);
+    box-shadow:0 0 35px rgba(0,217,255,.18);
+}
+
+.info-card:hover::before{
+    opacity:1;
+}
+
+.info-card i{
+    font-size:40px;
+    margin-bottom:18px;
+    color:var(--blue);
+}
+
+.info-card h3{
+    font-size:24px;
+    margin-bottom:12px;
+}
+
+.info-card p{
+    color:var(--text);
+    line-height:28px;
+}
+
+/*==================================================
+                    DESCRIPTION
+==================================================*/
+
+.description{
+    margin-bottom:80px;
+}
+
+.description h2{
+    font-size:42px;
+    margin-bottom:25px;
+}
+
+.description p{
+    color:var(--text);
+    line-height:34px;
+    font-size:18px;
+    margin-bottom:20px;
+}
+
+/*==================================================
+                    BOUTONS
+==================================================*/
+
+.buttons{
+    display:flex;
+    flex-wrap:wrap;
+    gap:20px;
+    margin-top:40px;
+}
+
+.buttons a{
+    text-decoration:none;
+    color:white;
+    padding:16px 32px;
+    border-radius:16px;
+    font-weight:700;
+    transition:.35s;
+}
+
+.play-btn{
+    background:linear-gradient(
+        90deg,
+        var(--blue),
+        var(--purple)
+    );
+}
+
+.discord-btn{
+    background:#5865F2;
+}
+
+.wiki-btn{
+    background:rgba(255,255,255,.08);
+    border:1px solid var(--border);
+}
+
+.buttons a:hover{
+    transform:translateY(-5px);
+    box-shadow:0 0 25px rgba(0,217,255,.25);
+}
+
+/*==================================================
+                ACTUALITÉS
+==================================================*/
+
+.server-news{
+    margin:90px 0;
+}
+
+.server-news h2,
+.gallery h2,
+.stats h2{
+    font-size:42px;
+    margin-bottom:35px;
+}
+
+.news-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+    gap:25px;
+}
+
+.news-grid article{
+    background:var(--glass);
+    border:1px solid var(--border);
+    border-radius:22px;
+    padding:30px;
+    backdrop-filter:blur(18px);
+    transition:.35s;
+}
+
+.news-grid article:hover{
+    transform:translateY(-8px);
+    border-color:var(--blue);
+    box-shadow:0 0 30px rgba(0,217,255,.2);
+}
+
+.news-grid .date{
+    color:var(--blue);
+    font-size:14px;
+    font-weight:600;
+}
+
+.news-grid h3{
+    margin:15px 0;
+    font-size:24px;
+}
+
+.news-grid p{
+    color:var(--text);
+    line-height:28px;
+}
+
+/*==================================================
+                    GALERIE
+==================================================*/
+
+.gallery{
+    margin:90px 0;
+}
+
+.gallery-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+    gap:25px;
+}
+
+.gallery-grid img{
+    width:100%;
+    height:260px;
+    object-fit:cover;
+    border-radius:22px;
+    border:1px solid var(--border);
+    transition:.4s;
+    cursor:pointer;
+}
+
+.gallery-grid img:hover{
+    transform:scale(1.03);
+    border-color:var(--blue);
+    box-shadow:0 0 35px rgba(0,217,255,.25);
+}
+
+/*==================================================
+                STATISTIQUES
+==================================================*/
+
+.stats{
+    margin:90px 0 120px;
+}
+
+.stats-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:25px;
+}
+
+.stats-grid div{
+    background:var(--glass);
+    border:1px solid var(--border);
+    border-radius:22px;
+    backdrop-filter:blur(18px);
+    text-align:center;
+    padding:40px 20px;
+    transition:.35s;
+}
+
+.stats-grid div:hover{
+    transform:translateY(-8px);
+    border-color:var(--blue);
+    box-shadow:0 0 35px rgba(0,217,255,.18);
+}
+
+.stats-grid h3{
+    font-size:52px;
+    background:linear-gradient(
+        90deg,
+        var(--blue),
+        var(--purple)
+    );
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    margin-bottom:12px;
+}
+
+.stats-grid p{
+    color:var(--text);
+}
+
+/*==================================================
+                SCROLLBAR
+==================================================*/
+
+::-webkit-scrollbar{
+    width:10px;
+}
+
+::-webkit-scrollbar-track{
+    background:#090812;
+}
+
+::-webkit-scrollbar-thumb{
+    background:linear-gradient(
+        var(--blue),
+        var(--purple)
+    );
+    border-radius:20px;
+}
+
+/*==================================================
+                RESPONSIVE
+==================================================*/
+
+@media(max-width:900px){
+
+.hero{
+    height:420px;
+}
+
+.hero h1{
+    font-size:52px;
+}
+
+.hero p{
+    font-size:18px;
+}
+
+.description h2,
+.server-news h2,
+.gallery h2,
+.stats h2{
+    font-size:34px;
+}
+
+}
+
+@media(max-width:650px){
+
+.hero{
+    height:340px;
+}
+
+.hero h1{
+    font-size:40px;
+}
+
+.hero p{
+    font-size:16px;
+    line-height:28px;
+}
+
+.buttons{
+    flex-direction:column;
+}
+
+.buttons a{
+    text-align:center;
+}
+
+.stats-grid h3{
+    font-size:40px;
+}
+
+}
