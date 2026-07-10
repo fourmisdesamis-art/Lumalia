@@ -1,0 +1,510 @@
+/*==================================================
+                    LUMALIA
+                   BOUTIQUE
+==================================================*/
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+:root{
+    --bg:#090812;
+    --bg2:#12091f;
+
+    --blue:#00d9ff;
+    --purple:#8b5cf6;
+    --pink:#ff0f7b;
+
+    --white:#ffffff;
+    --text:#d3d3d3;
+
+    --glass:rgba(255,255,255,.05);
+    --border:rgba(255,255,255,.08);
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:"Poppins",sans-serif;
+    background:linear-gradient(180deg,var(--bg),var(--bg2));
+    color:var(--white);
+    overflow-x:hidden;
+}
+
+/*==================================================
+                BACKGROUND
+==================================================*/
+
+.background{
+    position:fixed;
+    inset:0;
+    z-index:-10;
+    overflow:hidden;
+}
+
+.stars{
+    position:absolute;
+    inset:0;
+    background-image:
+    radial-gradient(circle,#ffffff 1px,transparent 1px);
+    background-size:120px 120px;
+    opacity:.07;
+}
+
+.gradient{
+    position:absolute;
+    width:650px;
+    height:650px;
+    border-radius:50%;
+    filter:blur(150px);
+}
+
+.gradient-left{
+    top:-250px;
+    left:-250px;
+    background:var(--purple);
+    opacity:.22;
+}
+
+.gradient-right{
+    bottom:-250px;
+    right:-250px;
+    background:var(--blue);
+    opacity:.18;
+}
+
+/*==================================================
+                    NAVBAR
+==================================================*/
+
+.header{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    z-index:1000;
+    backdrop-filter:blur(18px);
+    background:rgba(10,10,20,.75);
+    border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.navbar{
+    width:min(1400px,92%);
+    height:85px;
+    margin:auto;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.logo img{
+    width:58px;
+}
+
+.nav-links{
+    display:flex;
+    list-style:none;
+    gap:35px;
+}
+
+.nav-links a{
+    color:white;
+    text-decoration:none;
+    font-weight:500;
+    position:relative;
+    transition:.3s;
+}
+
+.nav-links a::after{
+    content:"";
+    position:absolute;
+    left:0;
+    bottom:-6px;
+    width:0;
+    height:2px;
+    background:var(--blue);
+    transition:.3s;
+}
+
+.nav-links a:hover,
+.nav-links .active{
+    color:var(--blue);
+}
+
+.nav-links a:hover::after,
+.nav-links .active::after{
+    width:100%;
+}
+
+.nav-buttons{
+    display:flex;
+    gap:15px;
+}
+
+.btn-login,
+.btn-play{
+    text-decoration:none;
+    padding:12px 24px;
+    border-radius:14px;
+    font-weight:600;
+    transition:.3s;
+}
+
+.btn-login{
+    color:white;
+    background:rgba(255,255,255,.05);
+    border:1px solid var(--border);
+}
+
+.btn-play{
+    color:white;
+    background:linear-gradient(90deg,var(--blue),var(--purple));
+}
+
+.btn-login:hover,
+.btn-play:hover{
+    transform:translateY(-3px);
+    box-shadow:0 0 25px rgba(0,217,255,.25);
+}
+
+/*==================================================
+                    HERO
+==================================================*/
+
+.hero{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:160px 20px 100px;
+}
+
+.hero-content{
+    max-width:900px;
+}
+
+.hero-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    padding:10px 22px;
+    border-radius:999px;
+    background:rgba(255,255,255,.06);
+    border:1px solid var(--border);
+    color:var(--blue);
+    font-weight:600;
+    margin-bottom:30px;
+}
+
+.hero h1{
+    font-size:78px;
+    font-weight:800;
+    line-height:1.1;
+    margin-bottom:25px;
+}
+
+.hero h1 span{
+    background:linear-gradient(90deg,var(--blue),var(--purple),var(--pink));
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.hero p{
+    max-width:760px;
+    margin:0 auto 45px;
+    color:var(--text);
+    font-size:20px;
+    line-height:34px;
+}
+
+.hero-buttons{
+    display:flex;
+    justify-content:center;
+    gap:20px;
+    flex-wrap:wrap;
+}
+
+.btn-primary,
+.btn-secondary{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    padding:16px 34px;
+    border-radius:16px;
+    text-decoration:none;
+    font-weight:700;
+    transition:.35s;
+}
+
+.btn-primary{
+    color:white;
+    background:linear-gradient(90deg,var(--blue),var(--purple));
+}
+
+.btn-secondary{
+    color:white;
+    background:rgba(255,255,255,.05);
+    border:1px solid var(--border);
+}
+
+.btn-primary:hover,
+.btn-secondary:hover{
+    transform:translateY(-5px);
+    box-shadow:0 0 30px rgba(0,217,255,.25);
+}
+
+/*==================================================
+                CONTENU
+==================================================*/
+
+main{
+    width:min(1400px,92%);
+    margin:auto;
+    padding-bottom:120px;
+}
+
+.shop-section{
+    margin-bottom:120px;
+}
+
+.section-title{
+    text-align:center;
+    margin-bottom:60px;
+}
+
+.section-title span{
+    color:var(--blue);
+    font-weight:700;
+    letter-spacing:3px;
+    font-size:14px;
+}
+
+.section-title h2{
+    margin-top:15px;
+    font-size:52px;
+    font-weight:800;
+}
+
+.section-title p{
+    max-width:700px;
+    margin:20px auto 0;
+    color:var(--text);
+    line-height:30px;
+    font-size:18px;
+}
+
+/*==================================================
+                CARTES
+==================================================*/
+
+.shop-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+    gap:30px;
+}
+
+.shop-card{
+    position:relative;
+    background:var(--glass);
+    border:1px solid var(--border);
+    border-radius:24px;
+    padding:35px;
+    backdrop-filter:blur(20px);
+    transition:.35s;
+    overflow:hidden;
+}
+
+.shop-card:hover{
+    transform:translateY(-10px);
+    border-color:var(--blue);
+    box-shadow:0 0 35px rgba(0,217,255,.18);
+}
+
+.shop-icon{
+    width:80px;
+    height:80px;
+    margin:0 auto 25px;
+    border-radius:20px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,var(--blue),var(--purple));
+    font-size:34px;
+}
+
+.shop-card h3{
+    text-align:center;
+    font-size:30px;
+    margin-bottom:15px;
+}
+
+.price{
+    display:block;
+    text-align:center;
+    font-size:34px;
+    font-weight:800;
+    color:var(--blue);
+    margin-bottom:25px;
+}
+
+.shop-card ul{
+    list-style:none;
+    margin-bottom:30px;
+}
+
+.shop-card li{
+    margin:12px 0;
+    color:var(--text);
+}
+
+.shop-card li i{
+    color:var(--blue);
+    margin-right:8px;
+}
+
+.buy-button{
+    display:block;
+    text-align:center;
+    text-decoration:none;
+    color:white;
+    background:linear-gradient(90deg,var(--blue),var(--purple));
+    padding:15px;
+    border-radius:14px;
+    font-weight:700;
+    transition:.3s;
+}
+
+.buy-button:hover{
+    transform:scale(1.03);
+}
+
+/*==================================================
+                LUMACOINS
+==================================================*/
+
+.coins-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:25px;
+}
+
+.coin-card{
+    background:var(--glass);
+    border:1px solid var(--border);
+    border-radius:22px;
+    backdrop-filter:blur(20px);
+    padding:35px;
+    text-align:center;
+    transition:.35s;
+}
+
+.coin-card:hover{
+    transform:translateY(-8px);
+    border-color:var(--blue);
+    box-shadow:0 0 30px rgba(0,217,255,.2);
+}
+
+.coin-card h3{
+    font-size:42px;
+    color:var(--blue);
+    margin-bottom:10px;
+}
+
+.coin-card span{
+    display:block;
+    color:var(--text);
+    margin-bottom:18px;
+}
+
+.coin-card strong{
+    display:block;
+    font-size:28px;
+    margin-bottom:25px;
+}
+
+.coin-card a{
+    display:inline-block;
+    padding:14px 28px;
+    border-radius:14px;
+    text-decoration:none;
+    color:white;
+    font-weight:600;
+    background:linear-gradient(90deg,var(--blue),var(--purple));
+    transition:.3s;
+}
+
+.coin-card a:hover{
+    transform:scale(1.05);
+}
+
+/*==================================================
+                    FAQ
+==================================================*/
+
+.faq-container{
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+    max-width:900px;
+    margin:auto;
+}
+
+.faq-item{
+    background:var(--glass);
+    border:1px solid var(--border);
+    border-radius:20px;
+    padding:30px;
+    transition:.3s;
+}
+
+.faq-item:hover{
+    border-color:var(--blue);
+    box-shadow:0 0 25px rgba(0,217,255,.15);
+}
+
+.faq-item h3{
+    margin-bottom:12px;
+    font-size:22px;
+}
+
+.faq-item p{
+    color:var(--text);
+    line-height:28px;
+}
+
+/*==================================================
+                    FOOTER
+==================================================*/
+
+.footer{
+    padding:70px 20px;
+    border-top:1px solid var(--border);
+    background:rgba(255,255,255,.03);
+}
+
+.footer-content{
+    width:min(1400px,92%);
+    margin:auto;
+    text-align:center;
+}
+
+.footer-content img{
+    width:70px;
+    margin-bottom:20px;
+}
+
+.footer-content p{
+    color:var(--text);
+    margin-bottom:25px;
+}
+
+.footer-links{
+    display:flex;
+    justify-content:center;
+    flex
+}
