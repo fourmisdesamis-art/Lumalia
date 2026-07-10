@@ -1,605 +1,263 @@
 /*==================================================
-                    HERO
+                LUMALIA DIAMANT
 ==================================================*/
 
-.hero{
-    margin-top:90px;
-    height:650px;
-    position:relative;
+/*==================================================
+                PARALLAX
+==================================================*/
+
+const gradient1=document.querySelector(".gradient1");
+const gradient2=document.querySelector(".gradient2");
+
+document.addEventListener("mousemove",(e)=>{
+
+    const x=e.clientX/window.innerWidth;
+    const y=e.clientY/window.innerHeight;
+
+    if(gradient1){
+        gradient1.style.transform=
+        `translate(${x*35}px,${y*35}px)`;
+    }
+
+    if(gradient2){
+        gradient2.style.transform=
+        `translate(${-x*35}px,${-y*35}px)`;
+    }
+
+});
+
+/*==================================================
+            APPARITION AU SCROLL
+==================================================*/
+
+const observer=new IntersectionObserver((entries)=>{
+
+    entries.forEach(entry=>{
+
+        if(entry.isIntersecting){
+
+            entry.target.classList.add("show");
+
+        }
+
+    });
+
+},{
+    threshold:.15
+});
+
+document.querySelectorAll(
+".section,.hero-card,.stat-card,.feature-card,.news-card,.gallery-grid img,.map-card"
+).forEach(element=>{
+
+    element.classList.add("hidden");
+
+    observer.observe(element);
+
+});
+
+/*==================================================
+            ANIMATION HERO
+==================================================*/
+
+window.addEventListener("load",()=>{
+
+    const hero=document.querySelector(".hero-content");
+
+    if(hero){
+
+        hero.animate([
+
+            {
+                opacity:0,
+                transform:"translateY(60px)"
+            },
+
+            {
+                opacity:1,
+                transform:"translateY(0)"
+            }
+
+        ],{
+
+            duration:900,
+            easing:"ease-out",
+            fill:"forwards"
+
+        });
+
+    }
+
+});
+
+/*==================================================
+            COMPTEURS ANIMÉS
+==================================================*/
+
+function animateCounter(id,target){
+
+    const element=document.getElementById(id);
+
+    if(!element) return;
+
+    let current=0;
+
+    const increment=Math.max(1,Math.ceil(target/80));
+
+    function update(){
+
+        current+=increment;
+
+        if(current>=target){
+
+            element.textContent=target;
+            return;
+
+        }
+
+        element.textContent=current;
+
+        requestAnimationFrame(update);
+
+    }
+
+    update();
+
 }
 
-.hero-image{
-    position:relative;
-    width:100%;
-    height:100%;
-    background:
-        linear-gradient(rgba(5,10,25,.65),rgba(5,10,25,.85)),
-        url("../../images/diamant-banner.jpg") center/cover;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-}
+window.addEventListener("load",()=>{
 
-.overlay{
-    position:absolute;
-    inset:0;
-    background:linear-gradient(to bottom,transparent,rgba(8,9,19,.9));
-}
+    animateCounter("countriesCount",0);
+    animateCounter("citiesCount",0);
+    animateCounter("playersCount",0);
 
-.hero-content{
-    position:relative;
-    z-index:2;
-    width:min(1300px,92%);
-    display:flex;
-    align-items:center;
-    gap:60px;
-}
+});
 
-.server-icon{
-    width:180px;
-    height:180px;
-    border-radius:35px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-size:90px;
-    background:rgba(255,255,255,.08);
-    backdrop-filter:blur(20px);
-    border:1px solid var(--border);
-    box-shadow:0 0 35px rgba(0,217,255,.25);
-}
+/*==================================================
+            JOUEURS EN LIGNE
+==================================================*/
 
-.hero-content h1{
-    font-size:72px;
-    font-weight:800;
-    margin:15px 0;
-    background:linear-gradient(90deg,var(--blue),var(--purple),white);
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-}
+const onlinePlayers=document.getElementById("onlinePlayers");
 
-.hero-content p{
-    max-width:720px;
-    font-size:19px;
-    line-height:34px;
-    color:var(--text);
-}
+if(onlinePlayers){
 
-.status{
-    display:inline-flex;
-    align-items:center;
-    gap:10px;
-    padding:8px 18px;
-    border-radius:30px;
-    background:rgba(0,217,255,.12);
-    color:var(--blue);
-    font-weight:600;
-    border:1px solid rgba(0,217,255,.3);
-}
+    onlinePlayers.textContent="0 connecté";
 
-.status i{
-    font-size:10px;
 }
 
 /*==================================================
-                HERO BUTTONS
+            GALERIE PLEIN ÉCRAN
 ==================================================*/
 
-.hero-buttons{
-    display:flex;
-    gap:20px;
-    margin-top:35px;
-    flex-wrap:wrap;
-}
+document.querySelectorAll(".gallery-grid img").forEach(image=>{
 
-.play-button,
-.secondary-button{
-    padding:16px 32px;
-    border-radius:15px;
-    text-decoration:none;
-    color:white;
-    font-weight:700;
-    transition:.3s;
-}
+    image.addEventListener("click",()=>{
 
-.play-button{
-    background:linear-gradient(90deg,var(--blue),var(--purple));
-}
+        const overlay=document.createElement("div");
 
-.secondary-button{
-    background:rgba(255,255,255,.06);
-    border:1px solid var(--border);
-}
+        overlay.className="image-overlay";
 
-.play-button:hover,
-.secondary-button:hover{
-    transform:translateY(-4px);
-    box-shadow:0 0 25px rgba(0,217,255,.25);
-}
+        overlay.innerHTML=`
+            <img src="${image.src}" alt="">
+        `;
+
+        document.body.appendChild(overlay);
+
+        overlay.addEventListener("click",()=>{
+
+            overlay.remove();
+
+        });
+
+    });
+
+});
 
 /*==================================================
-                SERVER INFO
+        EFFET LUMIÈRE SUR LES CARTES
 ==================================================*/
 
-.server-info{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:18px;
-    margin-top:45px;
-}
+document.querySelectorAll(
+".hero-card,.stat-card,.feature-card,.news-card,.map-card"
+).forEach(card=>{
 
-.server-info div{
-    background:var(--glass);
-    border:1px solid var(--border);
-    backdrop-filter:blur(18px);
-    border-radius:18px;
-    padding:18px;
-}
+    card.addEventListener("mousemove",(e)=>{
 
-.server-info h3{
-    font-size:14px;
-    color:#9bb0c9;
-    margin-bottom:8px;
-    font-weight:600;
-}
+        const rect=card.getBoundingClientRect();
 
-.server-info span{
-    font-size:18px;
-    font-weight:700;
-    color:white;
-}
+        const x=e.clientX-rect.left;
+        const y=e.clientY-rect.top;
+
+        card.style.background=`
+        radial-gradient(circle at ${x}px ${y}px,
+        rgba(0,217,255,.16),
+        rgba(255,255,255,.05) 60%)
+        `;
+
+    });
+
+    card.addEventListener("mouseleave",()=>{
+
+        card.style.background="var(--glass)";
+
+    });
+
+});
 
 /*==================================================
-                MAIN LAYOUT
+            NAVBAR AU SCROLL
 ==================================================*/
 
-.main{
-    width:min(1400px,92%);
-    margin:70px auto;
-    display:grid;
-    grid-template-columns:280px 1fr;
-    gap:35px;
-}
+const header=document.querySelector(".header");
 
-.sidebar{
-    position:sticky;
-    top:110px;
-    height:fit-content;
-    background:var(--glass);
-    border:1px solid var(--border);
-    border-radius:22px;
-    padding:25px;
-    backdrop-filter:blur(20px);
-}
+window.addEventListener("scroll",()=>{
 
-.sidebar h3{
-    margin-bottom:20px;
-    font-size:24px;
-}
+    if(!header) return;
 
-.sidebar ul{
-    list-style:none;
-}
+    if(window.scrollY>80){
 
-.sidebar li{
-    margin-bottom:8px;
-}
+        header.style.background="rgba(8,8,18,.92)";
+        header.style.backdropFilter="blur(22px)";
+        header.style.boxShadow="0 10px 35px rgba(0,0,0,.35)";
 
-.sidebar a{
-    display:block;
-    padding:14px 16px;
-    border-radius:12px;
-    text-decoration:none;
-    color:var(--text);
-    transition:.3s;
-}
+    }else{
 
-.sidebar li.active a,
-.sidebar a:hover{
-    background:rgba(0,217,255,.12);
-    color:white;
-}
+        header.style.background="rgba(10,10,20,.75)";
+        header.style.backdropFilter="blur(18px)";
+        header.style.boxShadow="none";
+
+    }
+
+});
 
 /*==================================================
-                    HERO
+        SCROLL FLUIDE DES ANCRES
 ==================================================*/
 
-.hero{
-    margin-top:90px;
-    height:650px;
-    position:relative;
-}
+document.querySelectorAll('a[href^="#"]').forEach(anchor=>{
 
-.hero-image{
-    position:relative;
-    width:100%;
-    height:100%;
-    background:
-        linear-gradient(rgba(5,10,25,.65),rgba(5,10,25,.85)),
-        url("../../images/diamant-banner.jpg") center/cover;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-}
+    anchor.addEventListener("click",(e)=>{
 
-.overlay{
-    position:absolute;
-    inset:0;
-    background:linear-gradient(to bottom,transparent,rgba(8,9,19,.9));
-}
+        const target=document.querySelector(anchor.getAttribute("href"));
 
-.hero-content{
-    position:relative;
-    z-index:2;
-    width:min(1300px,92%);
-    display:flex;
-    align-items:center;
-    gap:60px;
-}
+        if(!target) return;
 
-.server-icon{
-    width:180px;
-    height:180px;
-    border-radius:35px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-size:90px;
-    background:rgba(255,255,255,.08);
-    backdrop-filter:blur(20px);
-    border:1px solid var(--border);
-    box-shadow:0 0 35px rgba(0,217,255,.25);
-}
+        e.preventDefault();
 
-.hero-content h1{
-    font-size:72px;
-    font-weight:800;
-    margin:15px 0;
-    background:linear-gradient(90deg,var(--blue),var(--purple),white);
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-}
+        target.scrollIntoView({
 
-.hero-content p{
-    max-width:720px;
-    font-size:19px;
-    line-height:34px;
-    color:var(--text);
-}
+            behavior:"smooth",
+            block:"start"
 
-.status{
-    display:inline-flex;
-    align-items:center;
-    gap:10px;
-    padding:8px 18px;
-    border-radius:30px;
-    background:rgba(0,217,255,.12);
-    color:var(--blue);
-    font-weight:600;
-    border:1px solid rgba(0,217,255,.3);
-}
+        });
 
-.status i{
-    font-size:10px;
-}
+    });
+
+});
 
 /*==================================================
-                HERO BUTTONS
+            COPYRIGHT
 ==================================================*/
 
-.hero-buttons{
-    display:flex;
-    gap:20px;
-    margin-top:35px;
-    flex-wrap:wrap;
-}
-
-.play-button,
-.secondary-button{
-    padding:16px 32px;
-    border-radius:15px;
-    text-decoration:none;
-    color:white;
-    font-weight:700;
-    transition:.3s;
-}
-
-.play-button{
-    background:linear-gradient(90deg,var(--blue),var(--purple));
-}
-
-.secondary-button{
-    background:rgba(255,255,255,.06);
-    border:1px solid var(--border);
-}
-
-.play-button:hover,
-.secondary-button:hover{
-    transform:translateY(-4px);
-    box-shadow:0 0 25px rgba(0,217,255,.25);
-}
-
-/*==================================================
-                SERVER INFO
-==================================================*/
-
-.server-info{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:18px;
-    margin-top:45px;
-}
-
-.server-info div{
-    background:var(--glass);
-    border:1px solid var(--border);
-    backdrop-filter:blur(18px);
-    border-radius:18px;
-    padding:18px;
-}
-
-.server-info h3{
-    font-size:14px;
-    color:#9bb0c9;
-    margin-bottom:8px;
-    font-weight:600;
-}
-
-.server-info span{
-    font-size:18px;
-    font-weight:700;
-    color:white;
-}
-
-/*==================================================
-                MAIN LAYOUT
-==================================================*/
-
-.main{
-    width:min(1400px,92%);
-    margin:70px auto;
-    display:grid;
-    grid-template-columns:280px 1fr;
-    gap:35px;
-}
-
-.sidebar{
-    position:sticky;
-    top:110px;
-    height:fit-content;
-    background:var(--glass);
-    border:1px solid var(--border);
-    border-radius:22px;
-    padding:25px;
-    backdrop-filter:blur(20px);
-}
-
-.sidebar h3{
-    margin-bottom:20px;
-    font-size:24px;
-}
-
-.sidebar ul{
-    list-style:none;
-}
-
-.sidebar li{
-    margin-bottom:8px;
-}
-
-.sidebar a{
-    display:block;
-    padding:14px 16px;
-    border-radius:12px;
-    text-decoration:none;
-    color:var(--text);
-    transition:.3s;
-}
-
-.sidebar li.active a,
-.sidebar a:hover{
-    background:rgba(0,217,255,.12);
-    color:white;
-}
-
-/*==================================================
-                    HERO
-==================================================*/
-
-.hero{
-    margin-top:90px;
-    height:650px;
-    position:relative;
-}
-
-.hero-image{
-    position:relative;
-    width:100%;
-    height:100%;
-    background:
-        linear-gradient(rgba(5,10,25,.65),rgba(5,10,25,.85)),
-        url("../../images/diamant-banner.jpg") center/cover;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-}
-
-.overlay{
-    position:absolute;
-    inset:0;
-    background:linear-gradient(to bottom,transparent,rgba(8,9,19,.9));
-}
-
-.hero-content{
-    position:relative;
-    z-index:2;
-    width:min(1300px,92%);
-    display:flex;
-    align-items:center;
-    gap:60px;
-}
-
-.server-icon{
-    width:180px;
-    height:180px;
-    border-radius:35px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-size:90px;
-    background:rgba(255,255,255,.08);
-    backdrop-filter:blur(20px);
-    border:1px solid var(--border);
-    box-shadow:0 0 35px rgba(0,217,255,.25);
-}
-
-.hero-content h1{
-    font-size:72px;
-    font-weight:800;
-    margin:15px 0;
-    background:linear-gradient(90deg,var(--blue),var(--purple),white);
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-}
-
-.hero-content p{
-    max-width:720px;
-    font-size:19px;
-    line-height:34px;
-    color:var(--text);
-}
-
-.status{
-    display:inline-flex;
-    align-items:center;
-    gap:10px;
-    padding:8px 18px;
-    border-radius:30px;
-    background:rgba(0,217,255,.12);
-    color:var(--blue);
-    font-weight:600;
-    border:1px solid rgba(0,217,255,.3);
-}
-
-.status i{
-    font-size:10px;
-}
-
-/*==================================================
-                HERO BUTTONS
-==================================================*/
-
-.hero-buttons{
-    display:flex;
-    gap:20px;
-    margin-top:35px;
-    flex-wrap:wrap;
-}
-
-.play-button,
-.secondary-button{
-    padding:16px 32px;
-    border-radius:15px;
-    text-decoration:none;
-    color:white;
-    font-weight:700;
-    transition:.3s;
-}
-
-.play-button{
-    background:linear-gradient(90deg,var(--blue),var(--purple));
-}
-
-.secondary-button{
-    background:rgba(255,255,255,.06);
-    border:1px solid var(--border);
-}
-
-.play-button:hover,
-.secondary-button:hover{
-    transform:translateY(-4px);
-    box-shadow:0 0 25px rgba(0,217,255,.25);
-}
-
-/*==================================================
-                SERVER INFO
-==================================================*/
-
-.server-info{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:18px;
-    margin-top:45px;
-}
-
-.server-info div{
-    background:var(--glass);
-    border:1px solid var(--border);
-    backdrop-filter:blur(18px);
-    border-radius:18px;
-    padding:18px;
-}
-
-.server-info h3{
-    font-size:14px;
-    color:#9bb0c9;
-    margin-bottom:8px;
-    font-weight:600;
-}
-
-.server-info span{
-    font-size:18px;
-    font-weight:700;
-    color:white;
-}
-
-/*==================================================
-                MAIN LAYOUT
-==================================================*/
-
-.main{
-    width:min(1400px,92%);
-    margin:70px auto;
-    display:grid;
-    grid-template-columns:280px 1fr;
-    gap:35px;
-}
-
-.sidebar{
-    position:sticky;
-    top:110px;
-    height:fit-content;
-    background:var(--glass);
-    border:1px solid var(--border);
-    border-radius:22px;
-    padding:25px;
-    backdrop-filter:blur(20px);
-}
-
-.sidebar h3{
-    margin-bottom:20px;
-    font-size:24px;
-}
-
-.sidebar ul{
-    list-style:none;
-}
-
-.sidebar li{
-    margin-bottom:8px;
-}
-
-.sidebar a{
-    display:block;
-    padding:14px 16px;
-    border-radius:12px;
-    text-decoration:none;
-    color:var(--text);
-    transition:.3s;
-}
-
-.sidebar li.active a,
-.sidebar a:hover{
-    background:rgba(0,217,255,.12);
-    color:white;
-}
+console.log("%cLumalia","font-size:22px;color:#00d9ff;font-weight:bold;");
+console.log("%cServeur Diamant chargé avec succès !","color:#8b5cf6;");
