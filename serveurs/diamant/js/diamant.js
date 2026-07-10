@@ -1,289 +1,605 @@
 /*==================================================
-                LUMALIA DIAMANT
+                    HERO
 ==================================================*/
+
+.hero{
+    margin-top:90px;
+    height:650px;
+    position:relative;
+}
+
+.hero-image{
+    position:relative;
+    width:100%;
+    height:100%;
+    background:
+        linear-gradient(rgba(5,10,25,.65),rgba(5,10,25,.85)),
+        url("../../images/diamant-banner.jpg") center/cover;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.overlay{
+    position:absolute;
+    inset:0;
+    background:linear-gradient(to bottom,transparent,rgba(8,9,19,.9));
+}
+
+.hero-content{
+    position:relative;
+    z-index:2;
+    width:min(1300px,92%);
+    display:flex;
+    align-items:center;
+    gap:60px;
+}
+
+.server-icon{
+    width:180px;
+    height:180px;
+    border-radius:35px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:90px;
+    background:rgba(255,255,255,.08);
+    backdrop-filter:blur(20px);
+    border:1px solid var(--border);
+    box-shadow:0 0 35px rgba(0,217,255,.25);
+}
+
+.hero-content h1{
+    font-size:72px;
+    font-weight:800;
+    margin:15px 0;
+    background:linear-gradient(90deg,var(--blue),var(--purple),white);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.hero-content p{
+    max-width:720px;
+    font-size:19px;
+    line-height:34px;
+    color:var(--text);
+}
+
+.status{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    padding:8px 18px;
+    border-radius:30px;
+    background:rgba(0,217,255,.12);
+    color:var(--blue);
+    font-weight:600;
+    border:1px solid rgba(0,217,255,.3);
+}
+
+.status i{
+    font-size:10px;
+}
 
 /*==================================================
-                PARALLAX
+                HERO BUTTONS
 ==================================================*/
 
-const gradient1=document.querySelector(".gradient1");
-const gradient2=document.querySelector(".gradient2");
+.hero-buttons{
+    display:flex;
+    gap:20px;
+    margin-top:35px;
+    flex-wrap:wrap;
+}
 
-document.addEventListener("mousemove",(e)=>{
+.play-button,
+.secondary-button{
+    padding:16px 32px;
+    border-radius:15px;
+    text-decoration:none;
+    color:white;
+    font-weight:700;
+    transition:.3s;
+}
 
-    const x=e.clientX/window.innerWidth;
-    const y=e.clientY/window.innerHeight;
+.play-button{
+    background:linear-gradient(90deg,var(--blue),var(--purple));
+}
 
-    gradient1.style.transform=
-    `translate(${x*40}px,${y*40}px)`;
+.secondary-button{
+    background:rgba(255,255,255,.06);
+    border:1px solid var(--border);
+}
 
-    gradient2.style.transform=
-    `translate(${-x*40}px,${-y*40}px)`;
-
-});
+.play-button:hover,
+.secondary-button:hover{
+    transform:translateY(-4px);
+    box-shadow:0 0 25px rgba(0,217,255,.25);
+}
 
 /*==================================================
-            APPARITION AU SCROLL
+                SERVER INFO
 ==================================================*/
 
-const observer=new IntersectionObserver((entries)=>{
+.server-info{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+    margin-top:45px;
+}
 
-    entries.forEach(entry=>{
+.server-info div{
+    background:var(--glass);
+    border:1px solid var(--border);
+    backdrop-filter:blur(18px);
+    border-radius:18px;
+    padding:18px;
+}
 
-        if(entry.isIntersecting){
+.server-info h3{
+    font-size:14px;
+    color:#9bb0c9;
+    margin-bottom:8px;
+    font-weight:600;
+}
 
-            entry.target.classList.add("show");
-
-        }
-
-    });
-
-},{
-    threshold:.15
-});
-
-document.querySelectorAll(
-    ".info-card,.news-grid article,.stats-grid div,.gallery-grid img"
-).forEach(el=>{
-
-    el.classList.add("hidden");
-
-    observer.observe(el);
-
-});
+.server-info span{
+    font-size:18px;
+    font-weight:700;
+    color:white;
+}
 
 /*==================================================
-            COMPTEURS ANIMÉS
+                MAIN LAYOUT
 ==================================================*/
 
-const counters=document.querySelectorAll(".stats-grid h3");
+.main{
+    width:min(1400px,92%);
+    margin:70px auto;
+    display:grid;
+    grid-template-columns:280px 1fr;
+    gap:35px;
+}
 
-const counterObserver=new IntersectionObserver((entries)=>{
+.sidebar{
+    position:sticky;
+    top:110px;
+    height:fit-content;
+    background:var(--glass);
+    border:1px solid var(--border);
+    border-radius:22px;
+    padding:25px;
+    backdrop-filter:blur(20px);
+}
 
-    entries.forEach(entry=>{
+.sidebar h3{
+    margin-bottom:20px;
+    font-size:24px;
+}
 
-        if(!entry.isIntersecting) return;
+.sidebar ul{
+    list-style:none;
+}
 
-        const counter=entry.target;
+.sidebar li{
+    margin-bottom:8px;
+}
 
-        const target=parseInt(counter.dataset.target)||0;
+.sidebar a{
+    display:block;
+    padding:14px 16px;
+    border-radius:12px;
+    text-decoration:none;
+    color:var(--text);
+    transition:.3s;
+}
 
-        let current=0;
-
-        const increment=Math.max(1,Math.ceil(target/80));
-
-        const update=()=>{
-
-            current+=increment;
-
-            if(current>=target){
-
-                counter.textContent=target;
-
-                return;
-
-            }
-
-            counter.textContent=current;
-
-            requestAnimationFrame(update);
-
-        };
-
-        update();
-
-        counterObserver.unobserve(counter);
-
-    });
-
-},{
-    threshold:.5
-});
-
-counters.forEach(counter=>{
-
-    counterObserver.observe(counter);
-
-});
+.sidebar li.active a,
+.sidebar a:hover{
+    background:rgba(0,217,255,.12);
+    color:white;
+}
 
 /*==================================================
-            GALERIE PLEIN ÉCRAN
+                    HERO
 ==================================================*/
 
-const galleryImages=document.querySelectorAll(".gallery-grid img");
+.hero{
+    margin-top:90px;
+    height:650px;
+    position:relative;
+}
 
-galleryImages.forEach(img=>{
+.hero-image{
+    position:relative;
+    width:100%;
+    height:100%;
+    background:
+        linear-gradient(rgba(5,10,25,.65),rgba(5,10,25,.85)),
+        url("../../images/diamant-banner.jpg") center/cover;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
 
-    img.addEventListener("click",()=>{
+.overlay{
+    position:absolute;
+    inset:0;
+    background:linear-gradient(to bottom,transparent,rgba(8,9,19,.9));
+}
 
-        const overlay=document.createElement("div");
+.hero-content{
+    position:relative;
+    z-index:2;
+    width:min(1300px,92%);
+    display:flex;
+    align-items:center;
+    gap:60px;
+}
 
-        overlay.className="image-overlay";
+.server-icon{
+    width:180px;
+    height:180px;
+    border-radius:35px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:90px;
+    background:rgba(255,255,255,.08);
+    backdrop-filter:blur(20px);
+    border:1px solid var(--border);
+    box-shadow:0 0 35px rgba(0,217,255,.25);
+}
 
-        overlay.innerHTML=`
-            <img src="${img.src}" alt="">
-        `;
+.hero-content h1{
+    font-size:72px;
+    font-weight:800;
+    margin:15px 0;
+    background:linear-gradient(90deg,var(--blue),var(--purple),white);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
 
-        document.body.appendChild(overlay);
+.hero-content p{
+    max-width:720px;
+    font-size:19px;
+    line-height:34px;
+    color:var(--text);
+}
 
-        overlay.addEventListener("click",()=>{
+.status{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    padding:8px 18px;
+    border-radius:30px;
+    background:rgba(0,217,255,.12);
+    color:var(--blue);
+    font-weight:600;
+    border:1px solid rgba(0,217,255,.3);
+}
 
-            overlay.remove();
-
-        });
-
-    });
-
-});
+.status i{
+    font-size:10px;
+}
 
 /*==================================================
-        EFFET LUMIÈRE SUR LES CARTES
+                HERO BUTTONS
 ==================================================*/
 
-document.querySelectorAll(
-".info-card,.news-grid article,.stats-grid div"
-).forEach(card=>{
+.hero-buttons{
+    display:flex;
+    gap:20px;
+    margin-top:35px;
+    flex-wrap:wrap;
+}
 
-    card.addEventListener("mousemove",(e)=>{
+.play-button,
+.secondary-button{
+    padding:16px 32px;
+    border-radius:15px;
+    text-decoration:none;
+    color:white;
+    font-weight:700;
+    transition:.3s;
+}
 
-        const rect=card.getBoundingClientRect();
+.play-button{
+    background:linear-gradient(90deg,var(--blue),var(--purple));
+}
 
-        const x=e.clientX-rect.left;
-        const y=e.clientY-rect.top;
+.secondary-button{
+    background:rgba(255,255,255,.06);
+    border:1px solid var(--border);
+}
 
-        card.style.background=`
-        radial-gradient(circle at ${x}px ${y}px,
-        rgba(0,217,255,.15),
-        rgba(255,255,255,.05) 45%)
-        `;
-
-    });
-
-    card.addEventListener("mouseleave",()=>{
-
-        card.style.background="var(--glass)";
-
-    });
-
-});
+.play-button:hover,
+.secondary-button:hover{
+    transform:translateY(-4px);
+    box-shadow:0 0 25px rgba(0,217,255,.25);
+}
 
 /*==================================================
-            HERO ANIMATION
+                SERVER INFO
 ==================================================*/
 
-window.addEventListener("load",()=>{
+.server-info{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+    margin-top:45px;
+}
 
-    const hero=document.querySelector(".hero-content");
+.server-info div{
+    background:var(--glass);
+    border:1px solid var(--border);
+    backdrop-filter:blur(18px);
+    border-radius:18px;
+    padding:18px;
+}
 
-    hero.animate([
+.server-info h3{
+    font-size:14px;
+    color:#9bb0c9;
+    margin-bottom:8px;
+    font-weight:600;
+}
 
-        {
-            opacity:0,
-            transform:"translateY(60px)"
-        },
-
-        {
-            opacity:1,
-            transform:"translateY(0)"
-        }
-
-    ],{
-
-        duration:900,
-        easing:"ease-out",
-        fill:"forwards"
-
-    });
-
-});
+.server-info span{
+    font-size:18px;
+    font-weight:700;
+    color:white;
+}
 
 /*==================================================
-            GALERIE PLEIN ÉCRAN
+                MAIN LAYOUT
 ==================================================*/
 
-const galleryImages=document.querySelectorAll(".gallery-grid img");
+.main{
+    width:min(1400px,92%);
+    margin:70px auto;
+    display:grid;
+    grid-template-columns:280px 1fr;
+    gap:35px;
+}
 
-galleryImages.forEach(img=>{
+.sidebar{
+    position:sticky;
+    top:110px;
+    height:fit-content;
+    background:var(--glass);
+    border:1px solid var(--border);
+    border-radius:22px;
+    padding:25px;
+    backdrop-filter:blur(20px);
+}
 
-    img.addEventListener("click",()=>{
+.sidebar h3{
+    margin-bottom:20px;
+    font-size:24px;
+}
 
-        const overlay=document.createElement("div");
+.sidebar ul{
+    list-style:none;
+}
 
-        overlay.className="image-overlay";
+.sidebar li{
+    margin-bottom:8px;
+}
 
-        overlay.innerHTML=`
-            <img src="${img.src}" alt="">
-        `;
+.sidebar a{
+    display:block;
+    padding:14px 16px;
+    border-radius:12px;
+    text-decoration:none;
+    color:var(--text);
+    transition:.3s;
+}
 
-        document.body.appendChild(overlay);
-
-        overlay.addEventListener("click",()=>{
-
-            overlay.remove();
-
-        });
-
-    });
-
-});
+.sidebar li.active a,
+.sidebar a:hover{
+    background:rgba(0,217,255,.12);
+    color:white;
+}
 
 /*==================================================
-        EFFET LUMIÈRE SUR LES CARTES
+                    HERO
 ==================================================*/
 
-document.querySelectorAll(
-".info-card,.news-grid article,.stats-grid div"
-).forEach(card=>{
+.hero{
+    margin-top:90px;
+    height:650px;
+    position:relative;
+}
 
-    card.addEventListener("mousemove",(e)=>{
+.hero-image{
+    position:relative;
+    width:100%;
+    height:100%;
+    background:
+        linear-gradient(rgba(5,10,25,.65),rgba(5,10,25,.85)),
+        url("../../images/diamant-banner.jpg") center/cover;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
 
-        const rect=card.getBoundingClientRect();
+.overlay{
+    position:absolute;
+    inset:0;
+    background:linear-gradient(to bottom,transparent,rgba(8,9,19,.9));
+}
 
-        const x=e.clientX-rect.left;
-        const y=e.clientY-rect.top;
+.hero-content{
+    position:relative;
+    z-index:2;
+    width:min(1300px,92%);
+    display:flex;
+    align-items:center;
+    gap:60px;
+}
 
-        card.style.background=`
-        radial-gradient(circle at ${x}px ${y}px,
-        rgba(0,217,255,.15),
-        rgba(255,255,255,.05) 45%)
-        `;
+.server-icon{
+    width:180px;
+    height:180px;
+    border-radius:35px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:90px;
+    background:rgba(255,255,255,.08);
+    backdrop-filter:blur(20px);
+    border:1px solid var(--border);
+    box-shadow:0 0 35px rgba(0,217,255,.25);
+}
 
-    });
+.hero-content h1{
+    font-size:72px;
+    font-weight:800;
+    margin:15px 0;
+    background:linear-gradient(90deg,var(--blue),var(--purple),white);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
 
-    card.addEventListener("mouseleave",()=>{
+.hero-content p{
+    max-width:720px;
+    font-size:19px;
+    line-height:34px;
+    color:var(--text);
+}
 
-        card.style.background="var(--glass)";
+.status{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    padding:8px 18px;
+    border-radius:30px;
+    background:rgba(0,217,255,.12);
+    color:var(--blue);
+    font-weight:600;
+    border:1px solid rgba(0,217,255,.3);
+}
 
-    });
-
-});
+.status i{
+    font-size:10px;
+}
 
 /*==================================================
-            HERO ANIMATION
+                HERO BUTTONS
 ==================================================*/
 
-window.addEventListener("load",()=>{
+.hero-buttons{
+    display:flex;
+    gap:20px;
+    margin-top:35px;
+    flex-wrap:wrap;
+}
 
-    const hero=document.querySelector(".hero-content");
+.play-button,
+.secondary-button{
+    padding:16px 32px;
+    border-radius:15px;
+    text-decoration:none;
+    color:white;
+    font-weight:700;
+    transition:.3s;
+}
 
-    hero.animate([
+.play-button{
+    background:linear-gradient(90deg,var(--blue),var(--purple));
+}
 
-        {
-            opacity:0,
-            transform:"translateY(60px)"
-        },
+.secondary-button{
+    background:rgba(255,255,255,.06);
+    border:1px solid var(--border);
+}
 
-        {
-            opacity:1,
-            transform:"translateY(0)"
-        }
+.play-button:hover,
+.secondary-button:hover{
+    transform:translateY(-4px);
+    box-shadow:0 0 25px rgba(0,217,255,.25);
+}
 
-    ],{
+/*==================================================
+                SERVER INFO
+==================================================*/
 
-        duration:900,
-        easing:"ease-out",
-        fill:"forwards"
+.server-info{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+    margin-top:45px;
+}
 
-    });
+.server-info div{
+    background:var(--glass);
+    border:1px solid var(--border);
+    backdrop-filter:blur(18px);
+    border-radius:18px;
+    padding:18px;
+}
 
-});
+.server-info h3{
+    font-size:14px;
+    color:#9bb0c9;
+    margin-bottom:8px;
+    font-weight:600;
+}
+
+.server-info span{
+    font-size:18px;
+    font-weight:700;
+    color:white;
+}
+
+/*==================================================
+                MAIN LAYOUT
+==================================================*/
+
+.main{
+    width:min(1400px,92%);
+    margin:70px auto;
+    display:grid;
+    grid-template-columns:280px 1fr;
+    gap:35px;
+}
+
+.sidebar{
+    position:sticky;
+    top:110px;
+    height:fit-content;
+    background:var(--glass);
+    border:1px solid var(--border);
+    border-radius:22px;
+    padding:25px;
+    backdrop-filter:blur(20px);
+}
+
+.sidebar h3{
+    margin-bottom:20px;
+    font-size:24px;
+}
+
+.sidebar ul{
+    list-style:none;
+}
+
+.sidebar li{
+    margin-bottom:8px;
+}
+
+.sidebar a{
+    display:block;
+    padding:14px 16px;
+    border-radius:12px;
+    text-decoration:none;
+    color:var(--text);
+    transition:.3s;
+}
+
+.sidebar li.active a,
+.sidebar a:hover{
+    background:rgba(0,217,255,.12);
+    color:white;
+}
