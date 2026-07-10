@@ -6,24 +6,24 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Serveurs • Lumalia</title>
+<title>Serveur Diamant • Lumalia</title>
 
-<link rel="icon" href="../logo-lumalia.png">
+<link rel="icon" href="../../logo-lumalia.png">
 
-<link rel="stylesheet" href="css/serveurs.css">
+<link rel="stylesheet" href="diamant.css">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
-
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
 </head>
 
 <body>
+
+<!-- ================= BACKGROUND ================= -->
 
 <div class="background">
 
@@ -35,310 +35,439 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
 
 </div>
 
+<!-- ================= NAVBAR ================= -->
+
 <header class="header">
 
-    <nav class="navbar">
+<nav class="navbar">
 
-        <a href="../index.html" class="logo">
-            <img src="../logo-lumalia.png" alt="Lumalia">
-        </a>
+<a href="../../index.html" class="logo">
 
-        <ul class="nav-links">
+<img src="../../logo-lumalia.png" alt="Logo Lumalia">
 
-            <li><a href="../articles/">Articles</a></li>
+</a>
 
-            <li><a href="../serveurs/" class="active">Serveurs</a></li>
+<ul class="nav-links">
 
-            <li><a href="../wiki/">Wiki</a></li>
+<li><a href="../../articles/">Articles</a></li>
 
-            <li><a href="../forum/">Forum</a></li>
+<li><a href="../" class="active">Serveurs</a></li>
 
-            <li><a href="../vote/">Voter</a></li>
+<li><a href="../../wiki/">Wiki</a></li>
 
-            <li><a href="../boutique/">Boutique</a></li>
+<li><a href="../../forum/">Forum</a></li>
 
-        </ul>
+<li><a href="../../vote/">Voter</a></li>
 
-        <div class="nav-buttons">
+<li><a href="../../boutique/">Boutique</a></li>
 
-            <a href="../connexion/" class="btn-login">
-                Connexion
-            </a>
+</ul>
 
-            <a href="../jouer/" class="btn-play">
-                Jouer
-            </a>
+<div class="nav-buttons">
 
-        </div>
+<a href="../../connexion/" class="btn-login">
 
-    </nav>
+Connexion
+
+</a>
+
+<a href="../../jouer/" class="btn-play">
+
+Jouer
+
+</a>
+
+</div>
+
+</nav>
 
 </header>
 
+<!-- ================= HERO ================= -->
+
 <section class="hero">
 
-<span class="badge">
+<div class="hero-overlay"></div>
 
-<i class="fa-solid fa-server"></i>
+<div class="hero-content">
 
-Les serveurs Lumalia
+<div class="server-badge">
+
+💎
+
+</div>
+
+<span class="server-status">
+
+<i class="fa-solid fa-circle"></i>
+
+Serveur ouvert
 
 </span>
 
 <h1>
 
-Choisis ton aventure
+Serveur Diamant
 
 </h1>
 
 <p>
 
-Chaque serveur possède son propre univers, son économie et son gameplay.
-Découvre celui qui te correspond et commence ton aventure dès aujourd'hui.
+Le premier serveur officiel de Lumalia.
+Construis ton pays, développe tes villes, crée ton histoire et rejoins une communauté unique.
 
 </p>
 
+<div class="hero-buttons">
+
+<a href="#" class="play-button">
+
+<i class="fa-solid fa-play"></i>
+
+Jouer
+
+</a>
+
+<a href="#about" class="discover-button">
+
+Découvrir
+
+</a>
+
+</div>
+
+<div class="hero-stats">
+
+<div class="hero-card">
+
+<i class="fa-solid fa-server"></i>
+
+<h3>Adresse IP</h3>
+
+<p>play.lumania.fr</p>
+
+</div>
+
+<div class="hero-card">
+
+<i class="fa-solid fa-gamepad"></i>
+
+<h3>Version</h3>
+
+<p>1.21.x</p>
+
+</div>
+
+<div class="hero-card">
+
+<i class="fa-solid fa-users"></i>
+
+<h3>Joueurs</h3>
+
+<p id="onlinePlayers">0 connecté</p>
+
+</div>
+
+<div class="hero-card">
+
+<i class="fa-solid fa-earth-europe"></i>
+
+<h3>Mode</h3>
+
+<p>Pays • Villes • Factions</p>
+
+</div>
+
+</div>
+
+</div>
+
 </section>
 
-<section class="servers">
+<!-- ================= CONTENU ================= -->
 
-<!-- ========================= -->
-<!-- SERVEUR DIAMANT -->
-<!-- ========================= -->
+<main class="main">
 
-<div class="server-card">
+<section class="section" id="about">
 
-    <div class="server-image">
+<div class="section-title">
 
-        <img src="../lumalia-diamant.png" alt="Lumalia">
+<span>Présentation</span>
 
-        <span class="status online">
-            <i class="fa-solid fa-circle"></i>
-            Pas en ligne
-        </span>
-
-    </div>
-
-    <div class="server-content">
-
-        <h2>💎 Serveur Diamant</h2>
-
-        <p>
-
-            Le premier serveur de Lumalia, sur le thème des Royaumes de feu avec des constructions qui seront incroyables
-
-        </p>
-
-        <div class="server-tags">
-
-            <span>Économie</span>
-            <span>Factions</span>
-            <span>Pays</span>
-            <span>Villes</span>
-            <span>Spawn Thème</span>
-            <span>Java</span>
-
-        </div>
-
-        <a href="diamant/" class="server-button">
-
-            Voir le serveur
-
-            <i class="fa-solid fa-arrow-right"></i>
-
-        </a>
-
-    </div>
+<h2>Bienvenue sur le Serveur Diamant</h2>
 
 </div>
 
-<!-- ========================= -->
-<!-- SERVEUR OR -->
-<!-- ========================= -->
+<p class="section-text">
 
-<div class="server-card">
+Le serveur <strong>Diamant</strong> est le premier serveur officiel de Lumalia.
 
-    <div class="server-image">
+Il propose une expérience géopolitique unique où chaque joueur peut créer son propre pays, développer des villes, gérer son économie, conclure des alliances ou déclarer des guerres.
 
-        <img src="../lumalia-or.png" alt="Lumalia">
+Tout est pensé pour construire une véritable histoire avec les autres joueurs.
 
-        <span class="status online">
-            <i class="fa-solid fa-circle"></i>
-            Pas encore ouvert
-        </span>
+</p>
 
-    </div>
+<div class="stats-grid">
 
-    <div class="server-content">
+<div class="stat-card">
 
-        <h2>🥇 Serveur Or</h2>
+<h3 id="countriesCount">0</h3>
 
-        <p>
-
-            Un serveur meirveilleux sur le thème d'Harry Potther 
-
-        </p>
-
-        <div class="server-tags">
-
-            <span>Économie</span>
-            <span>Factions</span>
-            <span>Pays</span>
-            <span>Villes</span>
-            <span>Spawn</span>
-            <span>Java</span>
-
-        </div>
-
-        <a href="or/" class="server-button">
-
-            Voir le serveur
-
-            <i class="fa-solid fa-arrow-right"></i>
-
-        </a>
-
-    </div>
+<span>Pays</span>
 
 </div>
 
-<!-- ========================= -->
-<!-- SERVEUR CHARBON -->
-<!-- ========================= -->
+<div class="stat-card">
 
-<div class="server-card">
+<h3 id="citiesCount">0</h3>
 
-    <div class="server-image">
-
-        <img src="../lumalia-charbon.png" alt="Lumalia">
-
-        <span class="status online">
-            <i class="fa-solid fa-circle"></i>
-            Pas encore ouvert
-        </span>
-
-    </div>
-
-    <div class="server-content">
-
-        <h2>⚫ Serveur Charbon</h2>
-
-        <p>
-
-            Le premier serveur de Lumalia en Bedrock, il n'a pas encore de thème défini
-
-        </p>
-
-        <div class="server-tags">
-
-            <span>Économie</span>
-            <span>Factions</span>
-            <span>Pays</span>
-            <span>Villes</span>
-            <span>Spawn</span>
-            <span>Bedrock</span>
-
-        </div>
-
-        <a href="charbon/" class="server-button">
-
-            Voir le serveur
-
-            <i class="fa-solid fa-arrow-right"></i>
-
-        </a>
-
-    </div>
+<span>Villes</span>
 
 </div>
 
-</section><!-- ===================================== -->
-<!-- SERVEURS -->
-<!-- ===================================== -->
+<div class="stat-card">
 
-<section class="servers-grid">
+<h3 id="playersCount">0</h3>
 
-    <!-- Diamant -->
-    <div class="server-card">
-        <img src="../lumalia-diamant.png" alt="Serveur Diamant">
+<span>Joueurs inscrits</span>
 
-        <div class="server-content">
-            <h2>💎 Diamant</h2>
+</div>
 
-            <p>
-                Le premier serveur de Lumalia
-                sur le thème des Royaumes de Feu
-            </p>
+<div class="stat-card">
 
-            <ul>
-                <li>✔ Économie</li>
-                <li>✔ Pays & Villes</li>
-                <li>✔ Guerre</li>
-                <li>✔ Diplomatie</li>
-            </ul>
+<h3>24/7</h3>
 
-            <a href="diamant/" class="server-button">
-                Voir le serveur
-            </a>
-        </div>
-    </div>
+<span>Disponibilité</span>
 
-    <!-- Or -->
-    <div class="server-card">
-        <img src="../lumalia-or.png" alt="Serveur Or">
+</div>
 
-        <div class="server-content">
-            <h2>🥇 Or</h2>
+</div>
 
-            <p>
-                Le deuxième serveur de Lumalia sur le
-                thème d'Harry Potter
-            </p>
+</section>
 
-            <ul>
-                <li>✔ Économie</li>
-                <li>✔ Métiers</li>
-                <li>✔ Quêtes</li>
-                <li>✔ Boutique</li>
-            </ul>
+<section class="section">
 
-            <a href="or/" class="server-button">
-                Voir le serveur
-            </a>
-        </div>
-    </div>
+<div class="section-title">
 
-    <!-- Charbon -->
-    <div class="server-card">
-        <img src="../lumalia-charbon.png" alt="Serveur Charbon">
+<span>Fonctionnalités</span>
 
-        <div class="server-content">
-            <h2>⚫ Charbon</h2>
+<h2>Une aventure unique</h2>
 
-            <p>
-                Le premier serveur de Lumalia
-                en Bedrock
-            </p>
+</div>
 
-            <ul>
-                <li>✔ Débutants</li>
-                <li>✔ Tutoriels</li>
-                <li>✔ Événements</li>
-                <li>✔ Communauté</li>
-            </ul>
+<div class="features-grid">
 
-            <a href="charbon/" class="server-button">
-                Voir le serveur
-            </a>
-        </div>
-    </div>
+<div class="feature-card">
+
+<i class="fa-solid fa-flag"></i>
+
+<h3>Créer un Pays</h3>
+
+<p>
+
+Fonde ton propre pays, recrute des habitants et développe ton territoire.
+
+</p>
+
+</div>
+
+<div class="feature-card">
+
+<i class="fa-solid fa-city"></i>
+
+<h3>Construire des villes</h3>
+
+<p>
+
+Chaque ville possède son économie et son développement.
+
+</p>
+
+</div>
+
+<div class="feature-card">
+
+<i class="fa-solid fa-handshake"></i>
+
+<h3>Diplomatie</h3>
+
+<p>
+
+Signe des alliances, des traités ou prépare une guerre contre tes ennemis.
+
+</p>
+
+</div>
+
+<div class="feature-card">
+
+<i class="fa-solid fa-coins"></i>
+
+<h3>Économie</h3>
+
+<p>
+
+Banques, entreprises, commerces et monnaie entièrement intégrés.
+
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+<section class="section">
+
+<div class="section-title">
+
+<span>Actualités</span>
+
+<h2>Dernières nouvelles</h2>
+
+</div>
+
+<div class="news-grid">
+
+<article class="news-card">
+
+<span class="news-date">09 Juillet 2026</span>
+
+<h3>Ouverture prochaine</h3>
+
+<p>
+
+Le serveur Diamant ouvrira bientôt ses portes avec une nouvelle économie, des pays et des villes entièrement repensés.
+
+</p>
+
+</article>
+
+<article class="news-card">
+
+<span class="news-date">À venir</span>
+
+<h3>Premiers évènements</h3>
+
+<p>
+
+Plusieurs évènements communautaires seront organisés dès les premiers jours du serveur.
+
+</p>
+
+</article>
+
+<article class="news-card">
+
+<span class="news-date">Bientôt</span>
+
+<h3>Recrutement du Staff</h3>
+
+<p>
+
+Les candidatures Guides, Modérateurs et Animateurs ouvriront prochainement.
+
+</p>
+
+</article>
+
+</div>
+
+</section>
+
+<section class="section">
+
+<div class="section-title">
+
+<span>Galerie</span>
+
+<h2>Découvrir Diamant</h2>
+
+</div>
+
+<div class="gallery-grid">
+
+<img src="../../images/diamant1.jpg" alt="Diamant">
+
+<img src="../../images/diamant2.jpg" alt="Diamant">
+
+<img src="../../images/diamant3.jpg" alt="Diamant">
+
+</div>
+
+</section>
+
+<section class="section">
+
+<div class="section-title">
+
+<span>Carte</span>
+
+<h2>Carte Interactive</h2>
+
+</div>
+
+<div class="map-card">
+
+<i class="fa-solid fa-earth-europe"></i>
+
+<h3>Bientôt disponible</h3>
+
+<p>
+
+La carte interactive du serveur Diamant sera accessible lors de l'ouverture officielle.
+
+</p>
+
+<a href="#" class="map-button">
+
+Voir la carte
+
+</a>
+
+</div>
 
 </section>
 
 </main>
 
-<script src="js/serveurs.js"></script>
+<footer class="footer">
+
+<div class="footer-content">
+
+<div class="footer-left">
+
+<img src="../../logo-lumalia.png" alt="Lumalia">
+
+<p>
+
+© 2026 Lumalia • Tous droits réservés
+
+</p>
+
+</div>
+
+<div class="footer-links">
+
+<a href="../../articles/">Articles</a>
+
+<a href="../../serveurs/">Serveurs</a>
+
+<a href="../../wiki/">Wiki</a>
+
+<a href="../../forum/">Forum</a>
+
+<a href="../../boutique/">Boutique</a>
+
+</div>
+
+</div>
+
+</footer>
+
+<script src="diamant.js"></script>
 
 </body>
-</html>
 
+</html>
