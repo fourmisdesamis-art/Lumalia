@@ -1,101 +1,276 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>404 - Lumalia</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link rel="icon" href="logo-lumalia.png">
+<title>404 | Lumania</title>
 
-  <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: radial-gradient(circle at top, #0b1020, #05060a);
-      font-family: Arial, sans-serif;
-      color: white;
-    }
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
 
-    .card {
-      display: flex;
-      gap: 40px;
-      padding: 40px;
-      border-radius: 20px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
-      backdrop-filter: blur(10px);
-      max-width: 800px;
-    }
+<style>
 
-    .left {
-      flex: 1;
-    }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
 
-    .right {
-      flex: 1;
-      border-left: 1px solid rgba(255,255,255,0.1);
-      padding-left: 20px;
-    }
+body {
+    height: 100vh;
+    overflow: hidden;
+    background:
+    radial-gradient(circle at top, #5b2cff 0%, transparent 35%),
+    linear-gradient(135deg, #080018, #16004d, #02000a);
 
-    .big404 {
-      font-size: 60px;
-      font-weight: bold;
-      color: #ff5c7a;
-    }
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-    .title {
-      opacity: 0.8;
-      margin-bottom: 10px;
-    }
 
-    .btn {
-      margin-top: 20px;
-      display: inline-block;
-      padding: 10px 15px;
-      border-radius: 10px;
-      background: #6c5ce7;
-      color: white;
-      text-decoration: none;
-      transition: 0.2s;
-    }
+/* Particules */
 
-    .btn:hover {
-      transform: scale(1.05);
-    }
+.particles span {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: #8f7cff;
+    border-radius: 50%;
+    animation: float 10s infinite linear;
+    opacity: .5;
+}
 
-    .code {
-      background: rgba(0,0,0,0.3);
-      padding: 10px;
-      border-radius: 10px;
-      font-size: 13px;
-      margin-top: 10px;
-    }
-  </style>
+
+@keyframes float {
+
+0% {
+    transform: translateY(100vh) scale(0);
+}
+
+100% {
+    transform: translateY(-10vh) scale(1);
+}
+
+}
+
+
+/* Contenu */
+
+.container {
+
+    text-align: center;
+    z-index: 2;
+
+}
+
+
+.logo {
+
+    font-size: 35px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+
+}
+
+
+.logo span {
+    color:#9277ff;
+}
+
+
+.error {
+
+font-size: 170px;
+font-weight: 800;
+
+background: linear-gradient(
+90deg,
+#ffffff,
+#9277ff,
+#5b2cff
+);
+
+-webkit-background-clip:text;
+color:transparent;
+
+animation: pulse 3s infinite;
+
+}
+
+
+
+@keyframes pulse {
+
+0%,100% {
+    filter: drop-shadow(0 0 20px #7b5cff);
+}
+
+50% {
+    filter: drop-shadow(0 0 50px #9c8cff);
+}
+
+}
+
+
+
+h1 {
+
+font-size:35px;
+margin-bottom:15px;
+
+}
+
+
+
+p {
+
+color:#cfc7ff;
+font-size:18px;
+max-width:600px;
+margin:auto;
+line-height:1.6;
+
+}
+
+
+
+
+.button {
+
+display:inline-block;
+margin-top:40px;
+padding:15px 40px;
+
+background:linear-gradient(
+45deg,
+#5b2cff,
+#9d82ff
+);
+
+border-radius:50px;
+
+color:white;
+text-decoration:none;
+
+font-weight:600;
+
+transition:.3s;
+
+box-shadow:0 0 25px #5b2cff;
+
+}
+
+
+
+.button:hover {
+
+transform:scale(1.1);
+box-shadow:0 0 50px #9d82ff;
+
+}
+
+
+
+/* effet grille */
+
+.grid {
+
+position:absolute;
+width:100%;
+height:100%;
+
+background-image:
+linear-gradient(
+rgba(255,255,255,.04) 1px,
+transparent 1px
+),
+linear-gradient(
+90deg,
+rgba(255,255,255,.04) 1px,
+transparent 1px
+);
+
+background-size:50px 50px;
+
+animation:gridmove 15s linear infinite;
+
+}
+
+
+
+@keyframes gridmove {
+
+from {
+transform:translateY(0);
+}
+
+to {
+transform:translateY(50px);
+}
+
+}
+
+
+
+</style>
+
 </head>
+
 
 <body>
 
-  <div class="card">
-    <div class="left">
-      <div class="title">ERREUR</div>
-      <div class="big404">404</div>
-      <p>Cette page n’existe pas ou n’est plus disponible,.</p>
 
-      <a class="btn" href="/">🏠 Retour à l’accueil</a>
-    </div>
+<div class="grid"></div>
 
-    <div class="right">
-      <div class="title">DÉTAILS TECHNIQUES</div>
-      <div class="code">
-        Message : Page not found<br/>
-        Route : inconnue<br/>
-        Code : 404
-      </div>
-    </div>
-  </div>
+
+<div class="particles">
+
+<span style="left:10%;animation-delay:0s"></span>
+<span style="left:25%;animation-delay:3s"></span>
+<span style="left:40%;animation-delay:6s"></span>
+<span style="left:60%;animation-delay:1s"></span>
+<span style="left:80%;animation-delay:4s"></span>
+<span style="left:90%;animation-delay:7s"></span>
+
+</div>
+
+
+
+<div class="container">
+
+
+<div class="logo">
+LUM<span>ANIA</span>
+</div>
+
+
+<div class="error">
+404
+</div>
+
+
+<h1>Cette page a disparu ou n'existe pas sur le site...</h1>
+
+
+<p>
+La page que tu recherches n'existe pas ou a été déplacée.
+Même les explorateurs de Lumania peuvent parfois se perdre 🚀
+</p>
+
+
+
+<a href="/" class="button">
+Retour à l'accueil
+</a>
+
+
+</div>
+
+
 
 </body>
 </html>
