@@ -6,213 +6,69 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Lumalia • Serveur Minecraft</title>
+    <title>Lumalia • Accueil</title>
 
-    <link rel="stylesheet" href="css/style.css">
+    <meta name="description"
+        content="Rejoignez Lumalia, le serveur Minecraft nouvelle génération.">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
 
     <!-- Font Awesome -->
-
     <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/animations.css">
 
 </head>
 
 <body>
 
-<!-- ===================================================== -->
-<!-- Background -->
-<!-- ===================================================== -->
+    <!-- Background -->
+    <div class="background"></div>
 
-<div class="background">
+    <!-- Navbar -->
+    <div id="navbar"></div>
 
-    <div class="gradient"></div>
+    <main>
 
-    <div class="stars"></div>
+        <!-- Hero -->
+        <section id="hero"></section>
 
-</div>
+        <!-- Informations -->
+        <section id="server-info"></section>
 
-<!-- ===================================================== -->
-<!-- Header -->
-<!-- ===================================================== -->
+        <!-- Actualités -->
+        <section id="news"></section>
 
-<header>
+        <!-- Pourquoi Lumalia -->
+        <section id="features"></section>
 
-    <div class="logo">
+        <!-- Galerie -->
+        <section id="gallery"></section>
 
-        <img src="logo-lumalia.png" alt="Lumalia">
+        <!-- Rejoindre -->
+        <section id="join"></section>
 
-    </div>
+    </main>
 
-    <nav>
+    <!-- Footer -->
+    <div id="footer"></div>
 
-        <a href="/articles">Articles</a>
-
-        <a href="/serveurs">Serveur</a>
-
-        <a href="#">Wiki</a>
-
-        <a href="#">Forum</a>
-
-        <a href="#">Voter</a>
-
-        <a href="#">Boutique</a>
-
-    </nav>
-
-    <div class="header-buttons">
-
-        <a class="login" href="/connexion">
-
-            Connexion
-
-        </a>
-
-        <a class="play" href="#">
-
-            Jouer
-
-        </a>
-
-    </div>
-
-</header>
-
-<!-- ===================================================== -->
-<!-- Hero -->
-<!-- ===================================================== -->
-
-<section class="hero">
-
-    <div class="hero-left">
-
-        <span class="small-title">
-
-            COMMENCEZ VOTRE ÉPOPÉE !
-
-        </span>
-
-        <h1>
-
-            REJOIGNEZ
-
-            <span>
-
-                LUMALIA
-
-            </span>
-
-        </h1>
-
-        <p>
-
-            Rejoins-nous pour des aventures exceptionnelles
-            sur <strong>Minecraft</strong> !
-
-        </p>
-
-        <span class="subtitle">
-
-            Accessible sur ordinateur piur le moment
-
-        </span>
-
-        <div class="hero-buttons">
-
-            <a href="#" class="btn-play">
-
-                <i class="fa-solid fa-play"></i>
-
-                Jouer
-
-            </a>
-
-            <a href="#" class="btn-discover">
-
-                En savoir plus
-
-            </a>
-
-        </div>
-
-        <div class="server-info">
-
-            <div class="online">
-
-                <span class="dot"></span>
-
-                <strong>0 joueurs connectés</strong>
-
-            </div>
-
-            <div class="ip">
-
-                LumaliaDiamant.aternos.me
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <!-- ================================================= -->
-
-    <div class="hero-right">
-
-        <img src="ile-flottante.png" alt="Lumalia">
-
-    </div>
-
-</section>
-
-<!-- ===================================================== -->
-<!-- Scroll -->
-<!-- ===================================================== -->
-
-<div class="scroll-indicator">
-
-    <i class="fa-solid fa-computer-mouse"></i>
-
-</div>
-
-<!-- ===================================================== -->
-<!-- Discord Floating -->
-<!-- ===================================================== -->
-
-<div class="discord-card">
-
-    <div class="discord-icon">
-
-        <i class="fa-brands fa-discord"></i>
-
-    </div>
-
-    <div>
-
-        <h3>
-
-            Une question ?
-
-        </h3>
-
-        <p>
-
-            Rejoins le discord de Lumalia
-
-        </p>
-
-    </div>
-
-</div>
-
-<!-- ===================================================== -->
-
-<script src="js/main.js"></script>
+    <!-- JS -->
+    <script src="js/components.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/home.js"></script>
 
 </body>
+
 </html>
