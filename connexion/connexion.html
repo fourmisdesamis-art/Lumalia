@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Connexion • Lumalia</title>
+
+<link rel="icon" href="../logo-lumalia.png">
+
+<link rel="stylesheet" href="connexion.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="background">
+
+    <div class="stars"></div>
+
+    <div class="gradient gradient-left"></div>
+
+    <div class="gradient gradient-right"></div>
+
+</div>
+
+<header class="header">
+
+    <nav class="navbar">
+
+        <a href="../index.html" class="logo">
+
+            <img src="../logo-lumalia.png" alt="Lumalia">
+
+            <span>Lumalia</span>
+
+        </a>
+
+        <ul class="nav-links">
+
+            <li><a href="../articles/">Articles</a></li>
+
+            <li><a href="../serveurs/">Serveurs</a></li>
+
+            <li><a href="../wiki/">Wiki</a></li>
+
+            <li><a href="../forum/">Forum</a></li>
+
+            <li><a href="../vote/">Voter</a></li>
+
+            <li><a href="../boutique/">Boutique</a></li>
+
+        </ul>
+
+        <div class="nav-buttons">
+
+            <a href="#" class="btn-login active">
+
+                Connexion
+
+            </a>
+
+            <a href="../jouer/" class="btn-play">
+
+                Jouer
+
+            </a>
+
+        </div>
+
+    </nav>
+
+</header>
+
+<main class="login-page">
+
+<div class="login-card">
+
+<div class="login-left">
+
+<img src="../logo-lumalia.png" alt="Lumalia">
+
+<h1>
+
+Bienvenue sur <span>Lumalia</span>
+
+</h1>
+
+<p>
+
+Connecte-toi à ton compte Lumalia afin d'accéder au launcher, à la boutique, au forum, aux serveurs et à toutes les fonctionnalités de la communauté.
+
+</p>
+
+</div>
+
+<div class="login-right">
+
+<h2>
+
+Connexion
+
+</h2>
+
+<p class="subtitle">
+
+Choisis une méthode de connexion.
+
+</p>
+
+<form id="loginForm">
+
+<div class="input-group">
+
+<label>Adresse e-mail</label>
+
+<input
+type="email"
+id="email"
+placeholder="nom@exemple.com"
+required>
+
+</div>
+
+<div class="input-group">
+
+<label>Mot de passe</label>
+
+<input
+type="password"
+id="password"
+placeholder="••••••••"
+required>
+
+</div>
+
+<div class="login-options">
+
+    <a href="#" id="forgotPassword">
+
+        Mot de passe oublié ?
+
+    </a>
+
+</div>
+
+<button type="submit" class="login-button">
+
+    <i class="fa-solid fa-right-to-bracket"></i>
+
+    Se connecter
+
+</button>
+
+<div class="separator">
+
+    <span>ou continuer avec</span>
+
+</div>
+
+<div class="social-login">
+
+    <button
+    type="button"
+    id="googleLogin"
+    class="social-button google">
+
+        <i class="fa-brands fa-google"></i>
+
+        Continuer avec Google
+
+    </button>
+
+    <button
+    type="button"
+    id="microsoftLogin"
+    class="social-button microsoft">
+
+        <i class="fa-brands fa-microsoft"></i>
+
+        Continuer avec Microsoft
+
+    </button>
+
+    <button
+    type="button"
+    id="discordLogin"
+    class="social-button discord">
+
+        <i class="fa-brands fa-discord"></i>
+
+        Continuer avec Discord
+
+    </button>
+
+</div>
+
+<div class="create-account">
+
+    <p>
+
+        Vous n'avez pas encore de compte ?
+
+    </p>
+
+    <a href="../inscription/">
+
+        Créer un compte Lumalia
+
+    </a>
+
+</div>
+
+<div id="loginMessage" class="login-message"></div>
+
+</form>
+
+</div>
+
+</div>
+
+</main>
+
+<footer class="footer">
+
+    <div class="footer-content">
+
+        <img src="../logo-lumalia.png" alt="Lumalia">
+
+        <p>
+
+            © 2026 Lumalia • Tous droits réservés
+
+        </p>
+
+        <div class="footer-links">
+
+            <a href="../articles/">Articles</a>
+
+            <a href="../serveurs/">Serveurs</a>
+
+            <a href="../wiki/">Wiki</a>
+
+            <a href="../forum/">Forum</a>
+
+            <a href="../boutique/">Boutique</a>
+
+        </div>
+
+    </div>
+
+</footer>
+
+<!-- Firebase -->
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+
+import { getAuth } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
+const firebaseConfig={
+
+      apiKey: "AIzaSyBSCqSsBTXk9Q8sBX88NgrdDHUAHT0Cq6I",
+      authDomain: "lumalia.firebaseapp.com",
+      projectId: "lumalia",
+      storageBucket: "lumalia.firebasestorage.app",
+      messagingSenderId: "189011821397",
+      appId: "1:189011821397:web:03c8609d35d488dce2a5dc",
+      measurementId: "G-4G4KMZCWFH"
+
+};
+
+const app=initializeApp(firebaseConfig);
+
+window.auth=getAuth(app);
+
+</script>
+
+<script type="module" src="connexion.js"></script>
+
+</body>
+
+</html>
