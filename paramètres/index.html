@@ -6,821 +6,573 @@
 
     <title>Paramètres — Lumalia</title>
 
-    <meta
-        name="description"
-        content="Gérez votre compte Lumalia, vos profils de jeu, votre sécurité et vos préférences."
-    >
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
-        rel="stylesheet"
-    >
-
-    <link
-        rel="stylesheet"
-        href="paramètres.css"
-    >
+    <link rel="stylesheet" href="paramètres.css">
 </head>
 
 <body>
 
-    <!-- HEADER -->
+    <main class="settings-page">
 
-    <header class="settings-header">
-
-        <div class="header-left">
-
-            <a href="/" class="lumalia-brand">
-
-                <div class="lumalia-logo">
-                    L
-                </div>
-
-                <span>Lumalia</span>
-
-            </a>
-
-            <div class="header-separator"></div>
-
-            <span class="page-name">
-                Paramètres
-            </span>
-
-        </div>
+        <header class="settings-header">
+            <h1>Paramètres</h1>
+            <p>
+                Gère ton compte Lumalia, tes profils de jeu,
+                ta sécurité et tes préférences.
+            </p>
+        </header>
 
 
-        <div class="header-right">
+        <nav class="settings-navigation">
 
-            <a href="/" class="back-home">
-                Retour à Lumalia
-            </a>
+            <div class="settings-section">
 
-            <button
-                class="mobile-menu-button"
-                id="mobileMenuButton"
-                aria-label="Ouvrir le menu"
-                aria-expanded="false"
-            >
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-
-        </div>
-
-    </header>
-
-
-    <!-- MOBILE OVERLAY -->
-
-    <div
-        class="mobile-overlay"
-        id="mobileOverlay"
-    ></div>
-
-
-    <!-- LAYOUT -->
-
-    <div class="settings-layout">
-
-
-        <!-- SIDEBAR -->
-
-        <aside
-            class="settings-sidebar"
-            id="settingsSidebar"
-        >
-
-            <div class="sidebar-header">
-
-                <span>
-                    Paramètres
+                <span class="settings-section-title">
+                    IDENTITÉ
                 </span>
 
-                <button
-                    id="closeSidebar"
-                    class="close-sidebar"
-                    aria-label="Fermer le menu"
-                >
-                    ×
+                <button class="settings-item active" data-section="account">
+                    <span class="settings-icon">◉</span>
+                    <span>Compte</span>
                 </button>
+
+                <button class="settings-item" data-section="games">
+                    <span class="settings-icon">🎮</span>
+                    <span>Profils de jeu</span>
+                </button>
+
+                <button class="settings-item" data-section="verification">
+                    <span class="settings-icon">✓</span>
+                    <span>Certification</span>
+                </button>
+
+                <button class="settings-item" data-section="launcher">
+                    <span class="settings-icon">▣</span>
+                    <span>Bêta du launcher</span>
+                </button>
+
+            </div>
+
+
+            <div class="settings-section">
+
+                <span class="settings-section-title">
+                    PRÉFÉRENCES
+                </span>
+
+                <button class="settings-item" data-section="notifications">
+                    <span class="settings-icon">♧</span>
+                    <span>Notifications</span>
+                </button>
+
+                <button class="settings-item" data-section="language">
+                    <span class="settings-icon">◎</span>
+                    <span>Langue & région</span>
+                </button>
+
+                <button class="settings-item" data-section="appearance">
+                    <span class="settings-icon">◌</span>
+                    <span>Apparence</span>
+                </button>
+
+            </div>
+
+
+            <div class="settings-section">
+
+                <span class="settings-section-title">
+                    SÉCURITÉ
+                </span>
+
+                <button class="settings-item" data-section="security">
+                    <span class="settings-icon">♢</span>
+                    <span>Sécurité</span>
+                </button>
+
+                <button class="settings-item" data-section="sessions">
+                    <span class="settings-icon">▣</span>
+                    <span>Sessions actives</span>
+                </button>
+
+                <button class="settings-item" data-section="social">
+                    <span class="settings-icon">♧</span>
+                    <span>Social</span>
+                </button>
+
+                <button class="settings-item danger" data-section="danger">
+                    <span class="settings-icon">!</span>
+                    <span>Zone sensible</span>
+                </button>
+
+            </div>
+
+        </nav>
+
+
+        <!-- COMPTE -->
+
+        <section class="settings-content active" id="account">
+
+            <div class="content-header">
+                <h2>Compte</h2>
+
+                <p>
+                    Gère les informations de ton compte Lumalia.
+                </p>
+            </div>
+
+
+            <!-- AVATAR -->
+
+            <div class="settings-card">
+
+                <div class="card-header">
+                    <h3>Avatar</h3>
+
+                    <p>
+                        Ton avatar est utilisé sur ton profil Lumalia,
+                        dans la liste d'amis et sur tes messages.
+                    </p>
+                </div>
+
+                <div class="avatar-editor">
+
+                    <div class="avatar-preview">
+                        <img
+                            id="avatarPreview"
+                            src="/assets/default-avatar.png"
+                            alt="Avatar Lumalia"
+                        >
+                    </div>
+
+                    <div class="avatar-upload">
+
+                        <input
+                            type="file"
+                            id="avatarInput"
+                            accept="image/png,image/jpeg,image/webp"
+                            hidden
+                        >
+
+                        <button
+                            type="button"
+                            id="avatarButton"
+                            class="secondary-button"
+                        >
+                            Modifier l'avatar
+                        </button>
+
+                        <p>
+                            PNG, JPG ou WEBP · 2 Mo maximum
+                        </p>
+
+                    </div>
+
+                </div>
 
             </div>
 
 
             <!-- IDENTITÉ -->
 
-            <div class="settings-group">
+            <div class="settings-card">
 
-                <span class="group-title">
-                    IDENTITÉ
-                </span>
-
-
-                <a
-                    href="#compte"
-                    class="settings-link active"
-                    data-section="compte"
-                >
-                    <span class="settings-icon">◯</span>
-
-                    <span>
-                        Compte
-                    </span>
-                </a>
-
-
-                <a
-                    href="#profils"
-                    class="settings-link"
-                    data-section="profils"
-                >
-                    <span class="settings-icon">◈</span>
-
-                    <span>
-                        Profils de jeu
-                    </span>
-                </a>
-
-
-                <a
-                    href="#certification"
-                    class="settings-link"
-                    data-section="certification"
-                >
-                    <span class="settings-icon">✓</span>
-
-                    <span>
-                        Certification
-                    </span>
-                </a>
-
-
-                <a
-                    href="#launcher"
-                    class="settings-link"
-                    data-section="launcher"
-                >
-                    <span class="settings-icon">▣</span>
-
-                    <span>
-                        Bêta du launcher
-                    </span>
-                </a>
-
-            </div>
-
-
-            <!-- PRÉFÉRENCES -->
-
-            <div class="settings-group">
-
-                <span class="group-title">
-                    PRÉFÉRENCES
-                </span>
-
-
-                <a
-                    href="#notifications"
-                    class="settings-link"
-                    data-section="notifications"
-                >
-                    <span class="settings-icon">♧</span>
-
-                    <span>
-                        Notifications
-                    </span>
-                </a>
-
-
-                <a
-                    href="#langue"
-                    class="settings-link"
-                    data-section="langue"
-                >
-                    <span class="settings-icon">◎</span>
-
-                    <span>
-                        Langue & région
-                    </span>
-                </a>
-
-
-                <a
-                    href="#apparence"
-                    class="settings-link"
-                    data-section="apparence"
-                >
-                    <span class="settings-icon">◌</span>
-
-                    <span>
-                        Apparence
-                    </span>
-                </a>
-
-            </div>
-
-
-            <!-- SÉCURITÉ -->
-
-            <div class="settings-group">
-
-                <span class="group-title">
-                    SÉCURITÉ
-                </span>
-
-
-                <a
-                    href="#securite"
-                    class="settings-link"
-                    data-section="securite"
-                >
-                    <span class="settings-icon">◇</span>
-
-                    <span>
-                        Sécurité
-                    </span>
-                </a>
-
-
-                <a
-                    href="#sessions"
-                    class="settings-link"
-                    data-section="sessions"
-                >
-                    <span class="settings-icon">▱</span>
-
-                    <span>
-                        Sessions actives
-                    </span>
-                </a>
-
-
-                <a
-                    href="#social"
-                    class="settings-link"
-                    data-section="social"
-                >
-                    <span class="settings-icon">♧</span>
-
-                    <span>
-                        Social
-                    </span>
-                </a>
-
-            </div>
-
-        </aside>
-
-
-        <!-- CONTENT -->
-
-        <main class="settings-content">
-
-
-            <!-- PAGE HEADER -->
-
-            <div class="content-header">
-
-                <h1>
-                    Paramètres
-                </h1>
-
-                <p>
-                    Gère ton compte Lumalia, tes profils de jeu,
-                    ta sécurité et tes préférences.
-                </p>
-
-            </div>
-
-
-            <!-- COMPTE -->
-
-            <section
-                class="settings-section"
-                id="compte"
-            >
-
-                <div class="section-title">
-
-                    <h2>
-                        Compte
-                    </h2>
+                <div class="card-header">
+                    <h3>Identité</h3>
 
                     <p>
-                        Identité Lumalia partagée par tous tes jeux
-                        et services.
+                        Les informations associées à ton compte Lumalia.
                     </p>
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="handle">
+                        Pseudo @handle
+                    </label>
+
+                    <div class="handle-input">
+
+                        <span>@</span>
+
+                        <input
+                            id="handle"
+                            type="text"
+                            maxlength="32"
+                            autocomplete="off"
+                        >
+
+                    </div>
+
+                    <small>
+                        3 à 32 caractères · lettres, chiffres et underscores.
+                    </small>
 
                 </div>
 
 
-                <!-- AVATAR -->
+                <div class="form-group">
 
-                <div class="settings-card">
+                    <label for="email">
+                        Adresse email
+                    </label>
 
-                    <div class="card-header">
+                    <div class="email-row">
 
-                        <div>
-                            <h3>
-                                Avatar
-                            </h3>
+                        <input
+                            id="email"
+                            type="email"
+                            readonly
+                        >
 
-                            <p>
-                                Utilisé sur ton profil public,
-                                dans la communauté et sur les services Lumalia.
-                            </p>
-                        </div>
-
-                    </div>
-
-
-                    <div class="avatar-area">
-
-                        <div class="avatar-preview">
-                            L
-                        </div>
-
-
-                        <div class="avatar-upload">
-
-                            <strong>
-                                Modifier ton avatar
-                            </strong>
-
-                            <span>
-                                PNG, JPG ou WEBP · 256×256 minimum · 2 Mo maximum
-                            </span>
-
-                            <button class="secondary-button">
-                                Choisir une image
-                            </button>
-
-                        </div>
+                        <span
+                            id="emailStatus"
+                            class="verified"
+                        >
+                            Vérifiée
+                        </span>
 
                     </div>
 
                 </div>
 
 
-                <!-- IDENTITÉ -->
+                <div class="form-group">
 
-                <div class="settings-card">
+                    <label for="bio">
+                        Bio
+                    </label>
 
-                    <div class="card-header">
+                    <textarea
+                        id="bio"
+                        maxlength="160"
+                        rows="4"
+                        placeholder="Une phrase qui te décrit..."
+                    ></textarea>
 
-                        <div>
-
-                            <h3>
-                                Identité
-                            </h3>
-
-                            <p>
-                                Pseudo et adresse e-mail associés
-                                à ton compte Lumalia.
-                            </p>
-
-                        </div>
-
+                    <div class="character-counter">
+                        <span id="bioCounter">0</span>/160
                     </div>
 
+                </div>
 
-                    <div class="form-content">
 
+                <div class="public-profile">
 
-                        <div class="form-field">
+                    <label class="checkbox-container">
 
-                            <label for="handle">
-                                Pseudo @handle
-                            </label>
+                        <input
+                            type="checkbox"
+                            id="publicProfile"
+                            checked
+                        >
 
-                            <div class="handle-input">
+                        <span class="checkmark"></span>
 
-                                <span>
-                                    @
-                                </span>
+                        <span class="checkbox-content">
 
-                                <input
-                                    id="handle"
-                                    type="text"
-                                    value="anilyse"
-                                    maxlength="32"
-                                >
-
-                            </div>
+                            <strong>Profil public</strong>
 
                             <small>
-                                Lettres, chiffres et underscores,
-                                3–32 caractères. Visible publiquement.
+                                Si activé, ton @handle, ton avatar et ta bio
+                                sont visibles publiquement.
                             </small>
 
-                        </div>
+                        </span>
 
-
-                        <div class="form-field">
-
-                            <label for="email">
-                                Adresse e-mail
-                            </label>
-
-                            <div class="email-row">
-
-                                <input
-                                    id="email"
-                                    type="email"
-                                    value="fourmisdesamis@gmail.com"
-                                >
-
-                                <span class="verified">
-                                    Vérifiée
-                                </span>
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="form-field">
-
-                            <label for="bio">
-                                Bio
-                            </label>
-
-                            <textarea
-                                id="bio"
-                                maxlength="160"
-                                rows="4"
-                                placeholder="Une phrase qui te décrit."
-                            ></textarea>
-
-                            <div class="character-count">
-                                <span id="bioCount">
-                                    0
-                                </span>/160
-                            </div>
-
-                            <small>
-                                Visible sur ton profil public.
-                            </small>
-
-                        </div>
-
-
-                        <label class="public-profile">
-
-                            <input
-                                type="checkbox"
-                                id="publicProfile"
-                                checked
-                            >
-
-                            <span class="custom-checkbox">
-                                ✓
-                            </span>
-
-                            <span class="public-profile-text">
-
-                                <strong>
-                                    Profil public
-                                </strong>
-
-                                <small>
-                                    Si activé, ton @handle, ton avatar
-                                    et ta bio sont visibles publiquement.
-                                    Sinon, seuls tes amis acceptés peuvent
-                                    les voir.
-                                </small>
-
-                            </span>
-
-                        </label>
-
-
-                        <div class="form-actions">
-
-                            <button
-                                class="save-button"
-                                id="saveAccount"
-                            >
-                                Enregistrer
-                            </button>
-
-                        </div>
-
-                    </div>
+                    </label>
 
                 </div>
 
 
-                <!-- DÉTAILS DU COMPTE -->
+                <div class="form-actions">
 
-                <div class="settings-card">
-
-                    <div class="card-header">
-
-                        <div>
-
-                            <h3>
-                                Détails du compte
-                            </h3>
-
-                            <p>
-                                Informations techniques de ton compte Lumalia.
-                            </p>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="account-details">
-
-                        <div class="detail">
-
-                            <span class="detail-label">
-                                ID COMPTE
-                            </span>
-
-                            <strong class="account-id">
-                                LM-00000000-0000-0000
-                            </strong>
-
-                        </div>
-
-
-                        <div class="detail">
-
-                            <span class="detail-label">
-                                MEMBRE DEPUIS
-                            </span>
-
-                            <strong>
-                                août 2026
-                            </strong>
-
-                        </div>
-
-
-                        <div class="detail">
-
-                            <span class="detail-label">
-                                2FA
-                            </span>
-
-                            <strong class="success">
-                                Activée
-                            </strong>
-
-                        </div>
-
-
-                        <div class="detail">
-
-                            <span class="detail-label">
-                                PROFILS DE JEU
-                            </span>
-
-                            <a href="#profils">
-                                Voir la liste →
-                            </a>
-
-                        </div>
-
-                    </div>
+                    <button
+                        type="button"
+                        id="saveAccount"
+                        class="primary-button"
+                    >
+                        Enregistrer
+                    </button>
 
                 </div>
 
-            </section>
+            </div>
 
 
-            <!-- PROFILS -->
+            <!-- DÉTAILS DU COMPTE -->
 
-            <section
-                class="settings-section placeholder-section"
-                id="profils"
-            >
+            <div class="settings-card">
 
-                <div class="section-title">
-
-                    <h2>
-                        Profils de jeu
-                    </h2>
+                <div class="card-header">
+                    <h3>Détails du compte</h3>
 
                     <p>
-                        Gère les identités que tu utilises dans les différents
-                        univers Lumalia.
+                        Informations techniques de ton compte Lumalia.
                     </p>
-
                 </div>
 
 
-                <div class="settings-card">
+                <div class="account-details">
 
-                    <div class="empty-state">
+                    <div class="detail">
 
-                        <div class="empty-icon">
-                            ◈
-                        </div>
+                        <span class="detail-label">
+                            ID COMPTE
+                        </span>
 
-                        <h3>
-                            Tes profils de jeu
-                        </h3>
-
-                        <p>
-                            Tes profils Minecraft Java et Bedrock
-                            apparaîtront ici.
-                        </p>
+                        <span
+                            class="detail-value"
+                            id="accountId"
+                        >
+                            Chargement...
+                        </span>
 
                     </div>
 
-                </div>
 
-            </section>
+                    <div class="detail">
 
+                        <span class="detail-label">
+                            MEMBRE DEPUIS
+                        </span>
 
-            <!-- CERTIFICATION -->
-
-            <section
-                class="settings-section placeholder-section"
-                id="certification"
-            >
-
-                <div class="section-title">
-
-                    <h2>
-                        Certification
-                    </h2>
-
-                    <p>
-                        Consulte le statut de certification de ton compte Lumalia.
-                    </p>
-
-                </div>
-
-
-                <div class="settings-card">
-
-                    <div class="empty-state">
-
-                        <div class="empty-icon">
-                            ✓
-                        </div>
-
-                        <h3>
-                            Compte non certifié
-                        </h3>
-
-                        <p>
-                            Les informations relatives à la certification
-                            seront disponibles ici.
-                        </p>
+                        <span
+                            class="detail-value"
+                            id="accountCreated"
+                        >
+                            Chargement...
+                        </span>
 
                     </div>
 
-                </div>
 
-            </section>
+                    <div class="detail">
 
+                        <span class="detail-label">
+                            2FA
+                        </span>
 
-            <!-- LAUNCHER -->
-
-            <section
-                class="settings-section placeholder-section"
-                id="launcher"
-            >
-
-                <div class="section-title">
-
-                    <h2>
-                        Bêta du launcher
-                    </h2>
-
-                    <p>
-                        Gère ton accès au Lumalia Launcher.
-                    </p>
-
-                </div>
-
-
-                <div class="settings-card">
-
-                    <div class="empty-state">
-
-                        <div class="empty-icon">
-                            ▣
-                        </div>
-
-                        <h3>
-                            Accès au launcher
-                        </h3>
-
-                        <p>
-                            Ton statut de bêta et tes invitations
-                            seront affichés ici.
-                        </p>
+                        <span
+                            class="detail-value"
+                            id="twoFactorStatus"
+                        >
+                            Vérification...
+                        </span>
 
                     </div>
 
-                </div>
 
-            </section>
+                    <div class="detail">
 
+                        <span class="detail-label">
+                            PROFILS DE JEU
+                        </span>
 
-            <!-- NOTIFICATIONS -->
-
-            <section
-                class="settings-section placeholder-section"
-                id="notifications"
-            >
-
-                <div class="section-title">
-
-                    <h2>
-                        Notifications
-                    </h2>
-
-                    <p>
-                        Contrôle les notifications envoyées par Lumalia.
-                    </p>
-
-                </div>
-
-
-                <div class="settings-card">
-
-                    <div class="setting-row">
-
-                        <div>
-                            <strong>
-                                Notifications Lumalia
-                            </strong>
-
-                            <p>
-                                Recevoir les actualités et informations importantes.
-                            </p>
-                        </div>
-
-                        <label class="switch">
-
-                            <input
-                                type="checkbox"
-                                checked
-                            >
-
-                            <span></span>
-
-                        </label>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-
-            <!-- LANGUE -->
-
-            <section
-                class="settings-section placeholder-section"
-                id="langue"
-            >
-
-                <div class="section-title">
-
-                    <h2>
-                        Langue & région
-                    </h2>
-
-                    <p>
-                        Choisis la langue et la région utilisées par Lumalia.
-                    </p>
-
-                </div>
-
-
-                <div class="settings-card">
-
-                    <div class="setting-row">
-
-                        <div>
-
-                            <strong>
-                                Langue
-                            </strong>
-
-                            <p>
-                                Français
-                            </p>
-
-                        </div>
-
-                        <button class="secondary-button">
-                            Modifier
+                        <button
+                            type="button"
+                            class="link-button"
+                            data-section="games"
+                        >
+                            Voir la liste
                         </button>
 
                     </div>
 
-  
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- PROFILS DE JEU -->
+
+        <section class="settings-content" id="games">
+
+            <div class="content-header">
+                <h2>Profils de jeu</h2>
+
+                <p>
+                    Gère tes identités Minecraft utilisées sur Lumalia.
+                </p>
+            </div>
+
+        </section>
+
+
+        <!-- CERTIFICATION -->
+
+        <section class="settings-content" id="verification">
+
+            <div class="content-header">
+                <h2>Certification</h2>
+
+                <p>
+                    Gère la certification de ton compte Lumalia.
+                </p>
+            </div>
+
+        </section>
+
+
+        <!-- LAUNCHER -->
+
+        <section class="settings-content" id="launcher">
+
+            <div class="content-header">
+                <h2>Bêta du launcher</h2>
+
+                <p>
+                    Gère ton accès au Lumalia Launcher.
+                </p>
+            </div>
+
+            <div class="settings-card">
+
+                <div class="card-header">
+
+                    <h3>Lumalia Launcher</h3>
+
+                    <p>
+                        Télécharge le launcher officiel de Lumalia.
+                    </p>
+
+                </div>
+
+                <a
+                    href="/downloads/Lumalia-Launcher.exe"
+                    class="primary-button"
+                    download
+                >
+                    Télécharger le launcher
+                </a>
+
+            </div>
+
+        </section>
+
+
+        <!-- NOTIFICATIONS -->
+
+        <section class="settings-content" id="notifications">
+            <div class="content-header">
+                <h2>Notifications</h2>
+                <p>Gère tes notifications Lumalia.</p>
+            </div>
+        </section>
+
+
+        <!-- LANGUE -->
+
+        <section class="settings-content" id="language">
+            <div class="content-header">
+                <h2>Langue & région</h2>
+                <p>Configure ta langue et ta région.</p>
+            </div>
+        </section>
+
+
+        <!-- APPARENCE -->
+
+        <section class="settings-content" id="appearance">
+            <div class="content-header">
+                <h2>Apparence</h2>
+                <p>Personnalise l'apparence de Lumalia.</p>
+            </div>
+        </section>
+
+
+        <!-- SÉCURITÉ -->
+
+        <section class="settings-content" id="security">
+
+            <div class="content-header">
+
+                <h2>Sécurité</h2>
+
+                <p>
+                    Protège ton compte Lumalia.
+                </p>
+
+            </div>
+
+            <div class="settings-card">
+
+                <h3>Authentification à deux facteurs</h3>
+
+                <p>
+                    Utilise une application d'authentification
+                    pour renforcer la sécurité de ton compte.
+                </p>
+
+                <button
+                    id="enable2FA"
+                    class="primary-button"
+                    type="button"
+                >
+                    Configurer le 2FA
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- SESSIONS -->
+
+        <section class="settings-content" id="sessions">
+
+            <div class="content-header">
+
+                <h2>Sessions actives</h2>
+
+                <p>
+                    Consulte les appareils connectés à ton compte.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- SOCIAL -->
+
+        <section class="settings-content" id="social">
+
+            <div class="content-header">
+
+                <h2>Social</h2>
+
+                <p>
+                    Gère tes paramètres sociaux Lumalia.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- ZONE SENSIBLE -->
+
+        <section class="settings-content" id="danger">
+
+            <div class="content-header">
+
+                <h2>Zone sensible</h2>
+
+                <p>
+                    Actions importantes concernant ton compte Lumalia.
+                </p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script type="module" src="paramètres.js"></script>
+
+</body>
+                        </html>
