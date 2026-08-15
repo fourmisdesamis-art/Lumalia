@@ -1,279 +1,760 @@
-"use strict";
+// ============================================================
+// LUMALIA — PARAMÈTRES
+// Firebase Authentication + Firestore
+// ============================================================
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+    getAuth,
+    onAuthStateChanged,
+    updateProfile,
+    sendEmailVerification
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+import {
+    getFirestore,
+    doc,
+    getDoc,
+    setDoc,
+    serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 
-/* =========================================================
-   LUMALIA — PARAMÈTRES
-   ========================================================= */
+// ============================================================
+// CONFIGURATION FIREBASE
+// ============================================================
+
+const firebaseConfig = {
+    apiKey: "AIzaSyBSCqSsBTXk9Q8sBX88NgrdDHUAHT0Cq6I",
+    authDomain: "lumalia.firebaseapp.com",
+    projectId: "lumalia"
+};
 
 
-/* =========================================================
-   ELEMENTS
-   ========================================================= */
+// ============================================================
+// INITIALISATION
+// ============================================================
 
-const mobileMenuButton =
-    document.getElementById("mobileMenuButton");
+const app = initializeApp(firebaseConfig);
 
-const settingsSidebar =
-    document.getElementById("settingsSidebar");
-
-const mobileOverlay =
-    document.getElementById("mobileOverlay");
-
-const closeSidebar =
-    document.getElementById("closeSidebar");
-
-const settingsLinks =
-    document.querySelectorAll(".settings-link");
-
-const bio =
-    document.getElementById("bio");
-
-const bioCount =
-    document.getElementById("bioCount");
-
-const saveAccount =
-    document.getElementById("saveAccount");
+const auth = getAuth(app);
+const db = getFirestore(app);
 
 
-/* =========================================================
-   MOBILE SIDEBAR
-   ========================================================= */
+// ============================================================
+// ÉLÉMENTS HTML
+// ============================================================
 
-function openSidebar() {
+const handleInput = document.getElementById("handle");
+const emailInput = document.getElementById("email");
+const bioInput = document.getElementById("bio");
+const publicProfileInput = document.getElementById("publicProfile");
 
-    if (!settingsSidebar) return;
+const avatarPreview = document.getElementById("avatarPreview");
+const avatarInput = document.getElementById("avatarInput");
+const avatarButton = document.getElementById("avatarButton");
 
-    settingsSidebar.classList.add("open");
+const saveAccountButton = document.getElementById("saveAccount");
 
-    mobileOverlay?.classList.add("active");
+const accountId = document.getElementById("accountId");
+const accountCreated = document.getElementById("accountCreated");
+const twoFactorStatus = document.getElementById("twoFactorStatus");
 
-    mobileMenuButton?.setAttribute(
-        "aria-expanded",
-        "true"
-    );
+const emailStatus = document.getElementById("emailStatus");
 
-    document.body.style.overflow = "hidden";
+const bioCounter = document.getElementById("bioCounter");
+
+
+// ============================================================
+// UTILITAIRES
+// ============================================================
+
+function showMessage(message, type = "success") {
+    console.log(`[Lumalia] ${message}`);
+
+    // On pourra remplacer ça par une vraie notification Lumalia
+    // quand l'interface sera terminée.
+    alert(message);
 }
 
 
-function closeSettingsSidebar() {
-
-    if (!settingsSidebar) return;
-
-    settingsSidebar.classList.remove("open");
-
-    mobileOverlay?.classList.remove("active");
-
-    mobileMenuButton?.setAttribute(
-        "aria-expanded",
-        "false"
-    );
-
-    document.body.style.overflow = "";
-}
-
-
-mobileMenuButton?.addEventListener(
-    "click",
-    openSidebar
-);
-
-
-closeSidebar?.addEventListener(
-    "click",
-    closeSettingsSidebar
-);
-
-
-mobileOverlay?.addEventListener(
-    "click",
-    closeSettingsSidebar
-);
-
-
-/* =========================================================
-   ESCAPE
-   ========================================================= */
-
-document.addEventListener(
-    "keydown",
-    (event) => {
-
-        if (event.key === "Escape") {
-            closeSettingsSidebar();
-        }
-
+function formatDate(date) {
+    if (!date) {
+        return "Inconnue";
     }
-);
 
-
-/* =========================================================
-   SIDEBAR LINKS
-   ========================================================= */
-
-settingsLinks.forEach((link) => {
-
-    link.addEventListener(
-        "click",
-        () => {
-
-            settingsLinks.forEach(
-                (otherLink) => {
-                    otherLink.classList.remove("active");
-                }
-            );
-
-            link.classList.add("active");
-
-            closeSettingsSidebar();
-
-        }
-    );
-
-});
-
-
-/* =========================================================
-   ACTIVE SECTION
-   ========================================================= */
-
-const sections =
-    document.querySelectorAll(
-        ".settings-section"
-    );
-
-
-if ("IntersectionObserver" in window) {
-
-    const sectionObserver =
-        new IntersectionObserver(
-            (entries) => {
-
-                entries.forEach(
-                    (entry) => {
-
-                        if (!entry.isIntersecting) {
-                            return;
-                        }
-
-                        const sectionId =
-                            entry.target.id;
-
-                        settingsLinks.forEach(
-                            (link) => {
-
-                                const target =
-                                    link.dataset.section;
-
-                                link.classList.toggle(
-                                    "active",
-                                    target === sectionId
-                                );
-
-                            }
-                        );
-
-                    }
-                );
-
-            },
-            {
-                rootMargin: "-20% 0px -65% 0px",
-                threshold: 0
-            }
-        );
-
-
-    sections.forEach(
-        (section) => {
-            sectionObserver.observe(section);
-        }
-    );
+    return new Intl.DateTimeFormat("fr-FR", {
+        day: "numeric",
+        month: "long",
+        year: "numeric"
+    }).format(date);
 }
 
-
-/* =========================================================
-   BIO CHARACTER COUNTER
-   ========================================================= */
 
 function updateBioCounter() {
-
-    if (!bio || !bioCount) {
+    if (!bioInput || !bioCounter) {
         return;
     }
 
-    bioCount.textContent =
-        bio.value.length;
+    bioCounter.textContent = bioInput.value.length;
 }
 
 
-bio?.addEventListener(
-    "input",
-    updateBioCounter
-);
+// ============================================================
+// VALIDATION DU HANDLE
+// ============================================================
 
-updateBioCounter();
+function isValidHandle(handle) {
+
+    const regex = /^[a-zA-Z][a-zA-Z0-9_]{2,31}$/;
+
+    return regex.test(handle);
+}
 
 
-/* =========================================================
-   SAVE ACCOUNT
-   ========================================================= */
+// ============================================================
+// CHARGEMENT DU COMPTE
+// ============================================================
 
-saveAccount?.addEventListener(
-    "click",
-    () => {
+async function loadAccount(user) {
 
-        const originalText =
-            saveAccount.textContent;
+    if (!user) {
+        return;
+    }
 
-        saveAccount.textContent =
-            "Enregistré ✓";
+    console.log("Chargement du compte :", user.uid);
 
-        saveAccount.disabled = true;
 
-        setTimeout(
-            () => {
+    // --------------------------------------------------------
+    // DONNÉES FIREBASE AUTHENTICATION
+    // --------------------------------------------------------
 
-                saveAccount.textContent =
-                    originalText;
+    if (emailInput) {
+        emailInput.value = user.email || "";
+    }
 
-                saveAccount.disabled = false;
+    if (accountId) {
+        accountId.textContent = user.uid;
+    }
 
-            },
-            1800
+    if (emailStatus) {
+
+        if (user.emailVerified) {
+
+            emailStatus.textContent = "Vérifiée";
+            emailStatus.classList.add("verified");
+
+        } else {
+
+            emailStatus.textContent = "Non vérifiée";
+            emailStatus.classList.remove("verified");
+
+        }
+    }
+
+
+    // --------------------------------------------------------
+    // DATE DE CRÉATION DU COMPTE
+    // --------------------------------------------------------
+
+    if (accountCreated && user.metadata?.creationTime) {
+
+        const creationDate = new Date(user.metadata.creationTime);
+
+        accountCreated.textContent = formatDate(creationDate);
+    }
+
+
+    // --------------------------------------------------------
+    // FIRESTORE
+    // users/{uid}
+    // --------------------------------------------------------
+
+    const userRef = doc(db, "users", user.uid);
+
+    const userSnapshot = await getDoc(userRef);
+
+
+    if (!userSnapshot.exists()) {
+
+        console.warn(
+            "Aucun document Firestore trouvé pour",
+            user.uid
         );
 
+        return;
     }
-);
 
 
-/* =========================================================
-   RESPONSIVE
-   ========================================================= */
+    const data = userSnapshot.data();
 
-window.addEventListener(
-    "resize",
-    () => {
+    console.log("Données Firestore :", data);
 
-        if (
-            window.innerWidth > 760
-        ) {
-            closeSettingsSidebar();
-        }
 
+    // --------------------------------------------------------
+    // HANDLE
+    // --------------------------------------------------------
+
+    if (handleInput) {
+
+        handleInput.value =
+            data.handle ||
+            data.pseudo ||
+            "";
     }
-);
 
 
-/* =========================================================
-   INITIALIZATION
-   ========================================================= */
+    // --------------------------------------------------------
+    // BIO
+    // --------------------------------------------------------
 
-document.addEventListener(
-    "DOMContentLoaded",
-    () => {
+    if (bioInput) {
+
+        bioInput.value =
+            data.bio ||
+            "";
 
         updateBioCounter();
-
     }
-);
+
+
+    // --------------------------------------------------------
+    // PROFIL PUBLIC
+    // --------------------------------------------------------
+
+    if (publicProfileInput) {
+
+        publicProfileInput.checked =
+            data.publicProfile !== false;
+    }
+
+
+    // --------------------------------------------------------
+    // AVATAR
+    // --------------------------------------------------------
+
+    if (avatarPreview) {
+
+        if (data.avatar) {
+
+            avatarPreview.src = data.avatar;
+
+        } else if (user.photoURL) {
+
+            avatarPreview.src = user.photoURL;
+
+        } else {
+
+            avatarPreview.src =
+                "/assets/default-avatar.png";
+        }
+    }
+
+
+    // --------------------------------------------------------
+    // 2FA
+    // --------------------------------------------------------
+
+    if (twoFactorStatus) {
+
+        if (data.twoFactorEnabled === true) {
+
+            twoFactorStatus.textContent = "Activée";
+
+        } else {
+
+            twoFactorStatus.textContent = "Désactivée";
+        }
+    }
+}
+
+
+// ============================================================
+// AUTHENTIFICATION
+// ============================================================
+
+onAuthStateChanged(auth, async (user) => {
+
+    if (!user) {
+
+        console.log("Aucun utilisateur connecté.");
+
+        // L'utilisateur n'est pas connecté.
+        // Retour vers la page de connexion.
+        window.location.href = "/connexion/";
+
+        return;
+    }
+
+
+    try {
+
+        await loadAccount(user);
+
+    } catch (error) {
+
+        console.error(
+            "Erreur lors du chargement du compte :",
+            error
+        );
+
+        showMessage(
+            "Impossible de charger les données du compte.",
+            "error"
+        );
+    }
+});
+
+
+// ============================================================
+// BIO — COMPTEUR
+// ============================================================
+
+if (bioInput) {
+
+    bioInput.addEventListener(
+        "input",
+        updateBioCounter
+    );
+}
+
+
+// ============================================================
+// AVATAR — OUVRIR LE SÉLECTEUR
+// ============================================================
+
+if (avatarButton && avatarInput) {
+
+    avatarButton.addEventListener(
+        "click",
+        () => {
+            avatarInput.click();
+        }
+    );
+}
+
+
+// ============================================================
+// AVATAR — APERÇU
+// ============================================================
+
+if (avatarInput) {
+
+    avatarInput.addEventListener(
+        "change",
+        () => {
+
+            const file = avatarInput.files?.[0];
+
+            if (!file) {
+                return;
+            }
+
+
+            // Vérification du format
+
+            const allowedTypes = [
+                "image/png",
+                "image/jpeg",
+                "image/webp"
+            ];
+
+            if (!allowedTypes.includes(file.type)) {
+
+                showMessage(
+                    "Format invalide. Utilise PNG, JPG ou WEBP.",
+                    "error"
+                );
+
+                avatarInput.value = "";
+
+                return;
+            }
+
+
+            // Vérification de la taille : 2 Mo
+
+            const maxSize = 2 * 1024 * 1024;
+
+            if (file.size > maxSize) {
+
+                showMessage(
+                    "L'image est trop volumineuse. Maximum : 2 Mo.",
+                    "error"
+                );
+
+                avatarInput.value = "";
+
+                return;
+            }
+
+
+            // Aperçu local
+
+            const imageURL =
+                URL.createObjectURL(file);
+
+            avatarPreview.src = imageURL;
+        }
+    );
+}
+
+
+// ============================================================
+// ENREGISTRER LE COMPTE
+// ============================================================
+
+if (saveAccountButton) {
+
+    saveAccountButton.addEventListener(
+        "click",
+        async () => {
+
+            const user = auth.currentUser;
+
+            if (!user) {
+
+                showMessage(
+                    "Tu dois être connecté.",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            // ------------------------------------------------
+            // RÉCUPÉRATION DES VALEURS
+            // ------------------------------------------------
+
+            const handle =
+                handleInput.value.trim();
+
+            const bio =
+                bioInput.value.trim();
+
+            const publicProfile =
+                publicProfileInput.checked;
+
+
+            // ------------------------------------------------
+            // VALIDATION DU HANDLE
+            // ------------------------------------------------
+
+            if (!isValidHandle(handle)) {
+
+                showMessage(
+                    "Ton pseudo @handle doit contenir entre 3 et 32 caractères, commencer par une lettre et utiliser uniquement des lettres, chiffres ou underscores.",
+                    "error"
+                );
+
+                handleInput.focus();
+
+                return;
+            }
+
+
+            // ------------------------------------------------
+            // VALIDATION DE LA BIO
+            // ------------------------------------------------
+
+            if (bio.length > 160) {
+
+                showMessage(
+                    "Ta bio ne peut pas dépasser 160 caractères.",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            // ------------------------------------------------
+            // ÉTAT DU BOUTON
+            // ------------------------------------------------
+
+            const originalText =
+                saveAccountButton.textContent;
+
+            saveAccountButton.disabled = true;
+
+            saveAccountButton.textContent =
+                "Enregistrement...";
+
+
+            try {
+
+                // ------------------------------------------------
+                // RÉFÉRENCE FIRESTORE
+                // ------------------------------------------------
+
+                const userRef =
+                    doc(db, "users", user.uid);
+
+
+                // ------------------------------------------------
+                // SAUVEGARDE FIRESTORE
+                // ------------------------------------------------
+
+                await setDoc(
+                    userRef,
+                    {
+                        handle: handle,
+                        bio: bio,
+                        publicProfile: publicProfile,
+                        updatedAt: serverTimestamp()
+                    },
+                    {
+                        merge: true
+                    }
+                );
+
+
+                // ------------------------------------------------
+                // MISE À JOUR DU PROFIL FIREBASE AUTH
+                // ------------------------------------------------
+
+                await updateProfile(
+                    user,
+                    {
+                        displayName: handle
+                    }
+                );
+
+
+                console.log(
+                    "Compte Lumalia enregistré."
+                );
+
+
+                showMessage(
+                    "Tes modifications ont été enregistrées !"
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "Erreur lors de l'enregistrement :",
+                    error
+                );
+
+
+                showMessage(
+                    "Une erreur est survenue pendant l'enregistrement.",
+                    "error"
+                );
+
+
+            } finally {
+
+                saveAccountButton.disabled = false;
+
+                saveAccountButton.textContent =
+                    originalText;
+            }
+        }
+    );
+}
+
+
+// ============================================================
+// VÉRIFICATION EMAIL
+// ============================================================
+
+if (emailStatus) {
+
+    emailStatus.addEventListener(
+        "click",
+        async () => {
+
+            const user = auth.currentUser;
+
+            if (!user) {
+                return;
+            }
+
+
+            if (user.emailVerified) {
+                return;
+            }
+
+
+            try {
+
+                await sendEmailVerification(user);
+
+                showMessage(
+                    "Un nouvel email de vérification a été envoyé."
+                );
+
+            } catch (error) {
+
+                console.error(
+                    "Erreur vérification email :",
+                    error
+                );
+
+                showMessage(
+                    "Impossible d'envoyer l'email de vérification.",
+                    "error"
+                );
+            }
+        }
+    );
+}
+
+
+// ============================================================
+// NAVIGATION DES PARAMÈTRES
+// ============================================================
+
+const settingsItems =
+    document.querySelectorAll(
+        ".settings-item"
+    );
+
+const settingsContents =
+    document.querySelectorAll(
+        ".settings-content"
+    );
+
+
+settingsItems.forEach(item => {
+
+    item.addEventListener(
+        "click",
+        () => {
+
+            const section =
+                item.dataset.section;
+
+            if (!section) {
+                return;
+            }
+
+
+            // Retirer l'état actif
+
+            settingsItems.forEach(
+                element => {
+                    element.classList.remove("active");
+                }
+            );
+
+
+            // Ajouter l'état actif
+
+            item.classList.add("active");
+
+
+            // Masquer toutes les sections
+
+            settingsContents.forEach(
+                content => {
+                    content.classList.remove("active");
+                }
+            );
+
+
+            // Afficher la section demandée
+
+            const target =
+                document.getElementById(section);
+
+            if (target) {
+
+                target.classList.add("active");
+
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth"
+                });
+            }
+        }
+    );
+});
+
+
+// ============================================================
+// BOUTONS "VOIR LA LISTE"
+// ============================================================
+
+document
+    .querySelectorAll("[data-section]")
+    .forEach(element => {
+
+        if (
+            !element.classList.contains(
+                "settings-item"
+            )
+        ) {
+
+            element.addEventListener(
+                "click",
+                () => {
+
+                    const section =
+                        element.dataset.section;
+
+                    const target =
+                        document.getElementById(
+                            section
+                        );
+
+                    if (!target) {
+                        return;
+                    }
+
+
+                    settingsContents.forEach(
+                        content => {
+                            content.classList.remove(
+                                "active"
+                            );
+                        }
+                    );
+
+
+                    target.classList.add(
+                        "active"
+                    );
+                }
+            );
+        }
+    });
+
+
+// ============================================================
+// 2FA
+// ============================================================
+
+const enable2FA =
+    document.getElementById("enable2FA");
+
+
+if (enable2FA) {
+
+    enable2FA.addEventListener(
+        "click",
+        () => {
+
+            /*
+             * Le 2FA sera branché sur Firebase
+             * Multi-Factor Authentication.
+             *
+             * On ne simule volontairement pas
+             * l'activation ici.
+             */
+
+            console.log(
+                "Configuration du 2FA demandée."
+            );
+
+            alert(
+                "La configuration du 2FA sera lancée ici."
+            );
+        }
+    );
+}
