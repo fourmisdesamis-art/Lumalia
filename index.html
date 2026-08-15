@@ -1,119 +1,458 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
-
-    <!-- Encodage -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Titre -->
-    <title>Lumalia • Le serveur Minecraft nouvelle génération</title>
+    <title>Lumalia — Un univers. Des mondes. Une communauté.</title>
 
-    <!-- Description -->
-    <meta name="description"
-        content="Découvrez Lumalia, le serveur Minecraft nouvelle génération. Nations, économie, PvP, événements, communauté et bien plus encore.">
+    <meta
+        name="description"
+        content="Lumalia est une infrastructure Minecraft réunissant plusieurs serveurs, communautés et expériences."
+    >
 
-    <!-- Auteur -->
-    <meta name="author" content="Voltyx Studio">
-
-    <!-- Couleur navigateur -->
-    <meta name="theme-color" content="#6C4BFF">
-
-    <!-- Icône -->
-    <link rel="icon" href="assets/images/logo.png">
-
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
-        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
 
-    <!-- Font Awesome -->
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-
-    <!-- CSS -->
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/navbar.css">
-    <link rel="stylesheet" href="css/home.css">
-    <link rel="stylesheet" href="css/footer.css">
-    <link rel="stylesheet" href="css/animations.css">
-
+    <link rel="stylesheet" href="css/index.css">
 </head>
 
 <body>
 
-    <!-- ========================= -->
-    <!-- Background -->
-    <!-- ========================= -->
+    <!-- HEADER -->
+    <header class="navbar">
+        <div class="navbar-container">
 
-    <div class="background"></div>
+            <a href="/" class="brand">
+                <div class="brand-logo">
+                    L
+                </div>
 
-    <!-- ========================= -->
-    <!-- Navbar -->
-    <!-- ========================= -->
+                <span class="brand-name">Lumalia</span>
+            </a>
 
-    <header>
+            <nav class="navigation">
 
-        <!-- La navbar sera ici -->
+                <a href="#univers">Univers</a>
+                <a href="#serveurs">Serveurs</a>
+                <a href="#actualites">Actualités</a>
+                <a href="#communaute">Communauté</a>
 
+                <a href="#" class="download-link">
+                    Télécharger
+                </a>
+
+            </nav>
+
+            <div class="navbar-actions">
+
+                <a href="#" class="login-button">
+                    Connexion
+                </a>
+
+                <a href="#" class="register-button">
+                    Créer un compte
+                </a>
+
+            </div>
+
+            <button
+                class="mobile-menu-button"
+                id="mobileMenuButton"
+                aria-label="Ouvrir le menu"
+            >
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+        </div>
     </header>
 
-    <!-- ========================= -->
-    <!-- Contenu -->
-    <!-- ========================= -->
 
+    <!-- MOBILE MENU -->
+    <div class="mobile-menu" id="mobileMenu">
+
+        <div class="mobile-menu-content">
+
+            <a href="#univers">Univers</a>
+            <a href="#serveurs">Serveurs</a>
+            <a href="#actualites">Actualités</a>
+            <a href="#communaute">Communauté</a>
+            <a href="#">Télécharger</a>
+
+            <div class="mobile-menu-separator"></div>
+
+            <a href="#">Connexion</a>
+
+            <a href="#" class="mobile-register">
+                Créer un compte
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- HERO -->
     <main>
 
-        <!-- Hero -->
-        <section id="hero">
+        <section class="hero">
+
+            <div class="hero-background"></div>
+
+            <div class="hero-content">
+
+                <div class="hero-badge">
+                    <span class="badge-dot"></span>
+                    L'univers Minecraft de Lumalia
+                </div>
+
+                <h1>
+                    Un univers.
+                    <br>
+                    <span>Des mondes.</span>
+                    <br>
+                    Une communauté.
+                </h1>
+
+                <p class="hero-description">
+                    Lumalia rassemble des expériences Minecraft uniques
+                    dans une même infrastructure, pensées pour créer,
+                    explorer et jouer ensemble.
+                </p>
+
+                <div class="hero-actions">
+
+                    <a href="#serveurs" class="primary-button">
+                        Découvrir Lumalia
+                        <span>→</span>
+                    </a>
+
+                    <a href="#" class="secondary-button">
+                        Télécharger le launcher
+                    </a>
+
+                </div>
+
+            </div>
+
+            <div class="hero-scroll">
+                <span>Découvrir</span>
+                <div class="scroll-line"></div>
+            </div>
 
         </section>
 
-        <!-- Informations -->
-        <section id="server-info">
+
+        <!-- UNIVERS -->
+        <section class="section univers-section" id="univers">
+
+            <div class="section-container">
+
+                <div class="section-heading">
+
+                    <span class="section-label">
+                        L'UNIVERS LUMALIA
+                    </span>
+
+                    <h2>
+                        Bien plus qu'un
+                        <span>serveur Minecraft.</span>
+                    </h2>
+
+                    <p>
+                        Lumalia est une infrastructure pensée pour réunir
+                        plusieurs mondes, serveurs et communautés au sein
+                        d'un même univers.
+                    </p>
+
+                </div>
+
+
+                <div class="feature-grid">
+
+                    <article class="feature-card">
+
+                        <div class="feature-number">
+                            01
+                        </div>
+
+                        <h3>
+                            Plusieurs mondes
+                        </h3>
+
+                        <p>
+                            Des expériences différentes, chacune avec
+                            son identité, son gameplay et sa communauté.
+                        </p>
+
+                    </article>
+
+
+                    <article class="feature-card">
+
+                        <div class="feature-number">
+                            02
+                        </div>
+
+                        <h3>
+                            Une identité unique
+                        </h3>
+
+                        <p>
+                            Un compte, un launcher et une infrastructure
+                            commune pour tout l'écosystème Lumalia.
+                        </p>
+
+                    </article>
+
+
+                    <article class="feature-card">
+
+                        <div class="feature-number">
+                            03
+                        </div>
+
+                        <h3>
+                            Une communauté
+                        </h3>
+
+                        <p>
+                            Retrouvez vos amis, vos profils et votre
+                            progression au même endroit.
+                        </p>
+
+                    </article>
+
+                </div>
+
+            </div>
 
         </section>
 
-        <!-- Actualités -->
-        <section id="news">
+
+        <!-- SERVEURS -->
+        <section class="section servers-section" id="serveurs">
+
+            <div class="section-container">
+
+                <div class="section-heading">
+
+                    <span class="section-label">
+                        NOS SERVEURS
+                    </span>
+
+                    <h2>
+                        Entrez dans
+                        <span>votre monde.</span>
+                    </h2>
+
+                </div>
+
+
+                <div class="server-grid">
+
+                    <article class="server-card server-crystal">
+
+                        <div class="server-card-overlay"></div>
+
+                        <div class="server-content">
+
+                            <span class="server-version">
+                                JAVA EDITION
+                            </span>
+
+                            <h3>
+                                Crystal
+                            </h3>
+
+                            <p>
+                                Une expérience RP au cœur d'un monde
+                                façonné par ses civilisations.
+                            </p>
+
+                            <a href="#">
+                                Découvrir
+                                <span>→</span>
+                            </a>
+
+                        </div>
+
+                    </article>
+
+
+                    <article class="server-card server-green">
+
+                        <div class="server-card-overlay"></div>
+
+                        <div class="server-content">
+
+                            <span class="server-version">
+                                JAVA EDITION
+                            </span>
+
+                            <h3>
+                                Green
+                            </h3>
+
+                            <p>
+                                Une expérience Lumalia pensée pour
+                                notre communauté internationale.
+                            </p>
+
+                            <a href="#">
+                                Découvrir
+                                <span>→</span>
+                            </a>
+
+                        </div>
+
+                    </article>
+
+
+                    <article class="server-card server-onyx">
+
+                        <div class="server-card-overlay"></div>
+
+                        <div class="server-content">
+
+                            <span class="server-version">
+                                BEDROCK EDITION
+                            </span>
+
+                            <h3>
+                                Onyx
+                            </h3>
+
+                            <p>
+                                Le premier monde Lumalia entièrement
+                                dédié à Minecraft Bedrock.
+                            </p>
+
+                            <a href="#">
+                                Découvrir
+                                <span>→</span>
+                            </a>
+
+                        </div>
+
+                    </article>
+
+                </div>
+
+            </div>
 
         </section>
 
-        <!-- Pourquoi Lumalia -->
-        <section id="features">
 
-        </section>
+        <!-- CTA -->
+        <section class="cta-section" id="communaute">
 
-        <!-- Galerie -->
-        <section id="gallery">
+            <div class="cta-container">
 
-        </section>
+                <span class="section-label">
+                    REJOIGNEZ L'AVENTURE
+                </span>
 
-        <!-- Rejoindre -->
-        <section id="join">
+                <h2>
+                    Votre histoire
+                    <span>commence ici.</span>
+                </h2>
+
+                <p>
+                    Créez votre compte Lumalia et rejoignez
+                    notre communauté.
+                </p>
+
+                <a href="#" class="primary-button">
+                    Créer mon compte
+                    <span>→</span>
+                </a>
+
+            </div>
 
         </section>
 
     </main>
 
-    <!-- ========================= -->
-    <!-- Footer -->
-    <!-- ========================= -->
 
-    <footer>
+    <!-- FOOTER -->
+    <footer class="footer">
+
+        <div class="footer-container">
+
+            <div class="footer-brand">
+
+                <div class="brand">
+                    <div class="brand-logo">
+                        L
+                    </div>
+
+                    <span class="brand-name">
+                        Lumalia
+                    </span>
+                </div>
+
+                <p>
+                    Un univers. Des mondes. Une communauté.
+                </p>
+
+            </div>
+
+
+            <div class="footer-links">
+
+                <div>
+                    <h4>Lumalia</h4>
+
+                    <a href="#univers">Univers</a>
+                    <a href="#serveurs">Serveurs</a>
+                    <a href="#actualites">Actualités</a>
+                </div>
+
+                <div>
+                    <h4>Communauté</h4>
+
+                    <a href="#">Discord</a>
+                    <a href="#">Support</a>
+                    <a href="#">Nous rejoindre</a>
+                </div>
+
+                <div>
+                    <h4>Informations</h4>
+
+                    <a href="#">Conditions</a>
+                    <a href="#">Confidentialité</a>
+                    <a href="#">Mentions légales</a>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+            <span>
+                © 2026 Lumalia. Tous droits réservés.
+            </span>
+
+            <span>
+                Fait avec passion par Lumalia.
+            </span>
+
+        </div>
 
     </footer>
 
-    <!-- ========================= -->
-    <!-- Javascript -->
-    <!-- ========================= -->
 
-    <script src="js/main.js"></script>
-    <script src="js/home.js"></script>
+    <script src="js/index.js"></script>
 
 </body>
-
-</html>
+    </html>
