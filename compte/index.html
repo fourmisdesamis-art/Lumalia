@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Mon profil — Lumalia</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link rel="stylesheet" href="css/profil.css">
+</head>
+
+<body>
+
+    <header class="topbar">
+
+        <a href="../index.html" class="brand">
+            <span class="brand-logo">L</span>
+            <span>Lumalia</span>
+        </a>
+
+        <a href="../index.html" class="back-link">
+            ← Retour à Lumalia
+        </a>
+
+    </header>
+
+
+    <main class="profile-page">
+
+        <section class="profile-container">
+
+            <div class="page-label">
+                <span></span>
+                COMPTE LUMALIA
+            </div>
+
+            <h1>Mon profil</h1>
+
+            <p class="page-description">
+                Retrouvez les informations principales de votre compte Lumalia.
+            </p>
+
+
+            <!-- Message général -->
+            <div
+                id="profile-message"
+                class="profile-message"
+                role="alert"
+                aria-live="polite"
+            ></div>
+
+
+            <!-- Chargement -->
+            <div id="profile-loading" class="loading">
+                <div class="loading-spinner"></div>
+                <span>Chargement du profil…</span>
+            </div>
+
+
+            <!-- Informations du compte -->
+            <section
+                id="profile-card"
+                class="profile-card"
+                hidden
+            >
+
+                <div class="profile-row">
+
+                    <div class="profile-label">
+                        UUID du compte
+                    </div>
+
+                    <div
+                        id="profile-uid"
+                        class="profile-value uuid"
+                    >
+                        —
+                    </div>
+
+                </div>
+
+
+                <div class="profile-row">
+
+                    <div class="profile-label">
+                        Pseudo
+                    </div>
+
+                    <div
+                        id="profile-username"
+                        class="profile-value"
+                    >
+                        —
+                    </div>
+
+                </div>
+
+
+                <div class="profile-row">
+
+                    <div class="profile-label">
+                        Adresse e-mail
+                    </div>
+
+                    <div
+                        id="profile-email"
+                        class="profile-value"
+                    >
+                        —
+                    </div>
+
+                </div>
+
+
+                <div class="profile-row">
+
+                    <div class="profile-label">
+                        Grade
+                    </div>
+
+                    <div>
+                        <span
+                            id="profile-grade"
+                            class="grade-badge"
+                        >
+                            —
+                        </span>
+                    </div>
+
+                </div>
+
+
+                <div class="profile-row">
+
+                    <div class="profile-label">
+                        Compte créé le
+                    </div>
+
+                    <div
+                        id="profile-created"
+                        class="profile-value"
+                    >
+                        —
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!--
+                Panneau Administrateur.
+
+                Il est caché par défaut.
+                profil.js ne l'affiche que si le grade Firebase
+                de l'utilisateur connecté est exactement :
+                "Administrateur"
+            -->
+            <section
+                id="admin-panel"
+                class="admin-panel"
+                hidden
+            >
+
+                <div class="admin-header">
+
+                    <div class="admin-icon">
+                        ⚙
+                    </div>
+
+                    <div>
+                        <div class="admin-label">
+                            ADMINISTRATION
+                        </div>
+
+                        <h2>
+                            Gestion des grades
+                        </h2>
+                    </div>
+
+                </div>
+
+
+                <p class="admin-description">
+                    Entrez le pseudo Lumalia d’un joueur, choisissez le
+                    nouveau grade puis cliquez sur « Ajouter ».
+                </p>
+
+
+                <div class="admin-form">
+
+                    <div class="admin-field">
+
+                        <label for="target-username">
+                            Pseudo Lumalia
+                        </label>
+
+                        <input
+                            id="target-username"
+                            type="text"
+                            placeholder="Ex. Lumalien1234"
+                            autocomplete="off"
+                        >
+
+                    </div>
+
+
+                    <div class="admin-field">
+
+                        <label for="target-grade">
+                            Grade
+                        </label>
+
+                        <select id="target-grade">
+
+                            <option value="Joueur">
+                                Joueur
+                            </option>
+
+                            <option value="Guide">
+                                Guide
+                            </option>
+
+                            <option value="Moderateur">
+                                Moderateur
+                            </option>
+
+                            <option value="SuperModerateur">
+                                SuperModerateur
+                            </option>
+
+                            <option value="Administrateur">
+                                Administrateur
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <button
+                        id="assign-grade"
+                        class="assign-button"
+                        type="button"
+                    >
+                        Ajouter
+                    </button>
+
+                </div>
+
+
+                <div
+                    id="admin-message"
+                    class="admin-message"
+                    role="status"
+                    aria-live="polite"
+                ></div>
+
+            </section>
+
+        </section>
+
+    </main>
+
+
+    <script
+        type="module"
+        src="js/profil.js"
+    ></script>
+
+</body>
+</html>
