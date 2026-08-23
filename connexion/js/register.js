@@ -1,7 +1,15 @@
 import{initializeApp}from"https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";import{getAuth,createUserWithEmailAndPassword,updateProfile,sendEmailVerification}from"https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";import{getFirestore,doc,setDoc,serverTimestamp}from"https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 /* REMPLACEZ UNIQUEMENT CES VALEURS PAR LA CONFIGURATION WEB DE VOTRE PROJET FIREBASE. */
-const firebaseConfig={apiKey:"REMPLACEZ_PAR_VOTRE_API_KEY",authDomain:"VOTRE_PROJET.firebaseapp.com",projectId:"VOTRE_PROJECT_ID",storageBucket:"VOTRE_PROJET.firebasestorage.app",messagingSenderId:"VOTRE_MESSAGING_SENDER_ID",appId:"VOTRE_APP_ID"};
+const firebaseConfig = {
+  apiKey: "AIzaSyBSCqSsBTXk9Q8sBX88NgrdDHUAHT0Cq6I",
+  authDomain: "lumalia.firebaseapp.com",
+  projectId: "lumalia",
+  storageBucket: "lumalia.firebasestorage.app",
+  messagingSenderId: "189011821397",
+  appId: "1:189011821397:web:03c8609d35d488dce2a5dc",
+  measurementId: "G-4G4KMZCWFH"
+};
 
 const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app);
 const $=id=>document.getElementById(id),form=$("register-form"),message=$("message"),submit=$("submit");
