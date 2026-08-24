@@ -6,14 +6,13 @@
 
   <meta
     name="description"
-    content="Règlement officiel de Lumalia — Découvrez les règles de la communauté et des serveurs Lumalia."
+    content="Règlement officiel du serveur Minecraft Lumalia."
   >
 
-  <title>Règlement — Lumalia</title>
+  <title>Lumalia — Règlement</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
   <link
     href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
     rel="stylesheet"
@@ -24,18 +23,10 @@
 
 <body>
 
-  <!-- =====================================================
-       EFFETS DE FOND
-  ====================================================== -->
-
   <div class="page-glow glow-one"></div>
   <div class="page-glow glow-two"></div>
 
-
-  <!-- =====================================================
-       NAVBAR — IDENTIQUE À L'ACCUEIL
-  ====================================================== -->
-
+  <!-- NAVBAR -->
   <header class="navbar">
 
     <a class="brand" href="/">
@@ -44,34 +35,24 @@
     </a>
 
     <nav class="nav-links" aria-label="Navigation principale">
-
       <a href="/">Accueil</a>
-
       <a href="/#univers">Univers</a>
-
       <a href="/#serveurs">Serveurs</a>
-
       <a href="/#actualites">Actualités</a>
-
       <a href="/#communaute">Communauté</a>
-
     </nav>
 
     <div class="nav-actions">
+      <a class="account-link" href="/connexion/">Connexion</a>
 
-      <a class="account-link" href="/connexion/">
-        Connexion
+      <a class="primary-button small" href="/launcher">
+        Jouer maintenant
+        <span>→</span>
       </a>
-
-      <a class="primary-button small" href="/launcher/">
-        Jouer maintenant <span>→</span>
-      </a>
-
     </div>
 
     <button
       class="menu-button"
-      type="button"
       aria-label="Ouvrir le menu"
       aria-expanded="false"
     >
@@ -82,830 +63,404 @@
 
   </header>
 
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu">
 
-  <!-- =====================================================
-       MENU MOBILE
-  ====================================================== -->
+    <a href="/">Accueil</a>
+    <a href="/#univers">Univers</a>
+    <a href="/#serveurs">Serveurs</a>
+    <a href="/#actualites">Actualités</a>
+    <a href="/#communaute">Communauté</a>
 
-  <div class="mobile-navigation" id="mobileNavigation">
+    <div class="mobile-divider"></div>
 
-    <nav aria-label="Navigation mobile">
+    <a href="/connexion/">Connexion</a>
 
-      <a href="/">Accueil</a>
-
-      <a href="/#univers">Univers</a>
-
-      <a href="/#serveurs">Serveurs</a>
-
-      <a href="/#actualites">Actualités</a>
-
-      <a href="/#communaute">Communauté</a>
-
-      <a href="/connexion/">Connexion</a>
-
-      <a class="mobile-play" href="/launcher/">
-        Jouer maintenant →
-      </a>
-
-    </nav>
+    <a class="mobile-play" href="/launcher">
+      Jouer maintenant
+      <span>→</span>
+    </a>
 
   </div>
 
-
-  <!-- =====================================================
-       CONTENU
-  ====================================================== -->
-
   <main>
 
-
-    <!-- ===================================================
-         HERO
-    ==================================================== -->
-
-    <section class="reglement-hero">
+    <!-- HERO -->
+    <section class="rules-hero">
 
       <div class="hero-background"></div>
 
-      <div class="hero-content">
+      <div class="rules-hero-content">
 
-        <span class="section-number">
-          RÈGLEMENT · LUMALIA
-        </span>
+        <div class="eyebrow">
+          <span class="status-dot"></span>
+          LUMALIA • RÈGLEMENT OFFICIEL
+        </div>
 
         <h1>
-          Les règles de<br>
+          Le règlement
           <span>Lumalia.</span>
         </h1>
 
         <p>
-          Retrouvez ici l'ensemble des règles qui permettent à chaque joueur
-          de profiter d'une expérience agréable, équilibrée et respectueuse
-          au sein de Lumalia.
+          Afin de garantir une expérience agréable, équitable et
+          respectueuse pour tous, chaque joueur doit prendre connaissance
+          et respecter les règles de Lumalia.
         </p>
 
-        <div class="hero-meta">
+      </div>
 
-          <div>
-            <span>DERNIÈRE MISE À JOUR</span>
-            <strong>24 AOÛT 2026</strong>
+    </section>
+
+    <!-- RULES -->
+    <section class="rules-section">
+
+      <div class="rules-layout">
+
+        <!-- SIDEBAR -->
+        <aside class="rules-sidebar">
+
+          <div class="sidebar-title">
+            <span>RÈGLEMENT</span>
+            <strong>Navigation</strong>
           </div>
 
-          <div>
-            <span>VERSION</span>
-            <strong>1.0</strong>
-          </div>
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- ===================================================
-         INTRODUCTION
-    ==================================================== -->
-
-    <section class="section introduction">
-
-      <div class="section-heading">
-
-        <span class="section-number">
-          01 · INTRODUCTION
-        </span>
-
-        <h2>
-          Un univers commun.<br>
-          <span>Des règles communes.</span>
-        </h2>
-
-      </div>
-
-      <div class="introduction-layout">
-
-        <p class="introduction-text">
-          Lumalia est un univers construit autour de sa communauté.
-          Afin que chaque joueur puisse construire, explorer, commercer
-          et vivre son aventure dans de bonnes conditions, certaines
-          règles doivent être respectées.
-        </p>
-
-        <div class="important-card">
-
-          <div class="important-icon">
-            L
-          </div>
-
-          <div>
-
-            <strong>
-              À retenir
-            </strong>
-
-            <p>
-              En rejoignant Lumalia, vous acceptez de respecter ce règlement,
-              ainsi que les règles spécifiques pouvant s'appliquer à certains
-              serveurs ou événements.
-            </p>
-
-          </div>
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- ===================================================
-         COMPORTEMENT
-    ==================================================== -->
-
-    <section class="section rules-section">
-
-      <div class="section-heading">
-
-        <span class="section-number">
-          02 · COMPORTEMENT
-        </span>
-
-        <h2>
-          Respecter les autres.<br>
-          <span>Avant tout.</span>
-        </h2>
-
-      </div>
-
-      <div class="rules-grid">
-
-        <article class="rule-card">
-
-          <span class="rule-index">
-            01
-          </span>
-
-          <h3>
-            Respect des joueurs
-          </h3>
-
-          <p>
-            Chaque membre doit respecter les autres joueurs.
-            Les insultes répétées, provocations, humiliations et comportements
-            volontairement toxiques ne sont pas autorisés.
-          </p>
-
-        </article>
-
-
-        <article class="rule-card">
-
-          <span class="rule-index">
-            02
-          </span>
-
-          <h3>
-            Harcèlement
-          </h3>
-
-          <p>
-            Le harcèlement, les menaces, l'intimidation ou l'acharnement
-            envers un joueur sont interdits, quelle que soit la plateforme
-            utilisée dans le cadre de Lumalia.
-          </p>
-
-        </article>
-
-
-        <article class="rule-card">
-
-          <span class="rule-index">
-            03
-          </span>
-
-          <h3>
-            Respect du staff
-          </h3>
-
-          <p>
-            Les membres du staff doivent être respectés.
-            Une décision peut être contestée de manière calme et constructive,
-            mais les attaques personnelles ne sont pas acceptées.
-          </p>
-
-        </article>
-
-
-        <article class="rule-card">
-
-          <span class="rule-index">
-            04
-          </span>
-
-          <h3>
-            Contenu inapproprié
-          </h3>
-
-          <p>
-            Les contenus discriminatoires, haineux, sexuels, illégaux ou
-            volontairement choquants sont interdits sur les espaces
-            communautaires de Lumalia.
-          </p>
-
-        </article>
-
-      </div>
-
-    </section>
-
-
-    <!-- ===================================================
-         JEU
-    ==================================================== -->
-
-    <section class="section rules-section">
-
-      <div class="section-heading">
-
-        <span class="section-number">
-          03 · JEU
-        </span>
-
-        <h2>
-          Jouez fair-play.<br>
-          <span>Gardez l'expérience équilibrée.</span>
-        </h2>
-
-      </div>
-
-      <div class="rules-grid">
-
-        <article class="rule-card">
-
-          <span class="rule-index">
-            01
-          </span>
-
-          <h3>
-            Triche
-          </h3>
-
-          <p>
-            L'utilisation d'un logiciel, client ou outil donnant un avantage
-            injuste sur les autres joueurs est interdite.
-          </p>
-
-        </article>
-
-
-        <article class="rule-card">
-
-          <span class="rule-index">
-            02
-          </span>
-
-          <h3>
-            Exploitation de bugs
-          </h3>
-
-          <p>
-            L'exploitation volontaire d'un bug ou d'une faille afin d'obtenir
-            un avantage est interdite. Les failles importantes doivent être
-            signalées au staff.
-          </p>
-
-        </article>
-
-
-        <article class="rule-card">
-
-          <span class="rule-index">
-            03
-          </span>
-
-          <h3>
-            Automatisation abusive
-          </h3>
-
-          <p>
-            Toute automatisation permettant de contourner les mécaniques
-            normales du jeu ou d'obtenir un avantage déloyal peut être sanctionnée.
-          </p>
-
-        </article>
-
-
-        <article class="rule-card">
-
-          <span class="rule-index">
-            04
-          </span>
-
-          <h3>
-            Contournement
-          </h3>
-
-          <p>
-            Il est interdit de contourner volontairement une limitation,
-            une restriction ou une sanction appliquée par Lumalia.
-          </p>
-
-        </article>
-
-      </div>
-
-    </section>
-
-
-    <!-- ===================================================
-         COMMUNAUTÉ
-    ==================================================== -->
-
-    <section class="section rules-section">
-
-      <div class="section-heading">
-
-        <span class="section-number">
-          04 · COMMUNAUTÉ
-        </span>
-
-        <h2>
-          Une communauté.<br>
-          <span>Un espace pour chacun.</span>
-        </h2>
-
-      </div>
-
-      <div class="rules-grid">
-
-        <article class="rule-card">
-
-          <span class="rule-index">
-            01
-          </span>
-
-          <h3>
-            Spam
-          </h3>
-
-          <p>
-            L'envoi massif ou répétitif de messages, commandes ou contenus
-            sans intérêt pour la conversation est interdit.
-          </p>
-
-        </article>
-
-
-        <article class="rule-card">
-
-          <span class="rule-index">
-            02
-          </span>
-
-          <h3>
-            Publicité
-          </h3>
-
-          <p>
-            La publicité pour un autre serveur, site, service ou communauté
-            sans autorisation est interdite.
-          </p>
-
-        </article>
-
-
-        <article class="rule-card">
-
-          <span class="rule-index">
-            03
-          </span>
-
-          <h3>
-            Usurpation
-          </h3>
-
-          <p>
-            Se faire passer pour un autre joueur, un membre du staff
-            ou Lumalia afin de tromper quelqu'un est interdit.
-          </p>
-
-        </article>
-
-
-        <article class="rule-card">
-
-          <span class="rule-index">
-            04
-          </span>
-
-          <h3>
-            Liens dangereux
-          </h3>
-
-          <p>
-            Les liens malveillants, tentatives de phishing ou contenus visant
-            à compromettre le compte d'un autre utilisateur sont strictement interdits.
-          </p>
-
-        </article>
-
-      </div>
-
-    </section>
-
-
-    <!-- ===================================================
-         ÉCONOMIE
-    ==================================================== -->
-
-    <section class="section rules-section">
-
-      <div class="section-heading">
-
-        <span class="section-number">
-          05 · ÉCONOMIE
-        </span>
-
-        <h2>
-          Une économie saine.<br>
-          <span>Des échanges équitables.</span>
-        </h2>
-
-      </div>
-
-      <div class="rules-grid">
-
-        <article class="rule-card">
-
-          <span class="rule-index">
-            01
-          </span>
-
-          <h3>
-            Arnaques
-          </h3>
-
-          <p>
-            Les manipulations ou tromperies visant volontairement à obtenir
-            les biens d'un autre joueur peuvent être sanctionnées.
-          </p>
-
-        </article>
-
-
-        <article class="rule-card">
-
-          <span class="rule-index">
-            02
-          </span>
-
-          <h3>
-            Duplication
-          </h3>
-
-          <p>
-            Toute utilisation volontaire d'une faille permettant de dupliquer
-            des objets, ressources ou monnaies est interdite.
-          </p>
-
-        </article>
-
-
-        <article class="rule-card">
-
-          <span class="rule-index">
-            03
-          </span>
-
-          <h3>
-            Fraude
-          </h3>
-
-          <p>
-            Toute tentative de manipulation frauduleuse de l'économie
-            ou des systèmes commerciaux de Lumalia est interdite.
-          </p>
-
-        </article>
-
-
-        <article class="rule-card">
-
-          <span class="rule-index">
-            04
-          </span>
-
-          <h3>
-            Exploitation économique
-          </h3>
-
-          <p>
-            L'exploitation volontaire d'une mécanique économique de manière
-            manifestement abusive peut entraîner une sanction.
-          </p>
-
-        </article>
-
-      </div>
-
-    </section>
-
-
-    <!-- ===================================================
-         NATIONS / RP
-    ==================================================== -->
-
-    <section class="section rules-section">
-
-      <div class="section-heading">
-
-        <span class="section-number">
-          06 · NATIONS & RP
-        </span>
-
-        <h2>
-          Écrivez votre histoire.<br>
-          <span>Respectez celle des autres.</span>
-        </h2>
-
-      </div>
-
-      <div class="rules-grid">
-
-        <article class="rule-card">
-
-          <span class="rule-index">
-            01
-          </span>
-
-          <h3>
-            Roleplay
-          </h3>
-
-          <p>
-            Lorsque le roleplay est requis par un serveur ou un événement,
-            les joueurs doivent respecter les règles et mécaniques associées.
-          </p>
-
-        </article>
-
-
-        <article class="rule-card">
-
-          <span class="rule-index">
-            02
-          </span>
-
-          <h3>
-            Nations et villes
-          </h3>
-
-          <p>
-            Les nations, villes et territoires doivent être utilisés
-            conformément aux règles spécifiques du serveur concerné.
-          </p>
-
-        </article>
-
-
-        <article class="rule-card">
-
-          <span class="rule-index">
-            03
-          </span>
-
-          <h3>
-            Guerres
-          </h3>
-
-          <p>
-            Les conflits entre nations doivent respecter les mécaniques,
-            conditions et limitations prévues par le serveur.
-          </p>
-
-        </article>
-
-
-        <article class="rule-card">
-
-          <span class="rule-index">
-            04
-          </span>
-
-          <h3>
-            Claims
-          </h3>
-
-          <p>
-            Les territoires protégés et les claims doivent être utilisés
-            conformément aux règles du serveur.
-          </p>
-
-        </article>
-
-      </div>
-
-    </section>
-
-
-    <!-- ===================================================
-         COMPTE
-    ==================================================== -->
-
-    <section class="section rules-section">
-
-      <div class="section-heading">
-
-        <span class="section-number">
-          07 · COMPTE & SÉCURITÉ
-        </span>
-
-        <h2>
-          Protégez votre compte.<br>
-          <span>Protégez votre aventure.</span>
-        </h2>
-
-      </div>
-
-      <div class="rules-grid">
-
-        <article class="rule-card">
-
-          <span class="rule-index">
-            01
-          </span>
-
-          <h3>
-            Sécurité du compte
-          </h3>
-
-          <p>
-            Chaque joueur est responsable de la sécurité de son compte
-            et des actions effectuées depuis celui-ci.
-          </p>
-
-        </article>
-
-
-        <article class="rule-card">
-
-          <span class="rule-index">
-            02
-          </span>
-
-          <h3>
-            Partage de compte
-          </h3>
-
-          <p>
-            Le partage d'un compte est déconseillé. Il ne permet en aucun cas
-            de transférer la responsabilité des actions réalisées sur celui-ci.
-          </p>
-
-        </article>
-
-
-        <article class="rule-card">
-
-          <span class="rule-index">
-            03
-          </span>
-
-          <h3>
-            Accès frauduleux
-          </h3>
-
-          <p>
-            Toute tentative d'accès au compte d'un autre joueur sans son
-            autorisation est strictement interdite.
-          </p>
-
-        </article>
-
-
-        <article class="rule-card">
-
-          <span class="rule-index">
-            04
-          </span>
-
-          <h3>
-            Contournement de sanction
-          </h3>
-
-          <p>
-            Utiliser un autre compte pour contourner une sanction appliquée
-            par le staff est interdit.
-          </p>
-
-        </article>
-
-      </div>
-
-    </section>
-
-
-    <!-- ===================================================
-         SANCTIONS
-    ==================================================== -->
-
-    <section class="section sanctions-section">
-
-      <div class="section-heading">
-
-        <span class="section-number">
-          08 · SANCTIONS
-        </span>
-
-        <h2>
-          Des sanctions adaptées.<br>
-          <span>À chaque situation.</span>
-        </h2>
-
-      </div>
-
-      <div class="sanctions-layout">
-
-        <div class="sanctions-description">
-
-          <p>
-            Les sanctions appliquées par le staff dépendent de la gravité
-            de l'infraction, de son impact sur la communauté, des antécédents
-            du joueur et des circonstances.
-          </p>
-
-          <div class="sanctions-note">
-
-            <strong>
-              Important
-            </strong>
-
-            <p>
-              Le staff peut adapter une sanction lorsqu'une situation
-              particulière le nécessite.
-            </p>
-
-          </div>
-
-        </div>
-
-
-        <div class="sanctions-list">
-
-          <div class="sanction-row">
-
+          <a href="#general" class="sidebar-link active">
             <span>01</span>
+            Général
+          </a>
 
-            <div>
-              <strong>Avertissement</strong>
-              <p>
-                Rappel officiel des règles.
-              </p>
-            </div>
-
-          </div>
-
-
-          <div class="sanction-row">
-
+          <a href="#comportement" class="sidebar-link">
             <span>02</span>
+            Comportement
+          </a>
 
-            <div>
-              <strong>Restriction</strong>
-              <p>
-                Limitation temporaire de certaines fonctionnalités.
-              </p>
-            </div>
-
-          </div>
-
-
-          <div class="sanction-row">
-
+          <a href="#chat" class="sidebar-link">
             <span>03</span>
+            Chat
+          </a>
 
-            <div>
-              <strong>Bannissement temporaire</strong>
-              <p>
-                Suspension de l'accès pendant une durée déterminée.
-              </p>
-            </div>
-
-          </div>
-
-
-          <div class="sanction-row">
-
+          <a href="#triche" class="sidebar-link">
             <span>04</span>
+            Triche & logiciels
+          </a>
 
-            <div>
-              <strong>Bannissement définitif</strong>
-              <p>
-                Retrait permanent de l'accès à Lumalia.
+          <a href="#exploitation" class="sidebar-link">
+            <span>05</span>
+            Exploitation
+          </a>
+
+          <a href="#sanctions" class="sidebar-link">
+            <span>06</span>
+            Sanctions
+          </a>
+
+        </aside>
+
+        <!-- CONTENT -->
+        <div class="rules-content">
+
+          <!-- GENERAL -->
+          <article class="rule-card" id="general">
+
+            <div class="rule-number">01</div>
+
+            <div class="rule-body">
+
+              <span class="rule-category">GÉNÉRAL</span>
+
+              <h2>Règles générales</h2>
+
+              <p class="rule-intro">
+                Ces règles constituent la base du fonctionnement de
+                Lumalia. En rejoignant le serveur, vous acceptez de
+                les respecter.
               </p>
+
+              <div class="rule-list">
+
+                <div class="rule-item">
+                  <strong>01.01</strong>
+                  <p>
+                    Tout joueur doit respecter les autres membres de
+                    la communauté ainsi que l'équipe Lumalia.
+                  </p>
+                </div>
+
+                <div class="rule-item">
+                  <strong>01.02</strong>
+                  <p>
+                    Il est interdit de contourner volontairement une
+                    règle ou d'exploiter une faille du règlement.
+                  </p>
+                </div>
+
+                <div class="rule-item">
+                  <strong>01.03</strong>
+                  <p>
+                    L'utilisation d'un compte appartient entièrement
+                    à son propriétaire. Le prêt ou partage d'un compte
+                    se fait sous votre responsabilité.
+                  </p>
+                </div>
+
+              </div>
+
             </div>
 
-          </div>
+          </article>
+
+          <!-- COMPORTEMENT -->
+          <article class="rule-card" id="comportement">
+
+            <div class="rule-number">02</div>
+
+            <div class="rule-body">
+
+              <span class="rule-category">COMMUNAUTÉ</span>
+
+              <h2>Comportement</h2>
+
+              <p class="rule-intro">
+                Lumalia est une communauté. Le respect entre les
+                joueurs est donc indispensable.
+              </p>
+
+              <div class="rule-list">
+
+                <div class="rule-item">
+                  <strong>02.01</strong>
+                  <p>
+                    Les insultes, provocations répétées, menaces,
+                    harcèlement et comportements toxiques sont interdits.
+                  </p>
+                </div>
+
+                <div class="rule-item">
+                  <strong>02.02</strong>
+                  <p>
+                    Toute discrimination ou attaque visant une personne
+                    ou un groupe est interdite.
+                  </p>
+                </div>
+
+                <div class="rule-item">
+                  <strong>02.03</strong>
+                  <p>
+                    Les comportements visant volontairement à nuire
+                    à l'expérience d'autres joueurs peuvent être sanctionnés.
+                  </p>
+                </div>
+
+              </div>
+
+            </div>
+
+          </article>
+
+          <!-- CHAT -->
+          <article class="rule-card" id="chat">
+
+            <div class="rule-number">03</div>
+
+            <div class="rule-body">
+
+              <span class="rule-category">COMMUNICATION</span>
+
+              <h2>Chat & communication</h2>
+
+              <p class="rule-intro">
+                Le chat doit rester lisible et agréable pour l'ensemble
+                des joueurs.
+              </p>
+
+              <div class="rule-list">
+
+                <div class="rule-item">
+                  <strong>03.01</strong>
+                  <p>
+                    Le spam, flood et messages répétés volontairement
+                    sont interdits.
+                  </p>
+                </div>
+
+                <div class="rule-item">
+                  <strong>03.02</strong>
+                  <p>
+                    La publicité pour d'autres serveurs ou services
+                    sans autorisation est interdite.
+                  </p>
+                </div>
+
+                <div class="rule-item">
+                  <strong>03.03</strong>
+                  <p>
+                    L'utilisation abusive des commandes de communication
+                    peut être sanctionnée.
+                  </p>
+                </div>
+
+              </div>
+
+            </div>
+
+          </article>
+
+          <!-- TRICHE -->
+          <article class="rule-card" id="triche">
+
+            <div class="rule-number">04</div>
+
+            <div class="rule-body">
+
+              <span class="rule-category">FAIR-PLAY</span>
+
+              <h2>Triche & logiciels</h2>
+
+              <p class="rule-intro">
+                Tous les joueurs doivent bénéficier des mêmes conditions
+                de jeu.
+              </p>
+
+              <div class="rule-list">
+
+                <div class="rule-item">
+                  <strong>04.01</strong>
+                  <p>
+                    L'utilisation de logiciels de triche ou de clients
+                    donnant un avantage injuste est interdite.
+                  </p>
+                </div>
+
+                <div class="rule-item">
+                  <strong>04.02</strong>
+                  <p>
+                    Les modifications permettant d'obtenir un avantage
+                    non prévu par Lumalia sont interdites.
+                  </p>
+                </div>
+
+                <div class="rule-item">
+                  <strong>04.03</strong>
+                  <p>
+                    Toute tentative de contourner les systèmes
+                    anti-triche peut entraîner une sanction.
+                  </p>
+                </div>
+
+              </div>
+
+            </div>
+
+          </article>
+
+          <!-- EXPLOITATION -->
+          <article class="rule-card" id="exploitation">
+
+            <div class="rule-number">05</div>
+
+            <div class="rule-body">
+
+              <span class="rule-category">SÉCURITÉ</span>
+
+              <h2>Exploitation de bugs</h2>
+
+              <p class="rule-intro">
+                Les bugs doivent être signalés à l'équipe plutôt
+                qu'utilisés pour obtenir un avantage.
+              </p>
+
+              <div class="rule-list">
+
+                <div class="rule-item">
+                  <strong>05.01</strong>
+                  <p>
+                    L'exploitation volontaire d'un bug permettant
+                    d'obtenir un avantage est interdite.
+                  </p>
+                </div>
+
+                <div class="rule-item">
+                  <strong>05.02</strong>
+                  <p>
+                    Les bugs importants doivent être signalés à
+                    l'équipe Lumalia.
+                  </p>
+                </div>
+
+                <div class="rule-item">
+                  <strong>05.03</strong>
+                  <p>
+                    La reproduction volontaire d'un bug connu peut
+                    également être sanctionnée.
+                  </p>
+                </div>
+
+              </div>
+
+            </div>
+
+          </article>
+
+          <!-- SANCTIONS -->
+          <article class="rule-card sanctions-card" id="sanctions">
+
+            <div class="rule-number">06</div>
+
+            <div class="rule-body">
+
+              <span class="rule-category">MODÉRATION</span>
+
+              <h2>Sanctions</h2>
+
+              <p class="rule-intro">
+                Les sanctions sont appliquées en fonction de la gravité
+                des faits et du contexte.
+              </p>
+
+              <div class="sanction-grid">
+
+                <div class="sanction-box">
+                  <span>A</span>
+                  <strong>Avertissement</strong>
+                  <p>
+                    Rappel à l'ordre pour les infractions mineures.
+                  </p>
+                </div>
+
+                <div class="sanction-box">
+                  <span>B</span>
+                  <strong>Restriction</strong>
+                  <p>
+                    Restriction temporaire de certaines fonctionnalités.
+                  </p>
+                </div>
+
+                <div class="sanction-box">
+                  <span>C</span>
+                  <strong>Bannissement</strong>
+                  <p>
+                    Exclusion temporaire ou définitive selon la gravité.
+                  </p>
+                </div>
+
+              </div>
+
+              <div class="warning-box">
+
+                <div class="warning-icon">!</div>
+
+                <p>
+                  L'équipe de modération se réserve le droit d'adapter
+                  une sanction selon la situation, notamment en cas
+                  de récidive ou de comportement particulièrement grave.
+                </p>
+
+              </div>
+
+            </div>
+
+          </article>
 
         </div>
 
@@ -913,44 +468,38 @@
 
     </section>
 
-
-    <!-- ===================================================
-         FIN
-    ==================================================== -->
-
+    <!-- COMMUNITY -->
     <section class="community">
 
       <div>
 
         <span class="section-number">
-          LUMALIA
+          UNE QUESTION ?
         </span>
 
         <h2>
-          Construisons cet univers<br>
-          <span>ensemble.</span>
+          Besoin d'aide ?
+          <br>
+          <span>Notre équipe est là.</span>
         </h2>
 
         <p>
-          Le respect de ces règles permet à chacun de profiter pleinement
-          de l'expérience Lumalia.
+          Si vous avez une question concernant le règlement ou une
+          sanction, vous pouvez contacter l'équipe Lumalia.
         </p>
 
       </div>
 
       <a class="primary-button light" href="/#communaute">
-        Rejoindre la communauté <span>→</span>
+        Rejoindre la communauté
+        <span>→</span>
       </a>
 
     </section>
 
   </main>
 
-
-  <!-- =====================================================
-       FOOTER
-  ====================================================== -->
-
+  <!-- FOOTER -->
   <footer>
 
     <div class="footer-main">
@@ -965,13 +514,11 @@
       </p>
 
       <div class="footer-links">
-
         <a href="/">Accueil</a>
         <a href="/#serveurs">Serveurs</a>
-        <a href="/launcher/">Launcher</a>
+        <a href="/launcher">Launcher</a>
         <a href="/#communaute">Discord</a>
-        <a href="/contact/">Contact</a>
-
+        <a href="/reglement/">Règlement</a>
       </div>
 
     </div>
@@ -989,7 +536,6 @@
     </div>
 
   </footer>
-
 
   <script src="reglement.js"></script>
 
