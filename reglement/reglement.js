@@ -1,132 +1,162 @@
-```javascript
-/* =========================================================
-   LUMALIA — RÈGLEMENT
-========================================================= */
-
 document.addEventListener("DOMContentLoaded", () => {
 
-    /* =====================================================
-       MOBILE MENU
-    ===================================================== */
+  /*
+   * =========================================================
+   * MENU MOBILE
+   * =========================================================
+   */
 
-    const mobileButton = document.getElementById("mobileMenuButton");
-    const mobileMenu = document.getElementById("mobileMenu");
+  const menuButton = document.querySelector(".menu-button");
+  const mobileNavigation = document.querySelector("#mobileNavigation");
 
-    if (mobileButton && mobileMenu) {
+  if (menuButton && mobileNavigation) {
 
-        mobileButton.addEventListener("click", () => {
-            mobileMenu.classList.toggle("active");
+    menuButton.addEventListener("click", () => {
+
+      const isOpen =
+        mobileNavigation.classList.toggle("open");
+
+      menuButton.setAttribute(
+        "aria-expanded",
+        isOpen ? "true" : "false"
+      );
+
+    });
+
+
+    /*
+     * Fermer le menu après avoir cliqué sur un lien
+     */
+
+    const mobileLinks =
+      mobileNavigation.querySelectorAll("a");
+
+    mobileLinks.forEach((link) => {
+
+      link.addEventListener("click", () => {
+
+        mobileNavigation.classList.remove("open");
+
+        menuButton.setAttribute(
+          "aria-expanded",
+          "false"
+        );
+
+      });
+
+    });
+
+
+    /*
+     * Fermer en cliquant en dehors
+     */
+
+    document.addEventListener("click", (event) => {
+
+      const clickedMenu =
+        mobileNavigation.contains(event.target);
+
+      const clickedButton =
+        menuButton.contains(event.target);
+
+      if (!clickedMenu && !clickedButton) {
+
+        mobileNavigation.classList.remove("open");
+
+        menuButton.setAttribute(
+          "aria-expanded",
+          "false"
+        );
+
+      }
+
+    });
+
+
+    /*
+     * Fermer avec Échap
+     */
+
+    document.addEventListener("keydown", (event) => {
+
+      if (event.key === "Escape") {
+
+        mobileNavigation.classList.remove("open");
+
+        menuButton.setAttribute(
+          "aria-expanded",
+          "false"
+        );
+
+      }
+
+    });
+
+  }
+
+
+  /*
+   * =========================================================
+   * ANIMATION DES CARTES
+   * =========================================================
+   */
+
+  const cards = document.querySelectorAll(
+    ".rule-card, .important-card, .sanction-row"
+  );
+
+  if ("IntersectionObserver" in window) {
+
+    const observer = new IntersectionObserver(
+      (entries, observerInstance) => {
+
+        entries.forEach((entry) => {
+
+          if (!entry.isIntersecting) {
+            return;
+          }
+
+          entry.target.classList.add("visible");
+
+          observerInstance.unobserve(entry.target);
+
         });
 
-
-        /* Fermer le menu lorsqu'un lien est sélectionné */
-
-        const mobileLinks = mobileMenu.querySelectorAll("a");
-
-        mobileLinks.forEach(link => {
-
-            link.addEventListener("click", () => {
-                mobileMenu.classList.remove("active");
-            });
-
-        });
+      },
+      {
+        threshold: 0.08
+      }
+    );
 
 
-        /* Fermer le menu lorsqu'on clique ailleurs */
+    cards.forEach((card) => {
 
-        document.addEventListener("click", (event) => {
+      observer.observe(card);
 
-            const clickedInsideMenu =
-                mobileMenu.contains(event.target);
+    });
 
-            const clickedButton =
-                mobileButton.contains(event.target);
+  }
 
-            if (!clickedInsideMenu && !clickedButton) {
-                mobileMenu.classList.remove("active");
-            }
 
-        });
+  /*
+   * =========================================================
+   * FERMETURE DU MENU SI LA FENÊTRE REPASSE EN DESKTOP
+   * =========================================================
+   */
+
+  window.addEventListener("resize", () => {
+
+    if (window.innerWidth > 1000) {
+
+      mobileNavigation?.classList.remove("open");
+
+      menuButton?.setAttribute(
+        "aria-expanded",
+        "false"
+      );
 
     }
 
-
-    /* =====================================================
-       ANIMATION DES CARTES
-    ===================================================== */
-
-    const animatedElements = document.querySelectorAll(
-        ".rule-card, .info-card, .sanction-item, .staff-note"
-    );
-
-    const observer = new IntersectionObserver(
-        (entries, observerInstance) => {
-
-            entries.forEach(entry => {
-
-                if (entry.isIntersecting) {
-
-                    entry.target.classList.add("visible");
-
-                    observerInstance.unobserve(entry.target);
-
-                }
-
-            });
-
-        },
-        {
-            threshold: 0.08
-        }
-    );
-
-
-    animatedElements.forEach(element => {
-
-        element.style.opacity = "0";
-        element.style.transform = "translateY(18px)";
-        element.style.transition =
-            "opacity 0.6s ease, transform 0.6s ease";
-
-        observer.observe(element);
-
-    });
-
-
-    /* =====================================================
-       CLASSE VISIBLE
-    ===================================================== */
-
-    const style = document.createElement("style");
-
-    style.textContent = `
-        .rule-card.visible,
-        .info-card.visible,
-        .sanction-item.visible,
-        .staff-note.visible {
-            opacity: 1 !important;
-            transform: translateY(0) !important;
-        }
-    `;
-
-    document.head.appendChild(style);
-
-
-    /* =====================================================
-       FERMETURE DU MENU AVEC ESC
-    ===================================================== */
-
-    document.addEventListener("keydown", event => {
-
-        if (event.key === "Escape") {
-
-            if (mobileMenu) {
-                mobileMenu.classList.remove("active");
-            }
-
-        }
-
-    });
+  });
 
 });
-```
