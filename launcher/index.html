@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Lumalia Launcher</title>
+    <meta name="description" content="Téléchargez le Lumalia Launcher et accédez à tous les univers de Lumalia.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="launcher.css">
+</head>
+
+<body>
+
+    <!-- =========================
+         NAVBAR
+    ========================== -->
+
+    <header class="navbar">
+        <div class="navbar-inner">
+
+            <a href="/" class="logo">
+                <span class="logo-icon">L</span>
+                <span class="logo-text">Lumalia</span>
+            </a>
+
+            <nav class="nav-links">
+                <a href="/">Accueil</a>
+                <a href="/univers">Univers</a>
+                <a href="/serveurs">Serveurs</a>
+                <a href="/actualites">Actualités</a>
+                <a href="/communaute">Communauté</a>
+            </nav>
+
+            <div class="nav-actions">
+                <a href="/connexion" class="login-link">Connexion</a>
+                <a href="/launcher" class="play-button">
+                    Jouer maintenant
+                    <span>→</span>
+                </a>
+            </div>
+
+            <button class="mobile-menu-button" id="mobileMenuButton" aria-label="Ouvrir le menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+        </div>
+
+        <div class="mobile-menu" id="mobileMenu">
+            <a href="/">Accueil</a>
+            <a href="/univers">Univers</a>
+            <a href="/serveurs">Serveurs</a>
+            <a href="/actualites">Actualités</a>
+            <a href="/communaute">Communauté</a>
+
+            <div class="mobile-menu-divider"></div>
+
+            <a href="/connexion">Connexion</a>
+            <a href="/launcher" class="mobile-play-button">
+                Jouer maintenant →
+            </a>
+        </div>
+    </header>
+
+
+    <!-- =========================
+         HERO
+    ========================== -->
+
+    <main>
+
+        <section class="launcher-hero">
+
+            <div class="hero-background">
+                <div class="glow glow-one"></div>
+                <div class="glow glow-two"></div>
+                <div class="grid-background"></div>
+            </div>
+
+            <div class="hero-container">
+
+                <!-- GAUCHE -->
+
+                <div class="hero-content">
+
+                    <div class="hero-badge">
+                        <span class="status-dot"></span>
+                        Lumalia Launcher
+                    </div>
+
+                    <h1>
+                        Un seul launcher.
+                        <span>Tout Lumalia.</span>
+                    </h1>
+
+                    <p class="hero-description">
+                        Installez le Lumalia Launcher et accédez à tous nos
+                        serveurs et univers depuis une seule application.
+                        Le launcher s'occupe automatiquement des mises à jour,
+                        des fichiers et de votre installation.
+                    </p>
+
+                    <div class="hero-buttons">
+
+                        <a href="#" class="download-button" id="downloadButton">
+                            <span class="download-icon">↓</span>
+                            Télécharger le Launcher
+                        </a>
+
+                        <a href="/serveurs" class="secondary-button">
+                            Découvrir les serveurs
+                            <span>→</span>
+                        </a>
+
+                    </div>
+
+                    <div class="platforms">
+
+                        <span class="platform-label">
+                            DISPONIBLE SUR
+                        </span>
+
+                        <span>WINDOWS</span>
+                        <span>MACOS</span>
+                        <span>LINUX</span>
+
+                    </div>
+
+                    <div class="version-info">
+                        Version 1.0.0
+                        <span>•</span>
+                        Dernière version
+                        <span>•</span>
+                        2026
+                    </div>
+
+                </div>
+
+
+                <!-- DROITE -->
+
+                <div class="launcher-preview-wrapper">
+
+                    <div class="preview-glow"></div>
+
+                    <div class="launcher-window">
+
+                        <div class="window-topbar">
+
+                            <div class="window-controls">
+                                <span class="window-dot red"></span>
+                                <span class="window-dot yellow"></span>
+                                <span class="window-dot green"></span>
+                            </div>
+
+                            <span class="window-title">
+                                Lumalia Launcher
+                            </span>
+
+                            <span class="window-version">
+                                v1.0.0
+                            </span>
+
+                        </div>
+
+
+                        <div class="launcher-interface">
+
+                            <aside class="launcher-sidebar">
+
+                                <div class="sidebar-logo">
+                                    <span>L</span>
+                                </div>
+
+                                <div class="sidebar-menu">
+
+                                    <div class="sidebar-item active">
+                                        <span>⌂</span>
+                                        <small>Accueil</small>
+                                    </div>
+
+                                    <div class="sidebar-item">
+                                        <span>◈</span>
+                                        <small>Serveurs</small>
+                                    </div>
+
+                                    <div class="sidebar-item">
+                                        <span>◆</span>
+                                        <small>Actualités</small>
+                                    </div>
+
+                                </div>
+
+                                <div class="sidebar-bottom">
+                                    <div class="sidebar-item">
+                                        <span>⚙</span>
+                                        <small>Paramètres</small>
+                                    </div>
+                                </div>
+
+                            </aside>
+
+
+                            <div class="launcher-main">
+
+                                <div class="launcher-header">
+
+                                    <div>
+                                        <span class="launcher-small-title">
+                                            BIENVENUE SUR
+                                        </span>
+
+                                        <h3>Lumalia</h3>
+                                    </div>
+
+                                    <div class="profile-circle">
+                                        L
+                                    </div>
+
+                                </div>
+
+
+                                <div class="launcher-banner">
+
+                                    <div class="banner-content">
+
+                                        <span class="banner-label">
+                                            LUMALIA NETWORK
+                                        </span>
+
+                                        <h4>
+                                            Votre aventure
+                                            <br>
+                                            commence ici.
+                                        </h4>
+
+                                        <p>
+                                            Explorez nos univers et
+                                            construisez votre histoire.
+                                        </p>
+
+                                    </div>
+
+                                    <div class="banner-orb"></div>
+
+                                </div>
+
+
+                                <div class="server-section">
+
+                                    <div class="section-heading">
+                                        <span>VOS SERVEURS</span>
+                                        <a href="#">Voir tout →</a>
+                                    </div>
+
+                                    <div class="server-card">
+
+                                        <div class="server-icon">
+                                            L
+                                        </div>
+
+                                        <div class="server-info">
+                                            <strong>Lumalia</strong>
+                                            <span>
+                                                Java Edition
+                                            </span>
+                                        </div>
+
+                                        <div class="server-status">
+                                            <span></span>
+                                            En ligne
+                                        </div>
+
+                                        <button class="play-server">
+                                            Jouer
+                                        </button>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             INFO BANNER
+        ========================== -->
+
+        <section class="launcher-notice">
+
+            <div class="notice-inner">
+
+                <div class="notice-icon">
+                    !
+                </div>
+
+                <div class="notice-content">
+                    <strong>Le Launcher Lumalia évolue constamment.</strong>
+                    <p>
+                        Les mises à jour sont téléchargées automatiquement
+                        afin que vous puissiez toujours profiter de la
+                        dernière version.
+                    </p>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             FEATURES
+        ========================== -->
+
+        <section class="features-section">
+
+            <div class="section-container">
+
+                <div class="section-label">
+                    01 · LE LAUNCHER
+                </div>
+
+                <h2>
+                    Tout ce dont vous avez besoin,
+                    <span>au même endroit.</span>
+                </h2>
+
+                <p class="section-description">
+                    Lumalia Launcher simplifie votre expérience.
+                    Plus besoin de gérer manuellement les fichiers,
+                    les mises à jour ou les différentes installations.
+                </p>
+
+
+                <div class="features-grid">
+
+                    <article class="feature-card">
+
+                        <div class="feature-icon">
+                            ↓
+                        </div>
+
+                        <h3>Installation simplifiée</h3>
+
+                        <p>
+                            Installez Lumalia en quelques clics.
+                            Le launcher configure automatiquement
+                            les éléments nécessaires.
+                        </p>
+
+                    </article>
+
+
+                    <article class="feature-card">
+
+                        <div class="feature-icon">
+                            ↻
+                        </div>
+
+                        <h3>Mises à jour automatiques</h3>
+
+                        <p>
+                            Le launcher vérifie automatiquement
+                            les nouvelles versions et met votre
+                            installation à jour.
+                        </p>
+
+                    </article>
+
+
+                    <article class="feature-card">
+
+                        <div class="feature-icon">
+                            ◈
+                        </div>
+
+                        <h3>Tous vos serveurs</h3>
+
+                        <p>
+                            Retrouvez les différents univers
+                            Lumalia directement depuis votre launcher.
+                        </p>
+
+                    </article>
+
+
+                    <article class="feature-card">
+
+                        <div class="feature-icon">
+                            ✦
+                        </div>
+
+                        <h3>Une expérience Lumalia</h3>
+
+                        <p>
+                            Une interface pensée pour rester simple,
+                            rapide et cohérente avec tout l'univers Lumalia.
+                        </p>
+
+                    </article>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             DOWNLOAD SECTION
+        ========================== -->
+
+        <section class="download-section">
+
+            <div class="download-container">
+
+                <div class="download-content">
+
+                    <div class="section-label">
+                        02 · COMMENCER
+                    </div>
+
+                    <h2>
+                        Prêt à entrer
+                        <span>dans Lumalia ?</span>
+                    </h2>
+
+                    <p>
+                        Téléchargez gratuitement le Lumalia Launcher
+                        et préparez-vous à rejoindre nos univers.
+                    </p>
+
+                    <a href="#" class="download-button large" id="downloadButtonBottom">
+                        <span class="download-icon">↓</span>
+                        Télécharger pour Windows
+                    </a>
+
+                    <div class="download-meta">
+                        Windows 10 / 11 · 64 bits · Version 1.0.0
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================
+         FOOTER
+    ========================== -->
+
+    <footer class="footer">
+
+        <div class="footer-inner">
+
+            <div class="footer-brand">
+
+                <a href="/" class="logo">
+                    <span class="logo-icon">L</span>
+                    <span class="logo-text">Lumalia</span>
+                </a>
+
+                <p>
+                    Un univers qui vous appartient.
+                </p>
+
+            </div>
+
+            <div class="footer-links">
+
+                <a href="/">Accueil</a>
+                <a href="/univers">Univers</a>
+                <a href="/serveurs">Serveurs</a>
+                <a href="/actualites">Actualités</a>
+                <a href="/communaute">Communauté</a>
+
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            © 2026 Lumalia. Tous droits réservés.
+        </div>
+
+    </footer>
+
+
+    <script src="launcher.js"></script>
+
+</body>
+</html>
