@@ -17,11 +17,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (mobileMenuButton && mobileMenu) {
 
         mobileMenuButton.addEventListener("click", () => {
-
             mobileMenu.classList.toggle("active");
-
         });
-
 
         const mobileLinks =
             mobileMenu.querySelectorAll("a");
@@ -29,13 +26,10 @@ document.addEventListener("DOMContentLoaded", () => {
         mobileLinks.forEach(link => {
 
             link.addEventListener("click", () => {
-
                 mobileMenu.classList.remove("active");
-
             });
 
         });
-
     }
 
 
@@ -49,16 +43,14 @@ document.addEventListener("DOMContentLoaded", () => {
     ];
 
     /*
-     * Quand ton fichier .exe sera disponible,
-     * remplace simplement cette URL.
+     * URL DIRECTE DU LAUNCHER
      *
-     * Exemple :
-     *
-     * const launcherDownloadUrl =
-     *     "https://lumania.fr/downloads/Lumalia-Launcher.exe";
+     * Le fichier .exe doit être accessible
+     * publiquement depuis cette adresse.
      */
 
-    const launcherDownloadUrl = "#";
+    const launcherDownloadUrl =
+        "https://lumania.fr/downloads/Lumalia-Launcher.exe";
 
 
     downloadButtons.forEach(button => {
@@ -69,95 +61,31 @@ document.addEventListener("DOMContentLoaded", () => {
 
         button.addEventListener("click", event => {
 
-            if (launcherDownloadUrl === "#") {
+            event.preventDefault();
 
-                event.preventDefault();
+            /*
+             * Création d'un lien temporaire
+             * pour déclencher le téléchargement.
+             */
 
-                showDownloadMessage();
+            const downloadLink =
+                document.createElement("a");
 
-                return;
-            }
+            downloadLink.href =
+                launcherDownloadUrl;
 
-            button.href = launcherDownloadUrl;
+            downloadLink.download =
+                "Lumalia-Launcher.exe";
+
+            document.body.appendChild(downloadLink);
+
+            downloadLink.click();
+
+            document.body.removeChild(downloadLink);
 
         });
 
     });
-
-
-    /* =========================
-       DOWNLOAD MESSAGE
-    ========================== */
-
-    function showDownloadMessage() {
-
-        const existingMessage =
-            document.querySelector(".download-message");
-
-        if (existingMessage) {
-            return;
-        }
-
-        const message =
-            document.createElement("div");
-
-        message.className = "download-message";
-
-        message.innerHTML = `
-            <div class="download-message-icon">
-                ↓
-            </div>
-
-            <div>
-                <strong>Le téléchargement arrive bientôt.</strong>
-                <p>
-                    Le Lumalia Launcher sera bientôt disponible.
-                </p>
-            </div>
-
-            <button aria-label="Fermer">×</button>
-        `;
-
-        document.body.appendChild(message);
-
-
-        requestAnimationFrame(() => {
-
-            message.classList.add("visible");
-
-        });
-
-
-        const closeButton =
-            message.querySelector("button");
-
-        closeButton.addEventListener("click", () => {
-
-            closeDownloadMessage(message);
-
-        });
-
-
-        setTimeout(() => {
-
-            closeDownloadMessage(message);
-
-        }, 5000);
-
-    }
-
-
-    function closeDownloadMessage(message) {
-
-        message.classList.remove("visible");
-
-        setTimeout(() => {
-
-            message.remove();
-
-        }, 300);
-
-    }
 
 
     /* =========================
@@ -179,13 +107,9 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         if (currentScroll > 20) {
-
             navbar.classList.add("scrolled");
-
         } else {
-
             navbar.classList.remove("scrolled");
-
         }
 
         lastScroll = currentScroll;
