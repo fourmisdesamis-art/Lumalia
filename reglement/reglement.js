@@ -1,20 +1,17 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  /*
-   * =========================================================
-   * MENU MOBILE
-   * =========================================================
-   */
+  /* =========================
+     MENU MOBILE
+  ========================= */
 
   const menuButton = document.querySelector(".menu-button");
-  const mobileNavigation = document.querySelector("#mobileNavigation");
+  const mobileMenu = document.querySelector(".mobile-menu");
 
-  if (menuButton && mobileNavigation) {
+  if (menuButton && mobileMenu) {
 
     menuButton.addEventListener("click", () => {
 
-      const isOpen =
-        mobileNavigation.classList.toggle("open");
+      const isOpen = mobileMenu.classList.toggle("open");
 
       menuButton.setAttribute(
         "aria-expanded",
@@ -23,19 +20,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     });
 
-
-    /*
-     * Fermer le menu après avoir cliqué sur un lien
-     */
-
-    const mobileLinks =
-      mobileNavigation.querySelectorAll("a");
+    const mobileLinks = mobileMenu.querySelectorAll("a");
 
     mobileLinks.forEach((link) => {
 
       link.addEventListener("click", () => {
 
-        mobileNavigation.classList.remove("open");
+        mobileMenu.classList.remove("open");
 
         menuButton.setAttribute(
           "aria-expanded",
@@ -46,69 +37,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
     });
 
-
-    /*
-     * Fermer en cliquant en dehors
-     */
-
-    document.addEventListener("click", (event) => {
-
-      const clickedMenu =
-        mobileNavigation.contains(event.target);
-
-      const clickedButton =
-        menuButton.contains(event.target);
-
-      if (!clickedMenu && !clickedButton) {
-
-        mobileNavigation.classList.remove("open");
-
-        menuButton.setAttribute(
-          "aria-expanded",
-          "false"
-        );
-
-      }
-
-    });
-
-
-    /*
-     * Fermer avec Échap
-     */
-
-    document.addEventListener("keydown", (event) => {
-
-      if (event.key === "Escape") {
-
-        mobileNavigation.classList.remove("open");
-
-        menuButton.setAttribute(
-          "aria-expanded",
-          "false"
-        );
-
-      }
-
-    });
-
   }
 
 
-  /*
-   * =========================================================
-   * ANIMATION DES CARTES
-   * =========================================================
-   */
+  /* =========================
+     NAVIGATION RÈGLEMENT
+  ========================= */
 
-  const cards = document.querySelectorAll(
-    ".rule-card, .important-card, .sanction-row"
-  );
+  const sidebarLinks = document.querySelectorAll(".sidebar-link");
+  const ruleSections = document.querySelectorAll(".rule-card");
 
-  if ("IntersectionObserver" in window) {
+  if (sidebarLinks.length && ruleSections.length) {
 
     const observer = new IntersectionObserver(
-      (entries, observerInstance) => {
+      (entries) => {
 
         entries.forEach((entry) => {
 
@@ -116,46 +58,59 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
           }
 
-          entry.target.classList.add("visible");
+          const id = entry.target.id;
 
-          observerInstance.unobserve(entry.target);
+          sidebarLinks.forEach((link) => {
+            link.classList.remove("active");
+
+            if (link.getAttribute("href") === `#${id}`) {
+              link.classList.add("active");
+            }
+          });
 
         });
 
       },
       {
-        threshold: 0.08
+        rootMargin: "-25% 0px -65% 0px"
       }
     );
 
-
-    cards.forEach((card) => {
-
-      observer.observe(card);
-
+    ruleSections.forEach((section) => {
+      observer.observe(section);
     });
 
   }
 
 
-  /*
-   * =========================================================
-   * FERMETURE DU MENU SI LA FENÊTRE REPASSE EN DESKTOP
-   * =========================================================
-   */
+  /* =========================
+     SMOOTH SCROLL
+  ========================= */
 
-  window.addEventListener("resize", () => {
+  document.querySelectorAll('a[href^="#"]').forEach((link) => {
 
-    if (window.innerWidth > 1000) {
+    link.addEventListener("click", (event) => {
 
-      mobileNavigation?.classList.remove("open");
+      const targetId = link.getAttribute("href");
 
-      menuButton?.setAttribute(
-        "aria-expanded",
-        "false"
-      );
+      if (!targetId || targetId === "#") {
+        return;
+      }
 
-    }
+      const target = document.querySelector(targetId);
+
+      if (!target) {
+        return;
+      }
+
+      event.preventDefault();
+
+      target.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+
+    });
 
   });
 
