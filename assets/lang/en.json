@@ -24,19 +24,20 @@
     "notAffiliated": "Lumalia is not affiliated with Mojang or Microsoft."
   },
   "settings": {
-    "title": "Settings",
-    "subtitle": "Customize your Lumalia experience.",
-    "appearance": "Appearance",
-    "appearanceDesc": "Choose the theme that suits you.",
-    "themeLight": "Light",
-    "themeDark": "Dark",
-    "themeAuto": "Auto",
-    "themeAutoHint": "Follows your system preferences.",
-    "language": "Language",
-    "languageDesc": "Choose the interface language.",
-    "french": "Français",
-    "english": "English"
-  },
+  "label": "Preferences",
+  "title": "Settings",
+  "subtitle": "Customize your Lumalia experience.",
+  "appearance": "Appearance",
+  "appearanceDesc": "Choose the theme that suits you.",
+  "themeLight": "Light",
+  "themeDark": "Dark",
+  "themeAuto": "Auto",
+  "themeAutoHint": "Follows your system.",
+  "language": "Language",
+  "languageDesc": "Choose the interface language.",
+  "french": "Français",
+  "english": "English"
+},
   "common": {
     "loading": "Loading…",
     "comingSoon": "Coming soon",
