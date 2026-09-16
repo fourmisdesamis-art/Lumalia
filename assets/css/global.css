@@ -256,15 +256,12 @@ p {
 }
 
 .navbar__logo-mark {
-  width: 30px;
-  height: 30px;
+  width: 32px;
+  height: 32px;
   border-radius: 9px;
-  background: linear-gradient(135deg, var(--accent), #b39bff);
-  display: grid;
-  place-items: center;
-  color: #fff;
-  font-size: 0.9rem;
-  font-weight: 700;
+  object-fit: contain;
+  display: block;
+  flex-shrink: 0;
 }
 
 .navbar__links {
