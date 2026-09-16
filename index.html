@@ -302,4 +302,29 @@
   <script>
     document.getElementById("footer-year").textContent = new Date().getFullYear();
 
-    // Reveal au
+    // Reveal au scroll
+    const revealEls = document.querySelectorAll(".reveal");
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.classList.add("visible");
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    revealEls.forEach((el) => io.observe(el));
+
+    // Petit compteur animé pour le nombre de joueurs (à brancher plus tard sur une vraie API)
+    const onlineEl = document.getElementById("stat-online");
+    if (onlineEl) {
+      let n = 0;
+      const target = 0; // à remplacer par la vraie valeur
+      const tick = () => {
+        if (n < target) { n++; onlineEl.textContent = n; requestAnimationFrame(tick); }
+        else onlineEl.textContent = target;
+      };
+      tick();
+    }
+  </script>
+</body>
+</html>
