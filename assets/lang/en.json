@@ -43,5 +43,62 @@
     "discover": "Discover",
     "join": "Join",
     "back": "Back"
+  },
+  "home": {
+    "hero": {
+      "eyebrow": "Network open · Java & Bedrock",
+      "title1": "One network,",
+      "title2": "a thousand stories",
+      "subtitle": "Lumalia brings together players from all horizons around unique experiences. One account, several universes, one community.",
+      "ctaPrimary": "Get the launcher",
+      "ctaSecondary": "Explore the universes"
+    },
+    "stats": {
+      "online": "Players online",
+      "servers": "Open universes",
+      "uptime": "Online"
+    },
+    "universes": {
+      "label": "01 · The universes",
+      "title": "Three worlds, one address",
+      "subtitle": "Each Lumalia universe has its own atmosphere, community and rules. It's up to you to choose where to settle.",
+      "crystal": "A living world, built for long-term survival and group projects.",
+      "onyx": "The Lumalia experience, accessible from mobile and consoles, with no compromise.",
+      "green": "Our North American universe, with events designed for the US timezone."
+    },
+    "launcher": {
+      "label": "02 · The launcher",
+      "title": "Join Lumalia, in one click",
+      "subtitle": "No more juggling between IP addresses. Our launcher handles everything: login, updates, universe selection.",
+      "cta": "See the launcher"
+    },
+    "news": {
+      "label": "03 · Journal",
+      "title": "What's happening at Lumalia",
+      "all": "See all →",
+      "tag": {
+        "announce": "Announcement",
+        "update": "Update",
+        "event": "Event"
+      },
+      "item1": {
+        "title": "Crystal opens its doors very soon",
+        "desc": "The first details about the launch have just been revealed."
+      },
+      "item2": {
+        "title": "The launcher enters testing phase",
+        "desc": "A new way to join Lumalia, smoother and centralized."
+      },
+      "item3": {
+        "title": "The Discord community is growing",
+        "desc": "Discussions, announcements and events: everything happens on our Discord."
+      }
+    },
+    "community": {
+      "label": "04 · The community",
+      "title": "We build Lumalia together",
+      "subtitle": "Your feedback shapes the network. Come chat, suggest, test, and follow the project's progress live.",
+      "cta": "Open Discord"
+    }
   }
 }
