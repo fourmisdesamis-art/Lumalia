@@ -1,0 +1,47 @@
+{
+  "nav": {
+    "home": "Home",
+    "servers": "Servers",
+    "launcher": "Launcher",
+    "news": "News",
+    "community": "Community",
+    "settings": "Settings",
+    "discord": "Join Discord",
+    "menu": "Menu"
+  },
+  "footer": {
+    "tagline": "Lumalia brings together several communities around Minecraft Java & Bedrock servers.",
+    "navigation": "Navigation",
+    "resources": "Resources",
+    "legal": "Legal",
+    "status": "Server status",
+    "docs": "Documentation",
+    "support": "Support",
+    "terms": "Terms of service",
+    "privacy": "Privacy",
+    "cookies": "Cookies",
+    "rights": "All rights reserved.",
+    "notAffiliated": "Lumalia is not affiliated with Mojang or Microsoft."
+  },
+  "settings": {
+    "title": "Settings",
+    "subtitle": "Customize your Lumalia experience.",
+    "appearance": "Appearance",
+    "appearanceDesc": "Choose the theme that suits you.",
+    "themeLight": "Light",
+    "themeDark": "Dark",
+    "themeAuto": "Auto",
+    "themeAutoHint": "Follows your system preferences.",
+    "language": "Language",
+    "languageDesc": "Choose the interface language.",
+    "french": "Français",
+    "english": "English"
+  },
+  "common": {
+    "loading": "Loading…",
+    "comingSoon": "Coming soon",
+    "discover": "Discover",
+    "join": "Join",
+    "back": "Back"
+  }
+}
