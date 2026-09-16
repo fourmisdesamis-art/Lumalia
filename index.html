@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lumalia — Commencez à écrire votre propre univers</title>
-  <meta name="description" content="Lumalia rassemble plusieurs communautés autour de serveurs Minecraft Java & Bedrock. Rejoignez l'aventure.">
+  <title>Lumalia — Un réseau, mille histoires</title>
+  <meta name="description" content="Lumalia, c'est un réseau Minecraft Java & Bedrock pensé pour rassembler. Plusieurs serveurs, une seule communauté, une infinité d'histoires.">
 
   <!-- Polices -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,23 +12,18 @@
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Poppins:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/style.css" rel="stylesheet">
 
-  <!-- CSS global + page -->
   <link rel="stylesheet" href="/assets/css/global.css">
   <link rel="stylesheet" href="/assets/css/home.css">
 
-  <!-- Thème (doit être AVANT le body pour éviter le flash) -->
   <script src="/assets/js/theme.js"></script>
   <meta name="theme-color" content="#ffffff">
 </head>
 <body>
 
-  <!-- Blobs d'arrière-plan -->
   <div class="bg-blobs" aria-hidden="true">
     <span></span>
     <span></span>
   </div>
-
-  <!-- Canvas des particules -->
   <canvas id="luma-bg" aria-hidden="true"></canvas>
 
   <!-- ==================== NAVBAR ==================== -->
@@ -94,45 +89,45 @@
     <!-- HERO -->
     <section class="hero">
       <div class="container">
-        <span class="hero__eyebrow" data-i18n="home.hero.eyebrow">Réseau opérationnel</span>
+        <span class="hero__eyebrow" data-i18n="home.hero.eyebrow">Réseau ouvert · Java &amp; Bedrock</span>
         <h1 class="hero__title">
-          <span data-i18n="home.hero.title1">Commencez à écrire</span><br>
-          <span class="accent" data-i18n="home.hero.title2">votre propre univers</span>
+          <span data-i18n="home.hero.title1">Un réseau,</span><br>
+          <span class="accent" data-i18n="home.hero.title2">mille histoires</span>
         </h1>
         <p class="hero__subtitle" data-i18n="home.hero.subtitle">
-          Lumalia rassemble plusieurs communautés autour de serveurs Minecraft Java &amp; Bedrock. Écrivez votre histoire.
+          Lumalia réunit des joueurs de tous horizons autour d'expériences uniques. Un compte, plusieurs univers, une seule communauté.
         </p>
 
         <div class="hero__cta">
-          <a href="/launcher" class="btn btn-primary" data-i18n="home.hero.ctaPrimary">Télécharger le launcher</a>
-          <a href="/serveurs" class="btn btn-ghost" data-i18n="home.hero.ctaSecondary">Découvrir les serveurs</a>
+          <a href="/launcher" class="btn btn-primary" data-i18n="home.hero.ctaPrimary">Obtenir le launcher</a>
+          <a href="/serveurs" class="btn btn-ghost" data-i18n="home.hero.ctaSecondary">Explorer les univers</a>
         </div>
 
         <div class="hero__stats">
           <div class="hero__stat">
             <div class="hero__stat-value" id="stat-online">0</div>
-            <div class="hero__stat-label" data-i18n="home.stats.online">Joueurs en ligne</div>
+            <div class="hero__stat-label" data-i18n="home.stats.online">Joueurs connectés</div>
           </div>
           <div class="hero__stat">
             <div class="hero__stat-value">3</div>
-            <div class="hero__stat-label" data-i18n="home.stats.servers">Serveurs</div>
+            <div class="hero__stat-label" data-i18n="home.stats.servers">Univers ouverts</div>
           </div>
           <div class="hero__stat">
             <div class="hero__stat-value">24/7</div>
-            <div class="hero__stat-label" data-i18n="home.stats.uptime">Disponibilité</div>
+            <div class="hero__stat-label" data-i18n="home.stats.uptime">En ligne</div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- APERÇU SERVEURS -->
+    <!-- UNIVERS -->
     <section class="section reveal">
       <div class="container">
         <div class="section-header">
-          <span class="label" data-i18n="home.servers.label">01 · Les serveurs</span>
-          <h2 data-i18n="home.servers.title">Pas qu'un serveur, plusieurs univers</h2>
-          <p data-i18n="home.servers.subtitle">
-            Lumalia est toute une infrastructure : plusieurs serveurs, plusieurs communautés, plusieurs expériences sur un seul compte.
+          <span class="label" data-i18n="home.universes.label">01 · Les univers</span>
+          <h2 data-i18n="home.universes.title">Trois mondes, une seule adresse</h2>
+          <p data-i18n="home.universes.subtitle">
+            Chaque univers Lumalia possède son ambiance, sa communauté et ses règles. À vous de choisir où poser vos valises.
           </p>
         </div>
 
@@ -141,7 +136,7 @@
             <span class="server-card__tag">Java</span>
             <div class="server-card__logo server-card__logo--crystal">C</div>
             <h3>Crystal</h3>
-            <p data-i18n="home.servers.crystal">Le premier serveur de Lumalia.</p>
+            <p data-i18n="home.universes.crystal">Un monde vivant, pensé pour la survie longue durée et les projets de groupe.</p>
             <a href="/serveurs" class="server-card__link">
               <span data-i18n="common.discover">Découvrir</span> →
             </a>
@@ -151,7 +146,7 @@
             <span class="server-card__tag">Bedrock</span>
             <div class="server-card__logo server-card__logo--onyx">O</div>
             <h3>Onyx</h3>
-            <p data-i18n="home.servers.onyx">Le premier serveur Bedrock de Lumalia.</p>
+            <p data-i18n="home.universes.onyx">L'expérience Lumalia accessible depuis mobile et consoles, sans compromis.</p>
             <a href="/serveurs" class="server-card__link">
               <span data-i18n="common.discover">Découvrir</span> →
             </a>
@@ -161,7 +156,7 @@
             <span class="server-card__tag">Java · US</span>
             <div class="server-card__logo server-card__logo--green">G</div>
             <h3>Green</h3>
-            <p data-i18n="home.servers.green">Le premier serveur Java US de Lumalia.</p>
+            <p data-i18n="home.universes.green">Notre univers nord-américain, avec des événements pensés pour le fuseau US.</p>
             <a href="/serveurs" class="server-card__link">
               <span data-i18n="common.discover">Découvrir</span> →
             </a>
@@ -175,12 +170,12 @@
       <div class="container">
         <div class="launcher-block">
           <div class="launcher-block__text">
-            <span class="label" data-i18n="home.launcher.label">03 · Le launcher</span>
-            <h2 data-i18n="home.launcher.title">Un seul launcher, tous nos serveurs</h2>
+            <span class="label" data-i18n="home.launcher.label">02 · Le launcher</span>
+            <h2 data-i18n="home.launcher.title">Rejoindre Lumalia, en un clic</h2>
             <p data-i18n="home.launcher.subtitle">
-              Le launcher Lumalia est conçu pour vous connecter à toutes nos expériences, en un clic.
+              Plus besoin de jongler entre les adresses IP. Notre launcher gère tout : connexion, mise à jour, choix de l'univers.
             </p>
-            <a href="/launcher" class="btn btn-primary" data-i18n="home.launcher.cta">En savoir plus</a>
+            <a href="/launcher" class="btn btn-primary" data-i18n="home.launcher.cta">Voir le launcher</a>
           </div>
           <div class="launcher-block__visual">
             <div class="launcher-mockup">L</div>
@@ -194,10 +189,10 @@
       <div class="container">
         <div class="news-header">
           <div>
-            <span class="label" data-i18n="home.news.label">04 · Actualités</span>
-            <h2 data-i18n="home.news.title">Les dernières news</h2>
+            <span class="label" data-i18n="home.news.label">03 · Journal</span>
+            <h2 data-i18n="home.news.title">Ce qui se passe chez Lumalia</h2>
           </div>
-          <a href="/actualites" class="btn btn-ghost btn-sm" data-i18n="home.news.all">Toutes les actualités →</a>
+          <a href="/actualites" class="btn btn-ghost btn-sm" data-i18n="home.news.all">Tout voir →</a>
         </div>
 
         <div class="news-grid">
@@ -206,8 +201,8 @@
               <span>26.08</span>
               <span class="news-card__tag" data-i18n="home.news.tag.announce">Annonce</span>
             </div>
-            <h3 data-i18n="home.news.item1.title">L'ouverture de Lumalia Crystal approche</h3>
-            <p data-i18n="home.news.item1.desc">Voici les premières annonces officielles.</p>
+            <h3 data-i18n="home.news.item1.title">Crystal ouvre ses portes très bientôt</h3>
+            <p data-i18n="home.news.item1.desc">Les premiers détails sur le lancement viennent d'être dévoilés.</p>
           </article>
 
           <article class="news-card">
@@ -215,8 +210,8 @@
               <span>—</span>
               <span class="news-card__tag" data-i18n="home.news.tag.update">Mise à jour</span>
             </div>
-            <h3 data-i18n="home.news.item2.title">Le launcher arrive bientôt</h3>
-            <p data-i18n="home.news.item2.desc">Une nouvelle façon de rejoindre Lumalia, plus simple et plus rapide.</p>
+            <h3 data-i18n="home.news.item2.title">Le launcher entre en phase de test</h3>
+            <p data-i18n="home.news.item2.desc">Une nouvelle façon de rejoindre Lumalia, plus fluide et centralisée.</p>
           </article>
 
           <article class="news-card">
@@ -224,8 +219,8 @@
               <span>—</span>
               <span class="news-card__tag" data-i18n="home.news.tag.event">Événement</span>
             </div>
-            <h3 data-i18n="home.news.item3.title">Rejoignez la communauté Discord</h3>
-            <p data-i18n="home.news.item3.desc">Échangez avec les joueurs et suivez chaque étape du projet.</p>
+            <h3 data-i18n="home.news.item3.title">La communauté Discord s'agrandit</h3>
+            <p data-i18n="home.news.item3.desc">Discussions, annonces et événements : tout se passe sur notre Discord.</p>
           </article>
         </div>
       </div>
@@ -235,13 +230,13 @@
     <section class="section reveal">
       <div class="container">
         <div class="community-cta">
-          <span class="label" data-i18n="home.community.label">05 · Communauté</span>
-          <h2 data-i18n="home.community.title">L'aventure commence avec vous.</h2>
+          <span class="label" data-i18n="home.community.label">04 · La communauté</span>
+          <h2 data-i18n="home.community.title">On construit Lumalia ensemble</h2>
           <p data-i18n="home.community.subtitle">
-            Rejoignez Discord, échangez avec les joueurs et suivez chaque étape de Lumalia.
+            Vos retours façonnent le réseau. Venez discuter, proposer, tester, et suivre l'avancement du projet en direct.
           </p>
           <a href="https://discord.gg/lumalia" target="_blank" rel="noopener" class="btn btn-primary" data-i18n="home.community.cta">
-            Rejoindre Discord
+            Ouvrir Discord
           </a>
         </div>
       </div>
@@ -295,14 +290,12 @@
     </div>
   </footer>
 
-  <!-- ==================== SCRIPTS ==================== -->
   <script src="/assets/js/i18n.js"></script>
   <script src="/assets/js/navbar.js"></script>
   <script src="/assets/js/background.js"></script>
   <script>
     document.getElementById("footer-year").textContent = new Date().getFullYear();
 
-    // Reveal au scroll
     const revealEls = document.querySelectorAll(".reveal");
     const io = new IntersectionObserver((entries) => {
       entries.forEach((e) => {
@@ -313,18 +306,6 @@
       });
     }, { threshold: 0.12 });
     revealEls.forEach((el) => io.observe(el));
-
-    // Petit compteur animé pour le nombre de joueurs (à brancher plus tard sur une vraie API)
-    const onlineEl = document.getElementById("stat-online");
-    if (onlineEl) {
-      let n = 0;
-      const target = 0; // à remplacer par la vraie valeur
-      const tick = () => {
-        if (n < target) { n++; onlineEl.textContent = n; requestAnimationFrame(tick); }
-        else onlineEl.textContent = target;
-      };
-      tick();
-    }
   </script>
 </body>
 </html>
