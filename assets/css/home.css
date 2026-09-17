@@ -3,66 +3,6 @@
    Styles spécifiques à la page d'accueil
    ========================================================= */
 
-/* ---------- Canvas de fond ---------- */
-#luma-bg {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-  pointer-events: none;
-  transition: opacity var(--t-slow);
-}
-
-/* Blobs flous en arrière-plan */
-.bg-blobs {
-  position: fixed;
-  inset: 0;
-  z-index: -2;
-  pointer-events: none;
-  overflow: hidden;
-}
-
-.bg-blobs span {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(90px);
-  opacity: 0.35;
-  transition: opacity var(--t-slow);
-}
-
-[data-theme="dark"] .bg-blobs span { opacity: 0.25; }
-
-.bg-blobs span:nth-child(1) {
-  width: 480px;
-  height: 480px;
-  background: #b39bff;
-  top: -120px;
-  left: -120px;
-  animation: blobFloat1 22s ease-in-out infinite;
-}
-.bg-blobs span:nth-child(2) {
-  width: 420px;
-  height: 420px;
-  background: #8ad4ff;
-  bottom: -140px;
-  right: -100px;
-  animation: blobFloat2 26s ease-in-out infinite;
-}
-
-@keyframes blobFloat1 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  50%      { transform: translate(60px, 40px) scale(1.1); }
-}
-@keyframes blobFloat2 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  50%      { transform: translate(-50px, -40px) scale(1.15); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .bg-blobs span { animation: none; }
-}
-
 /* ---------- Hero ---------- */
 .hero {
   position: relative;
@@ -119,7 +59,6 @@
   margin-bottom: 3rem;
 }
 
-/* Statistiques rapides */
 .hero__stats {
   display: flex;
   justify-content: center;
@@ -161,7 +100,7 @@
   font-size: 1.05rem;
 }
 
-/* ---------- Grille de serveurs (aperçu accueil) ---------- */
+/* ---------- Grille de serveurs ---------- */
 .servers-preview {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -382,7 +321,7 @@
 }
 .community-cta .btn { margin: 0 auto; }
 
-/* ---------- Animations d'entrée (au scroll) ---------- */
+/* ---------- Animations au scroll ---------- */
 .reveal {
   opacity: 0;
   transform: translateY(20px);
