@@ -30,7 +30,32 @@
 
       <nav class="navbar__links" id="navbar-links">
         <a href="/" class="navbar__link" data-i18n="nav.home">Accueil</a>
-        <a href="/serveurs" class="navbar__link" data-i18n="nav.servers">Serveurs</a>
+                <div class="navbar__item">
+          <a href="/serveurs" class="navbar__link navbar__link--parent" data-i18n="nav.servers">Serveurs</a>
+          <div class="navbar__dropdown">
+            <a href="/serveurs/crystal" class="navbar__dropdown-item">
+              <span class="navbar__dropdown-item__logo navbar__dropdown-item__logo--crystal">C</span>
+              <span class="navbar__dropdown-item__text">
+                <strong>Crystal</strong>
+                <span>Java</span>
+              </span>
+            </a>
+            <a href="/serveurs/azur" class="navbar__dropdown-item">
+              <span class="navbar__dropdown-item__logo navbar__dropdown-item__logo--azur">A</span>
+              <span class="navbar__dropdown-item__text">
+                <strong>Azur</strong>
+                <span>Java</span>
+              </span>
+            </a>
+            <a href="/serveurs/green" class="navbar__dropdown-item">
+              <span class="navbar__dropdown-item__logo navbar__dropdown-item__logo--green">G</span>
+              <span class="navbar__dropdown-item__text">
+                <strong>Green</strong>
+                <span>Java · US</span>
+              </span>
+            </a>
+          </div>
+        </div>
         <a href="/launcher" class="navbar__link" data-i18n="nav.launcher">Launcher</a>
         <a href="/actualites" class="navbar__link" data-i18n="nav.news">Actualités</a>
         <a href="/communaute" class="navbar__link" data-i18n="nav.community">Communauté</a>
