@@ -44,9 +44,6 @@ ol {
 }
 
 /* ---------- 2. Polices ---------- */
-/* Chargées via <link> dans le <head> de chaque page :
-   Space Grotesk (titres), Poppins (sous-titres), Inter (texte), Geist (labels) */
-
 :root {
   --font-title: "Space Grotesk", system-ui, sans-serif;
   --font-subtitle: "Poppins", system-ui, sans-serif;
@@ -56,51 +53,41 @@ ol {
 
 /* ---------- 3. Variables de thème (CLAIR par défaut) ---------- */
 :root {
-  /* Couleurs de fond */
   --bg: #ffffff;
   --bg-soft: #f7f8fa;
   --bg-elevated: #ffffff;
 
-  /* Texte */
   --text: #0b0d12;
   --text-soft: #5a6072;
   --text-muted: #8b91a3;
 
-  /* Bordures & séparateurs */
   --border: #e6e8ee;
   --border-strong: #d4d8e2;
 
-  /* Accent (violet Lumalia) */
   --accent: #7c5cff;
   --accent-hover: #6a48f5;
   --accent-soft: rgba(124, 92, 255, 0.1);
   --accent-text: #ffffff;
 
-  /* États */
   --success: #22c55e;
   --danger: #ef4444;
 
-  /* Ombres */
   --shadow-sm: 0 1px 2px rgba(11, 13, 18, 0.04);
   --shadow-md: 0 4px 16px rgba(11, 13, 18, 0.06);
   --shadow-lg: 0 12px 40px rgba(11, 13, 18, 0.08);
 
-  /* Rayons */
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 20px;
   --radius-full: 999px;
 
-  /* Transitions */
   --t-fast: 0.15s ease;
   --t-base: 0.25s ease;
   --t-slow: 0.4s ease;
 
-  /* Layout */
   --container: 1200px;
   --navbar-height: 68px;
 
-  /* Couleur de fond derrière les animations */
   --canvas-bg: transparent;
 }
 
@@ -258,7 +245,6 @@ p {
 .navbar__logo-mark {
   width: 32px;
   height: 32px;
-  border-radius: 9px;
   object-fit: contain;
   display: block;
   flex-shrink: 0;
@@ -297,7 +283,6 @@ p {
   flex-shrink: 0;
 }
 
-/* Boutons icône dans la navbar */
 .navbar__icon-btn {
   width: 38px;
   height: 38px;
@@ -353,6 +338,7 @@ p {
   visibility: hidden;
   transform: translateY(-6px);
   transition: all var(--t-fast);
+  z-index: 110;
 }
 .lang-switch.open .lang-switch__menu {
   opacity: 1;
@@ -473,11 +459,20 @@ p {
 
 /* ---------- 10. Responsive ---------- */
 @media (max-width: 900px) {
+  /* Retire le backdrop-filter sur mobile : il crée un containing block
+     qui casse le position:fixed des enfants */
+  .navbar {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: var(--bg);
+  }
+
   .navbar__links {
     position: fixed;
     top: var(--navbar-height);
     left: 0;
     right: 0;
+    z-index: 99;
     background: var(--bg);
     border-bottom: 1px solid var(--border);
     flex-direction: column;
@@ -485,20 +480,27 @@ p {
     padding: 1rem 1.5rem 1.5rem;
     gap: 0.25rem;
     transform: translateY(-120%);
-    transition: transform var(--t-base);
+    transition: transform var(--t-base), visibility var(--t-base);
+    visibility: hidden;
     justify-content: flex-start;
-    max-height: calc(100vh - var(--navbar-height));
+    max-height: calc(100vh - var(--navbar-height) - 2rem);
     overflow-y: auto;
+    flex: none;
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    box-shadow: var(--shadow-lg);
   }
   .navbar__links.open {
     transform: translateY(0);
+    visibility: visible;
   }
   .navbar__link {
-    padding: 0.8rem 1rem;
+    padding: 0.85rem 1rem;
     font-size: 1rem;
+    border-radius: var(--radius-md);
   }
   .navbar__burger {
     display: grid;
+    z-index: 101;
   }
   .navbar__cta {
     display: none;
@@ -509,4 +511,4 @@ p {
 @media (max-width: 480px) {
   .container { padding: 0 1rem; }
   .section { padding: 3.5rem 0; }
-}
+   }
