@@ -24,20 +24,20 @@
     "notAffiliated": "Lumalia n'est pas affilié à Mojang ni Microsoft."
   },
   "settings": {
-  "label": "Préférences",
-  "title": "Paramètres",
-  "subtitle": "Personnalisez votre expérience sur Lumalia.",
-  "appearance": "Apparence",
-  "appearanceDesc": "Choisissez le thème qui vous convient.",
-  "themeLight": "Clair",
-  "themeDark": "Sombre",
-  "themeAuto": "Auto",
-  "themeAutoHint": "Suit votre système.",
-  "language": "Langue",
-  "languageDesc": "Choisissez la langue de l'interface.",
-  "french": "Français",
-  "english": "English"
-},
+    "label": "Préférences",
+    "title": "Paramètres",
+    "subtitle": "Personnalisez votre expérience sur Lumalia.",
+    "appearance": "Apparence",
+    "appearanceDesc": "Choisissez le thème qui vous convient.",
+    "themeLight": "Clair",
+    "themeDark": "Sombre",
+    "themeAuto": "Auto",
+    "themeAutoHint": "Suit votre système.",
+    "language": "Langue",
+    "languageDesc": "Choisissez la langue de l'interface.",
+    "french": "Français",
+    "english": "English"
+  },
   "common": {
     "loading": "Chargement…",
     "comingSoon": "Bientôt",
@@ -100,6 +100,68 @@
       "title": "On construit Lumalia ensemble",
       "subtitle": "Vos retours façonnent le réseau. Venez discuter, proposer, tester, et suivre l'avancement du projet en direct.",
       "cta": "Ouvrir Discord"
+    }
+  },
+  "servers": {
+    "label": "01 · Les univers",
+    "title": "Choisissez votre univers",
+    "subtitle": "Trois mondes, trois ambiances, une seule communauté. Chaque serveur Lumalia possède sa propre identité, sa population et ses événements.",
+    "crystal": {
+      "type": "Java · Survie",
+      "desc": "Notre serveur principal, taillé pour la survie longue durée, les projets collectifs et les constructions ambitieuses."
+    },
+    "azur": {
+      "type": "Java · Créatif",
+      "desc": "Un espace créatif sans limites, pensé pour les builders, les projets fous et l'expérimentation libre."
+    },
+    "green": {
+      "type": "Java · US",
+      "desc": "Notre univers nord-américain, avec des événements calés sur le fuseau US et une communauté locale dédiée."
+    }
+  },
+  "server": {
+    "detail": {
+      "label": "Serveur",
+      "back": "← Retour aux serveurs"
+    },
+    "crystal": {
+      "intro": "Crystal est le cœur de Lumalia : un monde vivant, façonné par ses joueurs, pensé pour durer.",
+      "about": "À propos",
+      "aboutText": "Ici, pas de reset sauvage ni de saisons jetables. On construit ensemble, sur la durée, avec une économie stable et des projets portés par la communauté. Que vous soyez bâtisseur, explorateur ou commerçant, vous trouverez votre place.",
+      "features": "Ce qui vous attend",
+      "feature1": "Un monde survie persistant avec une carte qui grandit au fil des explorations",
+      "feature2": "Une économie joueur-driven avec boutiques et métiers",
+      "feature3": "Des événements réguliers organisés par l'équipe et la communauté",
+      "feature4": "Un système de protections pour vos constructions",
+      "feature5": "Un chat global et des canaux de discussion par projet",
+      "join": "Comment rejoindre ?",
+      "joinText": "Le serveur ouvre très bientôt. En attendant, rejoignez notre Discord pour être prévenu en premier et participer aux préparatifs."
+    },
+    "azur": {
+      "intro": "Azur est l'atelier créatif de Lumalia : un espace sans limites où l'imagination prend forme.",
+      "about": "À propos",
+      "aboutText": "Pas de ressources à farmer, pas de contraintes : juste vous, votre créativité, et un monde plat à transformer. Azur est pensé pour les builders, les artistes et tous ceux qui veulent expérimenter sans pression.",
+      "features": "Ce qui vous attend",
+      "feature1": "Un monde créatif avec plots protégés et worldedit",
+      "feature2": "Des outils de construction avancés (copy/paste, terraforming)",
+      "feature3": "Un espace freebuild pour les projets collaboratifs",
+      "feature4": "Des galeries pour exposer vos créations",
+      "feature5": "Des concours de build réguliers avec récompenses",
+      "join": "Comment rejoindre ?",
+      "joinText": "Azur ouvre en même temps que Crystal. Rejoignez notre Discord pour suivre l'avancement et réserver votre plot."
+    },
+    "green": {
+      "intro": "Green est l'antenne nord-américaine de Lumalia, avec sa propre communauté et son propre rythme.",
+      "about": "À propos",
+      "aboutText": "Même philosophie que Crystal — survie longue durée, économie stable, projets collectifs — mais avec des événements calés sur le fuseau US et une équipe locale. Idéal si vous jouez depuis l'Amérique du Nord.",
+      "features": "Ce qui vous attend",
+      "feature1": "Un monde survie dédié au fuseau horaire US",
+      "feature2": "Des événements organisés en soirée heure EST/PST",
+      "feature3": "Une équipe de modération locale",
+      "feature4": "Les mêmes fonctionnalités que Crystal (économie, protections, projets)",
+      "feature5": "Un pont inter-serveurs avec Crystal pour les événements communs",
+      "join": "Comment rejoindre ?",
+      "joinText": "Green ouvre ses portes prochainement. Inscrivez-vous sur le Discord pour être notifié du lancement."
     }
   }
 }
