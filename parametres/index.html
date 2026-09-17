@@ -19,12 +19,6 @@
 </head>
 <body>
 
-  <div class="bg-blobs" aria-hidden="true">
-    <span></span>
-    <span></span>
-  </div>
-  <canvas id="luma-bg" aria-hidden="true"></canvas>
-
   <!-- ==================== NAVBAR ==================== -->
   <header class="navbar">
     <div class="container navbar__inner">
@@ -93,7 +87,6 @@
           <p data-i18n="settings.subtitle">Personnalisez votre expérience sur Lumalia.</p>
         </div>
 
-        <!-- ========== APPARENCE ========== -->
         <div class="settings-card">
           <div class="settings-card__head">
             <h2 data-i18n="settings.appearance">Apparence</h2>
@@ -145,7 +138,6 @@
           </div>
         </div>
 
-        <!-- ========== LANGUE ========== -->
         <div class="settings-card">
           <div class="settings-card__head">
             <h2 data-i18n="settings.language">Langue</h2>
@@ -225,19 +217,21 @@
     </div>
   </footer>
 
+  <!-- ==================== FOND ANIMÉ (à la fin, hors du flux) ==================== -->
+  <div class="bg-blobs" aria-hidden="true">
+    <span></span>
+    <span></span>
+  </div>
+  <canvas id="luma-bg" aria-hidden="true"></canvas>
+
   <!-- ==================== SCRIPTS ==================== -->
   <script src="/assets/js/i18n.js"></script>
   <script src="/assets/js/navbar.js"></script>
   <script src="/assets/js/background.js"></script>
   <script>
-    /* ---------- Init ---------- */
     document.getElementById("footer-year").textContent = new Date().getFullYear();
 
-    /* =========================================================
-       Page Paramètres — synchronisation des choix
-       ========================================================= */
-
-    /* ---- 1. Thème ---- */
+    /* ---- Thème ---- */
     const themeChoices = document.querySelectorAll("#theme-choices .choice");
 
     function refreshThemeChoices() {
@@ -258,11 +252,10 @@
       });
     });
 
-    // Réagit si le thème change ailleurs (ex: bouton navbar)
     window.addEventListener("luma:theme-change", refreshThemeChoices);
     refreshThemeChoices();
 
-    /* ---- 2. Langue ---- */
+    /* ---- Langue ---- */
     const langChoices = document.querySelectorAll("#lang-choices .lang-choice");
 
     function refreshLangChoices() {
