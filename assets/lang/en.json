@@ -24,20 +24,20 @@
     "notAffiliated": "Lumalia is not affiliated with Mojang or Microsoft."
   },
   "settings": {
-  "label": "Preferences",
-  "title": "Settings",
-  "subtitle": "Customize your Lumalia experience.",
-  "appearance": "Appearance",
-  "appearanceDesc": "Choose the theme that suits you.",
-  "themeLight": "Light",
-  "themeDark": "Dark",
-  "themeAuto": "Auto",
-  "themeAutoHint": "Follows your system.",
-  "language": "Language",
-  "languageDesc": "Choose the interface language.",
-  "french": "Français",
-  "english": "English"
-},
+    "label": "Preferences",
+    "title": "Settings",
+    "subtitle": "Customize your Lumalia experience.",
+    "appearance": "Appearance",
+    "appearanceDesc": "Choose the theme that suits you.",
+    "themeLight": "Light",
+    "themeDark": "Dark",
+    "themeAuto": "Auto",
+    "themeAutoHint": "Follows your system.",
+    "language": "Language",
+    "languageDesc": "Choose the interface language.",
+    "french": "Français",
+    "english": "English"
+  },
   "common": {
     "loading": "Loading…",
     "comingSoon": "Coming soon",
@@ -100,6 +100,68 @@
       "title": "We build Lumalia together",
       "subtitle": "Your feedback shapes the network. Come chat, suggest, test, and follow the project's progress live.",
       "cta": "Open Discord"
+    }
+  },
+  "servers": {
+    "label": "01 · The universes",
+    "title": "Choose your universe",
+    "subtitle": "Three worlds, three atmospheres, one community. Each Lumalia server has its own identity, population and events.",
+    "crystal": {
+      "type": "Java · Survival",
+      "desc": "Our main server, built for long-term survival, collective projects and ambitious builds."
+    },
+    "azur": {
+      "type": "Java · Creative",
+      "desc": "A limitless creative space, designed for builders, wild projects and free experimentation."
+    },
+    "green": {
+      "type": "Java · US",
+      "desc": "Our North American universe, with events set on the US timezone and a dedicated local community."
+    }
+  },
+  "server": {
+    "detail": {
+      "label": "Server",
+      "back": "← Back to servers"
+    },
+    "crystal": {
+      "intro": "Crystal is the heart of Lumalia: a living world, shaped by its players, built to last.",
+      "about": "About",
+      "aboutText": "No wild resets, no disposable seasons. We build together, over time, with a stable economy and community-driven projects. Whether you're a builder, explorer or trader, you'll find your place.",
+      "features": "What awaits you",
+      "feature1": "A persistent survival world with a map that grows as you explore",
+      "feature2": "A player-driven economy with shops and jobs",
+      "feature3": "Regular events organized by the team and the community",
+      "feature4": "A protection system for your builds",
+      "feature5": "A global chat and per-project discussion channels",
+      "join": "How to join?",
+      "joinText": "The server opens very soon. In the meantime, join our Discord to be notified first and help with preparations."
+    },
+    "azur": {
+      "intro": "Azur is Lumalia's creative workshop: a limitless space where imagination takes shape.",
+      "about": "About",
+      "aboutText": "No resources to farm, no constraints: just you, your creativity, and a flat world to transform. Azur is designed for builders, artists and anyone who wants to experiment without pressure.",
+      "features": "What awaits you",
+      "feature1": "A creative world with protected plots and worldedit",
+      "feature2": "Advanced building tools (copy/paste, terraforming)",
+      "feature3": "A freebuild space for collaborative projects",
+      "feature4": "Galleries to showcase your creations",
+      "feature5": "Regular build contests with rewards",
+      "join": "How to join?",
+      "joinText": "Azur opens at the same time as Crystal. Join our Discord to follow progress and reserve your plot."
+    },
+    "green": {
+      "intro": "Green is Lumalia's North American branch, with its own community and its own rhythm.",
+      "about": "About",
+      "aboutText": "Same philosophy as Crystal — long-term survival, stable economy, collective projects — but with events set on the US timezone and a local team. Ideal if you play from North America.",
+      "features": "What awaits you",
+      "feature1": "A survival world dedicated to the US timezone",
+      "feature2": "Events organized in the evening EST/PST",
+      "feature3": "A local moderation team",
+      "feature4": "The same features as Crystal (economy, protections, projects)",
+      "feature5": "A cross-server bridge with Crystal for shared events",
+      "join": "How to join?",
+      "joinText": "Green opens its doors soon. Sign up on Discord to be notified at launch."
     }
   }
 }
