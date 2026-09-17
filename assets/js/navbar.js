@@ -8,7 +8,7 @@
     const navbar = document.querySelector(".navbar");
     if (!navbar) return;
 
-    /* ---- 1. Burger mobile ---- */
+        /* ---- 1. Burger mobile ---- */
     const burger = navbar.querySelector(".navbar__burger");
     const links = navbar.querySelector(".navbar__links");
     if (burger && links) {
@@ -17,14 +17,30 @@
         burger.setAttribute("aria-expanded", open ? "true" : "false");
       });
 
-      // Ferme le menu si on clique sur un lien (mobile)
+      // Ferme le menu si on clique sur un lien simple (mobile)
       links.querySelectorAll("a").forEach((a) => {
         a.addEventListener("click", () => {
+          // Si c'est le parent d'un dropdown, on ne ferme pas (on ouvre l'accordéon)
+          if (a.classList.contains("navbar__link--parent")) return;
           links.classList.remove("open");
           burger.setAttribute("aria-expanded", "false");
         });
       });
     }
+
+    /* ---- 1b. Dropdown en version mobile (accordéon) ---- */
+    navbar.querySelectorAll(".navbar__item").forEach((item) => {
+      const parentLink = item.querySelector(".navbar__link--parent");
+      if (!parentLink) return;
+
+      parentLink.addEventListener("click", (e) => {
+        // Seulement en mobile
+        if (window.matchMedia("(max-width: 900px)").matches) {
+          e.preventDefault();
+          item.classList.toggle("open");
+        }
+      });
+    });
 
     /* ---- 2. Sélecteur de langue ---- */
     const langSwitch = navbar.querySelector(".lang-switch");
