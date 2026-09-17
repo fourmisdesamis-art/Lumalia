@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Serveurs — Lumalia</title>
+  <meta name="description" content="Découvrez les univers Lumalia : Crystal, Azur et Green. Chacun a sa communauté, son ambiance et ses règles.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Poppins:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/style.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="/assets/css/global.css">
+  <link rel="stylesheet" href="/assets/css/serveurs.css">
+
+  <script src="/assets/js/theme.js"></script>
+  <meta name="theme-color" content="#ffffff">
+</head>
+<body>
+
+  <!-- ==================== NAVBAR ==================== -->
+  <header class="navbar">
+    <div class="container navbar__inner">
+
+      <a href="/" class="navbar__logo" aria-label="Lumalia — Accueil">
+        <img src="/assets/img/logo-lumalia.png" alt="" class="navbar__logo-mark" width="32" height="32">
+        <span>Lumalia</span>
+      </a>
+
+      <nav class="navbar__links" id="navbar-links">
+        <a href="/" class="navbar__link" data-i18n="nav.home">Accueil</a>
+
+        <div class="navbar__item">
+          <a href="/serveurs" class="navbar__link navbar__link--parent" data-i18n="nav.servers">Serveurs</a>
+          <div class="navbar__dropdown">
+            <a href="/serveurs/crystal" class="navbar__dropdown-item">
+              <span class="navbar__dropdown-item__logo navbar__dropdown-item__logo--crystal">C</span>
+              <span class="navbar__dropdown-item__text">
+                <strong>Crystal</strong>
+                <span>Java</span>
+              </span>
+            </a>
+            <a href="/serveurs/azur" class="navbar__dropdown-item">
+              <span class="navbar__dropdown-item__logo navbar__dropdown-item__logo--azur">A</span>
+              <span class="navbar__dropdown-item__text">
+                <strong>Azur</strong>
+                <span>Java</span>
+              </span>
+            </a>
+            <a href="/serveurs/green" class="navbar__dropdown-item">
+              <span class="navbar__dropdown-item__logo navbar__dropdown-item__logo--green">G</span>
+              <span class="navbar__dropdown-item__text">
+                <strong>Green</strong>
+                <span>Java · US</span>
+              </span>
+            </a>
+          </div>
+        </div>
+
+        <a href="/launcher" class="navbar__link" data-i18n="nav.launcher">Launcher</a>
+        <a href="/actualites" class="navbar__link" data-i18n="nav.news">Actualités</a>
+        <a href="/communaute" class="navbar__link" data-i18n="nav.community">Communauté</a>
+        <a href="/parametres" class="navbar__link" data-i18n="nav.settings">Paramètres</a>
+      </nav>
+
+      <div class="navbar__actions">
+
+        <div class="lang-switch">
+          <button class="lang-switch__btn" type="button" aria-label="Changer de langue">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M2 12h20"/>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+            </svg>
+            <span class="lang-switch__label">FR</span>
+          </button>
+          <div class="lang-switch__menu" role="menu">
+            <button class="lang-switch__item" data-lang="fr" role="menuitem">Français</button>
+            <button class="lang-switch__item" data-lang="en" role="menuitem">English</button>
+          </div>
+        </div>
+
+        <button class="navbar__icon-btn" type="button" data-theme-toggle aria-label="Changer de thème">
+          <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+          <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:none">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+          </svg>
+        </button>
+
+        <a href="https://discord.gg/lumalia" target="_blank" rel="noopener" class="btn btn-primary btn-sm navbar__cta" data-i18n="nav.discord">
+          Rejoindre Discord
+        </a>
+
+        <button class="navbar__burger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="navbar-links">
+          <span></span>
+        </button>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== MAIN ==================== -->
+  <main>
+    <section class="servers-page">
+      <div class="container">
+
+        <div class="servers-page__header">
+          <span class="label" data-i18n="servers.label">01 · Les univers</span>
+          <h1 data-i18n="servers.title">Choisissez votre univers</h1>
+          <p data-i18n="servers.subtitle">
+            Trois mondes, trois ambiances, une seule communauté. Chaque serveur Lumalia possède sa propre identité, sa population et ses événements.
+          </p>
+        </div>
+
+        <div class="servers-grid">
+
+          <!-- CRYSTAL -->
+          <article class="server-big-card">
+            <div class="server-big-card__head">
+              <div class="server-big-card__logo server-big-card__logo--crystal">C</div>
+              <div class="server-big-card__title">
+                <h3>Crystal</h3>
+                <span data-i18n="servers.crystal.type">Java · Survie</span>
+              </div>
+            </div>
+            <p data-i18n="servers.crystal.desc">
+              Notre serveur principal, taillé pour la survie longue durée, les projets collectifs et les constructions ambitieuses.
+            </p>
+            <div class="server-big-card__tags">
+              <span class="server-big-card__tag">Survie</span>
+              <span class="server-big-card__tag">Économie</span>
+              <span class="server-big-card__tag">Events</span>
+            </div>
+            <div class="server-big-card__footer">
+              <span class="server-big-card__status server-big-card__status--soon" data-i18n="common.comingSoon">Bientôt</span>
+              <a href="/serveurs/crystal" class="server-big-card__link">
+                <span data-i18n="common.discover">Découvrir</span> →
+              </a>
+            </div>
+          </article>
+
+          <!-- AZUR -->
+          <article class="server-big-card">
+            <div class="server-big-card__head">
+              <div class="server-big-card__logo server-big-card__logo--azur">A</div>
+              <div class="server-big-card__title">
+                <h3>Azur</h3>
+                <span data-i18n="servers.azur.type">Java · Créatif</span>
+              </div>
+            </div>
+            <p data-i18n="servers.azur.desc">
+              Un espace créatif sans limites, pensé pour les builders, les projets fous et l'expérimentation libre.
+            </p>
+            <div class="server-big-card__tags">
+              <span class="server-big-card__tag">Créatif</span>
+              <span class="server-big-card__tag">Build</span>
+              <span class="server-big-card__tag">Freebuild</span>
+            </div>
+            <div class="server-big-card__footer">
+              <span class="server-big-card__status server-big-card__status--soon" data-i18n="common.comingSoon">Bientôt</span>
+              <a href="/serveurs/azur" class="server-big-card__link">
+                <span data-i18n="common.discover">Découvrir</span> →
+              </a>
+            </div>
+          </article>
+
+          <!-- GREEN -->
+          <article class="server-big-card">
+            <div class="server-big-card__head">
+              <div class="server-big-card__logo server-big-card__logo--green">G</div>
+              <div class="server-big-card__title">
+                <h3>Green</h3>
+                <span data-i18n="servers.green.type">Java · US</span>
+              </div>
+            </div>
+            <p data-i18n="servers.green.desc">
+              Notre univers nord-américain, avec des événements calés sur le fuseau US et une communauté locale dédiée.
+            </p>
+            <div class="server-big-card__tags">
+              <span class="server-big-card__tag">Survie</span>
+              <span class="server-big-card__tag">US</span>
+              <span class="server-big-card__tag">Events</span>
+            </div>
+            <div class="server-big-card__footer">
+              <span class="server-big-card__status server-big-card__status--soon" data-i18n="common.comingSoon">Bientôt</span>
+              <a href="/serveurs/green" class="server-big-card__link">
+                <span data-i18n="common.discover">Découvrir</span> →
+              </a>
+            </div>
+          </article>
+
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__inner">
+
+        <div class="footer__brand">
+          <a href="/" class="navbar__logo">
+            <img src="/assets/img/logo-lumalia.png" alt="" class="navbar__logo-mark" width="32" height="32">
+            <span>Lumalia</span>
+          </a>
+          <p data-i18n="footer.tagline">Lumalia rassemble plusieurs communautés autour de serveurs Minecraft Java &amp; Bedrock.</p>
+        </div>
+
+        <div class="footer__cols">
+          <div class="footer__col">
+            <h5 data-i18n="footer.navigation">Navigation</h5>
+            <a href="/serveurs" data-i18n="nav.servers">Serveurs</a>
+            <a href="/launcher" data-i18n="nav.launcher">Launcher</a>
+            <a href="/actualites" data-i18n="nav.news">Actualités</a>
+            <a href="/communaute" data-i18n="nav.community">Communauté</a>
+          </div>
+
+          <div class="footer__col">
+            <h5 data-i18n="footer.resources">Ressources</h5>
+            <a href="#" data-i18n="footer.status">Statut des serveurs</a>
+            <a href="#" data-i18n="footer.docs">Documentation</a>
+            <a href="#" data-i18n="footer.support">Support</a>
+          </div>
+
+          <div class="footer__col">
+            <h5 data-i18n="footer.legal">Légal</h5>
+            <a href="#" data-i18n="footer.terms">Conditions d'utilisation</a>
+            <a href="#" data-i18n="footer.privacy">Confidentialité</a>
+            <a href="#" data-i18n="footer.cookies">Cookies</a>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="footer__bottom">
+        <span>© <span id="footer-year"></span> Lumalia. <span data-i18n="footer.rights">Tous droits réservés.</span></span>
+        <span data-i18n="footer.notAffiliated">Lumalia n'est pas affilié à Mojang ni Microsoft.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Fond animé -->
+  <div class="bg-blobs" aria-hidden="true">
+    <span></span>
+    <span></span>
+  </div>
+  <canvas id="luma-bg" aria-hidden="true"></canvas>
+
+  <script src="/assets/js/i18n.js"></script>
+  <script src="/assets/js/navbar.js"></script>
+  <script src="/assets/js/background.js"></script>
+  <script>
+    document.getElementById("footer-year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
