@@ -680,3 +680,35 @@ p {
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
+
+  /* Dropdown en version mobile : accordéon */
+  .navbar__item {
+    width: 100%;
+  }
+  .navbar__link--parent::after {
+    margin-left: auto;
+  }
+  .navbar__item.open .navbar__link--parent::after {
+    transform: rotate(-135deg) translateY(-2px);
+  }
+  .navbar__dropdown {
+    position: static;
+    transform: none;
+    opacity: 1;
+    visibility: visible;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0 0 0 0.5rem;
+    min-width: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height var(--t-base);
+  }
+  .navbar__dropdown::before { display: none; }
+  .navbar__item.open .navbar__dropdown {
+    max-height: 400px;
+  }
+  .navbar__item:hover .navbar__dropdown {
+    transform: none;
+  }
