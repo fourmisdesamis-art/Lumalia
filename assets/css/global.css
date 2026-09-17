@@ -1,6 +1,6 @@
 /* =========================================================
    LUMALIA — global.css
-   Reset, polices, variables de thème, navbar, footer, boutons
+   Reset, polices, variables, navbar, footer, boutons, fond animé
    ========================================================= */
 
 /* ---------- 1. Reset ---------- */
@@ -300,7 +300,6 @@ p {
   border-color: var(--border-strong);
 }
 
-/* Sélecteur de langue */
 .lang-switch {
   position: relative;
 }
@@ -367,7 +366,6 @@ p {
   font-weight: 600;
 }
 
-/* Burger (mobile) */
 .navbar__burger {
   display: none;
   width: 38px;
@@ -457,10 +455,68 @@ p {
   color: var(--text-muted);
 }
 
-/* ---------- 10. Responsive ---------- */
+/* ---------- 10. Fond animé (global) ---------- */
+#luma-bg {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+  display: block;
+  transition: opacity var(--t-slow);
+}
+
+.bg-blobs {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.bg-blobs span {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.35;
+  transition: opacity var(--t-slow);
+}
+
+[data-theme="dark"] .bg-blobs span { opacity: 0.25; }
+
+.bg-blobs span:nth-child(1) {
+  width: 480px;
+  height: 480px;
+  background: #b39bff;
+  top: -120px;
+  left: -120px;
+  animation: blobFloat1 22s ease-in-out infinite;
+}
+.bg-blobs span:nth-child(2) {
+  width: 420px;
+  height: 420px;
+  background: #8ad4ff;
+  bottom: -140px;
+  right: -100px;
+  animation: blobFloat2 26s ease-in-out infinite;
+}
+
+@keyframes blobFloat1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%      { transform: translate(60px, 40px) scale(1.1); }
+}
+@keyframes blobFloat2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%      { transform: translate(-50px, -40px) scale(1.15); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bg-blobs span { animation: none; }
+}
+
+/* ---------- 11. Responsive ---------- */
 @media (max-width: 900px) {
-  /* Retire le backdrop-filter sur mobile : il crée un containing block
-     qui casse le position:fixed des enfants */
   .navbar {
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
@@ -511,4 +567,4 @@ p {
 @media (max-width: 480px) {
   .container { padding: 0 1rem; }
   .section { padding: 3.5rem 0; }
-   }
+}
