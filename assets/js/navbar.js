@@ -33,7 +33,6 @@
       const label = langSwitch.querySelector(".lang-switch__label");
       const items = langSwitch.querySelectorAll(".lang-switch__item");
 
-      // Affiche la langue courante + état actif
       function refreshLangUI() {
         const lang = window.LumaI18n ? window.LumaI18n.get() : "fr";
         if (label) label.textContent = lang.toUpperCase();
@@ -88,8 +87,13 @@
     /* ---- 4. Lien actif automatique ---- */
     const path = window.location.pathname.replace(/\/$/, "") || "/";
     navbar.querySelectorAll(".navbar__link").forEach((a) => {
-      const href = a.getAttribute("href")?.replace(/\/$/, "") || "";
-      if (href === path || (href !== "/" && path.startsWith(href))) {
+      const href = (a.getAttribute("href") || "").replace(/\/$/, "") || "/";
+
+      // Correspondance exacte, ou préfixe (mais uniquement si href n'est pas "/")
+      const isExact = href === path;
+      const isPrefix = href !== "/" && path.startsWith(href + "/");
+
+      if (isExact || isPrefix) {
         a.setAttribute("aria-current", "page");
       }
     });
