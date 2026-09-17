@@ -1,0 +1,164 @@
+/* =========================================================
+   LUMALIA — serveurs.css
+   Page /serveurs (vue d'ensemble)
+   ========================================================= */
+
+.servers-page {
+  padding: 4rem 0 6rem;
+}
+
+.servers-page__header {
+  max-width: 720px;
+  margin-bottom: 3.5rem;
+}
+.servers-page__header h1 {
+  margin-bottom: 0.75rem;
+}
+.servers-page__header p {
+  font-size: 1.05rem;
+}
+
+.servers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+
+.server-big-card {
+  position: relative;
+  padding: 2rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--bg-elevated);
+  transition: transform var(--t-base), border-color var(--t-base), box-shadow var(--t-base);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.server-big-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top right, var(--accent-soft), transparent 60%);
+  opacity: 0;
+  transition: opacity var(--t-base);
+  pointer-events: none;
+}
+.server-big-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent);
+  box-shadow: var(--shadow-md);
+}
+.server-big-card:hover::before {
+  opacity: 1;
+}
+
+.server-big-card__head {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+  position: relative;
+  z-index: 1;
+}
+
+.server-big-card__logo {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-md);
+  display: grid;
+  place-items: center;
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: #fff;
+  flex-shrink: 0;
+}
+.server-big-card__logo--crystal { background: linear-gradient(135deg, #7c5cff, #b39bff); }
+.server-big-card__logo--azur    { background: linear-gradient(135deg, #0ea5e9, #67e8f9); }
+.server-big-card__logo--green   { background: linear-gradient(135deg, #22c55e, #4ade80); }
+
+.server-big-card__title h3 {
+  font-size: 1.35rem;
+  margin-bottom: 0.15rem;
+}
+.server-big-card__title span {
+  font-family: var(--font-label);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.server-big-card > p {
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+  position: relative;
+  z-index: 1;
+}
+
+.server-big-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+.server-big-card__tag {
+  font-family: var(--font-label);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-full);
+  background: var(--bg-soft);
+  color: var(--text-soft);
+  border: 1px solid var(--border);
+}
+
+.server-big-card__footer {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  z-index: 1;
+}
+.server-big-card__status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-label);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.server-big-card__status::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--text-muted);
+}
+.server-big-card__status--soon::before { background: #f59e0b; }
+.server-big-card__status--online::before { background: var(--success); }
+.server-big-card__status--offline::before { background: var(--danger); }
+
+.server-big-card__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 500;
+  color: var(--accent);
+  font-size: 0.95rem;
+  transition: gap var(--t-fast);
+}
+.server-big-card__link:hover {
+  gap: 0.7rem;
+}
+
+@media (max-width: 640px) {
+  .servers-page { padding: 3rem 0 4rem; }
+}
