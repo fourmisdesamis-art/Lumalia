@@ -295,11 +295,25 @@
 
       const delta = currentTotp.validate({ token: code, window: 1 });
 
-      if (delta !== null) {
+            if (delta !== null) {
         statusEl.textContent = "Code valide ✓";
         statusEl.className = "auth__status auth__status--success";
 
+        // Sauvegarde le secret 2FA dans Firestore
+        if (pending.uid) {
+          db.collection("Utilisateurs").doc(pending.uid).update({
+            twofaEnabled: true,
+            totpSecret: currentTotp.secret.base32,
+            twofaEnabledAt: firebase.firestore.FieldValue.serverTimestamp(),
+          }).then(() => {
+            console.log("[Firestore] 2FA activée pour", pending.uid);
+          }).catch((err) => {
+            console.error("[Firestore] Erreur sauvegarde 2FA :", err);
+          });
+        }
+
         localStorage.setItem("luma_user", JSON.stringify({
+          uid: pending.uid,
           email: pending.email,
           username: pending.username,
           twofaEnabled: true,
@@ -307,11 +321,7 @@
         }));
 
         localStorage.removeItem("luma_pending_signup");
-
-        setTimeout(() => {
-          step2fa.style.display = "none";
-          stepDone.style.display = "block";
-        }, 800);
+        ...
 
       } else {
         statusEl.textContent = "Code incorrect. Réessayez (vérifiez l'heure de votre téléphone).";
