@@ -73,7 +73,7 @@
             </div>
 
             <div class="auth__qrcode">
-              <img id="qr-image" alt="QR Code pour la double authentification">
+             <div id="qr-image" class="auth__qrcode-canvas"></div>
             </div>
 
             <div class="auth__manual">
@@ -170,10 +170,17 @@
       // URI otpauth:// (compatible Google Authenticator, Authy, etc.)
       const otpauthUrl = currentTotp.toString();
 
-      // Affiche le QR code
-      QRCode.toDataURL(otpauthUrl, { width: 240, margin: 1 })
-        .then(url => { document.getElementById("qr-image").src = url; })
-        .catch(err => console.error(err));
+      // Affiche le QR code (avec qrcodejs)
+      const qrContainer = document.getElementById("qr-image").parentElement;
+      qrContainer.innerHTML = ""; // vide le conteneur
+      new QRCode(qrContainer, {
+        text: otpauthUrl,
+        width: 240,
+        height: 240,
+        colorDark: "#0b0d12",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.M
+      });
 
       // Affiche le secret en base32 pour saisie manuelle
       document.getElementById("manual-secret").textContent = secret.base32;
