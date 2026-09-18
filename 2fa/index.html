@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vérification — Lumalia</title>
+
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Poppins:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/style.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="/assets/css/global.css">
+  <link rel="stylesheet" href="/assets/css/auth.css">
+
+  <script src="/assets/js/theme.js"></script>
+  <meta name="theme-color" content="#ffffff">
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="container navbar__inner">
+      <a href="/" class="navbar__logo">
+        <img src="/assets/img/logo-lumalia.png" alt="" class="navbar__logo-mark" width="32" height="32">
+        <span>Lumalia</span>
+      </a>
+      <nav class="navbar__links" id="navbar-links">
+        <a href="/" class="navbar__link">Accueil</a>
+        <a href="/serveurs" class="navbar__link">Serveurs</a>
+        <a href="/launcher" class="navbar__link">Launcher</a>
+        <a href="/actualites" class="navbar__link">Actualités</a>
+        <a href="/communaute" class="navbar__link">Communauté</a>
+        <a href="/parametres" class="navbar__link">Paramètres</a>
+      </nav>
+      <div class="navbar__actions">
+        <button class="navbar__icon-btn" type="button" data-theme-toggle>
+          <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        </button>
+        <button class="navbar__burger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="navbar-links"><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="auth">
+      <div class="container">
+        <div class="auth__card auth__card--wide">
+
+          <!-- ÉTAPE 1 : Vérification du token -->
+          <div id="step-verify" class="auth__step">
+            <div class="auth__header">
+              <span class="label">Vérification</span>
+              <h1 id="verify-title">Vérification de votre email…</h1>
+              <p id="verify-text">Merci de patienter.</p>
+            </div>
+            <div id="verify-error" style="display:none">
+              <p class="auth__status auth__status--error">Lien invalide ou expiré. Veuillez recommencer l'inscription.</p>
+              <a href="/connexion" class="btn btn-primary">Retour à l'inscription</a>
+            </div>
+          </div>
+
+          <!-- ÉTAPE 2 : Activation 2FA -->
+          <div id="step-2fa" class="auth__step" style="display:none">
+            <div class="auth__header">
+              <span class="label">Double authentification</span>
+              <h1>Activez la 2FA</h1>
+              <p>Scannez le QR code avec votre application d'authentification (Google Authenticator, Authy, 1Password…).</p>
+            </div>
+
+            <div class="auth__qrcode">
+              <img id="qr-image" alt="QR Code pour la double authentification">
+            </div>
+
+            <div class="auth__manual">
+              <p>Ou entrez manuellement ce code dans votre application :</p>
+              <code id="manual-secret" class="auth__secret"></code>
+              <button type="button" class="btn btn-ghost btn-sm" id="copy-secret">Copier</button>
+            </div>
+
+            <form class="auth__form" id="totp-form">
+              <div class="auth__field">
+                <label for="totp-code">Code à 6 chiffres</label>
+                <input type="text" id="totp-code" name="code" placeholder="123456" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" required autocomplete="one-time-code">
+              </div>
+              <div class="auth__status" id="totp-status" role="status" aria-live="polite"></div>
+              <button type="submit" class="btn btn-primary auth__submit">Vérifier et activer</button>
+            </form>
+          </div>
+
+          <!-- ÉTAPE 3 : Succès -->
+          <div id="step-done" class="auth__step" style="display:none">
+            <div class="auth__header">
+              <h1>🎉 C'est bon !</h1>
+              <p>Votre compte Lumalia est maintenant sécurisé avec la double authentification.</p>
+            </div>
+            <a href="/" class="btn btn-primary">Aller à l'accueil</a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__bottom" style="margin-top:0; border:none;">
+        <span>© <span id="footer-year"></span> Lumalia. Tous droits réservés.</span>
+      </div>
+    </div>
+  </footer>
+
+  <div class="bg-blobs" aria-hidden="true"><span></span><span></span></div>
+  <canvas id="luma-bg" aria-hidden="true"></canvas>
+
+  <script src="https://cdn.jsdelivr.net/npm/otpauth@9.5.2/dist/otpauth.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+  <script src="/assets/js/i18n.js"></script>
+  <script src="/assets/js/navbar.js"></script>
+  <script src="/assets/js/background.js"></script>
+  <script>
+    document.getElementById("footer-year").textContent = new Date().getFullYear();
+
+    const params = new URLSearchParams(window.location.search);
+    const tokenFromUrl = params.get("token");
+
+    const pending = JSON.parse(localStorage.getItem("luma_pending_signup") || "null");
+
+    const stepVerify = document.getElementById("step-verify");
+    const step2fa = document.getElementById("step-2fa");
+    const stepDone = document.getElementById("step-done");
+
+    // --- ÉTAPE 1 : Vérification ---
+    if (!tokenFromUrl || !pending || pending.token !== tokenFromUrl) {
+      document.getElementById("verify-title").textContent = "Lien invalide";
+      document.getElementById("verify-text").textContent = "";
+      document.getElementById("verify-error").style.display = "block";
+    } else {
+      // Token valide → on passe à la 2FA
+      document.getElementById("verify-title").textContent = "Email vérifié ✓";
+      document.getElementById("verify-text").textContent = "Passons à la sécurisation de votre compte.";
+
+      setTimeout(() => {
+        stepVerify.style.display = "none";
+        step2fa.style.display = "block";
+        init2FA();
+      }, 1200);
+    }
+
+    // --- ÉTAPE 2 : Génération du secret TOTP ---
+    let currentTotp = null;
+
+    function init2FA() {
+      // Génère un secret TOTP (via otpauth)
+      const secret = new OTPAuth.Secret({ size: 20 });
+
+      currentTotp = new OTPAuth.TOTP({
+        issuer: "Lumalia",
+        label: pending.email,
+        algorithm: "SHA1",
+        digits: 6,
+        period: 30,
+        secret: secret,
+      });
+
+      // URI otpauth:// (compatible Google Authenticator, Authy, etc.)
+      const otpauthUrl = currentTotp.toString();
+
+      // Affiche le QR code
+      QRCode.toDataURL(otpauthUrl, { width: 240, margin: 1 })
+        .then(url => { document.getElementById("qr-image").src = url; })
+        .catch(err => console.error(err));
+
+      // Affiche le secret en base32 pour saisie manuelle
+      document.getElementById("manual-secret").textContent = secret.base32;
+
+      // Stocke le secret temporairement (⚠️ en vrai : le stocker côté serveur, chiffré)
+      localStorage.setItem("luma_totp_secret", secret.base32);
+    }
+
+    // Bouton copier
+    document.getElementById("copy-secret")?.addEventListener("click", () => {
+      const text = document.getElementById("manual-secret").textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = document.getElementById("copy-secret");
+        btn.textContent = "Copié ✓";
+        setTimeout(() => btn.textContent = "Copier", 2000);
+      });
+    });
+
+    // --- ÉTAPE 2b : Vérification du code TOTP ---
+    document.getElementById("totp-form")?.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const code = document.getElementById("totp-code").value.trim();
+      const statusEl = document.getElementById("totp-status");
+
+      if (!/^[0-9]{6}$/.test(code)) {
+        statusEl.textContent = "Entrez un code valide à 6 chiffres.";
+        statusEl.className = "auth__status auth__status--error";
+        return;
+      }
+
+      const delta = currentTotp.validate({ token: code, window: 1 });
+
+      if (delta !== null) {
+        statusEl.textContent = "Code valide ✓";
+        statusEl.className = "auth__status auth__status--success";
+
+        // Marque le compte comme actif
+        localStorage.setItem("luma_user", JSON.stringify({
+          email: pending.email,
+          username: pending.username,
+          twofaEnabled: true,
+          createdAt: Date.now(),
+        }));
+
+        // Nettoie
+        localStorage.removeItem("luma_pending_signup");
+
+        setTimeout(() => {
+          step2fa.style.display = "none";
+          stepDone.style.display = "block";
+        }, 800);
+
+      } else {
+        statusEl.textContent = "Code incorrect. Réessayez (vérifiez l'heure de votre téléphone).";
+        statusEl.className = "auth__status auth__status--error";
+      }
+    });
+  </script>
+</body>
+</html>
