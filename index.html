@@ -6,14 +6,32 @@
   <title>Lumalia — Un réseau, mille histoires</title>
   <meta name="description" content="Lumalia, c'est un réseau Minecraft Java & Bedrock pensé pour rassembler. Plusieurs serveurs, une seule communauté, une infinité d'histoires.">
 
+  <!-- Favicon -->
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png">
+  <link rel="manifest" href="/assets/img/site.webmanifest">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Lumalia — Un réseau, mille histoires">
+  <meta property="og:description" content="Lumalia, c'est un réseau Minecraft Java & Bedrock pensé pour rassembler.">
+  <meta property="og:image" content="https://lumania.fr/assets/img/logo-lumalia.png">
+  <meta property="og:url" content="https://lumania.fr/">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Polices -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Poppins:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/style.css" rel="stylesheet">
 
+  <!-- CSS -->
   <link rel="stylesheet" href="/assets/css/global.css">
   <link rel="stylesheet" href="/assets/css/home.css">
 
+  <!-- Thème (avant le body pour éviter le flash) -->
   <script src="/assets/js/theme.js"></script>
   <meta name="theme-color" content="#ffffff">
 </head>
@@ -30,32 +48,36 @@
 
       <nav class="navbar__links" id="navbar-links">
         <a href="/" class="navbar__link" data-i18n="nav.home">Accueil</a>
-                <div class="navbar__item">
+
+        <div class="navbar__item">
           <a href="/serveurs" class="navbar__link navbar__link--parent" data-i18n="nav.servers">Serveurs</a>
           <div class="navbar__dropdown">
-            <a href="/serveurs/crystal" class="navbar__dropdown-item">
-              <span class="navbar__dropdown-item__logo navbar__dropdown-item__logo--crystal">C</span>
-              <span class="navbar__dropdown-item__text">
-                <strong>Crystal</strong>
-                <span>Java</span>
-              </span>
-            </a>
-            <a href="/serveurs/azur" class="navbar__dropdown-item">
-              <span class="navbar__dropdown-item__logo navbar__dropdown-item__logo--azur">A</span>
-              <span class="navbar__dropdown-item__text">
-                <strong>Azur</strong>
-                <span>Java</span>
-              </span>
-            </a>
-            <a href="/serveurs/green" class="navbar__dropdown-item">
-              <span class="navbar__dropdown-item__logo navbar__dropdown-item__logo--green">G</span>
-              <span class="navbar__dropdown-item__text">
-                <strong>Green</strong>
-                <span>Java · US</span>
-              </span>
-            </a>
+            <div class="navbar__dropdown-inner">
+              <a href="/serveurs/crystal" class="navbar__dropdown-item">
+                <span class="navbar__dropdown-item__logo navbar__dropdown-item__logo--crystal">C</span>
+                <span class="navbar__dropdown-item__text">
+                  <strong>Crystal</strong>
+                  <span>Java</span>
+                </span>
+              </a>
+              <a href="/serveurs/azur" class="navbar__dropdown-item">
+                <span class="navbar__dropdown-item__logo navbar__dropdown-item__logo--azur">A</span>
+                <span class="navbar__dropdown-item__text">
+                  <strong>Azur</strong>
+                  <span>Java</span>
+                </span>
+              </a>
+              <a href="/serveurs/green" class="navbar__dropdown-item">
+                <span class="navbar__dropdown-item__logo navbar__dropdown-item__logo--green">G</span>
+                <span class="navbar__dropdown-item__text">
+                  <strong>Green</strong>
+                  <span>Java · US</span>
+                </span>
+              </a>
+            </div>
           </div>
         </div>
+
         <a href="/launcher" class="navbar__link" data-i18n="nav.launcher">Launcher</a>
         <a href="/actualites" class="navbar__link" data-i18n="nav.news">Actualités</a>
         <a href="/communaute" class="navbar__link" data-i18n="nav.community">Communauté</a>
@@ -153,17 +175,17 @@
             <div class="server-card__logo server-card__logo--crystal">C</div>
             <h3>Crystal</h3>
             <p data-i18n="home.universes.crystal">Un monde vivant, pensé pour la survie longue durée et les projets de groupe.</p>
-            <a href="/serveurs" class="server-card__link">
+            <a href="/serveurs/crystal" class="server-card__link">
               <span data-i18n="common.discover">Découvrir</span> →
             </a>
           </article>
 
           <article class="server-card">
-            <span class="server-card__tag">Bedrock</span>
-            <div class="server-card__logo server-card__logo--onyx">O</div>
-            <h3>Onyx</h3>
-            <p data-i18n="home.universes.onyx">L'expérience Lumalia accessible depuis mobile et consoles, sans compromis.</p>
-            <a href="/serveurs" class="server-card__link">
+            <span class="server-card__tag">Java</span>
+            <div class="server-card__logo server-card__logo--azur">A</div>
+            <h3>Azur</h3>
+            <p data-i18n="home.universes.azur">Un espace créatif sans limites, pensé pour les builders et les projets fous.</p>
+            <a href="/serveurs/azur" class="server-card__link">
               <span data-i18n="common.discover">Découvrir</span> →
             </a>
           </article>
@@ -173,7 +195,7 @@
             <div class="server-card__logo server-card__logo--green">G</div>
             <h3>Green</h3>
             <p data-i18n="home.universes.green">Notre univers nord-américain, avec des événements pensés pour le fuseau US.</p>
-            <a href="/serveurs" class="server-card__link">
+            <a href="/serveurs/green" class="server-card__link">
               <span data-i18n="common.discover">Découvrir</span> →
             </a>
           </article>
@@ -288,8 +310,8 @@
 
           <div class="footer__col">
             <h5 data-i18n="footer.legal">Légal</h5>
-            <a href="/conditions-d'utilisation" data-i18n="footer.terms">Conditions d'utilisation</a>
-            <a href="/confidentialité" data-i18n="footer.privacy">Confidentialité</a>
+            <a href="#" data-i18n="footer.terms">Conditions d'utilisation</a>
+            <a href="#" data-i18n="footer.privacy">Confidentialité</a>
             <a href="#" data-i18n="footer.cookies">Cookies</a>
           </div>
         </div>
@@ -303,14 +325,14 @@
     </div>
   </footer>
 
-  <!-- ==================== FOND ANIMÉ (à la fin, hors du flux) ==================== -->
+  <!-- Fond animé -->
   <div class="bg-blobs" aria-hidden="true">
     <span></span>
     <span></span>
   </div>
   <canvas id="luma-bg" aria-hidden="true"></canvas>
 
-  <!-- ==================== SCRIPTS ==================== -->
+  <!-- Scripts -->
   <script src="/assets/js/i18n.js"></script>
   <script src="/assets/js/navbar.js"></script>
   <script src="/assets/js/background.js"></script>
