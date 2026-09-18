@@ -266,9 +266,9 @@
         statusEl.className = "auth__status auth__status--success";
         submitBtn.textContent = "Email envoyé ✓";
 
-      } catch (err) {
-        console.error(err);
-        statusEl.textContent = "Erreur lors de l'envoi. Réessayez dans quelques instants.";
+        } catch (err) {
+        console.error("[EmailJS]", err);
+        statusEl.textContent = "Erreur : " + (err?.text || err?.message || JSON.stringify(err));
         statusEl.className = "auth__status auth__status--error";
         submitBtn.disabled = false;
         submitBtn.textContent = "Continuer";
