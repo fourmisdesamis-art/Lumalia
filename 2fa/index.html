@@ -73,7 +73,7 @@
             </div>
 
             <div class="auth__qrcode">
-             <div id="qr-image" class="auth__qrcode-canvas"></div>
+              <div id="qr-image" class="auth__qrcode-canvas"></div>
             </div>
 
             <div class="auth__manual">
@@ -140,7 +140,6 @@
       document.getElementById("verify-text").textContent = "";
       document.getElementById("verify-error").style.display = "block";
     } else {
-      // Token valide → on passe à la 2FA
       document.getElementById("verify-title").textContent = "Email vérifié ✓";
       document.getElementById("verify-text").textContent = "Passons à la sécurisation de votre compte.";
 
@@ -171,8 +170,9 @@
       const otpauthUrl = currentTotp.toString();
 
       // Affiche le QR code (avec qrcodejs)
-      const qrContainer = document.getElementById("qr-image").parentElement;
-      qrContainer.innerHTML = ""; // vide le conteneur
+      // On cible directement le div #qr-image, PAS son parent
+      const qrContainer = document.getElementById("qr-image");
+      qrContainer.innerHTML = ""; // vide le conteneur au cas où
       new QRCode(qrContainer, {
         text: otpauthUrl,
         width: 240,
@@ -217,7 +217,6 @@
         statusEl.textContent = "Code valide ✓";
         statusEl.className = "auth__status auth__status--success";
 
-        // Marque le compte comme actif
         localStorage.setItem("luma_user", JSON.stringify({
           email: pending.email,
           username: pending.username,
@@ -225,7 +224,6 @@
           createdAt: Date.now(),
         }));
 
-        // Nettoie
         localStorage.removeItem("luma_pending_signup");
 
         setTimeout(() => {
