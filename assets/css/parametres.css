@@ -1,6 +1,5 @@
 /* =========================================================
    LUMALIA — parametres.css
-   Styles de la page Paramètres
    ========================================================= */
 
 .settings {
@@ -11,14 +10,9 @@
   max-width: 640px;
   margin-bottom: 3rem;
 }
-.settings__header h1 {
-  margin-bottom: 0.75rem;
-}
-.settings__header p {
-  font-size: 1.05rem;
-}
+.settings__header h1 { margin-bottom: 0.75rem; }
+.settings__header p { font-size: 1.05rem; }
 
-/* ---------- Carte de section ---------- */
 .settings-card {
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
@@ -27,13 +21,9 @@
   margin-bottom: 1.5rem;
   transition: border-color var(--t-base);
 }
-.settings-card:hover {
-  border-color: var(--border-strong);
-}
+.settings-card:hover { border-color: var(--border-strong); }
 
-.settings-card__head {
-  margin-bottom: 1.5rem;
-}
+.settings-card__head { margin-bottom: 1.5rem; }
 .settings-card__head h2 {
   font-size: 1.25rem;
   margin-bottom: 0.35rem;
@@ -44,7 +34,6 @@
   color: var(--text-soft);
 }
 
-/* ---------- Groupe de choix (boutons radio visuels) ---------- */
 .choice-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -106,7 +95,6 @@
   color: var(--text-muted);
 }
 
-/* ---------- Aperçu du thème (mini-maquette) ---------- */
 .theme-preview {
   width: 100%;
   height: 54px;
@@ -133,19 +121,16 @@
   width: 60%;
 }
 
-/* Aperçu clair */
 .theme-preview--light { background: #ffffff; }
 .theme-preview--light .theme-preview__side { background: #f7f8fa; }
 .theme-preview--light .theme-preview__bar { background: #e6e8ee; }
 .theme-preview--light .theme-preview__bar:first-child { background: #7c5cff; width: 40%; }
 
-/* Aperçu sombre */
 .theme-preview--dark { background: #0b0d12; }
 .theme-preview--dark .theme-preview__side { background: #12141b; }
 .theme-preview--dark .theme-preview__bar { background: #1f2230; }
 .theme-preview--dark .theme-preview__bar:first-child { background: #8f73ff; width: 40%; }
 
-/* Aperçu auto (moitié clair / moitié sombre) */
 .theme-preview--auto {
   background: linear-gradient(90deg, #ffffff 50%, #0b0d12 50%);
 }
@@ -160,7 +145,6 @@
   width: 40%;
 }
 
-/* ---------- Choix de langue ---------- */
 .lang-choice {
   display: flex;
   align-items: center;
@@ -172,9 +156,7 @@
   cursor: pointer;
   transition: border-color var(--t-fast), background var(--t-fast);
 }
-.lang-choice:hover {
-  border-color: var(--border-strong);
-}
+.lang-choice:hover { border-color: var(--border-strong); }
 .lang-choice.active {
   border-color: var(--accent);
   background: var(--accent-soft);
@@ -203,9 +185,7 @@
   color: #fff;
 }
 
-.lang-choice__text {
-  flex: 1;
-}
+.lang-choice__text { flex: 1; }
 .lang-choice__text strong {
   display: block;
   font-family: var(--font-subtitle);
@@ -218,9 +198,8 @@
   color: var(--text-muted);
 }
 
-/* ---------- Responsive ---------- */
 @media (max-width: 640px) {
   .settings { padding: 3rem 0 4rem; }
   .settings-card { padding: 1.5rem; }
   .choice-grid { grid-template-columns: 1fr 1fr; }
-}
+}s
