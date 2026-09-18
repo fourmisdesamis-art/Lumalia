@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Connexion — Lumalia</title>
+  <meta name="description" content="Créez votre compte Lumalia et commencez l'aventure.">
+
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Poppins:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/style.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="/assets/css/global.css">
+  <link rel="stylesheet" href="/assets/css/auth.css">
+
+  <script src="/assets/js/theme.js"></script>
+  <meta name="theme-color" content="#ffffff">
+</head>
+<body>
+
+  <!-- NAVBAR (identique aux autres pages) -->
+  <header class="navbar">
+    <div class="container navbar__inner">
+      <a href="/" class="navbar__logo" aria-label="Lumalia — Accueil">
+        <img src="/assets/img/logo-lumalia.png" alt="" class="navbar__logo-mark" width="32" height="32">
+        <span>Lumalia</span>
+      </a>
+      <nav class="navbar__links" id="navbar-links">
+        <a href="/" class="navbar__link">Accueil</a>
+        <div class="navbar__item">
+          <a href="/serveurs" class="navbar__link navbar__link--parent">Serveurs</a>
+          <div class="navbar__dropdown">
+            <div class="navbar__dropdown-inner">
+              <a href="/serveurs/crystal" class="navbar__dropdown-item">
+                <span class="navbar__dropdown-item__logo navbar__dropdown-item__logo--crystal">C</span>
+                <span class="navbar__dropdown-item__text"><strong>Crystal</strong><span>Java</span></span>
+              </a>
+              <a href="/serveurs/azur" class="navbar__dropdown-item">
+                <span class="navbar__dropdown-item__logo navbar__dropdown-item__logo--azur">A</span>
+                <span class="navbar__dropdown-item__text"><strong>Azur</strong><span>Java</span></span>
+              </a>
+              <a href="/serveurs/green" class="navbar__dropdown-item">
+                <span class="navbar__dropdown-item__logo navbar__dropdown-item__logo--green">G</span>
+                <span class="navbar__dropdown-item__text"><strong>Green</strong><span>Java · US</span></span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <a href="/launcher" class="navbar__link">Launcher</a>
+        <a href="/actualites" class="navbar__link">Actualités</a>
+        <a href="/communaute" class="navbar__link">Communauté</a>
+        <a href="/parametres" class="navbar__link">Paramètres</a>
+      </nav>
+      <div class="navbar__actions">
+        <div class="lang-switch">
+          <button class="lang-switch__btn" type="button">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            <span class="lang-switch__label">FR</span>
+          </button>
+          <div class="lang-switch__menu">
+            <button class="lang-switch__item" data-lang="fr">Français</button>
+            <button class="lang-switch__item" data-lang="en">English</button>
+          </div>
+        </div>
+        <button class="navbar__icon-btn" type="button" data-theme-toggle>
+          <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        </button>
+        <a href="https://discord.gg/lumalia" target="_blank" rel="noopener" class="btn btn-primary btn-sm navbar__cta">Rejoindre Discord</a>
+        <button class="navbar__burger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="navbar-links"><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="auth">
+      <div class="container">
+        <div class="auth__card">
+
+          <div class="auth__header">
+            <span class="label">Créer un compte</span>
+            <h1>Rejoignez Lumalia</h1>
+            <p>Quelques informations et vous serez prêt à commencer l'aventure.</p>
+          </div>
+
+          <form class="auth__form" id="signup-form" novalidate>
+
+            <div class="auth__field">
+              <label for="signup-email">Adresse email</label>
+              <input type="email" id="signup-email" name="email" placeholder="vous@exemple.com" required autocomplete="email">
+              <span class="auth__error" data-error-for="email"></span>
+            </div>
+
+            <div class="auth__field">
+              <label for="signup-username">Pseudo</label>
+              <input type="text" id="signup-username" name="username" placeholder="VotrePseudo" required minlength="3" maxlength="16" autocomplete="username">
+              <span class="auth__error" data-error-for="username"></span>
+            </div>
+
+            <div class="auth__field">
+              <label for="signup-password">Mot de passe</label>
+              <input type="password" id="signup-password" name="password" placeholder="••••••••" required minlength="8" autocomplete="new-password">
+              <span class="auth__error" data-error-for="password"></span>
+            </div>
+
+            <div class="auth__status" id="signup-status" role="status" aria-live="polite"></div>
+
+            <button type="submit" class="btn btn-primary auth__submit" id="signup-submit">
+              Continuer
+            </button>
+
+          </form>
+
+          <div class="auth__footer">
+            <p>Déjà un compte ? <a href="/connexion">Se connecter</a></p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__inner">
+        <div class="footer__brand">
+          <a href="/" class="navbar__logo">
+            <img src="/assets/img/logo-lumalia.png" alt="" class="navbar__logo-mark" width="32" height="32">
+            <span>Lumalia</span>
+          </a>
+          <p>Lumalia rassemble plusieurs communautés autour de serveurs Minecraft Java &amp; Bedrock.</p>
+        </div>
+        <div class="footer__cols">
+          <div class="footer__col">
+            <h5>Navigation</h5>
+            <a href="/serveurs">Serveurs</a>
+            <a href="/launcher">Launcher</a>
+            <a href="/actualites">Actualités</a>
+            <a href="/communaute">Communauté</a>
+          </div>
+          <div class="footer__col">
+            <h5>Ressources</h5>
+            <a href="#">Statut des serveurs</a>
+            <a href="#">Documentation</a>
+            <a href="#">Support</a>
+          </div>
+          <div class="footer__col">
+            <h5>Légal</h5>
+            <a href="#">Conditions d'utilisation</a>
+            <a href="#">Confidentialité</a>
+            <a href="#">Cookies</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <span>© <span id="footer-year"></span> Lumalia. Tous droits réservés.</span>
+        <span>Lumalia n'est pas affilié à Mojang ni Microsoft.</span>
+      </div>
+    </div>
+  </footer>
+
+  <div class="bg-blobs" aria-hidden="true"><span></span><span></span></div>
+  <canvas id="luma-bg" aria-hidden="true"></canvas>
+
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script src="/assets/js/i18n.js"></script>
+  <script src="/assets/js/navbar.js"></script>
+  <script src="/assets/js/background.js"></script>
+  <script>
+    document.getElementById("footer-year").textContent = new Date().getFullYear();
+
+    // ============================================================
+    // CONFIGURATION EMAILJS (remplace par tes vraies valeurs)
+    // ============================================================
+    const EMAILJS_SERVICE_ID = "service_XXXXXXX";
+    const EMAILJS_TEMPLATE_ID = "template_XXXXXXX";
+    const EMAILJS_PUBLIC_KEY = "XXXXXXXXXXXXXXX";
+
+    emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+
+    // ============================================================
+    // FORMULAIRE D'INSCRIPTION
+    // ============================================================
+    const form = document.getElementById("signup-form");
+    const statusEl = document.getElementById("signup-status");
+    const submitBtn = document.getElementById("signup-submit");
+
+    function showError(field, message) {
+      const el = document.querySelector(`[data-error-for="${field}"]`);
+      if (el) el.textContent = message;
+    }
+
+    function clearErrors() {
+      document.querySelectorAll(".auth__error").forEach(el => el.textContent = "");
+      statusEl.textContent = "";
+      statusEl.className = "auth__status";
+    }
+
+    function validateForm(data) {
+      let valid = true;
+
+      if (!data.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
+        showError("email", "Adresse email invalide.");
+        valid = false;
+      }
+
+      if (!data.username || data.username.length < 3) {
+        showError("username", "Le pseudo doit faire au moins 3 caractères.");
+        valid = false;
+      }
+
+      if (!data.password || data.password.length < 8) {
+        showError("password", "Le mot de passe doit faire au moins 8 caractères.");
+        valid = false;
+      }
+
+      return valid;
+    }
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      clearErrors();
+
+      const data = {
+        email: form.email.value.trim(),
+        username: form.username.value.trim(),
+        password: form.password.value,
+      };
+
+      if (!validateForm(data)) return;
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Envoi en cours…";
+      statusEl.textContent = "Création du compte…";
+      statusEl.className = "auth__status auth__status--info";
+
+      // Génère un token unique
+      const token = crypto.randomUUID();
+
+      // Stocke les infos en localStorage (⚠️ démo seulement)
+      // En vrai, le mot de passe ne doit JAMAIS être stocké côté client.
+      localStorage.setItem("luma_pending_signup", JSON.stringify({
+        email: data.email,
+        username: data.username,
+        token: token,
+        createdAt: Date.now(),
+      }));
+
+      // Lien de vérification
+      const verifyLink = `https://lumania.fr/2fa/?token=${token}`;
+
+      try {
+        await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+          to_email: data.email,
+          to_name: data.username,
+          verification_link: verifyLink,
+          app_name: "Lumalia",
+        });
+
+        statusEl.textContent = "Un email de vérification vient de vous être envoyé. Vérifiez votre boîte de réception (et vos spams).";
+        statusEl.className = "auth__status auth__status--success";
+        submitBtn.textContent = "Email envoyé ✓";
+
+      } catch (err) {
+        console.error(err);
+        statusEl.textContent = "Erreur lors de l'envoi. Réessayez dans quelques instants.";
+        statusEl.className = "auth__status auth__status--error";
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Continuer";
+      }
+    });
+  </script>
+</body>
+</html>
