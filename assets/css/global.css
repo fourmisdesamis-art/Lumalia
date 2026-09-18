@@ -1,6 +1,5 @@
 /* =========================================================
    LUMALIA — global.css
-   Reset, polices, variables, navbar, footer, boutons, dropdown, fond animé
    ========================================================= */
 
 /* ---------- 1. Reset ---------- */
@@ -17,18 +16,12 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
-img,
-picture,
-svg,
-video {
+img, picture, svg, video {
   display: block;
   max-width: 100%;
 }
 
-button,
-input,
-select,
-textarea {
+button, input, select, textarea {
   font: inherit;
   color: inherit;
 }
@@ -38,10 +31,7 @@ a {
   text-decoration: none;
 }
 
-ul,
-ol {
-  list-style: none;
-}
+ul, ol { list-style: none; }
 
 /* ---------- 2. Polices ---------- */
 :root {
@@ -51,7 +41,7 @@ ol {
   --font-label: "Geist", "Inter", system-ui, sans-serif;
 }
 
-/* ---------- 3. Variables de thème (CLAIR par défaut) ---------- */
+/* ---------- 3. Thème clair ---------- */
 :root {
   --bg: #ffffff;
   --bg-soft: #f7f8fa;
@@ -89,7 +79,7 @@ ol {
   --navbar-height: 68px;
 }
 
-/* ---------- 4. Thème SOMBRE ---------- */
+/* ---------- 4. Thème sombre ---------- */
 [data-theme="dark"] {
   --bg: #0b0d12;
   --bg-soft: #12141b;
@@ -239,12 +229,20 @@ p { color: var(--text-soft); }
   flex-shrink: 0;
 }
 
+/* Conteneur des liens : distance régulière entre chaque item */
 .navbar__links {
   display: flex;
   align-items: center;
-  gap: 0.35rem;
+  gap: 0.25rem;
   flex: 1;
   justify-content: center;
+}
+
+/* Chaque item prend la même largeur de padding */
+.navbar__item {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
 }
 
 .navbar__link {
@@ -252,9 +250,10 @@ p { color: var(--text-soft); }
   font-size: 0.9rem;
   font-weight: 500;
   color: var(--text-soft);
-  padding: 0.5rem 0.85rem;
+  padding: 0.5rem 0.9rem;
   border-radius: var(--radius-full);
   transition: color var(--t-fast), background var(--t-fast);
+  white-space: nowrap;
 }
 .navbar__link:hover {
   color: var(--text);
@@ -346,10 +345,7 @@ p { color: var(--text-soft); }
   transition: background var(--t-fast);
 }
 .lang-switch__item:hover { background: var(--bg-soft); }
-.lang-switch__item.active {
-  color: var(--accent);
-  font-weight: 600;
-}
+.lang-switch__item.active { color: var(--accent); font-weight: 600; }
 
 .navbar__burger {
   display: none;
@@ -385,13 +381,8 @@ p { color: var(--text-soft); }
 .navbar__burger span::before { top: -5px; }
 .navbar__burger span::after  { top: 5px; }
 
-/* ---------- 9. Dropdown navbar (Serveurs) ---------- */
-.navbar__item {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-}
-
+/* ---------- 9. Dropdown (Serveurs) ---------- */
+/* Le lien parent a une petite flèche */
 .navbar__link--parent {
   display: inline-flex;
   align-items: center;
@@ -407,34 +398,39 @@ p { color: var(--text-soft); }
   opacity: 0.6;
   transition: transform var(--t-fast);
 }
-.navbar__item:hover .navbar__link--parent::after,
-.navbar__item:focus-within .navbar__link--parent::after {
-  transform: rotate(180deg);
-}
 
+/* Le panneau : positionné SOUS le lien, avec un pont invisible
+   pour que le hover ne se casse pas entre les deux */
 .navbar__dropdown {
   position: absolute;
   top: 100%;
   left: 50%;
-  transform: translateX(-50%) translateY(4px);
-  padding-top: 8px; /* pont pour ne pas perdre le hover */
+  transform: translateX(-50%);
+  /* pont invisible : 12px de padding-top transparent */
+  padding-top: 12px;
   min-width: 240px;
   opacity: 0;
   visibility: hidden;
-  transition: opacity var(--t-fast), visibility var(--t-fast), transform var(--t-fast);
+  transition: opacity var(--t-fast), visibility var(--t-fast);
   z-index: 120;
   pointer-events: none;
 }
 
-.navbar__item:hover .navbar__dropdown,
-.navbar__item:focus-within .navbar__dropdown {
+/* Ouverture au survol OU focus (clavier) */
+.navbar__item:hover > .navbar__dropdown,
+.navbar__item:focus-within > .navbar__dropdown {
   opacity: 1;
   visibility: visible;
-  transform: translateX(-50%) translateY(0);
   pointer-events: auto;
 }
 
-/* Le panneau visuel interne */
+/* Rotation de la flèche quand ouvert */
+.navbar__item:hover > .navbar__link--parent::after,
+.navbar__item:focus-within > .navbar__link--parent::after {
+  transform: rotate(180deg);
+}
+
+/* Le panneau visuel (celui qui a fond / bordure / ombre) */
 .navbar__dropdown-inner {
   background: var(--bg-elevated);
   border: 1px solid var(--border);
@@ -666,9 +662,6 @@ p { color: var(--text-soft); }
     opacity: 1;
     visibility: visible;
     padding-top: 0;
-    background: transparent;
-    border: none;
-    box-shadow: none;
     min-width: 0;
     max-height: 0;
     overflow: hidden;
@@ -677,11 +670,6 @@ p { color: var(--text-soft); }
   }
   .navbar__item.open .navbar__dropdown {
     max-height: 500px;
-  }
-  .navbar__item:hover .navbar__dropdown {
-    transform: none;
-    opacity: 1;
-    visibility: visible;
   }
   .navbar__dropdown-inner {
     background: transparent;
