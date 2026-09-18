@@ -6,6 +6,18 @@
   <title>Paramètres — Lumalia</title>
   <meta name="description" content="Personnalisez votre expérience Lumalia : thème clair, sombre ou automatique, et langue de l'interface.">
 
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/assets/img/favicon.png">
+  <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Paramètres — Lumalia">
+  <meta property="og:description" content="Personnalisez votre expérience Lumalia.">
+  <meta property="og:image" content="https://lumania.fr/assets/img/logo-lumalia.png">
+  <meta property="og:url" content="https://lumania.fr/parametres">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Poppins:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -246,23 +258,19 @@
     </div>
   </footer>
 
-  <!-- Fond animé -->
   <div class="bg-blobs" aria-hidden="true">
     <span></span>
     <span></span>
   </div>
   <canvas id="luma-bg" aria-hidden="true"></canvas>
 
-  <!-- Scripts -->
   <script src="/assets/js/i18n.js"></script>
   <script src="/assets/js/navbar.js"></script>
   <script src="/assets/js/background.js"></script>
   <script>
     document.getElementById("footer-year").textContent = new Date().getFullYear();
 
-    /* ---- Thème ---- */
     const themeChoices = document.querySelectorAll("#theme-choices .choice");
-
     function refreshThemeChoices() {
       const current = window.LumaTheme?.getPreference() || "auto";
       themeChoices.forEach((el) => {
@@ -272,21 +280,16 @@
         if (radio) radio.checked = match;
       });
     }
-
     themeChoices.forEach((el) => {
       el.addEventListener("click", () => {
-        const value = el.dataset.themeValue;
-        window.LumaTheme?.set(value);
+        window.LumaTheme?.set(el.dataset.themeValue);
         refreshThemeChoices();
       });
     });
-
     window.addEventListener("luma:theme-change", refreshThemeChoices);
     refreshThemeChoices();
 
-    /* ---- Langue ---- */
     const langChoices = document.querySelectorAll("#lang-choices .lang-choice");
-
     function refreshLangChoices() {
       const current = window.LumaI18n?.get() || "fr";
       langChoices.forEach((el) => {
@@ -296,15 +299,12 @@
         if (radio) radio.checked = match;
       });
     }
-
     langChoices.forEach((el) => {
       el.addEventListener("click", () => {
-        const value = el.dataset.langValue;
-        window.LumaI18n?.set(value);
+        window.LumaI18n?.set(el.dataset.langValue);
         refreshLangChoices();
       });
     });
-
     window.addEventListener("luma:lang-change", refreshLangChoices);
     window.addEventListener("luma:lang-ready", refreshLangChoices);
     refreshLangChoices();
