@@ -161,7 +161,7 @@
 }
 .server-card__logo--crystal { background: linear-gradient(135deg, #7c5cff, #b39bff); }
 .server-card__logo--green   { background: linear-gradient(135deg, #22c55e, #4ade80); }
-.server-card__logo--onyx    { background: linear-gradient(135deg, #1e293b, #475569); }
+.server-card__logo--azur    { background: linear-gradient(135deg, #0ea5e9, #67e8f9); }
 
 .server-card h3 {
   margin-bottom: 0.5rem;
