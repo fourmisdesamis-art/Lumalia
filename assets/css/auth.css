@@ -156,3 +156,15 @@
   .auth { padding: 2rem 0 4rem; }
   .auth__card { padding: 1.75rem; }
 }
+
+.auth__qrcode-canvas {
+  width: 240px;
+  height: 240px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.auth__qrcode-canvas img,
+.auth__qrcode-canvas canvas {
+  display: block;
+}
