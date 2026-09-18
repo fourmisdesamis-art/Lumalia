@@ -182,6 +182,9 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/otpauth/9.5.2/otpauth.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
   <script src="/assets/js/i18n.js"></script>
   <script src="/assets/js/navbar.js"></script>
   <script src="/assets/js/background.js"></script>
@@ -196,6 +199,22 @@
     const stepVerify = document.getElementById("step-verify");
     const step2fa = document.getElementById("step-2fa");
     const stepDone = document.getElementById("step-done");
+
+        // ============================================================
+    // CONFIGURATION FIREBASE
+    // ============================================================
+    const firebaseConfig = {
+      apiKey: "AIzaSy...",         // ← MÊMES VALEURS QUE DANS INSCRIPTION
+      authDomain: "lumalia-xxxxx.firebaseapp.com",
+      projectId: "lumalia-xxxxx",
+      storageBucket: "lumalia-xxxxx.appspot.com",
+      messagingSenderId: "123456789",
+      appId: "1:123456789:web:abcdef123456"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
 
     // --- ÉTAPE 1 : Vérification ---
     if (!tokenFromUrl || !pending || pending.token !== tokenFromUrl) {
@@ -300,8 +319,5 @@
       }
     });
   </script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 </body>
 </html>
