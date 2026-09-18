@@ -1,6 +1,5 @@
 /* =========================================================
    LUMALIA — navbar.js
-   Burger mobile + dropdown Serveurs + langue + thème
    ========================================================= */
 
 (function () {
@@ -17,7 +16,6 @@
         burger.setAttribute("aria-expanded", open ? "true" : "false");
       });
 
-      // Ferme le menu si on clique sur un lien simple (pas le parent d'un dropdown)
       links.querySelectorAll("a").forEach((a) => {
         a.addEventListener("click", () => {
           if (a.classList.contains("navbar__link--parent")) return;
@@ -27,7 +25,7 @@
       });
     }
 
-    /* ---- 1b. Dropdown "Serveurs" en accordéon sur mobile ---- */
+    /* ---- 1b. Dropdown accordéon sur mobile ---- */
     navbar.querySelectorAll(".navbar__item").forEach((item) => {
       const parentLink = item.querySelector(".navbar__link--parent");
       if (!parentLink) return;
@@ -40,7 +38,7 @@
       });
     });
 
-    /* ---- 2. Sélecteur de langue ---- */
+    /* ---- 2. Langue ---- */
     const langSwitch = navbar.querySelector(".lang-switch");
     if (langSwitch) {
       const btn = langSwitch.querySelector(".lang-switch__btn");
@@ -77,7 +75,7 @@
       refreshLangUI();
     }
 
-    /* ---- 3. Bouton thème (bascule rapide) ---- */
+    /* ---- 3. Thème ---- */
     const themeBtn = navbar.querySelector("[data-theme-toggle]");
     if (themeBtn) {
       const iconSun = themeBtn.querySelector(".icon-sun");
@@ -98,7 +96,7 @@
       refreshThemeUI();
     }
 
-    /* ---- 4. Lien actif automatique ---- */
+    /* ---- 4. Lien actif ---- */
     const path = window.location.pathname.replace(/\/$/, "") || "/";
     navbar.querySelectorAll(".navbar__link, .navbar__dropdown-item").forEach((a) => {
       const href = (a.getAttribute("href") || "").replace(/\/$/, "") || "/";
