@@ -683,3 +683,50 @@ p { color: var(--text-soft); }
   .container { padding: 0 1rem; }
   .section { padding: 3.5rem 0; }
 }
+
+/* ---------- Bouton utilisateur (connecté) ---------- */
+.navbar__user-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.75rem 0.35rem 0.35rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border);
+  background: var(--bg-soft);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all var(--t-fast);
+}
+.navbar__user-btn:hover {
+  background: var(--bg-elevated);
+  border-color: var(--accent);
+}
+
+.navbar__user-avatar {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), #b39bff);
+  color: #fff;
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+.navbar__user-name {
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+  .navbar__user-name {
+    display: none;
+  }
+}
