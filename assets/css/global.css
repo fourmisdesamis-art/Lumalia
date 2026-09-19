@@ -730,3 +730,96 @@ p { color: var(--text-soft); }
     display: none;
   }
 }
+
+/* =========================================================
+   BBcode — rendu des messages formatés
+   ========================================================= */
+
+.bb-code {
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem 1rem;
+  margin: 0.75rem 0;
+  overflow-x: auto;
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--text);
+}
+
+.bb-quote {
+  border-left: 3px solid var(--accent);
+  background: var(--accent-soft);
+  padding: 0.75rem 1rem;
+  margin: 0.75rem 0;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+.bb-quote cite {
+  display: block;
+  font-family: var(--font-label);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.4rem;
+  font-style: normal;
+}
+.bb-quote p {
+  margin: 0;
+  color: var(--text);
+}
+
+.bb-spoiler {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.5rem 0.75rem;
+  margin: 0.75rem 0;
+  background: var(--bg-soft);
+}
+.bb-spoiler summary {
+  cursor: pointer;
+  font-family: var(--font-label);
+  font-size: 0.85rem;
+  color: var(--text-soft);
+  user-select: none;
+}
+.bb-spoiler[open] summary {
+  margin-bottom: 0.5rem;
+}
+
+.bb-img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  margin: 0.5rem 0;
+}
+
+.bb-link {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.bb-link:hover {
+  color: var(--accent-hover);
+}
+
+.bb-center { text-align: center; }
+.bb-right  { text-align: right; }
+.bb-left   { text-align: left; }
+
+.bb-list {
+  padding-left: 1.5rem;
+  margin: 0.5rem 0;
+}
+.bb-list li {
+  margin-bottom: 0.25rem;
+  color: var(--text-soft);
+}
+.bb-list:not([class*="ol"]) {
+  list-style: disc;
+}
+ol.bb-list {
+  list-style: decimal;
+}
