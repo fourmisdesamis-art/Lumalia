@@ -39,9 +39,8 @@
 <body>
 
   <!-- ==================== NAVBAR ==================== -->
-  <header class="navbar">
+    <header class="navbar">
     <div class="container navbar__inner">
-
       <a href="/" class="navbar__logo" aria-label="Lumalia — Accueil">
         <img src="/assets/img/logo-lumalia.png" alt="" class="navbar__logo-mark" width="32" height="32">
         <span>Lumalia</span>
@@ -112,6 +111,17 @@
           </svg>
         </button>
 
+        <!-- Lien Connexion (masqué si connecté) -->
+        <a href="/connexion" class="btn btn-ghost btn-sm navbar__cta" data-i18n="nav.login" data-auth-link>
+          Connexion
+        </a>
+
+        <!-- Lien S'inscrire (masqué si connecté) -->
+        <a href="/inscription" class="btn btn-ghost btn-sm navbar__cta" data-i18n="nav.signup" data-auth-link>
+          S'inscrire
+        </a>
+
+        <!-- Bouton Discord (toujours visible) -->
         <a href="https://discord.gg/lumalia" target="_blank" rel="noopener" class="btn btn-primary btn-sm navbar__cta" data-i18n="nav.discord">
           Rejoindre Discord
         </a>
@@ -119,7 +129,6 @@
         <button class="navbar__burger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="navbar-links">
           <span></span>
         </button>
-
       </div>
     </div>
   </header>
