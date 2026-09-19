@@ -137,6 +137,55 @@
   }
 
   /* ============================================================
+     MENTIONS @pseudo
+     ============================================================ */
+
+  // Extrait les pseudos mentionnés dans un texte (@pseudo)
+  function extractMentions(text) {
+    if (!text) return [];
+    var mentions = [];
+    var regex = /@([a-zA-Z0-9_-]{3,16})/g;
+    var match;
+    while ((match = regex.exec(text)) !== null) {
+      var username = match[1];
+      if (mentions.indexOf(username) === -1) {
+        mentions.push(username);
+      }
+    }
+    return mentions;
+  }
+
+  // Notifie les utilisateurs mentionnés
+  function notifyMentions(text, excludeUserId, link, authorName) {
+    var usernames = extractMentions(text);
+    if (usernames.length === 0) return Promise.resolve();
+
+    var promises = usernames.map(function (username) {
+      return getDb().collection("Utilisateurs")
+        .where("username", "==", username)
+        .limit(1)
+        .get()
+        .then(function (snap) {
+          if (snap.empty) return;
+          var userDoc = snap.docs[0];
+          var userId = userDoc.id;
+          if (userId === excludeUserId) return;
+
+          return createNotification({
+            userId: userId,
+            type: "forum_mention",
+            title: "Vous avez été mentionné",
+            message: authorName + " vous a mentionné dans un message",
+            link: link,
+            meta: { mentionedBy: authorName }
+          });
+        });
+    });
+
+    return Promise.all(promises);
+  }
+   
+  /* ============================================================
      RECHERCHE
      ============================================================ */
 
