@@ -288,3 +288,44 @@
     margin-top: 0.5rem;
   }
 }
+
+/* ---------- Autocomplétion des mentions ---------- */
+.mention-dropdown {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  padding: 0.35rem;
+  z-index: 1000;
+  max-height: 240px;
+  overflow-y: auto;
+  min-width: 180px;
+}
+.mention-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 0.5rem 0.75rem;
+  border: none;
+  background: transparent;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--text);
+  cursor: pointer;
+  transition: background var(--t-fast);
+}
+.mention-item:hover {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+/* Style des mentions dans les messages */
+.bb-mention {
+  color: var(--accent);
+  background: var(--accent-soft);
+  padding: 0.1rem 0.4rem;
+  border-radius: var(--radius-sm);
+  font-weight: 500;
+  text-decoration: none;
+}
