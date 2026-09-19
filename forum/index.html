@@ -593,4 +593,397 @@
         html += '<div class="forum__reply-header"><h2>Répondre</h2></div>';
         html += '<div class="forum__reply-toolbar">';
         html += '<button type="button" data-bb="b" title="Gras"><strong>B</strong></button>';
-        html += '<button type="button" data-b
+        html += '<button type="button" data-bb="i" title="Italique"><em>I</em></button>';
+        html += '<button type="button" data-bb="u" title="Souligné"><u>U</u></button>';
+        html += '<button type="button" data-bb="s" title="Barré"><s>S</s></button>';
+        html += '<span class="divider"></span>';
+        html += '<button type="button" data-bb="quote" title="Citation">❝</button>';
+        html += '<button type="button" data-bb="code" title="Code">&lt;/&gt;</button>';
+        html += '<button type="button" data-bb="center" title="Centrer">≡</button>';
+        html += '</div>';
+        html += '<textarea id="reply-content" placeholder="Écrivez votre message… (BBcode supporté)"></textarea>';
+        html += '<div class="forum__reply-footer">';
+        html += '<span class="forum__reply-hint">Ctrl + Entrée pour envoyer · BBcode supporté</span>';
+        html += '<button type="button" class="btn btn-primary btn-sm" id="reply-submit">Envoyer</button>';
+        html += '</div>';
+        html += '<div class="forum__reply-status" id="reply-status"></div>';
+        html += '</div>';
+      }
+
+      contentEl.innerHTML = html;
+
+      bindReplyEvents(topicId, catId);
+      bindToolbarEvents();
+    }
+
+    // ============================================================
+    // BINDS
+    // ============================================================
+    function bindToolbarEvents() {
+      const textarea = document.getElementById("reply-content");
+      if (!textarea) return;
+
+      document.querySelectorAll("[data-bb]").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          const tag = btn.dataset.bb;
+          const start = textarea.selectionStart;
+          const end = textarea.selectionEnd;
+          const selected = textarea.value.substring(start, end);
+          const before = textarea.value.substring(0, start);
+          const after = textarea.value.substring(end);
+
+          const wrapped = "[" + tag + "]" + (selected || "texte") + "[/" + tag + "]";
+          textarea.value = before + wrapped + after;
+          textarea.focus();
+          textarea.selectionStart = textarea.selectionEnd = start + wrapped.length;
+        });
+      });
+    }
+
+    function bindReplyEvents(topicId, catId) {
+      const submitBtn = document.getElementById("reply-submit");
+      const textarea = document.getElementById("reply-content");
+      const statusEl = document.getElementById("reply-status");
+
+      if (!submitBtn || !textarea) return;
+
+      textarea.addEventListener("keydown", function (e) {
+        if (e.ctrlKey && e.key === "Enter") {
+          e.preventDefault();
+          submitBtn.click();
+        }
+      });
+
+      submitBtn.addEventListener("click", async function () {
+        const content = textarea.value.trim();
+
+        if (content.length < 1) {
+          statusEl.textContent = "Le message ne peut pas être vide.";
+          statusEl.className = "forum__reply-status forum__reply-status--error";
+          return;
+        }
+        if (content.length > 10000) {
+          statusEl.textContent = "Message trop long (max 10 000 caractères).";
+          statusEl.className = "forum__reply-status forum__reply-status--error";
+          return;
+        }
+
+        const user = auth.currentUser;
+        if (!user) {
+          window.location.href = "/connexion";
+          return;
+        }
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Envoi…";
+        statusEl.textContent = "Publication en cours…";
+        statusEl.className = "forum__reply-status forum__reply-status--info";
+
+        try {
+          const userDoc = await db.collection("Utilisateurs").doc(user.uid).get();
+          const userData = userDoc.exists ? userDoc.data() : {};
+          const authorName = userData.username || user.displayName || "Anonyme";
+          const authorGrade = userData.grade || "Membre";
+
+          await db.collection("forum_posts").add({
+            topicId: topicId,
+            categoryId: catId,
+            authorId: user.uid,
+            authorName: authorName,
+            authorGrade: authorGrade,
+            content: content,
+            editedAt: null,
+            editedBy: null,
+            reactions: {},
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+
+          await db.collection("forum_topics").doc(topicId).update({
+            repliesCount: firebase.firestore.FieldValue.increment(1),
+            lastReplyAt: firebase.firestore.FieldValue.serverTimestamp(),
+            lastReplyBy: user.uid
+          });
+
+          statusEl.textContent = "✅ Message publié !";
+          statusEl.className = "forum__reply-status forum__reply-status--success";
+
+          setTimeout(function () {
+            window.location.reload();
+          }, 600);
+
+        } catch (err) {
+          console.error("[Forum]", err);
+          statusEl.textContent = "Erreur : " + (err.message || "impossible de publier.");
+          statusEl.className = "forum__reply-status forum__reply-status--error";
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Envoyer";
+        }
+      });
+    }
+
+    // ============================================================
+    // MODAL : Nouveau sujet
+    // ============================================================
+    const modal = document.getElementById("new-topic-modal");
+    const modalForm = document.getElementById("new-topic-form");
+    const modalStatus = document.getElementById("new-topic-status");
+
+    function openModal() {
+      modal.classList.add("open");
+      document.body.style.overflow = "hidden";
+      setTimeout(function () { document.getElementById("topic-title").focus(); }, 100);
+    }
+
+    function closeModal() {
+      modal.classList.remove("open");
+      document.body.style.overflow = "";
+      modalForm.reset();
+      modalStatus.textContent = "";
+      modalStatus.className = "modal__status";
+    }
+
+    document.getElementById("modal-close")?.addEventListener("click", closeModal);
+    document.getElementById("modal-cancel")?.addEventListener("click", closeModal);
+
+    modal?.addEventListener("click", function (e) {
+      if (e.target === modal) closeModal();
+    });
+
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && modal.classList.contains("open")) closeModal();
+    });
+
+    modalForm?.addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const title = document.getElementById("topic-title").value.trim();
+      const content = document.getElementById("topic-content").value.trim();
+      const submitBtn = document.getElementById("modal-submit");
+
+      if (title.length < 3 || title.length > 200) {
+        modalStatus.textContent = "Le titre doit faire entre 3 et 200 caractères.";
+        modalStatus.className = "modal__status modal__status--error";
+        return;
+      }
+      if (content.length < 1) {
+        modalStatus.textContent = "Le premier message ne peut pas être vide.";
+        modalStatus.className = "modal__status modal__status--error";
+        return;
+      }
+
+      const user = auth.currentUser;
+      if (!user) {
+        window.location.href = "/connexion";
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Création…";
+      modalStatus.textContent = "Création du sujet…";
+      modalStatus.className = "modal__status modal__status--info";
+
+      try {
+        const userDoc = await db.collection("Utilisateurs").doc(user.uid).get();
+        const userData = userDoc.exists ? userDoc.data() : {};
+        const authorName = userData.username || user.displayName || "Anonyme";
+        const authorGrade = userData.grade || "Membre";
+
+        const slug = title.toLowerCase()
+          .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/(^-|-$)/g, "")
+          .substring(0, 80);
+
+        const topicRef = await db.collection("forum_topics").add({
+          title: title,
+          slug: slug,
+          categoryId: categorySlug,
+          authorId: user.uid,
+          authorName: authorName,
+          authorGrade: authorGrade,
+          locked: false,
+          pinned: false,
+          views: 0,
+          repliesCount: 0,
+          lastReplyAt: firebase.firestore.FieldValue.serverTimestamp(),
+          lastReplyBy: user.uid,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        await db.collection("forum_posts").add({
+          topicId: topicRef.id,
+          categoryId: categorySlug,
+          authorId: user.uid,
+          authorName: authorName,
+          authorGrade: authorGrade,
+          content: content,
+          editedAt: null,
+          editedBy: null,
+          reactions: {},
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        modalStatus.textContent = "✅ Sujet créé ! Redirection…";
+        modalStatus.className = "modal__status modal__status--success";
+
+        setTimeout(function () {
+          window.location.href = "/forum?c=" + categorySlug + "&t=" + topicRef.id;
+        }, 800);
+
+      } catch (err) {
+        console.error("[Forum] Erreur création sujet :", err);
+        modalStatus.textContent = "Erreur : " + (err.message || "impossible de créer le sujet.");
+        modalStatus.className = "modal__status modal__status--error";
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Créer le sujet";
+      }
+    });
+
+    // ============================================================
+    // BOUTON "Nouveau sujet"
+    // ============================================================
+    document.addEventListener("click", function (e) {
+      if (e.target.closest("#new-topic-btn")) {
+        openModal();
+      }
+    });
+
+    // ============================================================
+    // ÉDITION, SUPPRESSION ET RÉACTIONS
+    // ============================================================
+    document.addEventListener("click", async function (e) {
+      // ---- Modifier un message ----
+      const editBtn = e.target.closest("[data-edit-post]");
+      if (editBtn) {
+        const postId = editBtn.dataset.editPost;
+        const editor = document.querySelector('[data-editor-for="' + postId + '"]');
+        const body = document.querySelector('[data-body-for="' + postId + '"]');
+        if (editor && body) {
+          const post = await db.collection("forum_posts").doc(postId).get();
+          if (post.exists) {
+            editor.querySelector("textarea").value = post.data().content;
+          }
+          editor.classList.add("open");
+          body.style.display = "none";
+          editBtn.style.display = "none";
+        }
+        return;
+      }
+
+      // ---- Annuler l'édition ----
+      const cancelEditBtn = e.target.closest("[data-cancel-edit]");
+      if (cancelEditBtn) {
+        const postId = cancelEditBtn.dataset.cancelEdit;
+        const editor = document.querySelector('[data-editor-for="' + postId + '"]');
+        const body = document.querySelector('[data-body-for="' + postId + '"]');
+        const editBtn = document.querySelector('[data-edit-post="' + postId + '"]');
+        if (editor) editor.classList.remove("open");
+        if (body) body.style.display = "";
+        if (editBtn) editBtn.style.display = "";
+        return;
+      }
+
+      // ---- Sauvegarder l'édition ----
+      const saveEditBtn = e.target.closest("[data-save-edit]");
+      if (saveEditBtn) {
+        const postId = saveEditBtn.dataset.saveEdit;
+        const editor = document.querySelector('[data-editor-for="' + postId + '"]');
+        const textarea = editor.querySelector("textarea");
+        const newContent = textarea.value.trim();
+
+        if (newContent.length < 1) {
+          alert("Le message ne peut pas être vide.");
+          return;
+        }
+
+        saveEditBtn.disabled = true;
+        saveEditBtn.textContent = "Enregistrement…";
+
+        try {
+          await db.collection("forum_posts").doc(postId).update({
+            content: newContent,
+            editedAt: firebase.firestore.FieldValue.serverTimestamp(),
+            editedBy: auth.currentUser.uid
+          });
+          window.location.reload();
+        } catch (err) {
+          console.error("[Forum] Erreur édition :", err);
+          alert("Erreur : " + (err.message || "impossible de modifier."));
+          saveEditBtn.disabled = false;
+          saveEditBtn.textContent = "Enregistrer";
+        }
+        return;
+      }
+
+      // ---- Supprimer un message ----
+      const deleteBtn = e.target.closest("[data-delete-post]");
+      if (deleteBtn) {
+        const postId = deleteBtn.dataset.deletePost;
+        if (!confirm("Voulez-vous vraiment supprimer ce message ?")) return;
+
+        try {
+          await db.collection("forum_posts").doc(postId).delete();
+          if (topicSlug) {
+            await db.collection("forum_topics").doc(topicSlug).update({
+              repliesCount: firebase.firestore.FieldValue.increment(-1)
+            });
+          }
+          window.location.reload();
+        } catch (err) {
+          console.error("[Forum] Erreur suppression :", err);
+          alert("Erreur : " + (err.message || "impossible de supprimer."));
+        }
+        return;
+      }
+
+      // ---- Réactions ----
+      const reactionBtn = e.target.closest("[data-reaction]");
+      if (reactionBtn) {
+        const postId = reactionBtn.dataset.post;
+        const emoji = reactionBtn.dataset.reaction;
+        const user = auth.currentUser;
+
+        if (!user) {
+          window.location.href = "/connexion";
+          return;
+        }
+
+        try {
+          const postRef = db.collection("forum_posts").doc(postId);
+          const post = await postRef.get();
+          const reactions = post.data().reactions || {};
+          const current = reactions[emoji] || [];
+
+          const hasReacted = current.includes(user.uid);
+          const newList = hasReacted
+            ? current.filter(function (uid) { return uid !== user.uid; })
+            : current.concat([user.uid]);
+
+          const newReactions = Object.assign({}, reactions);
+          if (newList.length === 0) {
+            delete newReactions[emoji];
+          } else {
+            newReactions[emoji] = newList;
+          }
+
+          await postRef.update({ reactions: newReactions });
+
+          reactionBtn.classList.toggle("active", !hasReacted);
+          const countEl = reactionBtn.querySelector("span:last-child");
+          if (countEl) countEl.textContent = newList.length;
+
+        } catch (err) {
+          console.error("[Forum] Erreur réaction :", err);
+        }
+        return;
+      }
+    });
+
+    // ============================================================
+    // LANCEMENT
+    // ============================================================
+    render();
+  </script>
+</body>
+</html>
