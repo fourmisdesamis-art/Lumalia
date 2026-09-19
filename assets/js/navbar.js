@@ -1,6 +1,6 @@
 /* =========================================================
    LUMALIA — navbar.js
-   Burger + dropdown + langue + thème + utilisateur connecté
+   Burger + dropdown + langue + thème + utilisateur + admin
    ========================================================= */
 
 (function () {
@@ -115,25 +115,21 @@
       const authLinks = navbar.querySelectorAll("[data-auth-link]");
       authLinks.forEach(function (el) {
         if (user) {
-          // Utilisateur connecté : on cache le lien "Connexion"
           el.style.display = "none";
         } else {
           el.style.display = "";
         }
       });
 
-      // Bouton utilisateur (pseudo + initiale)
       let userBtn = navbar.querySelector(".navbar__user-btn");
 
       if (user) {
-        // Crée le bouton s'il n'existe pas
         if (!userBtn) {
           userBtn = document.createElement("a");
           userBtn.className = "navbar__user-btn";
           userBtn.href = "/profil";
           userBtn.setAttribute("aria-label", "Mon profil");
 
-          // Insère avant le bouton Discord
           const discordBtn = navbar.querySelector('[data-i18n="nav.discord"]');
           const actions = navbar.querySelector(".navbar__actions");
           if (discordBtn && actions) {
@@ -149,45 +145,30 @@
           '<span class="navbar__user-name">' + (user.username || "Joueur") + '</span>';
         userBtn.style.display = "";
       } else if (userBtn) {
-        // Pas connecté : retire le bouton
         userBtn.remove();
       }
     }
 
-    // Appel initial
-    refreshUserUI();
-
-    // Réagit aux changements de session (Firebase Auth si dispo)
-    if (window.firebase && firebase.auth) {
-      firebase.auth().onAuthStateChanged(function (fbUser) {
-        if (!fbUser) {
-          // Déconnecté de Firebase : nettoie localStorage
-          localStorage.removeItem("luma_user");
-        }
-        refreshUserUI();
-      });
-    }
-
-    // Écoute un event custom (utile pour forcer la mise à jour)
-    window.addEventListener("luma:user-change", refreshUserUI);
-  }
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initNavbar);
-  } else {
-    initNavbar();
-  }
-        /* ---- 6. Bouton Admin (si HA/Admin) ---- */
+    /* ---- 6. Bouton Admin (si HA/Admin) ---- */
     async function refreshAdminButton() {
-      const user = window.firebase?.auth?.().currentUser;
-      if (!user) return;
+      const fbAuth = window.firebase && window.firebase.auth ? window.firebase.auth() : null;
+      const fbUser = fbAuth ? fbAuth.currentUser : null;
+      if (!fbUser) {
+        // Pas connecté : retire le bouton s'il existe
+        const existing = navbar.querySelector(".navbar__admin-btn");
+        if (existing) existing.remove();
+        return;
+      }
 
       try {
-        const doc = await window.firebase.firestore().collection("Utilisateurs").doc(user.uid).get();
+        const doc = await window.firebase.firestore()
+          .collection("Utilisateurs")
+          .doc(fbUser.uid)
+          .get();
+
         if (!doc.exists) return;
 
         const data = doc.data();
-        // Accepte plusieurs formats de grade
         const grade = (data.grade || "").trim();
         const role = (data.role || "").trim().toLowerCase();
 
@@ -231,17 +212,31 @@
       }
     }
 
-    // Appel au changement d'état Firebase
-    if (window.firebase && window.firebase.auth) {
-      window.firebase.auth().onAuthStateChanged(function () {
-        setTimeout(refreshAdminButton, 300);
-      });
-    }
+    /* ---- Initialisation ---- */
+    refreshUserUI();
+    refreshAdminButton();
 
-    // Appel au changement d'état Firebase
-    if (window.firebase && firebase.auth) {
-      firebase.auth().onAuthStateChanged(function () {
+    // Réagit aux changements de session Firebase
+    if (window.firebase && window.firebase.auth) {
+      window.firebase.auth().onAuthStateChanged(function (fbUser) {
+        if (!fbUser) {
+          // Déconnecté : nettoie localStorage + retire boutons
+          localStorage.removeItem("luma_user");
+          const adminBtn = navbar.querySelector(".navbar__admin-btn");
+          if (adminBtn) adminBtn.remove();
+        }
+        refreshUserUI();
         refreshAdminButton();
       });
     }
+
+    // Écoute un event custom pour forcer la mise à jour
+    window.addEventListener("luma:user-change", refreshUserUI);
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initNavbar);
+  } else {
+    initNavbar();
+  }
 })();
