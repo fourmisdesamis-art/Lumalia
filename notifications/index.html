@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notifications — Lumalia</title>
+
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Poppins:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/style.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="/assets/css/global.css">
+  <link rel="stylesheet" href="/assets/css/forum-extras.css">
+
+  <script src="/assets/js/theme.js"></script>
+  <meta name="theme-color" content="#ffffff">
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="container navbar__inner">
+      <a href="/" class="navbar__logo">
+        <img src="/assets/img/logo-lumalia.png" alt="" class="navbar__logo-mark" width="32" height="32">
+        <span>Lumalia</span>
+      </a>
+
+      <nav class="navbar__links" id="navbar-links">
+        <a href="/" class="navbar__link">Accueil</a>
+        <a href="/serveurs" class="navbar__link">Serveurs</a>
+        <a href="/forum" class="navbar__link">Forum</a>
+        <a href="/launcher" class="navbar__link">Launcher</a>
+        <a href="/actualites" class="navbar__link">Actualités</a>
+        <a href="/communaute" class="navbar__link">Communauté</a>
+        <a href="/parametres" class="navbar__link">Paramètres</a>
+      </nav>
+
+      <div class="navbar__actions">
+        <a href="/connexion" class="btn btn-ghost btn-sm navbar__cta" data-auth-link>Connexion</a>
+        <a href="/inscription" class="btn btn-ghost btn-sm navbar__cta" data-auth-link>S'inscrire</a>
+        <a href="https://discord.gg/lumalia" target="_blank" rel="noopener" class="btn btn-primary btn-sm navbar__cta">Rejoindre Discord</a>
+        <button class="navbar__burger" type="button"><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="notifications">
+      <div class="container">
+        <div class="notifications__header">
+          <h1>Notifications</h1>
+          <p style="color: var(--text-soft);">Suivez l'activité de vos sujets préférés.</p>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; margin-bottom: 1rem;">
+          <button type="button" class="btn btn-ghost btn-sm" id="mark-all-read">Tout marquer comme lu</button>
+        </div>
+
+        <div class="notifications__list" id="notif-list">
+          <div class="forum__loading">Chargement…</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__bottom" style="margin-top:0; border:none;">
+        <span>© <span id="footer-year"></span> Lumalia. Tous droits réservés.</span>
+      </div>
+    </div>
+  </footer>
+
+  <div class="bg-blobs" aria-hidden="true"><span></span><span></span></div>
+  <canvas id="luma-bg" aria-hidden="true"></canvas>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
+  <script src="/assets/js/i18n.js"></script>
+  <script src="/assets/js/navbar.js"></script>
+  <script src="/assets/js/background.js"></script>
+  <script src="/assets/js/forum-extras.js"></script>
+
+  <script>
+    document.getElementById("footer-year").textContent = new Date().getFullYear();
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBSCqSsBTXk9Q8sBX88NgrdDHUAHT0Cq6I",
+      authDomain: "lumalia.firebaseapp.com",
+      projectId: "lumalia",
+      storageBucket: "lumalia.firebasestorage.app",
+      messagingSenderId: "189011821397",
+      appId: "1:189011821397:web:03c8609d35d488dce2a5dc"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    function escapeHtml(str) {
+      return String(str || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+    }
+
+    function formatDate(timestamp) {
+      if (!timestamp) return "—";
+      const d = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+      const diff = (new Date() - d) / 1000;
+      if (diff < 60) return "à l'instant";
+      if (diff < 3600) return "il y a " + Math.floor(diff / 60) + " min";
+      if (diff < 86400) return "il y a " + Math.floor(diff / 3600) + " h";
+      if (diff < 604800) return "il y a " + Math.floor(diff / 86400) + " j";
+      return d.toLocaleDateString("fr-FR", { day: "numeric", month: "short", year: "numeric" });
+    }
+
+    const listEl = document.getElementById("notif-list");
+
+    auth.onAuthStateChanged(async function (user) {
+      if (!user) {
+        window.location.href = "/connexion";
+        return;
+      }
+
+      try {
+        const snap = await db.collection("notifications")
+          .where("userId", "==", user.uid)
+          .get();
+
+        const notifs = [];
+        snap.forEach(function (doc) { notifs.push({ id: doc.id, ...doc.data() }); });
+        notifs.sort(function (a, b) {
+          const aDate = a.createdAt ? a.createdAt.toMillis() : 0;
+          const bDate = b.createdAt ? b.createdAt.toMillis() : 0;
+          return bDate - aDate;
+        });
+
+        if (notifs.length === 0) {
+          listEl.innerHTML = '<div class="forum__empty"><p>Aucune notification pour le moment.</p></div>';
+          return;
+        }
+
+        let html = "";
+        notifs.forEach(function (n) {
+          html += '<a href="' + escapeHtml(n.link || "#") + '" class="notification-item' + (n.read ? "" : " unread") + '" data-notif-id="' + n.id + '">';
+          html += '<div class="notification-item__icon">';
+          html += '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>';
+          html += '</div>';
+          html += '<div class="notification-item__body">';
+          html += '<div class="notification-item__title">' + escapeHtml(n.title) + '</div>';
+          html += '<div class="notification-item__message">' + escapeHtml(n.message) + '</div>';
+          html += '<div class="notification-item__date">' + formatDate(n.createdAt) + '</div>';
+          html += '</div>';
+          html += '<div class="notification-item__actions">';
+          html += '<button type="button" class="forum__post-action" data-delete-notif="' + n.id + '">✕</button>';
+          html += '</div>';
+          html += '</a>';
+        });
+
+        listEl.innerHTML = html;
+
+      } catch (err) {
+        console.error(err);
+        listEl.innerHTML = '<div class="forum__empty"><p>Erreur de chargement.</p></div>';
+      }
+    });
+
+    listEl.addEventListener("click", async function (e) {
+      const deleteBtn = e.target.closest("[data-delete-notif]");
+      if (deleteBtn) {
+        e.preventDefault();
+        e.stopPropagation();
+        const notifId = deleteBtn.dataset.deleteNotif;
+        await window.LumaForum.deleteNotification(notifId);
+        deleteBtn.closest(".notification-item").remove();
+        return;
+      }
+
+      const item = e.target.closest("[data-notif-id]");
+      if (item) {
+        const notifId = item.dataset.notifId;
+        const user = auth.currentUser;
+        if (user) await window.LumaForum.markAsRead(notifId);
+      }
+    });
+
+    document.getElementById("mark-all-read").addEventListener("click", async function () {
+      const user = auth.currentUser;
+      if (!user) return;
+      await window.LumaForum.markAllAsRead(user.uid);
+      window.location.reload();
+    });
+  </script>
+</body>
+</html>
