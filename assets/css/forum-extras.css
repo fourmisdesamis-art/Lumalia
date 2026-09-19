@@ -1,9 +1,9 @@
 /* =========================================================
    LUMALIA — forum-extras.css
-   Notifications, suivi, signalements, upload, recherche
+   Notifications, suivi, signalements, upload, mentions
    ========================================================= */
 
-/* ---------- Cloche notifications (navbar) ---------- */
+/* ---------- Cloche notifications ---------- */
 .navbar__notif-btn {
   position: relative;
   width: 38px;
@@ -48,7 +48,7 @@
   display: none;
 }
 
-/* ---------- Barre de recherche forum ---------- */
+/* ---------- Recherche forum ---------- */
 .forum__search {
   display: flex;
   gap: 0.5rem;
@@ -107,7 +107,7 @@
   height: 14px;
 }
 
-/* ---------- Upload d'images (dropzone) ---------- */
+/* ---------- Upload d'images ---------- */
 .forum__dropzone {
   margin-top: 0.75rem;
   padding: 1rem;
@@ -131,7 +131,6 @@
   margin: 0 auto 0.35rem;
   opacity: 0.6;
 }
-
 .forum__upload-preview {
   display: flex;
   flex-wrap: wrap;
@@ -278,17 +277,6 @@
   flex-shrink: 0;
 }
 
-@media (max-width: 640px) {
-  .notification-item {
-    flex-wrap: wrap;
-    padding: 1rem;
-  }
-  .notification-item__actions {
-    width: 100%;
-    margin-top: 0.5rem;
-  }
-}
-
 /* ---------- Autocomplétion des mentions ---------- */
 .mention-dropdown {
   background: var(--bg-elevated);
@@ -328,4 +316,16 @@
   border-radius: var(--radius-sm);
   font-weight: 500;
   text-decoration: none;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 640px) {
+  .notification-item {
+    flex-wrap: wrap;
+    padding: 1rem;
+  }
+  .notification-item__actions {
+    width: 100%;
+    margin-top: 0.5rem;
+  }
 }
