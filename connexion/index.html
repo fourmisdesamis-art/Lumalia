@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Connexion — Lumalia</title>
+  <meta name="description" content="Connectez-vous à votre compte Lumalia.">
+
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Poppins:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/style.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="/assets/css/global.css">
+  <link rel="stylesheet" href="/assets/css/auth.css">
+
+  <script src="/assets/js/theme.js"></script>
+  <meta name="theme-color" content="#ffffff">
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="container navbar__inner">
+      <a href="/" class="navbar__logo" aria-label="Lumalia — Accueil">
+        <img src="/assets/img/logo-lumalia.png" alt="" class="navbar__logo-mark" width="32" height="32">
+        <span>Lumalia</span>
+      </a>
+
+      <nav class="navbar__links" id="navbar-links">
+        <a href="/" class="navbar__link" data-i18n="nav.home">Accueil</a>
+
+        <div class="navbar__item">
+          <a href="/serveurs" class="navbar__link navbar__link--parent" data-i18n="nav.servers">Serveurs</a>
+          <div class="navbar__dropdown">
+            <div class="navbar__dropdown-inner">
+              <a href="/serveurs/crystal" class="navbar__dropdown-item">
+                <span class="navbar__dropdown-item__logo navbar__dropdown-item__logo--crystal">C</span>
+                <span class="navbar__dropdown-item__text">
+                  <strong>Crystal</strong>
+                  <span>Java</span>
+                </span>
+              </a>
+              <a href="/serveurs/azur" class="navbar__dropdown-item">
+                <span class="navbar__dropdown-item__logo navbar__dropdown-item__logo--azur">A</span>
+                <span class="navbar__dropdown-item__text">
+                  <strong>Azur</strong>
+                  <span>Java</span>
+                </span>
+              </a>
+              <a href="/serveurs/green" class="navbar__dropdown-item">
+                <span class="navbar__dropdown-item__logo navbar__dropdown-item__logo--green">G</span>
+                <span class="navbar__dropdown-item__text">
+                  <strong>Green</strong>
+                  <span>Java · US</span>
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <a href="/launcher" class="navbar__link" data-i18n="nav.launcher">Launcher</a>
+        <a href="/actualites" class="navbar__link" data-i18n="nav.news">Actualités</a>
+        <a href="/communaute" class="navbar__link" data-i18n="nav.community">Communauté</a>
+        <a href="/parametres" class="navbar__link" data-i18n="nav.settings">Paramètres</a>
+      </nav>
+
+      <div class="navbar__actions">
+        <div class="lang-switch">
+          <button class="lang-switch__btn" type="button" aria-label="Changer de langue">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M2 12h20"/>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+            </svg>
+            <span class="lang-switch__label">FR</span>
+          </button>
+          <div class="lang-switch__menu" role="menu">
+            <button class="lang-switch__item" data-lang="fr" role="menuitem">Français</button>
+            <button class="lang-switch__item" data-lang="en" role="menuitem">English</button>
+          </div>
+        </div>
+
+        <button class="navbar__icon-btn" type="button" data-theme-toggle aria-label="Changer de thème">
+          <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+          <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:none">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+          </svg>
+        </button>
+
+        <a href="/inscription" class="btn btn-ghost btn-sm navbar__cta" data-i18n="nav.signup">
+          S'inscrire
+        </a>
+
+        <a href="https://discord.gg/lumalia" target="_blank" rel="noopener" class="btn btn-primary btn-sm navbar__cta" data-i18n="nav.discord">
+          Rejoindre Discord
+        </a>
+
+        <button class="navbar__burger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="navbar-links">
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="auth">
+      <div class="container">
+        <div class="auth__card">
+
+          <!-- ÉTAPE 1 : Email + Mot de passe -->
+          <div id="step-login">
+            <div class="auth__header">
+              <span class="label">Connexion</span>
+              <h1>Bon retour !</h1>
+              <p>Connectez-vous pour retrouver votre univers.</p>
+            </div>
+
+            <form class="auth__form" id="login-form" novalidate>
+              <div class="auth__field">
+                <label for="login-email">Adresse email</label>
+                <input type="email" id="login-email" name="email" placeholder="vous@exemple.com" required autocomplete="email">
+                <span class="auth__error" data-error-for="email"></span>
+              </div>
+
+              <div class="auth__field">
+                <label for="login-password">Mot de passe</label>
+                <input type="password" id="login-password" name="password" placeholder="••••••••" required autocomplete="current-password">
+                <span class="auth__error" data-error-for="password"></span>
+              </div>
+
+              <label class="auth__checkbox">
+                <input type="checkbox" id="login-remember" checked>
+                <span>Rester connecté</span>
+              </label>
+
+              <div class="auth__status" id="login-status" role="status" aria-live="polite"></div>
+
+              <button type="submit" class="btn btn-primary auth__submit" id="login-submit">
+                Continuer
+              </button>
+            </form>
+
+            <div class="auth__footer">
+              <p>Pas encore de compte ? <a href="/inscription">S'inscrire</a></p>
+            </div>
+          </div>
+
+          <!-- ÉTAPE 2 : Code 2FA -->
+          <div id="step-2fa" style="display:none">
+            <div class="auth__header">
+              <span class="label">Double authentification</span>
+              <h1>Vérification en 2 étapes</h1>
+              <p>Entrez le code à 6 chiffres généré par votre application d'authentification.</p>
+            </div>
+
+            <form class="auth__form" id="totp-form" novalidate>
+              <div class="auth__field">
+                <label for="totp-code">Code à 6 chiffres</label>
+                <input type="text" id="totp-code" name="code" placeholder="123456" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" required autocomplete="one-time-code">
+                <span class="auth__error" data-error-for="code"></span>
+              </div>
+
+              <div class="auth__status" id="totp-status" role="status" aria-live="polite"></div>
+
+              <button type="submit" class="btn btn-primary auth__submit" id="totp-submit">
+                Vérifier
+              </button>
+            </form>
+          </div>
+
+          <!-- ÉTAPE 3 : Succès -->
+          <div id="step-done" style="display:none">
+            <div class="auth__header">
+              <h1>🎉 Connecté !</h1>
+              <p>Redirection en cours…</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__bottom" style="margin-top:0; border:none;">
+        <span>© <span id="footer-year"></span> Lumalia. Tous droits réservés.</span>
+      </div>
+    </div>
+  </footer>
+
+  <div class="bg-blobs" aria-hidden="true"><span></span><span></span></div>
+  <canvas id="luma-bg" aria-hidden="true"></canvas>
+
+  <!-- Librairies -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/otpauth/9.5.2/otpauth.umd.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
+  <script src="/assets/js/i18n.js"></script>
+  <script src="/assets/js/navbar.js"></script>
+  <script src="/assets/js/background.js"></script>
+
+  <script>
+    document.getElementById("footer-year").textContent = new Date().getFullYear();
+
+    // ============================================================
+    // CONFIGURATION FIREBASE
+    // ============================================================
+    const firebaseConfig = {
+      apiKey: "AIzaSyBSCqSsBTXk9Q8sBX88NgrdDHUAHT0Cq6I",
+      authDomain: "lumalia.firebaseapp.com",
+      projectId: "lumalia",
+      storageBucket: "lumalia.firebasestorage.app",
+      messagingSenderId: "189011821397",
+      appId: "1:189011821397:web:03c8609d35d488dce2a5dc"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    // ============================================================
+    // VARIABLES
+    // ============================================================
+    const stepLogin = document.getElementById("step-login");
+    const step2FA = document.getElementById("step-2fa");
+    const stepDone = document.getElementById("step-done");
+
+    const loginForm = document.getElementById("login-form");
+    const totpForm = document.getElementById("totp-form");
+
+    const loginStatus = document.getElementById("login-status");
+    const totpStatus = document.getElementById("totp-status");
+
+    let currentUser = null;
+    let currentTotp = null;
+
+    // ============================================================
+    // UTILITAIRES
+    // ============================================================
+    function showError(field, message) {
+      const el = document.querySelector('[data-error-for="' + field + '"]');
+      if (el) el.textContent = message;
+    }
+
+    function clearErrors() {
+      document.querySelectorAll(".auth__error").forEach(function (el) {
+        el.textContent = "";
+      });
+      loginStatus.textContent = "";
+      loginStatus.className = "auth__status";
+      totpStatus.textContent = "";
+      totpStatus.className = "auth__status";
+    }
+
+    // ============================================================
+    // ÉTAPE 1 : Connexion email + mot de passe
+    // ============================================================
+    loginForm.addEventListener("submit", async function (e) {
+      e.preventDefault();
+      clearErrors();
+
+      const email = loginForm.email.value.trim();
+      const password = loginForm.password.value;
+      const remember = document.getElementById("login-remember").checked;
+
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        showError("email", "Adresse email invalide.");
+        return;
+      }
+      if (!password || password.length < 1) {
+        showError("password", "Mot de passe requis.");
+        return;
+      }
+
+      const submitBtn = document.getElementById("login-submit");
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Connexion…";
+      loginStatus.textContent = "Vérification de vos identifiants…";
+      loginStatus.className = "auth__status auth__status--info";
+
+      // Persistance : "local" si coché, "session" sinon
+      await auth.setPersistence(remember ? firebase.auth.Auth.Persistence.LOCAL : firebase.auth.Auth.Persistence.SESSION);
+
+      try {
+        const userCredential = await auth.signInWithEmailAndPassword(email, password);
+        currentUser = userCredential.user;
+
+        // Récupère les infos Firestore
+        const userDoc = await db.collection("Utilisateurs").doc(currentUser.uid).get();
+
+        if (!userDoc.exists) {
+          loginStatus.textContent = "Compte introuvable dans notre base.";
+          loginStatus.className = "auth__status auth__status--error";
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Continuer";
+          await auth.signOut();
+          return;
+        }
+
+        const userData = userDoc.data();
+
+        // Vérifie si la 2FA est activée
+        if (userData.twofaEnabled && userData.totpSecret) {
+          // Active la 2FA : demande le code
+          loginStatus.textContent = "Code 2FA requis…";
+          loginStatus.className = "auth__status auth__status--success";
+
+          currentTotp = new OTPAuth.TOTP({
+            issuer: "Lumalia",
+            label: currentUser.email,
+            algorithm: "SHA1",
+            digits: 6,
+            period: 30,
+            secret: OTPAuth.Secret.fromBase32(userData.totpSecret)
+          });
+
+          setTimeout(function () {
+            stepLogin.style.display = "none";
+            step2FA.style.display = "block";
+          }, 600);
+
+        } else {
+          // Pas de 2FA : connexion directe
+          await finalizeLogin(userData);
+        }
+
+      } catch (err) {
+        console.error("[Login]", err);
+
+        let message = "Erreur de connexion.";
+        if (err.code === "auth/user-not-found" || err.code === "auth/wrong-password" || err.code === "auth/invalid-credential") {
+          message = "Email ou mot de passe incorrect.";
+        } else if (err.code === "auth/too-many-requests") {
+          message = "Trop de tentatives. Réessayez dans quelques minutes.";
+        } else if (err.code === "auth/network-request-failed") {
+          message = "Problème de connexion. Vérifiez votre réseau.";
+        } else if (err.message) {
+          message = err.message;
+        }
+
+        loginStatus.textContent = message;
+        loginStatus.className = "auth__status auth__status--error";
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Continuer";
+      }
+    });
+
+    // ============================================================
+    // ÉTAPE 2 : Vérification du code TOTP
+    // ============================================================
+    totpForm.addEventListener("submit", async function (e) {
+      e.preventDefault();
+      clearErrors();
+
+      const code = document.getElementById("totp-code").value.trim();
+
+      if (!/^[0-9]{6}$/.test(code)) {
+        showError("code", "Entrez un code valide à 6 chiffres.");
+        return;
+      }
+
+      const delta = currentTotp.validate({ token: code, window: 1 });
+
+      if (delta !== null) {
+        totpStatus.textContent = "Code valide ✓";
+        totpStatus.className = "auth__status auth__status--success";
+
+        const userDoc = await db.collection("Utilisateurs").doc(currentUser.uid).get();
+        await finalizeLogin(userDoc.data());
+
+      } else {
+        totpStatus.textContent = "Code incorrect. Réessayez (vérifiez l'heure de votre téléphone).";
+        totpStatus.className = "auth__status auth__status--error";
+      }
+    });
+
+    // ============================================================
+    // FINALISATION DE LA CONNEXION
+    // ============================================================
+    async function finalizeLogin(userData) {
+      // Stocke l'utilisateur en localStorage pour la navbar
+      localStorage.setItem("luma_user", JSON.stringify({
+        uid: currentUser.uid,
+        email: currentUser.email,
+        username: userData.username || currentUser.displayName || "Joueur",
+        twofaEnabled: userData.twofaEnabled || false,
+        loggedAt: Date.now()
+      }));
+
+      stepLogin.style.display = "none";
+      step2FA.style.display = "none";
+      stepDone.style.display = "block";
+
+      // Redirige vers l'accueil après 1 seconde
+      setTimeout(function () {
+        window.location.href = "/";
+      }, 1000);
+    }
+  </script>
+</body>
+</html>
