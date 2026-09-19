@@ -169,7 +169,7 @@
         <div class="modal__field">
           <label for="topic-content">Premier message</label>
           <textarea id="topic-content" placeholder="Écrivez votre message… (BBcode supporté)" required></textarea>
-          <small>BBcode supporté : [b]gras[/b], [i]italique[/i], [color=#ff0000]couleur[/color], [quote]citation[/quote]</small>
+          <small>BBcode supporté : [b]gras[/b], [i]italique[/i], [color=#ff0000]couleur[/color]</small>
         </div>
 
         <div class="modal__status" id="new-topic-status" role="status" aria-live="polite"></div>
@@ -198,38 +198,23 @@
         <input type="hidden" id="report-cat-id">
 
         <div class="forum__report-reasons" id="report-reasons">
-          <label class="forum__report-reason">
-            <input type="radio" name="reason" value="Spam">
-            <span>Spam ou publicité</span>
-          </label>
-          <label class="forum__report-reason">
-            <input type="radio" name="reason" value="Contenu inapproprié">
-            <span>Contenu inapproprié</span>
-          </label>
-          <label class="forum__report-reason">
-            <input type="radio" name="reason" value="Harcèlement">
-            <span>Harcèlement / insultes</span>
-          </label>
-          <label class="forum__report-reason">
-            <input type="radio" name="reason" value="Hors-sujet">
-            <span>Hors-sujet</span>
-          </label>
-          <label class="forum__report-reason">
-            <input type="radio" name="reason" value="Autre">
-            <span>Autre raison</span>
-          </label>
+          <label class="forum__report-reason"><input type="radio" name="reason" value="Spam"><span>Spam ou publicité</span></label>
+          <label class="forum__report-reason"><input type="radio" name="reason" value="Contenu inapproprié"><span>Contenu inapproprié</span></label>
+          <label class="forum__report-reason"><input type="radio" name="reason" value="Harcèlement"><span>Harcèlement / insultes</span></label>
+          <label class="forum__report-reason"><input type="radio" name="reason" value="Hors-sujet"><span>Hors-sujet</span></label>
+          <label class="forum__report-reason"><input type="radio" name="reason" value="Autre"><span>Autre raison</span></label>
         </div>
 
         <div class="modal__field">
           <label for="report-message">Détails (optionnel)</label>
-          <textarea id="report-message" placeholder="Expliquez brièvement pourquoi vous signalez ce message…" maxlength="500"></textarea>
+          <textarea id="report-message" placeholder="Expliquez…" maxlength="500"></textarea>
         </div>
 
         <div class="modal__status" id="report-status"></div>
 
         <div class="modal__actions">
           <button type="button" class="btn btn-ghost" id="report-cancel">Annuler</button>
-          <button type="submit" class="btn btn-primary" id="report-submit">Envoyer le signalement</button>
+          <button type="submit" class="btn btn-primary" id="report-submit">Envoyer</button>
         </div>
       </form>
     </div>
@@ -252,10 +237,7 @@
   <script>
     document.getElementById("footer-year").textContent = new Date().getFullYear();
 
-    // ============================================================
-    // CONFIG FIREBASE
-    // ============================================================
-    const firebaseConfig = {
+    var firebaseConfig = {
       apiKey: "AIzaSyBSCqSsBTXk9Q8sBX88NgrdDHUAHT0Cq6I",
       authDomain: "lumalia.firebaseapp.com",
       projectId: "lumalia",
@@ -265,12 +247,9 @@
     };
 
     firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const db = firebase.firestore();
+    var auth = firebase.auth();
+    var db = firebase.firestore();
 
-    // ============================================================
-    // UTILITAIRES
-    // ============================================================
     function escapeHtml(str) {
       return String(str || "")
         .replace(/&/g, "&amp;")
@@ -282,9 +261,9 @@
 
     function formatDate(timestamp) {
       if (!timestamp) return "—";
-      const d = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
-      const now = new Date();
-      const diff = (now - d) / 1000;
+      var d = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+      var now = new Date();
+      var diff = (now - d) / 1000;
       if (diff < 60) return "à l'instant";
       if (diff < 3600) return "il y a " + Math.floor(diff / 60) + " min";
       if (diff < 86400) return "il y a " + Math.floor(diff / 3600) + " h";
@@ -294,25 +273,24 @@
 
     function getGradeClass(grade) {
       if (!grade) return "";
-      const g = grade.toLowerCase();
-      if (g.includes("admin")) return "forum__post-author-grade--admin";
+      var g = grade.toLowerCase();
+      if (g.indexOf("admin") !== -1) return "forum__post-author-grade--admin";
       if (g === "ha") return "forum__post-author-grade--ha";
-      if (g.includes("modo")) return "forum__post-author-grade--modo";
+      if (g.indexOf("modo") !== -1) return "forum__post-author-grade--modo";
       return "";
     }
 
-    // ============================================================
-    // ROUTEUR
-    // ============================================================
-    const params = new URLSearchParams(window.location.search);
-    const categorySlug = params.get("c");
-    const topicSlug = params.get("t");
-    const searchQuery = params.get("q");
+    var params = new URLSearchParams(window.location.search);
+    var categorySlug = params.get("c");
+    var topicSlug = params.get("t");
+    var searchQuery = params.get("q");
 
-    const contentEl = document.getElementById("forum-content");
-    const breadcrumbEl = document.getElementById("breadcrumb");
+    var contentEl = document.getElementById("forum-content");
+    var breadcrumbEl = document.getElementById("breadcrumb");
 
-    let uploadedImages = [];
+    var uploadedImages = [];
+    var currentUserRole = "";
+    var currentUserGrade = "";
 
     // ============================================================
     // RENDU
@@ -330,23 +308,41 @@
         }
       } catch (err) {
         console.error("[Forum]", err);
-        contentEl.innerHTML = '<div class="forum__empty"><p>Erreur de chargement. Veuillez réessayer.</p></div>';
+        contentEl.innerHTML = '<div class="forum__empty"><p>Erreur de chargement.</p></div>';
       }
     }
 
-    // ---------- VUE : Liste des catégories ----------
-    async function renderHome() {
-      const snap = await db.collection("forum_categories").get();
+    function isModeratorRole() {
+      var g = String(currentUserGrade || "").toLowerCase();
+      var r = String(currentUserRole || "").toLowerCase();
+      return g === "modérateur" || g === "super-modérateur" || g === "ha" || g === "administrateur"
+        || r === "moderateur" || r === "super-moderateur" || r === "administrateur";
+    }
 
-      const categories = [];
+    function isStaffRole() {
+      var g = String(currentUserGrade || "").toLowerCase();
+      return g === "ha" || g === "administrateur" || g === "admin";
+    }
+
+    // ============================================================
+    // VUE : Home
+    // ============================================================
+    async function renderHome() {
+      var snap = await db.collection("forum_categories").get();
+
+      var categories = [];
       snap.forEach(function (doc) { categories.push({ id: doc.id, ...doc.data() }); });
       categories.sort(function (a, b) { return (a.order || 0) - (b.order || 0); });
 
-      const roots = categories.filter(function (c) {
-        return c.parentId === null || c.parentId === undefined;
+      var isStaff = isStaffRole();
+
+      var roots = categories.filter(function (c) {
+        if (c.parentId !== null && c.parentId !== undefined) return false;
+        if (c.staffOnly && !isStaff) return false;
+        return true;
       });
 
-      let html = '<div class="forum__header">'
+      var html = '<div class="forum__header">'
         + '<div>'
         + '<span class="label">Communauté</span>'
         + '<h1>Forum Lumalia</h1>'
@@ -354,27 +350,24 @@
         + '</div>'
         + '</div>';
 
-      // Barre de recherche
       html += '<form class="forum__search" id="search-form">'
         + '<input type="search" id="search-input" placeholder="Rechercher un sujet…" value="' + escapeHtml(searchQuery || "") + '">'
         + '<button type="submit" class="btn btn-primary">Rechercher</button>'
         + '</form>';
 
       if (roots.length === 0) {
-        html += '<div class="forum__empty">'
-          + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>'
-          + '<p>Aucune catégorie pour le moment.</p>'
-          + '</div>';
+        html += '<div class="forum__empty"><p>Aucune catégorie.</p></div>';
         contentEl.innerHTML = html;
+        bindSearch();
         return;
       }
 
-      const counts = {};
-      for (const cat of roots) {
-        const countSnap = await db.collection("forum_topics")
-          .where("categoryId", "==", cat.id)
+      var counts = {};
+      for (var i = 0; i < roots.length; i++) {
+        var countSnap = await db.collection("forum_topics")
+          .where("categoryId", "==", roots[i].id)
           .get();
-        counts[cat.id] = countSnap.size;
+        counts[roots[i].id] = countSnap.size;
       }
 
       html += '<div class="forum__section">';
@@ -407,9 +400,11 @@
       bindSearch();
     }
 
-    // ---------- VUE : Résultats de recherche ----------
+    // ============================================================
+    // VUE : Recherche
+    // ============================================================
     async function renderSearch(query) {
-      let html = '<div class="forum__header">'
+      var html = '<div class="forum__header">'
         + '<div>'
         + '<h1>Recherche</h1>'
         + '<p>Résultats pour « ' + escapeHtml(query) + ' »</p>'
@@ -421,7 +416,7 @@
         + '<button type="submit" class="btn btn-primary">Rechercher</button>'
         + '</form>';
 
-      const results = await window.LumaForum.searchTopics(query);
+      var results = await window.LumaForum.searchTopics(query);
 
       html += '<div class="forum__section">';
       html += '<div class="forum__section-header">'
@@ -433,12 +428,12 @@
         html += '<div class="forum__empty"><p>Aucun sujet trouvé.</p></div>';
       } else {
         results.forEach(function (topic) {
-          const initial = (topic.authorName || "?").charAt(0).toUpperCase();
+          var initial = (topic.authorName || "?").charAt(0).toUpperCase();
           html += '<a href="/forum?c=' + topic.categoryId + '&t=' + topic.id + '" class="forum__topic">';
           html += '<div class="forum__topic-avatar">' + initial + '</div>';
           html += '<div class="forum__topic-body">';
           html += '<div class="forum__topic-title">';
-          if (topic.pinned) html += '<span class="forum__badge forum__badge--pinned">📌 Épinglé</span>';
+          if (topic.pinned) html += '<span class="forum__badge forum__badge--pinned">📌</span>';
           if (topic.locked) html += '<span class="forum__badge forum__badge--locked">🔒</span>';
           html += '<h3>' + escapeHtml(topic.title) + '</h3>';
           html += '</div>';
@@ -455,11 +450,11 @@
     }
 
     function bindSearch() {
-      const form = document.getElementById("search-form");
+      var form = document.getElementById("search-form");
       if (!form) return;
       form.addEventListener("submit", function (e) {
         e.preventDefault();
-        const q = document.getElementById("search-input").value.trim();
+        var q = document.getElementById("search-input").value.trim();
         if (q.length < 2) {
           alert("Entrez au moins 2 caractères.");
           return;
@@ -468,40 +463,48 @@
       });
     }
 
-    // ---------- VUE : Catégorie ----------
+    // ============================================================
+    // VUE : Catégorie
+    // ============================================================
     async function renderCategory(catId) {
-      const catDoc = await db.collection("forum_categories").doc(catId).get();
+      var catDoc = await db.collection("forum_categories").doc(catId).get();
 
       if (!catDoc.exists) {
         contentEl.innerHTML = '<div class="forum__empty"><p>Catégorie introuvable.</p></div>';
         return;
       }
 
-      const cat = catDoc.data();
+      var cat = catDoc.data();
 
       breadcrumbEl.innerHTML = '<a href="/">Accueil</a> <span>›</span> <a href="/forum">Forum</a> <span>›</span> <span>' + escapeHtml(cat.name) + '</span>';
 
-      const subSnap = await db.collection("forum_categories").where("parentId", "==", catId).get();
-      const subs = [];
-      subSnap.forEach(function (doc) { subs.push({ id: doc.id, ...doc.data() }); });
+      var isStaff = isStaffRole();
+
+      var subSnap = await db.collection("forum_categories").where("parentId", "==", catId).get();
+      var subs = [];
+      subSnap.forEach(function (doc) {
+        var data = doc.data();
+        if (data.staffOnly && !isStaff) return;
+        subs.push({ id: doc.id, ...data });
+      });
       subs.sort(function (a, b) { return (a.order || 0) - (b.order || 0); });
 
-      const topicsSnap = await db.collection("forum_topics").where("categoryId", "==", catId).get();
-      const topics = [];
+      var topicsSnap = await db.collection("forum_topics").where("categoryId", "==", catId).get();
+      var topics = [];
       topicsSnap.forEach(function (doc) { topics.push({ id: doc.id, ...doc.data() }); });
 
       topics.sort(function (a, b) {
         if (a.pinned && !b.pinned) return -1;
         if (!a.pinned && b.pinned) return 1;
-        const aDate = a.lastReplyAt ? a.lastReplyAt.toMillis() : (a.createdAt ? a.createdAt.toMillis() : 0);
-        const bDate = b.lastReplyAt ? b.lastReplyAt.toMillis() : (b.createdAt ? b.createdAt.toMillis() : 0);
+        var aDate = a.lastReplyAt ? a.lastReplyAt.toMillis() : (a.createdAt ? a.createdAt.toMillis() : 0);
+        var bDate = b.lastReplyAt ? b.lastReplyAt.toMillis() : (b.createdAt ? b.createdAt.toMillis() : 0);
         return bDate - aDate;
       });
 
-      const user = auth.currentUser;
-      const canPost = user && !cat.locked;
+      var user = auth.currentUser;
+      var canPost = user && !cat.locked;
 
-      let html = '<div class="forum__header">'
+      var html = '<div class="forum__header">'
         + '<div>'
         + '<h1>' + escapeHtml(cat.name) + '</h1>'
         + (cat.description ? '<p>' + escapeHtml(cat.description) + '</p>' : '')
@@ -542,13 +545,10 @@
         + '</div>';
 
       if (topics.length === 0) {
-        html += '<div class="forum__empty">'
-          + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>'
-          + '<p>Aucune discussion dans cette catégorie.</p>'
-          + '</div>';
+        html += '<div class="forum__empty"><p>Aucune discussion dans cette catégorie.</p></div>';
       } else {
         topics.forEach(function (topic) {
-          const initial = (topic.authorName || "?").charAt(0).toUpperCase();
+          var initial = (topic.authorName || "?").charAt(0).toUpperCase();
           html += '<a href="/forum?c=' + catId + '&t=' + topic.id + '" class="forum__topic">';
           html += '<div class="forum__topic-avatar">' + initial + '</div>';
           html += '<div class="forum__topic-body">';
@@ -572,16 +572,18 @@
       contentEl.innerHTML = html;
     }
 
-    // ---------- VUE : Sujet ----------
+    // ============================================================
+    // VUE : Sujet
+    // ============================================================
     async function renderTopic(catId, topicId) {
-      const topicDoc = await db.collection("forum_topics").doc(topicId).get();
+      var topicDoc = await db.collection("forum_topics").doc(topicId).get();
 
       if (!topicDoc.exists) {
         contentEl.innerHTML = '<div class="forum__empty"><p>Sujet introuvable.</p></div>';
         return;
       }
 
-      const topic = topicDoc.data();
+      var topic = topicDoc.data();
 
       try {
         await db.collection("forum_topics").doc(topicId).update({
@@ -589,23 +591,24 @@
         });
       } catch (e) {}
 
-      const catDoc = await db.collection("forum_categories").doc(catId).get();
-      const catName = catDoc.exists ? catDoc.data().name : "Catégorie";
+      var catDoc = await db.collection("forum_categories").doc(catId).get();
+      var catName = catDoc.exists ? catDoc.data().name : "Catégorie";
 
       breadcrumbEl.innerHTML = '<a href="/">Accueil</a> <span>›</span> <a href="/forum">Forum</a> <span>›</span> <a href="/forum?c=' + catId + '">' + escapeHtml(catName) + '</a> <span>›</span> <span>' + escapeHtml(topic.title) + '</span>';
 
-      const postsSnap = await db.collection("forum_posts").where("topicId", "==", topicId).get();
-      const posts = [];
+      var postsSnap = await db.collection("forum_posts").where("topicId", "==", topicId).get();
+      var posts = [];
       postsSnap.forEach(function (doc) { posts.push({ id: doc.id, ...doc.data() }); });
       posts.sort(function (a, b) {
-        const aDate = a.createdAt ? a.createdAt.toMillis() : 0;
-        const bDate = b.createdAt ? b.createdAt.toMillis() : 0;
+        var aDate = a.createdAt ? a.createdAt.toMillis() : 0;
+        var bDate = b.createdAt ? b.createdAt.toMillis() : 0;
         return aDate - bDate;
       });
 
-      const user = auth.currentUser;
+      var user = auth.currentUser;
+      var canMod = isModeratorRole();
 
-      let html = '<div class="forum__topic-header">';
+      var html = '<div class="forum__topic-header">';
       html += '<div class="forum__topic-title">';
       if (topic.pinned) html += '<span class="forum__badge forum__badge--pinned">📌 Épinglé</span>';
       if (topic.locked) html += '<span class="forum__badge forum__badge--locked">🔒 Verrouillé</span>';
@@ -628,15 +631,14 @@
       }
       html += '</div>';
 
-      // Messages
       html += '<div class="forum__posts">';
       posts.forEach(function (post) {
-        const initial = (post.authorName || "?").charAt(0).toUpperCase();
-        const gradeClass = getGradeClass(post.authorGrade);
-        const isAuthor = user && user.uid === post.authorId;
-        const reactions = post.reactions || {};
-        const likeList = reactions["👍"] || [];
-        const hasLiked = user && likeList.includes(user.uid);
+        var initial = (post.authorName || "?").charAt(0).toUpperCase();
+        var gradeClass = getGradeClass(post.authorGrade);
+        var isAuthor = user && user.uid === post.authorId;
+        var reactions = post.reactions || {};
+        var likeList = reactions["👍"] || [];
+        var hasLiked = user && likeList.indexOf(user.uid) !== -1;
 
         html += '<article class="forum__post" data-post-id="' + post.id + '">';
         html += '<div class="forum__post-author">';
@@ -682,6 +684,10 @@
           html += '<button class="forum__post-action" data-report-post="' + post.id + '" data-report-topic="' + topicId + '" data-report-cat="' + catId + '">⚠️ Signaler</button>';
         }
 
+        if (canMod && !isAuthor) {
+          html += '<button class="forum__post-action" style="color:#ef4444;" data-mod-delete-post="' + post.id + '">🛡️ Supprimer</button>';
+        }
+
         html += '</div>';
         html += '</div>';
         html += '</div>';
@@ -689,11 +695,10 @@
       });
       html += '</div>';
 
-      // Formulaire de réponse
       if (topic.locked) {
         html += '<div class="forum__locked">'
           + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>'
-          + '<span>Ce sujet est verrouillé. Vous ne pouvez plus y répondre.</span>'
+          + '<span>Ce sujet est verrouillé.</span>'
           + '</div>';
       } else {
         html += '<div class="forum__reply">';
@@ -708,15 +713,15 @@
         html += '<button type="button" data-bb="code" title="Code">&lt;/&gt;</button>';
         html += '<button type="button" data-bb="center" title="Centrer">≡</button>';
         html += '</div>';
-        html += '<textarea id="reply-content" placeholder="Écrivez votre message… (BBcode supporté)"></textarea>';
+        html += '<textarea id="reply-content" placeholder="Écrivez votre message…"></textarea>';
         html += '<div class="forum__dropzone" id="reply-dropzone">'
           + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>'
-          + 'Glissez une image ici ou cliquez pour en choisir une'
+          + 'Glissez une image ici ou cliquez'
           + '</div>';
         html += '<input type="file" id="reply-file" accept="image/*" style="display:none">';
         html += '<div class="forum__upload-preview" id="reply-preview"></div>';
         html += '<div class="forum__reply-footer">';
-        html += '<span class="forum__reply-hint">Ctrl + Entrée pour envoyer · BBcode supporté</span>';
+        html += '<span class="forum__reply-hint">Ctrl + Entrée pour envoyer</span>';
         html += '<button type="button" class="btn btn-primary btn-sm" id="reply-submit">Envoyer</button>';
         html += '</div>';
         html += '<div class="forum__reply-status" id="reply-status"></div>';
@@ -731,22 +736,19 @@
       checkFollowState(topicId);
     }
 
-    // ============================================================
-    // BINDINGS
-    // ============================================================
     function bindToolbarEvents() {
-      const textarea = document.getElementById("reply-content");
+      var textarea = document.getElementById("reply-content");
       if (!textarea) return;
 
       document.querySelectorAll("[data-bb]").forEach(function (btn) {
         btn.addEventListener("click", function () {
-          const tag = btn.dataset.bb;
-          const start = textarea.selectionStart;
-          const end = textarea.selectionEnd;
-          const selected = textarea.value.substring(start, end);
-          const before = textarea.value.substring(0, start);
-          const after = textarea.value.substring(end);
-          const wrapped = "[" + tag + "]" + (selected || "texte") + "[/" + tag + "]";
+          var tag = btn.dataset.bb;
+          var start = textarea.selectionStart;
+          var end = textarea.selectionEnd;
+          var selected = textarea.value.substring(start, end);
+          var before = textarea.value.substring(0, start);
+          var after = textarea.value.substring(end);
+          var wrapped = "[" + tag + "]" + (selected || "texte") + "[/" + tag + "]";
           textarea.value = before + wrapped + after;
           textarea.focus();
           textarea.selectionStart = textarea.selectionEnd = start + wrapped.length;
@@ -755,9 +757,9 @@
     }
 
     function bindReplyEvents(topicId, catId) {
-      const submitBtn = document.getElementById("reply-submit");
-      const textarea = document.getElementById("reply-content");
-      const statusEl = document.getElementById("reply-status");
+      var submitBtn = document.getElementById("reply-submit");
+      var textarea = document.getElementById("reply-content");
+      var statusEl = document.getElementById("reply-status");
 
       if (!submitBtn || !textarea) return;
 
@@ -769,33 +771,29 @@
       });
 
       submitBtn.addEventListener("click", async function () {
-        const content = textarea.value.trim();
+        var content = textarea.value.trim();
 
         if (content.length < 1 && uploadedImages.length === 0) {
-          statusEl.textContent = "Le message ne peut pas être vide.";
+          statusEl.textContent = "Message vide.";
           statusEl.className = "forum__reply-status forum__reply-status--error";
           return;
         }
 
-        const user = auth.currentUser;
-        if (!user) {
-          window.location.href = "/connexion";
-          return;
-        }
+        var user = auth.currentUser;
+        if (!user) { window.location.href = "/connexion"; return; }
 
         submitBtn.disabled = true;
         submitBtn.textContent = "Envoi…";
-        statusEl.textContent = "Publication en cours…";
+        statusEl.textContent = "Publication…";
         statusEl.className = "forum__reply-status forum__reply-status--info";
 
         try {
-          const userDoc = await db.collection("Utilisateurs").doc(user.uid).get();
-          const userData = userDoc.exists ? userDoc.data() : {};
-          const authorName = userData.username || user.displayName || "Anonyme";
-          const authorGrade = userData.grade || "Membre";
+          var userDoc = await db.collection("Utilisateurs").doc(user.uid).get();
+          var userData = userDoc.exists ? userDoc.data() : {};
+          var authorName = userData.username || user.displayName || "Anonyme";
+          var authorGrade = userData.grade || "Membre";
 
-          // Ajoute les images au contenu
-          let fullContent = content;
+          var fullContent = content;
           if (uploadedImages.length > 0) {
             fullContent += (fullContent ? "\n\n" : "") + uploadedImages.map(function (url) {
               return "[img]" + url + "[/img]";
@@ -821,41 +819,37 @@
             lastReplyBy: user.uid
           });
 
-          // Notifie les followers
           if (window.LumaForum) {
-            const tDoc = await db.collection("forum_topics").doc(topicId).get();
-            const tData = tDoc.data();
+            var tDoc = await db.collection("forum_topics").doc(topicId).get();
+            var tData = tDoc.data();
             await window.LumaForum.notifyFollowers(topicId, catId, tData.title, authorName, user.uid);
           }
 
           uploadedImages = [];
-          statusEl.textContent = "✅ Message publié !";
+          statusEl.textContent = "✅ Publié !";
           statusEl.className = "forum__reply-status forum__reply-status--success";
 
           setTimeout(function () { window.location.reload(); }, 600);
 
         } catch (err) {
           console.error("[Forum]", err);
-          statusEl.textContent = "Erreur : " + (err.message || "impossible de publier.");
+          statusEl.textContent = "Erreur : " + (err.message || "échec.");
           statusEl.className = "forum__reply-status forum__reply-status--error";
           submitBtn.disabled = false;
           submitBtn.textContent = "Envoyer";
         }
       });
 
-      // ===== Upload d'images =====
-      const dropzone = document.getElementById("reply-dropzone");
-      const fileInput = document.getElementById("reply-file");
-      const previewEl = document.getElementById("reply-preview");
+      var dropzone = document.getElementById("reply-dropzone");
+      var fileInput = document.getElementById("reply-file");
+      var previewEl = document.getElementById("reply-preview");
 
       if (dropzone && fileInput) {
         dropzone.addEventListener("click", function () { fileInput.click(); });
-
         fileInput.addEventListener("change", function () {
           handleFiles(fileInput.files);
           fileInput.value = "";
         });
-
         dropzone.addEventListener("dragover", function (e) {
           e.preventDefault();
           dropzone.classList.add("dragover");
@@ -871,27 +865,25 @@
       }
 
       async function handleFiles(files) {
-        const user = auth.currentUser;
-        if (!user) {
-          alert("Connectez-vous pour uploader des images.");
-          return;
-        }
+        var user = auth.currentUser;
+        if (!user) { alert("Connectez-vous."); return; }
 
-        for (const file of files) {
-          if (!file.type.startsWith("image/")) {
+        for (var i = 0; i < files.length; i++) {
+          var file = files[i];
+          if (file.type.indexOf("image/") !== 0) {
             alert("Seules les images sont autorisées.");
             continue;
           }
 
-          const tempId = "temp_" + Date.now() + Math.random();
-          const placeholder = document.createElement("div");
+          var tempId = "temp_" + Date.now() + Math.random();
+          var placeholder = document.createElement("div");
           placeholder.className = "forum__upload-item";
           placeholder.id = tempId;
           placeholder.innerHTML = '<div style="display:grid;place-items:center;height:100%;font-size:0.7rem;color:var(--text-muted);">Envoi…</div>';
           previewEl.appendChild(placeholder);
 
           try {
-            const url = await window.LumaForum.uploadImage(file, user.uid);
+            var url = await window.LumaForum.uploadImage(file, user.uid);
             uploadedImages.push(url);
             placeholder.innerHTML = '<img src="' + url + '" alt=""><button type="button" class="forum__upload-remove" data-remove="' + url + '">✕</button>';
           } catch (err) {
@@ -902,30 +894,25 @@
         }
       }
 
-      // Retire une image
       document.addEventListener("click", function (e) {
-        const removeBtn = e.target.closest("[data-remove]");
+        var removeBtn = e.target.closest("[data-remove]");
         if (removeBtn) {
-          const url = removeBtn.dataset.remove;
+          var url = removeBtn.dataset.remove;
           uploadedImages = uploadedImages.filter(function (u) { return u !== url; });
           removeBtn.closest(".forum__upload-item").remove();
         }
       });
     }
 
-    // ---------- Suivi de sujet ----------
     function bindFollowButton(topicId) {
-      const btn = document.getElementById("follow-btn");
+      var btn = document.getElementById("follow-btn");
       if (!btn) return;
 
       btn.addEventListener("click", async function () {
-        const user = auth.currentUser;
-        if (!user) {
-          window.location.href = "/connexion";
-          return;
-        }
+        var user = auth.currentUser;
+        if (!user) { window.location.href = "/connexion"; return; }
 
-        const isActive = btn.classList.contains("active");
+        var isActive = btn.classList.contains("active");
         btn.disabled = true;
 
         try {
@@ -948,13 +935,13 @@
     }
 
     async function checkFollowState(topicId) {
-      const user = auth.currentUser;
+      var user = auth.currentUser;
       if (!user) return;
 
-      const btn = document.getElementById("follow-btn");
+      var btn = document.getElementById("follow-btn");
       if (!btn) return;
 
-      const following = await window.LumaForum.isFollowing(user.uid, topicId);
+      var following = await window.LumaForum.isFollowing(user.uid, topicId);
       if (following) {
         btn.classList.add("active");
         btn.querySelector("span").textContent = "Suivi";
@@ -962,17 +949,55 @@
     }
 
     // ============================================================
-    // ACTIONS (édition, suppression, réactions, signalement)
+    // ACTIONS GLOBALES
     // ============================================================
     document.addEventListener("click", async function (e) {
+
+      // Suppression modo
+      var modDeleteBtn = e.target.closest("[data-mod-delete-post]");
+      if (modDeleteBtn) {
+        var postId = modDeleteBtn.dataset.modDeletePost;
+        if (!confirm("Supprimer ce message en tant que modérateur ?")) return;
+
+        try {
+          var postDoc = await db.collection("forum_posts").doc(postId).get();
+          var postData = postDoc.exists ? postDoc.data() : null;
+
+          await db.collection("forum_posts").doc(postId).delete();
+
+          if (topicSlug) {
+            await db.collection("forum_topics").doc(topicSlug).update({
+              repliesCount: firebase.firestore.FieldValue.increment(-1)
+            });
+          }
+
+          if (postData && postData.authorId && postData.authorId !== auth.currentUser.uid && window.LumaForum) {
+            await window.LumaForum.createNotification({
+              userId: postData.authorId,
+              type: "forum_moderation",
+              title: "Message supprimé",
+              message: "Un modérateur a supprimé votre message.",
+              link: "/forum?c=" + categorySlug + "&t=" + topicSlug,
+              meta: { topicId: topicSlug, categoryId: categorySlug }
+            });
+          }
+
+          window.location.reload();
+        } catch (err) {
+          console.error(err);
+          alert("Erreur : " + err.message);
+        }
+        return;
+      }
+
       // Modifier
-      const editBtn = e.target.closest("[data-edit-post]");
+      var editBtn = e.target.closest("[data-edit-post]");
       if (editBtn) {
-        const postId = editBtn.dataset.editPost;
-        const editor = document.querySelector('[data-editor-for="' + postId + '"]');
-        const body = document.querySelector('[data-body-for="' + postId + '"]');
+        var postId2 = editBtn.dataset.editPost;
+        var editor = document.querySelector('[data-editor-for="' + postId2 + '"]');
+        var body = document.querySelector('[data-body-for="' + postId2 + '"]');
         if (editor && body) {
-          const post = await db.collection("forum_posts").doc(postId).get();
+          var post = await db.collection("forum_posts").doc(postId2).get();
           if (post.exists) editor.querySelector("textarea").value = post.data().content;
           editor.classList.add("open");
           body.style.display = "none";
@@ -981,29 +1006,29 @@
         return;
       }
 
-      const cancelEditBtn = e.target.closest("[data-cancel-edit]");
+      var cancelEditBtn = e.target.closest("[data-cancel-edit]");
       if (cancelEditBtn) {
-        const postId = cancelEditBtn.dataset.cancelEdit;
-        const editor = document.querySelector('[data-editor-for="' + postId + '"]');
-        const body = document.querySelector('[data-body-for="' + postId + '"]');
-        const editBtn = document.querySelector('[data-edit-post="' + postId + '"]');
-        if (editor) editor.classList.remove("open");
-        if (body) body.style.display = "";
-        if (editBtn) editBtn.style.display = "";
+        var postId3 = cancelEditBtn.dataset.cancelEdit;
+        var editor3 = document.querySelector('[data-editor-for="' + postId3 + '"]');
+        var body3 = document.querySelector('[data-body-for="' + postId3 + '"]');
+        var editBtn3 = document.querySelector('[data-edit-post="' + postId3 + '"]');
+        if (editor3) editor3.classList.remove("open");
+        if (body3) body3.style.display = "";
+        if (editBtn3) editBtn3.style.display = "";
         return;
       }
 
-      const saveEditBtn = e.target.closest("[data-save-edit]");
+      var saveEditBtn = e.target.closest("[data-save-edit]");
       if (saveEditBtn) {
-        const postId = saveEditBtn.dataset.saveEdit;
-        const editor = document.querySelector('[data-editor-for="' + postId + '"]');
-        const textarea = editor.querySelector("textarea");
-        const newContent = textarea.value.trim();
+        var postId4 = saveEditBtn.dataset.saveEdit;
+        var editor4 = document.querySelector('[data-editor-for="' + postId4 + '"]');
+        var textarea = editor4.querySelector("textarea");
+        var newContent = textarea.value.trim();
         if (newContent.length < 1) { alert("Message vide."); return; }
         saveEditBtn.disabled = true;
         saveEditBtn.textContent = "Enregistrement…";
         try {
-          await db.collection("forum_posts").doc(postId).update({
+          await db.collection("forum_posts").doc(postId4).update({
             content: newContent,
             editedAt: firebase.firestore.FieldValue.serverTimestamp(),
             editedBy: auth.currentUser.uid
@@ -1017,12 +1042,12 @@
         return;
       }
 
-      const deleteBtn = e.target.closest("[data-delete-post]");
+      var deleteBtn = e.target.closest("[data-delete-post]");
       if (deleteBtn) {
-        const postId = deleteBtn.dataset.deletePost;
+        var postId5 = deleteBtn.dataset.deletePost;
         if (!confirm("Supprimer ce message ?")) return;
         try {
-          await db.collection("forum_posts").doc(postId).delete();
+          await db.collection("forum_posts").doc(postId5).delete();
           if (topicSlug) {
             await db.collection("forum_topics").doc(topicSlug).update({
               repliesCount: firebase.firestore.FieldValue.increment(-1)
@@ -1035,30 +1060,30 @@
         return;
       }
 
-      const reactionBtn = e.target.closest("[data-reaction]");
+      var reactionBtn = e.target.closest("[data-reaction]");
       if (reactionBtn) {
-        const postId = reactionBtn.dataset.post;
-        const emoji = reactionBtn.dataset.reaction;
-        const user = auth.currentUser;
+        var postId6 = reactionBtn.dataset.post;
+        var emoji = reactionBtn.dataset.reaction;
+        var user = auth.currentUser;
         if (!user) { window.location.href = "/connexion"; return; }
 
         try {
-          const postRef = db.collection("forum_posts").doc(postId);
-          const post = await postRef.get();
-          const reactions = post.data().reactions || {};
-          const current = reactions[emoji] || [];
-          const hasReacted = current.includes(user.uid);
-          const newList = hasReacted
+          var postRef = db.collection("forum_posts").doc(postId6);
+          var postDoc2 = await postRef.get();
+          var reactions = postDoc2.data().reactions || {};
+          var current = reactions[emoji] || [];
+          var hasReacted = current.indexOf(user.uid) !== -1;
+          var newList = hasReacted
             ? current.filter(function (uid) { return uid !== user.uid; })
             : current.concat([user.uid]);
 
-          const newReactions = Object.assign({}, reactions);
+          var newReactions = Object.assign({}, reactions);
           if (newList.length === 0) delete newReactions[emoji];
           else newReactions[emoji] = newList;
 
           await postRef.update({ reactions: newReactions });
           reactionBtn.classList.toggle("active", !hasReacted);
-          const countEl = reactionBtn.querySelector("span:last-child");
+          var countEl = reactionBtn.querySelector("span:last-child");
           if (countEl) countEl.textContent = newList.length;
         } catch (err) {
           console.error(err);
@@ -1070,9 +1095,9 @@
     // ============================================================
     // MODAL Nouveau sujet
     // ============================================================
-    const modal = document.getElementById("new-topic-modal");
-    const modalForm = document.getElementById("new-topic-form");
-    const modalStatus = document.getElementById("new-topic-status");
+    var modal = document.getElementById("new-topic-modal");
+    var modalForm = document.getElementById("new-topic-form");
+    var modalStatus = document.getElementById("new-topic-status");
 
     function openModal() {
       modal.classList.add("open");
@@ -1087,17 +1112,19 @@
       modalStatus.textContent = "";
     }
 
-    document.getElementById("modal-close")?.addEventListener("click", closeModal);
-    document.getElementById("modal-cancel")?.addEventListener("click", closeModal);
-    modal?.addEventListener("click", function (e) {
+    var mc = document.getElementById("modal-close");
+    if (mc) mc.addEventListener("click", closeModal);
+    var mcancel = document.getElementById("modal-cancel");
+    if (mcancel) mcancel.addEventListener("click", closeModal);
+    if (modal) modal.addEventListener("click", function (e) {
       if (e.target === modal) closeModal();
     });
 
-    modalForm?.addEventListener("submit", async function (e) {
+    if (modalForm) modalForm.addEventListener("submit", async function (e) {
       e.preventDefault();
-      const title = document.getElementById("topic-title").value.trim();
-      const content = document.getElementById("topic-content").value.trim();
-      const submitBtn = document.getElementById("modal-submit");
+      var title = document.getElementById("topic-title").value.trim();
+      var content = document.getElementById("topic-content").value.trim();
+      var submitBtn = document.getElementById("modal-submit");
 
       if (title.length < 3 || title.length > 200) {
         modalStatus.textContent = "Titre : 3 à 200 caractères.";
@@ -1110,27 +1137,27 @@
         return;
       }
 
-      const user = auth.currentUser;
+      var user = auth.currentUser;
       if (!user) { window.location.href = "/connexion"; return; }
 
       submitBtn.disabled = true;
       submitBtn.textContent = "Création…";
-      modalStatus.textContent = "Création du sujet…";
+      modalStatus.textContent = "Création…";
       modalStatus.className = "modal__status modal__status--info";
 
       try {
-        const userDoc = await db.collection("Utilisateurs").doc(user.uid).get();
-        const userData = userDoc.exists ? userDoc.data() : {};
-        const authorName = userData.username || user.displayName || "Anonyme";
-        const authorGrade = userData.grade || "Membre";
+        var userDoc = await db.collection("Utilisateurs").doc(user.uid).get();
+        var userData = userDoc.exists ? userDoc.data() : {};
+        var authorName = userData.username || user.displayName || "Anonyme";
+        var authorGrade = userData.grade || "Membre";
 
-        const slug = title.toLowerCase()
+        var slug = title.toLowerCase()
           .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
           .replace(/[^a-z0-9]+/g, "-")
           .replace(/(^-|-$)/g, "")
           .substring(0, 80);
 
-        const topicRef = await db.collection("forum_topics").add({
+        var topicRef = await db.collection("forum_topics").add({
           title: title,
           slug: slug,
           categoryId: categorySlug,
@@ -1160,7 +1187,7 @@
           createdAt: firebase.firestore.FieldValue.serverTimestamp()
         });
 
-        modalStatus.textContent = "✅ Sujet créé ! Redirection…";
+        modalStatus.textContent = "✅ Créé !";
         modalStatus.className = "modal__status modal__status--success";
         setTimeout(function () {
           window.location.href = "/forum?c=" + categorySlug + "&t=" + topicRef.id;
@@ -1182,9 +1209,9 @@
     // ============================================================
     // MODAL Signalement
     // ============================================================
-    const reportModal = document.getElementById("report-modal");
-    const reportForm = document.getElementById("report-form");
-    const reportStatus = document.getElementById("report-status");
+    var reportModal = document.getElementById("report-modal");
+    var reportForm = document.getElementById("report-form");
+    var reportStatus = document.getElementById("report-status");
 
     function openReportModal(postId, topicId, catId) {
       reportForm.reset();
@@ -1204,14 +1231,16 @@
       document.body.style.overflow = "";
     }
 
-    document.getElementById("report-modal-close")?.addEventListener("click", closeReportModal);
-    document.getElementById("report-cancel")?.addEventListener("click", closeReportModal);
-    reportModal?.addEventListener("click", function (e) {
+    var rmc = document.getElementById("report-modal-close");
+    if (rmc) rmc.addEventListener("click", closeReportModal);
+    var rcancel = document.getElementById("report-cancel");
+    if (rcancel) rcancel.addEventListener("click", closeReportModal);
+    if (reportModal) reportModal.addEventListener("click", function (e) {
       if (e.target === reportModal) closeReportModal();
     });
 
     document.addEventListener("click", function (e) {
-      const reportBtn = e.target.closest("[data-report-post]");
+      var reportBtn = e.target.closest("[data-report-post]");
       if (reportBtn) {
         openReportModal(
           reportBtn.dataset.reportPost,
@@ -1221,19 +1250,20 @@
       }
     });
 
-    document.getElementById("report-reasons")?.addEventListener("change", function () {
+    var reportReasons = document.getElementById("report-reasons");
+    if (reportReasons) reportReasons.addEventListener("change", function () {
       document.querySelectorAll(".forum__report-reason").forEach(function (el) {
         el.classList.toggle("selected", el.querySelector("input").checked);
       });
     });
 
-    reportForm?.addEventListener("submit", async function (e) {
+    if (reportForm) reportForm.addEventListener("submit", async function (e) {
       e.preventDefault();
-      const submitBtn = document.getElementById("report-submit");
-      const user = auth.currentUser;
+      var submitBtn = document.getElementById("report-submit");
+      var user = auth.currentUser;
       if (!user) { window.location.href = "/connexion"; return; }
 
-      const reasonEl = document.querySelector('input[name="reason"]:checked');
+      var reasonEl = document.querySelector('input[name="reason"]:checked');
       if (!reasonEl) {
         reportStatus.textContent = "Choisissez une raison.";
         reportStatus.className = "modal__status modal__status--error";
@@ -1246,8 +1276,8 @@
       reportStatus.className = "modal__status modal__status--info";
 
       try {
-        const userDoc = await db.collection("Utilisateurs").doc(user.uid).get();
-        const username = userDoc.exists ? (userDoc.data().username || "Anonyme") : "Anonyme";
+        var userDoc = await db.collection("Utilisateurs").doc(user.uid).get();
+        var username = userDoc.exists ? (userDoc.data().username || "Anonyme") : "Anonyme";
 
         await window.LumaForum.reportPost({
           postId: document.getElementById("report-post-id").value,
@@ -1259,7 +1289,7 @@
           message: document.getElementById("report-message").value.trim()
         });
 
-        reportStatus.textContent = "✅ Signalement envoyé. Merci !";
+        reportStatus.textContent = "✅ Signalement envoyé !";
         reportStatus.className = "modal__status modal__status--success";
         setTimeout(closeReportModal, 1200);
 
@@ -1269,22 +1299,39 @@
       }
 
       submitBtn.disabled = false;
-      submitBtn.textContent = "Envoyer le signalement";
+      submitBtn.textContent = "Envoyer";
     });
 
     // ============================================================
     // LANCEMENT
     // ============================================================
-    let renderDone = false;
+    var renderDone = false;
 
-    auth.onAuthStateChanged(function () {
+    async function loadCurrentUserRole() {
+      var user = auth.currentUser;
+      if (!user) return;
+
+      try {
+        var doc = await db.collection("Utilisateurs").doc(user.uid).get();
+        if (doc.exists) {
+          currentUserGrade = doc.data().grade || "";
+          currentUserRole = doc.data().role || "";
+        }
+      } catch (err) {
+        console.warn("[Forum] Impossible de charger le rôle :", err);
+      }
+    }
+
+    auth.onAuthStateChanged(async function () {
       if (renderDone) return;
+      await loadCurrentUserRole();
       renderDone = true;
       render();
     });
 
-    setTimeout(function () {
+    setTimeout(async function () {
       if (!renderDone) {
+        await loadCurrentUserRole();
         renderDone = true;
         render();
       }
