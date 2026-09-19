@@ -223,7 +223,7 @@
     const categorySlug = params.get("c");
     const topicSlug = params.get("t");
 
-    // ============================================================
+        // ============================================================
     // VUES
     // ============================================================
     const contentEl = document.getElementById("forum-content");
@@ -246,19 +246,20 @@
 
     // ---------- VUE : Liste des catégories ----------
     async function renderHome() {
-      // Charge toutes les catégories racines (parentId = null)
-      const snap = await db.collection("forum_categories")
-        .orderBy("order", "asc")
-        .get();
+      // Charge TOUTES les catégories SANS tri (pas d'index requis)
+      const snap = await db.collection("forum_categories").get();
 
       const categories = [];
       snap.forEach(function (doc) {
-        const data = doc.data();
-        categories.push({ id: doc.id, ...data });
+        categories.push({ id: doc.id, ...doc.data() });
       });
 
-      // Filtre les catégories staffOnly si l'utilisateur n'est pas staff
-      // (on ne peut pas savoir sans lire le user doc, on garde tout pour l'instant)
+      // Tri côté client
+      categories.sort(function (a, b) {
+        return (a.order || 0) - (b.order || 0);
+      });
+
+      // Filtre les catégories racines (parentId null/undefined)
       const roots = categories.filter(function (c) {
         return c.parentId === null || c.parentId === undefined;
       });
@@ -276,54 +277,44 @@
           + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>'
           + '<p>Aucune catégorie pour le moment.</p>'
           + '</div>';
-      } else {
-        html += '<div class="forum__section">';
-        html += '<div class="forum__section-header">'
-          + '<h2>Catégories</h2>'
-          + '<span class="forum__section-stats">' + roots.length + ' catégorie' + (roots.length > 1 ? "s" : "") + '</span>'
-          + '</div>';
-
-        // Compte les sujets par catégorie
-        for (const cat of roots) {
-          const topicsSnap = await db.collection("forum_topics")
-            .where("categoryId", "==", cat.id)
-            .orderBy("lastReplyAt", "desc")
-            .limit(1)
-            .get();
-
-          const countSnap = await db.collection("forum_topics")
-            .where("categoryId", "==", cat.id)
-            .get();
-
-          const topicsCount = countSnap.size;
-          let lastTopic = null;
-          if (!topicsSnap.empty) {
-            const t = topicsSnap.docs[0].data();
-            lastTopic = t;
-          }
-
-          html += '<a href="/forum?c=' + cat.id + '" class="forum__cat">';
-          html += '<div class="forum__cat-icon">'
-            + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>'
-            + '</div>';
-          html += '<div class="forum__cat-body">';
-          html += '<div class="forum__cat-title"><h3>' + escapeHtml(cat.name) + '</h3>';
-          if (cat.locked) html += '<span class="forum__badge forum__badge--locked">🔒 Verrouillé</span>';
-          if (cat.staffOnly) html += '<span class="forum__badge forum__badge--staff">Staff uniquement</span>';
-          html += '</div>';
-          if (cat.description) html += '<div class="forum__cat-desc">' + escapeHtml(cat.description) + '</div>';
-          html += '</div>';
-          html += '<div class="forum__cat-meta">';
-          html += '<div><strong>' + topicsCount + '</strong>sujet' + (topicsCount > 1 ? "s" : "") + '</div>';
-          if (lastTopic) {
-            html += '<div style="max-width:200px;">Dernier :<br><strong>' + escapeHtml(lastTopic.title) + '</strong></div>';
-          }
-          html += '</div>';
-          html += '</a>';
-        }
-
-        html += '</div>';
+        contentEl.innerHTML = html;
+        return;
       }
+
+      // Compte les sujets par catégorie
+      const counts = {};
+      for (const cat of roots) {
+        const countSnap = await db.collection("forum_topics")
+          .where("categoryId", "==", cat.id)
+          .get();
+        counts[cat.id] = countSnap.size;
+      }
+
+      html += '<div class="forum__section">';
+      html += '<div class="forum__section-header">'
+        + '<h2>Catégories</h2>'
+        + '<span class="forum__section-stats">' + roots.length + ' catégorie' + (roots.length > 1 ? "s" : "") + '</span>'
+        + '</div>';
+
+      roots.forEach(function (cat) {
+        html += '<a href="/forum?c=' + cat.id + '" class="forum__cat">';
+        html += '<div class="forum__cat-icon">'
+          + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>'
+          + '</div>';
+        html += '<div class="forum__cat-body">';
+        html += '<div class="forum__cat-title"><h3>' + escapeHtml(cat.name) + '</h3>';
+        if (cat.locked) html += '<span class="forum__badge forum__badge--locked">🔒 Verrouillé</span>';
+        if (cat.staffOnly) html += '<span class="forum__badge forum__badge--staff">Staff uniquement</span>';
+        html += '</div>';
+        if (cat.description) html += '<div class="forum__cat-desc">' + escapeHtml(cat.description) + '</div>';
+        html += '</div>';
+        html += '<div class="forum__cat-meta">';
+        html += '<div><strong>' + (counts[cat.id] || 0) + '</strong>sujet' + (counts[cat.id] > 1 ? "s" : "") + '</div>';
+        html += '</div>';
+        html += '</a>';
+      });
+
+      html += '</div>';
 
       contentEl.innerHTML = html;
     }
@@ -342,27 +333,34 @@
       // Met à jour le breadcrumb
       breadcrumbEl.innerHTML = '<a href="/">Accueil</a> <span>›</span> <a href="/forum">Forum</a> <span>›</span> <span>' + escapeHtml(cat.name) + '</span>';
 
-      // Récupère les sous-catégories (parentId = catId)
+      // Sous-catégories (sans tri Firestore, tri côté client)
       const subSnap = await db.collection("forum_categories")
         .where("parentId", "==", catId)
-        .orderBy("order", "asc")
         .get();
 
       const subs = [];
       subSnap.forEach(function (doc) {
         subs.push({ id: doc.id, ...doc.data() });
       });
+      subs.sort(function (a, b) { return (a.order || 0) - (b.order || 0); });
 
-      // Récupère les sujets
+      // Sujets (sans tri Firestore, tri côté client)
       const topicsSnap = await db.collection("forum_topics")
         .where("categoryId", "==", catId)
-        .orderBy("pinned", "desc")
-        .orderBy("lastReplyAt", "desc")
         .get();
 
       const topics = [];
       topicsSnap.forEach(function (doc) {
         topics.push({ id: doc.id, ...doc.data() });
+      });
+
+      // Tri : épinglés d'abord, puis par date du dernier message
+      topics.sort(function (a, b) {
+        if (a.pinned && !b.pinned) return -1;
+        if (!a.pinned && b.pinned) return 1;
+        const aDate = a.lastReplyAt ? a.lastReplyAt.toMillis() : (a.createdAt ? a.createdAt.toMillis() : 0);
+        const bDate = b.lastReplyAt ? b.lastReplyAt.toMillis() : (b.createdAt ? b.createdAt.toMillis() : 0);
+        return bDate - aDate;
       });
 
       let html = '<div class="forum__header">'
@@ -439,7 +437,7 @@
 
       const topic = topicDoc.data();
 
-      // Incrémente les vues (avec try/catch car la règle update est limitée)
+      // Incrémente les vues
       try {
         await db.collection("forum_topics").doc(topicId).update({
           views: firebase.firestore.FieldValue.increment(1)
@@ -454,15 +452,21 @@
       // Breadcrumb
       breadcrumbEl.innerHTML = '<a href="/">Accueil</a> <span>›</span> <a href="/forum">Forum</a> <span>›</span> <a href="/forum?c=' + catId + '">' + escapeHtml(catName) + '</a> <span>›</span> <span>' + escapeHtml(topic.title) + '</span>';
 
-      // Charge les messages
+      // Charge les messages (sans tri Firestore)
       const postsSnap = await db.collection("forum_posts")
         .where("topicId", "==", topicId)
-        .orderBy("createdAt", "asc")
         .get();
 
       const posts = [];
       postsSnap.forEach(function (doc) {
         posts.push({ id: doc.id, ...doc.data() });
+      });
+
+      // Tri côté client par date de création
+      posts.sort(function (a, b) {
+        const aDate = a.createdAt ? a.createdAt.toMillis() : 0;
+        const bDate = b.createdAt ? b.createdAt.toMillis() : 0;
+        return aDate - bDate;
       });
 
       let html = '<div class="forum__topic-header">';
@@ -476,7 +480,7 @@
       html += '<span>·</span>';
       html += '<span>' + formatDate(topic.createdAt) + '</span>';
       html += '<span>·</span>';
-      html += '<span>' + (posts.length) + ' message' + (posts.length > 1 ? "s" : "") + '</span>';
+      html += '<span>' + posts.length + ' message' + (posts.length > 1 ? "s" : "") + '</span>';
       html += '<span>·</span>';
       html += '<span>' + (topic.views || 0) + ' vue' + (topic.views > 1 ? "s" : "") + '</span>';
       html += '</div>';
@@ -544,7 +548,6 @@
 
       contentEl.innerHTML = html;
 
-      // Bind les événements
       bindReplyEvents(topicId, catId);
       bindToolbarEvents();
     }
@@ -580,7 +583,7 @@
 
       if (!submitBtn || !textarea) return;
 
-      // Ctrl + Entrée pour envoyer
+      // Ctrl + Entrée
       textarea.addEventListener("keydown", function (e) {
         if (e.ctrlKey && e.key === "Enter") {
           e.preventDefault();
@@ -614,13 +617,11 @@
         statusEl.className = "forum__reply-status forum__reply-status--info";
 
         try {
-          // Récupère le pseudo et grade
           const userDoc = await db.collection("Utilisateurs").doc(user.uid).get();
           const userData = userDoc.exists ? userDoc.data() : {};
           const authorName = userData.username || user.displayName || "Anonyme";
           const authorGrade = userData.grade || "Membre";
 
-          // Crée le message
           await db.collection("forum_posts").add({
             topicId: topicId,
             categoryId: catId,
@@ -633,7 +634,6 @@
             createdAt: firebase.firestore.FieldValue.serverTimestamp()
           });
 
-          // Met à jour le topic
           await db.collection("forum_topics").doc(topicId).update({
             repliesCount: firebase.firestore.FieldValue.increment(1),
             lastReplyAt: firebase.firestore.FieldValue.serverTimestamp(),
@@ -643,7 +643,6 @@
           statusEl.textContent = "✅ Message publié !";
           statusEl.className = "forum__reply-status forum__reply-status--success";
 
-          // Recharge la page pour afficher le nouveau message
           setTimeout(function () {
             window.location.reload();
           }, 600);
