@@ -1,11 +1,11 @@
 /* =========================================================
    LUMALIA — forum-extras.js
-   Notifications, suivi, signalements, upload (ImgBB)
+   Notifications, suivi, signalements, upload (ImgBB), mentions
    ========================================================= */
 
 (function () {
 
-  var IMGBB_API_KEY = "24caa6941630a33005bf7375722ad310";
+  var IMGBB_API_KEY = "TA_CLE_API_IMGBB";
 
   function getDb() {
     return firebase.firestore();
@@ -140,7 +140,6 @@
      MENTIONS @pseudo
      ============================================================ */
 
-  // Extrait les pseudos mentionnés dans un texte (@pseudo)
   function extractMentions(text) {
     if (!text) return [];
     var mentions = [];
@@ -155,7 +154,6 @@
     return mentions;
   }
 
-  // Notifie les utilisateurs mentionnés
   function notifyMentions(text, excludeUserId, link, authorName) {
     var usernames = extractMentions(text);
     if (usernames.length === 0) return Promise.resolve();
@@ -179,12 +177,15 @@
             link: link,
             meta: { mentionedBy: authorName }
           });
+        })
+        .catch(function (err) {
+          console.warn("[Extras] notifyMentions (user " + username + "):", err);
         });
     });
 
     return Promise.all(promises);
   }
-   
+
   /* ============================================================
      RECHERCHE
      ============================================================ */
@@ -300,6 +301,9 @@
     follow: follow,
     unfollow: unfollow,
     notifyFollowers: notifyFollowers,
+
+    extractMentions: extractMentions,
+    notifyMentions: notifyMentions,
 
     searchTopics: searchTopics,
 
