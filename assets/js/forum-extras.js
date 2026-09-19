@@ -5,7 +5,7 @@
 
 (function () {
 
-  var IMGBB_API_KEY = "TA_CLE_API_IMGBB";
+  var IMGBB_API_KEY = "24caa6941630a33005bf7375722ad310";
 
   function getDb() {
     return firebase.firestore();
