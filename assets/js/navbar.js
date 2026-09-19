@@ -177,4 +177,53 @@
   } else {
     initNavbar();
   }
+    /* ---- 6. Bouton Admin (si HA/Admin) ---- */
+    async function refreshAdminButton() {
+      const user = firebase?.auth?.().currentUser;
+      if (!user) return;
+
+      try {
+        const doc = await firebase.firestore().collection("Utilisateurs").doc(user.uid).get();
+        if (!doc.exists) return;
+
+        const grade = doc.data().grade || "";
+        const isHA = grade === "HA";
+        const isAdminGrade = grade === "Administrateur" || grade === "Admin";
+        const isStaff = isHA || isAdminGrade;
+
+        const actions = navbar.querySelector(".navbar__actions");
+        if (!actions) return;
+
+        // Supprime l'ancien bouton s'il existe
+        const existing = navbar.querySelector(".navbar__admin-btn");
+        if (existing) existing.remove();
+
+        if (isStaff) {
+          const btn = document.createElement("a");
+          btn.href = "/forum/admin";
+          btn.className = "navbar__admin-btn";
+          btn.setAttribute("aria-label", "Administration du forum");
+          btn.innerHTML =
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>' +
+            '<span>Admin</span>';
+
+          // Insère avant le bouton Discord
+          const discordBtn = actions.querySelector('[data-i18n="nav.discord"]');
+          if (discordBtn) {
+            actions.insertBefore(btn, discordBtn);
+          } else {
+            actions.appendChild(btn);
+          }
+        }
+      } catch (err) {
+        console.warn("[navbar] Impossible de charger le grade :", err);
+      }
+    }
+
+    // Appel au changement d'état Firebase
+    if (window.firebase && firebase.auth) {
+      firebase.auth().onAuthStateChanged(function () {
+        refreshAdminButton();
+      });
+    }
 })();
