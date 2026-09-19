@@ -106,6 +106,10 @@
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
                 Modération
               </button>
+              <button class="admin__nav-item" data-tab="reports">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                Signalements
+              </button>
             </nav>
           </aside>
 
@@ -145,6 +149,28 @@
               <div class="admin__card">
                 <div class="admin__card-title">Derniers sujets</div>
                 <div id="topics-list">
+                  <div class="admin__empty">Chargement…</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ===== ONGLET SIGNALEMENTS ===== -->
+            <div class="admin__panel" data-panel="reports">
+              <div class="admin__header">
+                <div>
+                  <h1>Signalements</h1>
+                  <p>Traitez les messages signalés par la communauté.</p>
+                </div>
+                <div style="display:flex;gap:0.5rem;">
+                  <button type="button" class="btn btn-ghost btn-sm" data-report-filter="pending">En attente</button>
+                  <button type="button" class="btn btn-ghost btn-sm" data-report-filter="resolved">Traités</button>
+                  <button type="button" class="btn btn-ghost btn-sm" data-report-filter="all">Tous</button>
+                </div>
+              </div>
+
+              <div class="admin__card">
+                <div class="admin__card-title">Signalements en attente</div>
+                <div id="reports-list">
                   <div class="admin__empty">Chargement…</div>
                 </div>
               </div>
@@ -700,6 +726,120 @@
         }
         return;
       }
+    // ============================================================
+    // SIGNALEMENTS
+    // ============================================================
+    let currentReportFilter = "pending";
+
+    async function loadReports() {
+      const container = document.getElementById("reports-list");
+      if (!container) return;
+
+      try {
+        let query = db.collection("forum_reports");
+
+        if (currentReportFilter !== "all") {
+          query = query.where("status", "==", currentReportFilter);
+        }
+
+        const snap = await query.get();
+
+        const reports = [];
+        snap.forEach(function (doc) {
+          reports.push({ id: doc.id, ...doc.data() });
+        });
+
+        reports.sort(function (a, b) {
+          const aDate = a.createdAt ? a.createdAt.toMillis() : 0;
+          const bDate = b.createdAt ? b.createdAt.toMillis() : 0;
+          return bDate - aDate;
+        });
+
+        if (reports.length === 0) {
+          container.innerHTML = '<div class="admin__empty">Aucun signalement ' + (currentReportFilter === "pending" ? "en attente" : "") + '.</div>';
+          return;
+        }
+
+        let html = "";
+        reports.forEach(function (r) {
+          html += '<div class="admin__report">';
+          html += '<div class="admin__report-body">';
+          html += '<span class="admin__report-reason">' + escapeHtml(r.reason) + '</span>';
+          if (r.message) {
+            html += '<div class="admin__report-message">« ' + escapeHtml(r.message) + ' »</div>';
+          }
+          html += '<div class="admin__report-meta">'
+            + 'Signalé par <strong>' + escapeHtml(r.reporterName || "Anonyme") + '</strong>'
+            + ' · ' + formatDate(r.createdAt)
+            + ' · Statut : <strong>' + escapeHtml(r.status) + '</strong>'
+            + '</div>';
+          html += '</div>';
+          html += '<div class="admin__report-actions">';
+          html += '<a href="/forum?c=' + r.categoryId + '&t=' + r.topicId + '" class="admin__icon-btn" title="Voir le message" target="_blank">'
+            + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>'
+            + '</a>';
+          if (r.status === "pending") {
+            html += '<button class="admin__icon-btn" data-resolve-report="' + r.id + '" title="Marquer comme traité">'
+              + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>'
+              + '</button>';
+            html += '<button class="admin__icon-btn" data-dismiss-report="' + r.id + '" title="Rejeter">'
+              + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>'
+              + '</button>';
+          }
+          html += '</div>';
+          html += '</div>';
+        });
+
+        container.innerHTML = html;
+
+      } catch (err) {
+        console.error("[Admin] Erreur signalements :", err);
+        container.innerHTML = '<div class="admin__empty">Erreur de chargement.</div>';
+      }
+    }
+
+    // Filtres
+    document.querySelectorAll("[data-report-filter]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        currentReportFilter = btn.dataset.reportFilter;
+        loadReports();
+      });
+    });
+
+    // Actions
+    document.getElementById("reports-list").addEventListener("click", async function (e) {
+      const resolveBtn = e.target.closest("[data-resolve-report]");
+      if (resolveBtn) {
+        const id = resolveBtn.dataset.resolveReport;
+        try {
+          await db.collection("forum_reports").doc(id).update({
+            status: "resolved",
+            resolvedAt: firebase.firestore.FieldValue.serverTimestamp(),
+            resolvedBy: currentUser.uid
+          });
+          loadReports();
+        } catch (err) {
+          alert("Erreur : " + err.message);
+        }
+        return;
+      }
+
+      const dismissBtn = e.target.closest("[data-dismiss-report]");
+      if (dismissBtn) {
+        const id = dismissBtn.dataset.dismissReport;
+        try {
+          await db.collection("forum_reports").doc(id).update({
+            status: "dismissed",
+            resolvedAt: firebase.firestore.FieldValue.serverTimestamp(),
+            resolvedBy: currentUser.uid
+          });
+          loadReports();
+        } catch (err) {
+          alert("Erreur : " + err.message);
+        }
+        return;
+      }
+    });
     });
   </script>
 </body>
