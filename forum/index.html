@@ -93,14 +93,12 @@
     <section class="forum">
       <div class="container">
 
-        <!-- Breadcrumb -->
         <nav class="forum__breadcrumb" id="breadcrumb">
           <a href="/">Accueil</a>
           <span>›</span>
           <a href="/forum">Forum</a>
         </nav>
 
-        <!-- Zone principale : sera remplie par JS -->
         <div id="forum-content">
           <div class="forum__loading">Chargement du forum…</div>
         </div>
@@ -148,6 +146,39 @@
       </div>
     </div>
   </footer>
+
+  <!-- ==================== MODAL NOUVEAU SUJET ==================== -->
+  <div class="modal" id="new-topic-modal">
+    <div class="modal__dialog">
+      <div class="modal__header">
+        <h2>Nouveau sujet</h2>
+        <button type="button" class="modal__close" id="modal-close" aria-label="Fermer">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <form class="modal__form" id="new-topic-form" novalidate>
+        <div class="modal__field">
+          <label for="topic-title">Titre du sujet</label>
+          <input type="text" id="topic-title" placeholder="Un titre clair et précis…" required minlength="3" maxlength="200">
+          <small>Entre 3 et 200 caractères.</small>
+        </div>
+
+        <div class="modal__field">
+          <label for="topic-content">Premier message</label>
+          <textarea id="topic-content" placeholder="Écrivez votre message… (BBcode supporté)" required></textarea>
+          <small>BBcode supporté : [b]gras[/b], [i]italique[/i], [color=#ff0000]couleur[/color], [quote]citation[/quote]</small>
+        </div>
+
+        <div class="modal__status" id="new-topic-status" role="status" aria-live="polite"></div>
+
+        <div class="modal__actions">
+          <button type="button" class="btn btn-ghost" id="modal-cancel">Annuler</button>
+          <button type="submit" class="btn btn-primary" id="modal-submit">Créer le sujet</button>
+        </div>
+      </form>
+    </div>
+  </div>
 
   <div class="bg-blobs" aria-hidden="true"><span></span><span></span></div>
   <canvas id="luma-bg" aria-hidden="true"></canvas>
@@ -217,13 +248,13 @@
     }
 
     // ============================================================
-    // ROUTEUR : lit les paramètres d'URL
+    // ROUTEUR
     // ============================================================
     const params = new URLSearchParams(window.location.search);
     const categorySlug = params.get("c");
     const topicSlug = params.get("t");
 
-        // ============================================================
+    // ============================================================
     // VUES
     // ============================================================
     const contentEl = document.getElementById("forum-content");
@@ -246,7 +277,6 @@
 
     // ---------- VUE : Liste des catégories ----------
     async function renderHome() {
-      // Charge TOUTES les catégories SANS tri (pas d'index requis)
       const snap = await db.collection("forum_categories").get();
 
       const categories = [];
@@ -254,12 +284,10 @@
         categories.push({ id: doc.id, ...doc.data() });
       });
 
-      // Tri côté client
       categories.sort(function (a, b) {
         return (a.order || 0) - (b.order || 0);
       });
 
-      // Filtre les catégories racines (parentId null/undefined)
       const roots = categories.filter(function (c) {
         return c.parentId === null || c.parentId === undefined;
       });
@@ -281,7 +309,6 @@
         return;
       }
 
-      // Compte les sujets par catégorie
       const counts = {};
       for (const cat of roots) {
         const countSnap = await db.collection("forum_topics")
@@ -330,10 +357,8 @@
 
       const cat = catDoc.data();
 
-      // Met à jour le breadcrumb
       breadcrumbEl.innerHTML = '<a href="/">Accueil</a> <span>›</span> <a href="/forum">Forum</a> <span>›</span> <span>' + escapeHtml(cat.name) + '</span>';
 
-      // Sous-catégories (sans tri Firestore, tri côté client)
       const subSnap = await db.collection("forum_categories")
         .where("parentId", "==", catId)
         .get();
@@ -344,7 +369,6 @@
       });
       subs.sort(function (a, b) { return (a.order || 0) - (b.order || 0); });
 
-      // Sujets (sans tri Firestore, tri côté client)
       const topicsSnap = await db.collection("forum_topics")
         .where("categoryId", "==", catId)
         .get();
@@ -354,7 +378,6 @@
         topics.push({ id: doc.id, ...doc.data() });
       });
 
-      // Tri : épinglés d'abord, puis par date du dernier message
       topics.sort(function (a, b) {
         if (a.pinned && !b.pinned) return -1;
         if (!a.pinned && b.pinned) return 1;
@@ -363,14 +386,26 @@
         return bDate - aDate;
       });
 
+      const user = auth.currentUser;
+      const canPost = user && !cat.locked;
+
       let html = '<div class="forum__header">'
         + '<div>'
         + '<h1>' + escapeHtml(cat.name) + '</h1>'
         + (cat.description ? '<p>' + escapeHtml(cat.description) + '</p>' : '')
-        + '</div>'
         + '</div>';
 
-      // Sous-catégories
+      if (canPost) {
+        html += '<button type="button" class="btn btn-primary forum__new-topic" id="new-topic-btn">'
+          + '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>'
+          + 'Nouveau sujet'
+          + '</button>';
+      } else if (!user && !cat.locked) {
+        html += '<a href="/connexion" class="btn btn-ghost">Connectez-vous pour poster</a>';
+      }
+
+      html += '</div>';
+
       if (subs.length > 0) {
         html += '<div class="forum__section">';
         html += '<div class="forum__section-header"><h2>Sous-catégories</h2></div>';
@@ -388,7 +423,6 @@
         html += '</div>';
       }
 
-      // Sujets
       html += '<div class="forum__section">';
       html += '<div class="forum__section-header">'
         + '<h2>Discussions</h2>'
@@ -437,7 +471,6 @@
 
       const topic = topicDoc.data();
 
-      // Incrémente les vues
       try {
         await db.collection("forum_topics").doc(topicId).update({
           views: firebase.firestore.FieldValue.increment(1)
@@ -449,10 +482,8 @@
       const catDoc = await db.collection("forum_categories").doc(catId).get();
       const catName = catDoc.exists ? catDoc.data().name : "Catégorie";
 
-      // Breadcrumb
       breadcrumbEl.innerHTML = '<a href="/">Accueil</a> <span>›</span> <a href="/forum">Forum</a> <span>›</span> <a href="/forum?c=' + catId + '">' + escapeHtml(catName) + '</a> <span>›</span> <span>' + escapeHtml(topic.title) + '</span>';
 
-      // Charge les messages (sans tri Firestore)
       const postsSnap = await db.collection("forum_posts")
         .where("topicId", "==", topicId)
         .get();
@@ -462,7 +493,6 @@
         posts.push({ id: doc.id, ...doc.data() });
       });
 
-      // Tri côté client par date de création
       posts.sort(function (a, b) {
         const aDate = a.createdAt ? a.createdAt.toMillis() : 0;
         const bDate = b.createdAt ? b.createdAt.toMillis() : 0;
@@ -486,11 +516,16 @@
       html += '</div>';
       html += '</div>';
 
-      // Messages
       html += '<div class="forum__posts">';
       posts.forEach(function (post) {
         const initial = (post.authorName || "?").charAt(0).toUpperCase();
         const gradeClass = getGradeClass(post.authorGrade);
+
+        const user = auth.currentUser;
+        const isAuthor = user && user.uid === post.authorId;
+        const reactions = post.reactions || {};
+        const likeList = reactions["👍"] || [];
+        const hasLiked = user && likeList.includes(user.uid);
 
         html += '<article class="forum__post" data-post-id="' + post.id + '">';
         html += '<div class="forum__post-author">';
@@ -502,15 +537,45 @@
         html += '<div class="forum__post-author-date">' + formatDate(post.createdAt) + '</div>';
         html += '</div>';
         html += '<div class="forum__post-content">';
-        html += '<div class="forum__post-body">' + (window.LumaBBCode ? window.LumaBBCode.render(post.content) : escapeHtml(post.content)) + '</div>';
+        html += '<div class="forum__post-body" data-body-for="' + post.id + '">'
+          + (window.LumaBBCode ? window.LumaBBCode.render(post.content) : escapeHtml(post.content))
+          + '</div>';
+
+        if (isAuthor) {
+          html += '<div class="forum__post-editor" data-editor-for="' + post.id + '">';
+          html += '<textarea></textarea>';
+          html += '<div class="forum__post-editor-actions">';
+          html += '<button type="button" class="btn btn-ghost btn-sm" data-cancel-edit="' + post.id + '">Annuler</button>';
+          html += '<button type="button" class="btn btn-primary btn-sm" data-save-edit="' + post.id + '">Enregistrer</button>';
+          html += '</div>';
+          html += '</div>';
+        }
+
         html += '<div class="forum__post-footer">';
         html += '<div>';
         if (post.editedAt) {
           html += '<span class="forum__post-edited">Modifié ' + formatDate(post.editedAt) + '</span>';
         }
         html += '</div>';
+
         html += '<div class="forum__post-actions">';
-        html += '<button class="forum__post-action" data-reaction="👍" data-post="' + post.id + '">👍 <span>0</span></button>';
+
+        html += '<button class="forum__reaction' + (hasLiked ? " active" : "") + '" data-reaction="👍" data-post="' + post.id + '">'
+          + '<span class="forum__reaction-emoji">👍</span>'
+          + '<span>' + likeList.length + '</span>'
+          + '</button>';
+
+        if (isAuthor) {
+          html += '<button class="forum__post-action" data-edit-post="' + post.id + '">'
+            + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>'
+            + 'Modifier'
+            + '</button>';
+          html += '<button class="forum__post-action" data-delete-post="' + post.id + '">'
+            + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>'
+            + 'Supprimer'
+            + '</button>';
+        }
+
         html += '</div>';
         html += '</div>';
         html += '</div>';
@@ -518,7 +583,6 @@
       });
       html += '</div>';
 
-      // Formulaire de réponse
       if (topic.locked) {
         html += '<div class="forum__locked">'
           + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>'
@@ -529,138 +593,4 @@
         html += '<div class="forum__reply-header"><h2>Répondre</h2></div>';
         html += '<div class="forum__reply-toolbar">';
         html += '<button type="button" data-bb="b" title="Gras"><strong>B</strong></button>';
-        html += '<button type="button" data-bb="i" title="Italique"><em>I</em></button>';
-        html += '<button type="button" data-bb="u" title="Souligné"><u>U</u></button>';
-        html += '<button type="button" data-bb="s" title="Barré"><s>S</s></button>';
-        html += '<span class="divider"></span>';
-        html += '<button type="button" data-bb="quote" title="Citation">❝</button>';
-        html += '<button type="button" data-bb="code" title="Code">&lt;/&gt;</button>';
-        html += '<button type="button" data-bb="center" title="Centrer">≡</button>';
-        html += '</div>';
-        html += '<textarea id="reply-content" placeholder="Écrivez votre message… (BBcode supporté)"></textarea>';
-        html += '<div class="forum__reply-footer">';
-        html += '<span class="forum__reply-hint">Ctrl + Entrée pour envoyer · BBcode supporté</span>';
-        html += '<button type="button" class="btn btn-primary btn-sm" id="reply-submit">Envoyer</button>';
-        html += '</div>';
-        html += '<div class="forum__reply-status" id="reply-status"></div>';
-        html += '</div>';
-      }
-
-      contentEl.innerHTML = html;
-
-      bindReplyEvents(topicId, catId);
-      bindToolbarEvents();
-    }
-
-    // ============================================================
-    // BINDS
-    // ============================================================
-    function bindToolbarEvents() {
-      const textarea = document.getElementById("reply-content");
-      if (!textarea) return;
-
-      document.querySelectorAll("[data-bb]").forEach(function (btn) {
-        btn.addEventListener("click", function () {
-          const tag = btn.dataset.bb;
-          const start = textarea.selectionStart;
-          const end = textarea.selectionEnd;
-          const selected = textarea.value.substring(start, end);
-          const before = textarea.value.substring(0, start);
-          const after = textarea.value.substring(end);
-
-          const wrapped = "[" + tag + "]" + (selected || "texte") + "[/" + tag + "]";
-          textarea.value = before + wrapped + after;
-          textarea.focus();
-          textarea.selectionStart = textarea.selectionEnd = start + wrapped.length;
-        });
-      });
-    }
-
-    function bindReplyEvents(topicId, catId) {
-      const submitBtn = document.getElementById("reply-submit");
-      const textarea = document.getElementById("reply-content");
-      const statusEl = document.getElementById("reply-status");
-
-      if (!submitBtn || !textarea) return;
-
-      // Ctrl + Entrée
-      textarea.addEventListener("keydown", function (e) {
-        if (e.ctrlKey && e.key === "Enter") {
-          e.preventDefault();
-          submitBtn.click();
-        }
-      });
-
-      submitBtn.addEventListener("click", async function () {
-        const content = textarea.value.trim();
-
-        if (content.length < 1) {
-          statusEl.textContent = "Le message ne peut pas être vide.";
-          statusEl.className = "forum__reply-status forum__reply-status--error";
-          return;
-        }
-        if (content.length > 10000) {
-          statusEl.textContent = "Message trop long (max 10 000 caractères).";
-          statusEl.className = "forum__reply-status forum__reply-status--error";
-          return;
-        }
-
-        const user = auth.currentUser;
-        if (!user) {
-          window.location.href = "/connexion";
-          return;
-        }
-
-        submitBtn.disabled = true;
-        submitBtn.textContent = "Envoi…";
-        statusEl.textContent = "Publication en cours…";
-        statusEl.className = "forum__reply-status forum__reply-status--info";
-
-        try {
-          const userDoc = await db.collection("Utilisateurs").doc(user.uid).get();
-          const userData = userDoc.exists ? userDoc.data() : {};
-          const authorName = userData.username || user.displayName || "Anonyme";
-          const authorGrade = userData.grade || "Membre";
-
-          await db.collection("forum_posts").add({
-            topicId: topicId,
-            categoryId: catId,
-            authorId: user.uid,
-            authorName: authorName,
-            authorGrade: authorGrade,
-            content: content,
-            editedAt: null,
-            editedBy: null,
-            createdAt: firebase.firestore.FieldValue.serverTimestamp()
-          });
-
-          await db.collection("forum_topics").doc(topicId).update({
-            repliesCount: firebase.firestore.FieldValue.increment(1),
-            lastReplyAt: firebase.firestore.FieldValue.serverTimestamp(),
-            lastReplyBy: user.uid
-          });
-
-          statusEl.textContent = "✅ Message publié !";
-          statusEl.className = "forum__reply-status forum__reply-status--success";
-
-          setTimeout(function () {
-            window.location.reload();
-          }, 600);
-
-        } catch (err) {
-          console.error("[Forum]", err);
-          statusEl.textContent = "Erreur : " + (err.message || "impossible de publier.");
-          statusEl.className = "forum__reply-status forum__reply-status--error";
-          submitBtn.disabled = false;
-          submitBtn.textContent = "Envoyer";
-        }
-      });
-    }
-
-    // ============================================================
-    // LANCEMENT
-    // ============================================================
-    render();
-  </script>
-</body>
-</html>
+        html += '<button type="button" data-b
