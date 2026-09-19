@@ -39,92 +39,99 @@
 <body>
 
   <!-- ==================== NAVBAR ==================== -->
-  <header class="navbar">
-  <div class="container navbar__inner">
-    <a href="/" class="navbar__logo" aria-label="Lumalia — Accueil">
-      <img src="/assets/img/logo-lumalia.png" alt="" class="navbar__logo-mark" width="32" height="32">
-      <span>Lumalia</span>
-    </a>
+    <header class="navbar">
+    <div class="container navbar__inner">
+      <a href="/" class="navbar__logo" aria-label="Lumalia — Accueil">
+        <img src="/assets/img/logo-lumalia.png" alt="" class="navbar__logo-mark" width="32" height="32">
+        <span>Lumalia</span>
+      </a>
 
-    <nav class="navbar__links" id="navbar-links">
-      <a href="/" class="navbar__link" data-i18n="nav.home">Accueil</a>
+      <nav class="navbar__links" id="navbar-links">
+        <a href="/" class="navbar__link" data-i18n="nav.home">Accueil</a>
 
-      <div class="navbar__item">
-        <a href="/serveurs" class="navbar__link navbar__link--parent" data-i18n="nav.servers">Serveurs</a>
-        <div class="navbar__dropdown">
-          <div class="navbar__dropdown-inner">
-            <a href="/serveurs/crystal" class="navbar__dropdown-item">
-              <span class="navbar__dropdown-item__logo navbar__dropdown-item__logo--crystal">C</span>
-              <span class="navbar__dropdown-item__text">
-                <strong>Crystal</strong>
-                <span>Java</span>
-              </span>
-            </a>
-            <a href="/serveurs/azur" class="navbar__dropdown-item">
-              <span class="navbar__dropdown-item__logo navbar__dropdown-item__logo--azur">A</span>
-              <span class="navbar__dropdown-item__text">
-                <strong>Azur</strong>
-                <span>Java</span>
-              </span>
-            </a>
-            <a href="/serveurs/green" class="navbar__dropdown-item">
-              <span class="navbar__dropdown-item__logo navbar__dropdown-item__logo--green">G</span>
-              <span class="navbar__dropdown-item__text">
-                <strong>Green</strong>
-                <span>Java · US</span>
-              </span>
-            </a>
+        <div class="navbar__item">
+          <a href="/serveurs" class="navbar__link navbar__link--parent" data-i18n="nav.servers">Serveurs</a>
+          <div class="navbar__dropdown">
+            <div class="navbar__dropdown-inner">
+              <a href="/serveurs/crystal" class="navbar__dropdown-item">
+                <span class="navbar__dropdown-item__logo navbar__dropdown-item__logo--crystal">C</span>
+                <span class="navbar__dropdown-item__text">
+                  <strong>Crystal</strong>
+                  <span>Java</span>
+                </span>
+              </a>
+              <a href="/serveurs/azur" class="navbar__dropdown-item">
+                <span class="navbar__dropdown-item__logo navbar__dropdown-item__logo--azur">A</span>
+                <span class="navbar__dropdown-item__text">
+                  <strong>Azur</strong>
+                  <span>Java</span>
+                </span>
+              </a>
+              <a href="/serveurs/green" class="navbar__dropdown-item">
+                <span class="navbar__dropdown-item__logo navbar__dropdown-item__logo--green">G</span>
+                <span class="navbar__dropdown-item__text">
+                  <strong>Green</strong>
+                  <span>Java · US</span>
+                </span>
+              </a>
+            </div>
           </div>
         </div>
-      </div>
 
-      <a href="/launcher" class="navbar__link" data-i18n="nav.launcher">Launcher</a>
-      <a href="/actualites" class="navbar__link" data-i18n="nav.news">Actualités</a>
-      <a href="/communaute" class="navbar__link" data-i18n="nav.community">Communauté</a>
-      <a href="/parametres" class="navbar__link" data-i18n="nav.settings">Paramètres</a>
-    </nav>
+        <a href="/launcher" class="navbar__link" data-i18n="nav.launcher">Launcher</a>
+        <a href="/actualites" class="navbar__link" data-i18n="nav.news">Actualités</a>
+        <a href="/communaute" class="navbar__link" data-i18n="nav.community">Communauté</a>
+        <a href="/parametres" class="navbar__link" data-i18n="nav.settings">Paramètres</a>
+      </nav>
 
-    <div class="navbar__actions">
-      <div class="lang-switch">
-        <button class="lang-switch__btn" type="button" aria-label="Changer de langue">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <circle cx="12" cy="12" r="10"/>
-            <path d="M2 12h20"/>
-            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
-          </svg>
-          <span class="lang-switch__label">FR</span>
-        </button>
-        <div class="lang-switch__menu" role="menu">
-          <button class="lang-switch__item" data-lang="fr" role="menuitem">Français</button>
-          <button class="lang-switch__item" data-lang="en" role="menuitem">English</button>
+      <div class="navbar__actions">
+
+        <div class="lang-switch">
+          <button class="lang-switch__btn" type="button" aria-label="Changer de langue">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M2 12h20"/>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+            </svg>
+            <span class="lang-switch__label">FR</span>
+          </button>
+          <div class="lang-switch__menu" role="menu">
+            <button class="lang-switch__item" data-lang="fr" role="menuitem">Français</button>
+            <button class="lang-switch__item" data-lang="en" role="menuitem">English</button>
+          </div>
         </div>
+
+        <button class="navbar__icon-btn" type="button" data-theme-toggle aria-label="Changer de thème">
+          <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+          <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:none">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+          </svg>
+        </button>
+
+        <!-- Lien Connexion (masqué si connecté) -->
+        <a href="/connexion" class="btn btn-ghost btn-sm navbar__cta" data-i18n="nav.login" data-auth-link>
+          Connexion
+        </a>
+
+        <!-- Lien S'inscrire (masqué si connecté) -->
+        <a href="/inscription" class="btn btn-ghost btn-sm navbar__cta" data-i18n="nav.signup" data-auth-link>
+          S'inscrire
+        </a>
+
+        <!-- Bouton Discord (toujours visible) -->
+        <a href="https://discord.gg/lumalia" target="_blank" rel="noopener" class="btn btn-primary btn-sm navbar__cta" data-i18n="nav.discord">
+          Rejoindre Discord
+        </a>
+
+        <button class="navbar__burger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="navbar-links">
+          <span></span>
+        </button>
       </div>
-
-      <button class="navbar__icon-btn" type="button" data-theme-toggle aria-label="Changer de thème">
-        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-        </svg>
-        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:none">
-          <circle cx="12" cy="12" r="4"/>
-          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
-        </svg>
-      </button>
-
-      <!-- Bouton Se connecter (à remplacer par un vrai lien une fois Firebase configuré) -->
-      <a href="/inscription" class="btn btn-ghost btn-sm navbar__cta" data-i18n="nav.signup">
-        S'inscrire
-      </a>
-
-      <a href="https://discord.gg/lumalia" target="_blank" rel="noopener" class="btn btn-primary btn-sm navbar__cta" data-i18n="nav.discord">
-        Rejoindre Discord
-      </a>
-
-      <button class="navbar__burger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="navbar-links">
-        <span></span>
-      </button>
     </div>
-  </div>
-</header>
+  </header>
 
   <!-- ==================== MAIN ==================== -->
   <main>
