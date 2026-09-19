@@ -177,19 +177,31 @@
   } else {
     initNavbar();
   }
-    /* ---- 6. Bouton Admin (si HA/Admin) ---- */
+        /* ---- 6. Bouton Admin (si HA/Admin) ---- */
     async function refreshAdminButton() {
-      const user = firebase?.auth?.().currentUser;
+      const user = window.firebase?.auth?.().currentUser;
       if (!user) return;
 
       try {
-        const doc = await firebase.firestore().collection("Utilisateurs").doc(user.uid).get();
+        const doc = await window.firebase.firestore().collection("Utilisateurs").doc(user.uid).get();
         if (!doc.exists) return;
 
-        const grade = doc.data().grade || "";
-        const isHA = grade === "HA";
-        const isAdminGrade = grade === "Administrateur" || grade === "Admin";
-        const isStaff = isHA || isAdminGrade;
+        const data = doc.data();
+        // Accepte plusieurs formats de grade
+        const grade = (data.grade || "").trim();
+        const role = (data.role || "").trim().toLowerCase();
+
+        const isHA = grade === "HA" || grade === "Ha" || grade === "ha";
+        const isAdminGrade =
+          grade === "Administrateur" ||
+          grade === "Admin" ||
+          grade === "administrateur" ||
+          grade === "admin";
+        const isAdminRole = role === "administrateur" || role === "admin";
+
+        const isStaff = isHA || isAdminGrade || isAdminRole;
+
+        console.log("[navbar] Grade détecté :", grade, "| Role :", role, "| isStaff :", isStaff);
 
         const actions = navbar.querySelector(".navbar__actions");
         if (!actions) return;
@@ -207,7 +219,6 @@
             '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>' +
             '<span>Admin</span>';
 
-          // Insère avant le bouton Discord
           const discordBtn = actions.querySelector('[data-i18n="nav.discord"]');
           if (discordBtn) {
             actions.insertBefore(btn, discordBtn);
@@ -218,6 +229,13 @@
       } catch (err) {
         console.warn("[navbar] Impossible de charger le grade :", err);
       }
+    }
+
+    // Appel au changement d'état Firebase
+    if (window.firebase && window.firebase.auth) {
+      window.firebase.auth().onAuthStateChanged(function () {
+        setTimeout(refreshAdminButton, 300);
+      });
     }
 
     // Appel au changement d'état Firebase
