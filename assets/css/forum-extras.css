@@ -1,0 +1,290 @@
+/* =========================================================
+   LUMALIA — forum-extras.css
+   Notifications, suivi, signalements, upload, recherche
+   ========================================================= */
+
+/* ---------- Cloche notifications (navbar) ---------- */
+.navbar__notif-btn {
+  position: relative;
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  transition: all var(--t-fast);
+}
+.navbar__notif-btn:hover {
+  background: var(--bg-soft);
+  border-color: var(--border-strong);
+}
+.navbar__notif-btn svg {
+  width: 16px;
+  height: 16px;
+}
+.navbar__notif-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: var(--danger);
+  color: #fff;
+  font-family: var(--font-label);
+  font-size: 0.65rem;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+  line-height: 1;
+  border: 2px solid var(--bg);
+}
+.navbar__notif-badge:empty,
+.navbar__notif-badge[data-count="0"] {
+  display: none;
+}
+
+/* ---------- Barre de recherche forum ---------- */
+.forum__search {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  max-width: 600px;
+}
+.forum__search input {
+  flex: 1;
+  padding: 0.7rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  transition: border-color var(--t-fast), box-shadow var(--t-fast);
+}
+.forum__search input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+.forum__search button {
+  padding: 0 1rem;
+}
+
+/* ---------- Suivre un sujet ---------- */
+.forum__follow-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.85rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-soft);
+  font-family: var(--font-label);
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--t-fast);
+  margin-top: 0.75rem;
+}
+.forum__follow-btn:hover {
+  background: var(--bg-soft);
+  border-color: var(--border-strong);
+  color: var(--text);
+}
+.forum__follow-btn.active {
+  background: var(--accent-soft);
+  border-color: transparent;
+  color: var(--accent);
+}
+.forum__follow-btn svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* ---------- Upload d'images (dropzone) ---------- */
+.forum__dropzone {
+  margin-top: 0.75rem;
+  padding: 1rem;
+  border: 2px dashed var(--border);
+  border-radius: var(--radius-md);
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  transition: all var(--t-fast);
+  cursor: pointer;
+}
+.forum__dropzone:hover,
+.forum__dropzone.dragover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.forum__dropzone svg {
+  width: 20px;
+  height: 20px;
+  margin: 0 auto 0.35rem;
+  opacity: 0.6;
+}
+
+.forum__upload-preview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+.forum__upload-item {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.forum__upload-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.forum__upload-remove {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 20px;
+  height: 20px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.65);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: 0.7rem;
+}
+
+/* ---------- Signalement ---------- */
+.forum__report-modal .modal__dialog {
+  max-width: 500px;
+}
+.forum__report-reasons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.forum__report-reason {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.7rem 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg);
+  cursor: pointer;
+  transition: all var(--t-fast);
+  font-size: 0.9rem;
+}
+.forum__report-reason:hover {
+  background: var(--bg-soft);
+  border-color: var(--border-strong);
+}
+.forum__report-reason.selected {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+/* ---------- Page notifications ---------- */
+.notifications {
+  padding: 3rem 0 6rem;
+}
+.notifications__header {
+  margin-bottom: 2rem;
+}
+.notifications__header h1 {
+  font-size: 1.75rem;
+  margin-bottom: 0.4rem;
+}
+.notifications__list {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--bg-elevated);
+  overflow: hidden;
+}
+.notification-item {
+  display: flex;
+  gap: 1rem;
+  padding: 1.15rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+  transition: background var(--t-fast);
+  text-decoration: none;
+  color: inherit;
+  align-items: flex-start;
+}
+.notification-item:last-child {
+  border-bottom: none;
+}
+.notification-item:hover {
+  background: var(--bg-soft);
+}
+.notification-item.unread {
+  background: var(--accent-soft);
+}
+.notification-item__icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--bg-soft);
+  color: var(--text-soft);
+  flex-shrink: 0;
+}
+.notification-item.unread .notification-item__icon {
+  background: var(--accent);
+  color: #fff;
+}
+.notification-item__icon svg {
+  width: 18px;
+  height: 18px;
+}
+.notification-item__body {
+  flex: 1;
+  min-width: 0;
+}
+.notification-item__title {
+  font-family: var(--font-subtitle);
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--text);
+  margin-bottom: 0.15rem;
+}
+.notification-item__message {
+  font-size: 0.88rem;
+  color: var(--text-soft);
+  margin-bottom: 0.35rem;
+}
+.notification-item__date {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+.notification-item__actions {
+  display: flex;
+  gap: 0.35rem;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+@media (max-width: 640px) {
+  .notification-item {
+    flex-wrap: wrap;
+    padding: 1rem;
+  }
+  .notification-item__actions {
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+}
