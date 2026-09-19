@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Administration du forum — Lumalia</title>
+
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Poppins:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/style.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="/assets/css/global.css">
+  <link rel="stylesheet" href="/assets/css/forum.css">
+  <link rel="stylesheet" href="/assets/css/forum-admin.css">
+
+  <script src="/assets/js/theme.js"></script>
+  <meta name="theme-color" content="#ffffff">
+</head>
+<body>
+
+  <!-- ==================== NAVBAR ==================== -->
+  <header class="navbar">
+    <div class="container navbar__inner">
+      <a href="/" class="navbar__logo" aria-label="Lumalia — Accueil">
+        <img src="/assets/img/logo-lumalia.png" alt="" class="navbar__logo-mark" width="32" height="32">
+        <span>Lumalia</span>
+      </a>
+
+      <nav class="navbar__links" id="navbar-links">
+        <a href="/" class="navbar__link" data-i18n="nav.home">Accueil</a>
+
+        <div class="navbar__item">
+          <a href="/serveurs" class="navbar__link navbar__link--parent" data-i18n="nav.servers">Serveurs</a>
+          <div class="navbar__dropdown">
+            <div class="navbar__dropdown-inner">
+              <a href="/serveurs/crystal" class="navbar__dropdown-item">
+                <span class="navbar__dropdown-item__logo navbar__dropdown-item__logo--crystal">C</span>
+                <span class="navbar__dropdown-item__text"><strong>Crystal</strong><span>Java</span></span>
+              </a>
+              <a href="/serveurs/azur" class="navbar__dropdown-item">
+                <span class="navbar__dropdown-item__logo navbar__dropdown-item__logo--azur">A</span>
+                <span class="navbar__dropdown-item__text"><strong>Azur</strong><span>Java</span></span>
+              </a>
+              <a href="/serveurs/green" class="navbar__dropdown-item">
+                <span class="navbar__dropdown-item__logo navbar__dropdown-item__logo--green">G</span>
+                <span class="navbar__dropdown-item__text"><strong>Green</strong><span>Java · US</span></span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <a href="/launcher" class="navbar__link" data-i18n="nav.launcher">Launcher</a>
+        <a href="/actualites" class="navbar__link" data-i18n="nav.news">Actualités</a>
+        <a href="/communaute" class="navbar__link" data-i18n="nav.community">Communauté</a>
+        <a href="/parametres" class="navbar__link" data-i18n="nav.settings">Paramètres</a>
+      </nav>
+
+      <div class="navbar__actions">
+        <div class="lang-switch">
+          <button class="lang-switch__btn" type="button" aria-label="Changer de langue">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            <span class="lang-switch__label">FR</span>
+          </button>
+          <div class="lang-switch__menu" role="menu">
+            <button class="lang-switch__item" data-lang="fr" role="menuitem">Français</button>
+            <button class="lang-switch__item" data-lang="en" role="menuitem">English</button>
+          </div>
+        </div>
+
+        <button class="navbar__icon-btn" type="button" data-theme-toggle aria-label="Changer de thème">
+          <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        </button>
+
+        <a href="/connexion" class="btn btn-ghost btn-sm navbar__cta" data-i18n="nav.login" data-auth-link>Connexion</a>
+        <a href="/inscription" class="btn btn-ghost btn-sm navbar__cta" data-i18n="nav.signup" data-auth-link>S'inscrire</a>
+        <a href="https://discord.gg/lumalia" target="_blank" rel="noopener" class="btn btn-primary btn-sm navbar__cta" data-i18n="nav.discord">Rejoindre Discord</a>
+
+        <button class="navbar__burger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="navbar-links">
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== MAIN ==================== -->
+  <main>
+    <section class="admin">
+      <div class="container">
+        <div class="admin__layout" id="admin-layout" style="display:none;">
+
+          <!-- ========== SIDEBAR ========== -->
+          <aside class="admin__sidebar">
+            <div class="admin__sidebar-title">Administration</div>
+            <nav class="admin__nav">
+              <button class="admin__nav-item active" data-tab="categories">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                Catégories
+              </button>
+              <button class="admin__nav-item" data-tab="topics">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                Modération
+              </button>
+            </nav>
+          </aside>
+
+          <!-- ========== CONTENU ========== -->
+          <div class="admin__content">
+
+            <!-- ===== ONGLET CATÉGORIES ===== -->
+            <div class="admin__panel active" data-panel="categories">
+              <div class="admin__header">
+                <div>
+                  <h1>Catégories</h1>
+                  <p>Gérez les catégories, sous-catégories et leurs permissions.</p>
+                </div>
+                <button type="button" class="btn btn-primary" id="new-category-btn">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                  Nouvelle catégorie
+                </button>
+              </div>
+
+              <div class="admin__card">
+                <div class="admin__card-title">Catégories existantes</div>
+                <div id="categories-list">
+                  <div class="admin__empty">Chargement…</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ===== ONGLET MODÉRATION ===== -->
+            <div class="admin__panel" data-panel="topics">
+              <div class="admin__header">
+                <div>
+                  <h1>Modération</h1>
+                  <p>Verrouillez, épinglez ou supprimez les sujets.</p>
+                </div>
+              </div>
+
+              <div class="admin__card">
+                <div class="admin__card-title">Derniers sujets</div>
+                <div id="topics-list">
+                  <div class="admin__empty">Chargement…</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Message d'accès refusé -->
+        <div id="access-denied" style="display:none; padding: 4rem 2rem; text-align: center;">
+          <h1 style="margin-bottom: 1rem;">Accès refusé</h1>
+          <p style="color: var(--text-soft); margin-bottom: 1.5rem;">Vous n'avez pas les permissions nécessaires pour accéder à cette page.</p>
+          <a href="/forum" class="btn btn-primary">Retour au forum</a>
+        </div>
+
+        <!-- Message de chargement -->
+        <div id="admin-loading" style="padding: 4rem 2rem; text-align: center; color: var(--text-muted);">
+          Vérification des permissions…
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==================== MODAL CATÉGORIE ==================== -->
+  <div class="modal" id="category-modal">
+    <div class="modal__dialog">
+      <div class="modal__header">
+        <h2 id="category-modal-title">Nouvelle catégorie</h2>
+        <button type="button" class="modal__close" id="category-modal-close" aria-label="Fermer">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <form class="admin__form" id="category-form" novalidate>
+        <input type="hidden" id="cat-edit-id" value="">
+
+        <div class="admin__field">
+          <label for="cat-name">Nom</label>
+          <input type="text" id="cat-name" placeholder="Ex : Général" required maxlength="100">
+        </div>
+
+        <div class="admin__field">
+          <label for="cat-desc">Description</label>
+          <textarea id="cat-desc" placeholder="Une courte description…" maxlength="300"></textarea>
+        </div>
+
+        <div class="admin__field-row">
+          <div class="admin__field">
+            <label for="cat-parent">Catégorie parente</label>
+            <select id="cat-parent">
+              <option value="">— Aucune (catégorie racine) —</option>
+            </select>
+          </div>
+          <div class="admin__field">
+            <label for="cat-order">Ordre d'affichage</label>
+            <input type="number" id="cat-order" value="0" min="0">
+          </div>
+        </div>
+
+        <div class="admin__field-row">
+          <label class="admin__switch">
+            <input type="checkbox" id="cat-locked">
+            <span>Verrouillée (personne ne peut poster)</span>
+          </label>
+          <label class="admin__switch">
+            <input type="checkbox" id="cat-staff-only">
+            <span>Staff uniquement</span>
+          </label>
+        </div>
+
+        <div class="admin__status" id="category-status"></div>
+
+        <div class="modal__actions">
+          <button type="button" class="btn btn-ghost" id="category-cancel">Annuler</button>
+          <button type="submit" class="btn btn-primary" id="category-submit">Enregistrer</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__bottom" style="margin-top:0; border:none;">
+        <span>© <span id="footer-year"></span> Lumalia. Tous droits réservés.</span>
+        <span>Lumalia n'est pas affilié à Mojang ni Microsoft.</span>
+      </div>
+    </div>
+  </footer>
+
+  <div class="bg-blobs" aria-hidden="true"><span></span><span></span></div>
+  <canvas id="luma-bg" aria-hidden="true"></canvas>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
+  <script src="/assets/js/i18n.js"></script>
+  <script src="/assets/js/navbar.js"></script>
+  <script src="/assets/js/background.js"></script>
+
+  <script>
+    document.getElementById("footer-year").textContent = new Date().getFullYear();
+
+    // ============================================================
+    // CONFIGURATION FIREBASE
+    // ============================================================
+    const firebaseConfig = {
+      apiKey: "AIzaSyBSCqSsBTXk9Q8sBX88NgrdDHUAHT0Cq6I",
+      authDomain: "lumalia.firebaseapp.com",
+      projectId: "lumalia",
+      storageBucket: "lumalia.firebasestorage.app",
+      messagingSenderId: "189011821397",
+      appId: "1:189011821397:web:03c8609d35d488dce2a5dc"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    // ============================================================
+    // VARIABLES
+    // ============================================================
+    let currentUser = null;
+    let currentGrade = "";
+    let allCategories = [];
+
+    const layoutEl = document.getElementById("admin-layout");
+    const accessDeniedEl = document.getElementById("access-denied");
+    const loadingEl = document.getElementById("admin-loading");
+
+    // ============================================================
+    // UTILITAIRES
+    // ============================================================
+    function escapeHtml(str) {
+      return String(str || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function slugify(str) {
+      return String(str || "")
+        .toLowerCase()
+        .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/(^-|-$)/g, "")
+        .substring(0, 80);
+    }
+
+    function isStaff(grade) {
+      if (!grade) return false;
+      return grade === "HA" || grade === "Administrateur" || grade === "Admin";
+    }
+
+    // ============================================================
+    // VÉRIFICATION DES PERMISSIONS
+    // ============================================================
+    auth.onAuthStateChanged(async function (user) {
+      if (!user) {
+        loadingEl.style.display = "none";
+        accessDeniedEl.style.display = "block";
+        return;
+      }
+
+      currentUser = user;
+
+      try {
+        const userDoc = await db.collection("Utilisateurs").doc(user.uid).get();
+        if (!userDoc.exists) {
+          loadingEl.style.display = "none";
+          accessDeniedEl.style.display = "block";
+          return;
+        }
+
+        currentGrade = userDoc.data().grade || "";
+
+        if (!isStaff(currentGrade)) {
+          loadingEl.style.display = "none
