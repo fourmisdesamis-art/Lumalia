@@ -212,6 +212,62 @@
       }
     }
 
+       /* ---- 7. Bouton Notifications ---- */
+    async function refreshNotifButton() {
+      const fbAuth = window.firebase && window.firebase.auth ? window.firebase.auth() : null;
+      const fbUser = fbAuth ? fbAuth.currentUser : null;
+
+      const actions = navbar.querySelector(".navbar__actions");
+      if (!actions) return;
+
+      // Retire l'ancien bouton s'il existe
+      const existing = navbar.querySelector(".navbar__notif-btn");
+      if (existing) existing.remove();
+
+      if (!fbUser) return;
+
+      try {
+        const btn = document.createElement("a");
+        btn.href = "/notifications";
+        btn.className = "navbar__notif-btn";
+        btn.setAttribute("aria-label", "Notifications");
+        btn.innerHTML =
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>' +
+          '<span class="navbar__notif-badge" data-count="0"></span>';
+
+        const discordBtn = actions.querySelector('[data-i18n="nav.discord"]');
+        if (discordBtn) {
+          actions.insertBefore(btn, discordBtn);
+        } else {
+          actions.appendChild(btn);
+        }
+
+        const snap = await window.firebase.firestore()
+          .collection("notifications")
+          .where("userId", "==", fbUser.uid)
+          .where("read", "==", false)
+          .get();
+
+        const count = snap.size;
+        const badge = btn.querySelector(".navbar__notif-badge");
+        if (badge) {
+          badge.textContent = count > 99 ? "99+" : String(count);
+          badge.setAttribute("data-count", count);
+        }
+
+      } catch (err) {
+        console.warn("[navbar] Impossible de charger les notifications :", err);
+      }
+    }
+
+    refreshNotifButton();
+
+    if (window.firebase && window.firebase.auth) {
+      window.firebase.auth().onAuthStateChanged(function () {
+        refreshNotifButton();
+      });
+    }
+
     /* ---- Initialisation ---- */
     refreshUserUI();
     refreshAdminButton();
