@@ -326,4 +326,381 @@
         currentGrade = userDoc.data().grade || "";
 
         if (!isStaff(currentGrade)) {
-          loadingEl.style.display = "none
+          loadingEl.style.display = "none";
+          accessDeniedEl.style.display = "block";
+          return;
+        }
+
+        // Accès autorisé
+        loadingEl.style.display = "none";
+        layoutEl.style.display = "grid";
+
+        // Charge les catégories
+        await loadCategories();
+
+      } catch (err) {
+        console.error("[Admin]", err);
+        loadingEl.textContent = "Erreur : " + (err.message || "impossible de vérifier les permissions.");
+      }
+    });
+
+    // ============================================================
+    // ONGLETS
+    // ============================================================
+    document.querySelectorAll(".admin__nav-item").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        const tab = btn.dataset.tab;
+        document.querySelectorAll(".admin__nav-item").forEach(function (b) {
+          b.classList.toggle("active", b === btn);
+        });
+        document.querySelectorAll(".admin__panel").forEach(function (p) {
+          p.classList.toggle("active", p.dataset.panel === tab);
+        });
+
+        if (tab === "topics") loadTopics();
+      });
+    });
+
+    // ============================================================
+    // CHARGEMENT DES CATÉGORIES
+    // ============================================================
+    async function loadCategories() {
+      const snap = await db.collection("forum_categories").get();
+      allCategories = [];
+      snap.forEach(function (doc) {
+        allCategories.push({ id: doc.id, ...doc.data() });
+      });
+      allCategories.sort(function (a, b) { return (a.order || 0) - (b.order || 0); });
+
+      renderCategories();
+      renderCategorySelect();
+    }
+
+    function renderCategories() {
+      const container = document.getElementById("categories-list");
+
+      if (allCategories.length === 0) {
+        container.innerHTML = '<div class="admin__empty">Aucune catégorie. Cliquez sur "Nouvelle catégorie" pour en créer une.</div>';
+        return;
+      }
+
+      let html = "";
+      allCategories.forEach(function (cat) {
+        const parent = cat.parentId ? allCategories.find(function (c) { return c.id === cat.parentId; }) : null;
+
+        html += '<div class="admin__cat-item">';
+        html += '<div class="admin__cat-info">';
+        html += '<strong>' + escapeHtml(cat.name) + '</strong>';
+        html += '<span>'
+          + (parent ? '↳ dans ' + escapeHtml(parent.name) + ' · ' : '')
+          + 'Ordre : ' + (cat.order || 0)
+          + '</span>';
+        html += '</div>';
+
+        html += '<div class="admin__cat-badges">';
+        if (cat.locked) html += '<span class="forum__badge forum__badge--locked">🔒 Verrouillée</span>';
+        if (cat.staffOnly) html += '<span class="forum__badge forum__badge--staff">Staff</span>';
+        html += '</div>';
+
+        html += '<div class="admin__cat-actions">';
+        html += '<button class="admin__icon-btn" data-edit-cat="' + cat.id + '" title="Modifier">'
+          + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>'
+          + '</button>';
+        html += '<button class="admin__icon-btn danger" data-delete-cat="' + cat.id + '" title="Supprimer">'
+          + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>'
+          + '</button>';
+        html += '</div>';
+        html += '</div>';
+      });
+
+      container.innerHTML = html;
+    }
+
+    function renderCategorySelect() {
+      const select = document.getElementById("cat-parent");
+      let html = '<option value="">— Aucune (catégorie racine) —</option>';
+      allCategories.forEach(function (cat) {
+        html += '<option value="' + cat.id + '">' + escapeHtml(cat.name) + '</option>';
+      });
+      select.innerHTML = html;
+    }
+
+    // ============================================================
+    // MODAL CATÉGORIE
+    // ============================================================
+    const modal = document.getElementById("category-modal");
+    const form = document.getElementById("category-form");
+    const formTitle = document.getElementById("category-modal-title");
+    const statusEl = document.getElementById("category-status");
+    const editIdInput = document.getElementById("cat-edit-id");
+
+    function openCategoryModal(cat) {
+      form.reset();
+      statusEl.textContent = "";
+      statusEl.className = "admin__status";
+
+      if (cat) {
+        formTitle.textContent = "Modifier la catégorie";
+        editIdInput.value = cat.id;
+        document.getElementById("cat-name").value = cat.name || "";
+        document.getElementById("cat-desc").value = cat.description || "";
+        document.getElementById("cat-parent").value = cat.parentId || "";
+        document.getElementById("cat-order").value = cat.order || 0;
+        document.getElementById("cat-locked").checked = !!cat.locked;
+        document.getElementById("cat-staff-only").checked = !!cat.staffOnly;
+      } else {
+        formTitle.textContent = "Nouvelle catégorie";
+        editIdInput.value = "";
+        document.getElementById("cat-order").value = 0;
+      }
+
+      modal.classList.add("open");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeCategoryModal() {
+      modal.classList.remove("open");
+      document.body.style.overflow = "";
+    }
+
+    document.getElementById("new-category-btn").addEventListener("click", function () {
+      openCategoryModal(null);
+    });
+
+    document.getElementById("category-modal-close").addEventListener("click", closeCategoryModal);
+    document.getElementById("category-cancel").addEventListener("click", closeCategoryModal);
+    modal.addEventListener("click", function (e) {
+      if (e.target === modal) closeCategoryModal();
+    });
+
+    // ============================================================
+    // ENREGISTREMENT CATÉGORIE
+    // ============================================================
+    form.addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const submitBtn = document.getElementById("category-submit");
+      const editId = editIdInput.value;
+
+      const name = document.getElementById("cat-name").value.trim();
+      const desc = document.getElementById("cat-desc").value.trim();
+      const parentId = document.getElementById("cat-parent").value || null;
+      const order = parseInt(document.getElementById("cat-order").value, 10) || 0;
+      const locked = document.getElementById("cat-locked").checked;
+      const staffOnly = document.getElementById("cat-staff-only").checked;
+
+      if (name.length < 1) {
+        statusEl.textContent = "Le nom est obligatoire.";
+        statusEl.className = "admin__status admin__status--error";
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Enregistrement…";
+      statusEl.textContent = "Enregistrement…";
+      statusEl.className = "admin__status admin__status--info";
+
+      try {
+        if (editId) {
+          // Update
+          await db.collection("forum_categories").doc(editId).update({
+            name: name,
+            description: desc,
+            parentId: parentId,
+            order: order,
+            locked: locked,
+            staffOnly: staffOnly,
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+        } else {
+          // Create
+          await db.collection("forum_categories").add({
+            name: name,
+            slug: slugify(name),
+            description: desc,
+            parentId: parentId,
+            order: order,
+            locked: locked,
+            staffOnly: staffOnly,
+            createdBy: currentUser.uid,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+        }
+
+        statusEl.textContent = "✅ Catégorie enregistrée !";
+        statusEl.className = "admin__status admin__status--success";
+
+        await loadCategories();
+
+        setTimeout(function () {
+          closeCategoryModal();
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Enregistrer";
+        }, 800);
+
+      } catch (err) {
+        console.error("[Admin] Erreur save catégorie :", err);
+        statusEl.textContent = "Erreur : " + (err.message || "impossible d'enregistrer.");
+        statusEl.className = "admin__status admin__status--error";
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Enregistrer";
+      }
+    });
+
+    // ============================================================
+    // ACTIONS SUR LES CATÉGORIES
+    // ============================================================
+    document.getElementById("categories-list").addEventListener("click", async function (e) {
+      // Modifier
+      const editBtn = e.target.closest("[data-edit-cat]");
+      if (editBtn) {
+        const cat = allCategories.find(function (c) { return c.id === editBtn.dataset.editCat; });
+        if (cat) openCategoryModal(cat);
+        return;
+      }
+
+      // Supprimer
+      const deleteBtn = e.target.closest("[data-delete-cat]");
+      if (deleteBtn) {
+        const catId = deleteBtn.dataset.deleteCat;
+        const cat = allCategories.find(function (c) { return c.id === catId; });
+        if (!cat) return;
+
+        const confirmMsg = "Supprimer la catégorie \"" + cat.name + "\" ?\n\nATTENTION : tous les sujets et messages dans cette catégorie ne seront pas supprimés automatiquement. Continuer ?";
+        if (!confirm(confirmMsg)) return;
+
+        try {
+          await db.collection("forum_categories").doc(catId).delete();
+          await loadCategories();
+        } catch (err) {
+          console.error("[Admin] Erreur suppression :", err);
+          alert("Erreur : " + (err.message || "impossible de supprimer."));
+        }
+        return;
+      }
+    });
+
+    // ============================================================
+    // CHARGEMENT DES SUJETS (modération)
+    // ============================================================
+    async function loadTopics() {
+      const container = document.getElementById("topics-list");
+
+      try {
+        const snap = await db.collection("forum_topics").limit(50).get();
+
+        const topics = [];
+        snap.forEach(function (doc) {
+          topics.push({ id: doc.id, ...doc.data() });
+        });
+
+        topics.sort(function (a, b) {
+          const aDate = a.createdAt ? a.createdAt.toMillis() : 0;
+          const bDate = b.createdAt ? b.createdAt.toMillis() : 0;
+          return bDate - aDate;
+        });
+
+        if (topics.length === 0) {
+          container.innerHTML = '<div class="admin__empty">Aucun sujet pour le moment.</div>';
+          return;
+        }
+
+        let html = "";
+        topics.forEach(function (topic) {
+          const cat = allCategories.find(function (c) { return c.id === topic.categoryId; });
+          const catName = cat ? cat.name : "(catégorie supprimée)";
+
+          html += '<div class="admin__topic">';
+          html += '<div class="admin__topic-info">';
+          html += '<strong>' + escapeHtml(topic.title) + '</strong>';
+          html += '<span>dans ' + escapeHtml(catName) + ' · par ' + escapeHtml(topic.authorName || "?") + '</span>';
+          html += '</div>';
+
+          html += '<div class="admin__cat-badges">';
+          if (topic.pinned) html += '<span class="forum__badge forum__badge--pinned">📌</span>';
+          if (topic.locked) html += '<span class="forum__badge forum__badge--locked">🔒</span>';
+          html += '</div>';
+
+          html += '<div class="admin__topic-actions">';
+          html += '<a href="/forum?c=' + topic.categoryId + '&t=' + topic.id + '" class="admin__icon-btn" title="Voir">'
+            + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>'
+            + '</a>';
+          html += '<button class="admin__icon-btn" data-pin-topic="' + topic.id + '" title="' + (topic.pinned ? "Désépingler" : "Épingler") + '">'
+            + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="17" x2="12" y2="22"/><path d="M5 17h14v-1.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V6h1a2 2 0 0 0 0-4H8a2 2 0 0 0 0 4h1v4.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24z"/></svg>'
+            + '</button>';
+          html += '<button class="admin__icon-btn" data-lock-topic="' + topic.id + '" title="' + (topic.locked ? "Déverrouiller" : "Verrouiller") + '">'
+            + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>'
+            + '</button>';
+          html += '<button class="admin__icon-btn danger" data-delete-topic="' + topic.id + '" title="Supprimer">'
+            + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>'
+            + '</button>';
+          html += '</div>';
+          html += '</div>';
+        });
+
+        container.innerHTML = html;
+
+      } catch (err) {
+        console.error("[Admin] Erreur topics :", err);
+        container.innerHTML = '<div class="admin__empty">Erreur de chargement.</div>';
+      }
+    }
+
+    // ============================================================
+    // ACTIONS SUR LES SUJETS
+    // ============================================================
+    document.getElementById("topics-list").addEventListener("click", async function (e) {
+      const pinBtn = e.target.closest("[data-pin-topic]");
+      if (pinBtn) {
+        const topicId = pinBtn.dataset.pinTopic;
+        const doc = await db.collection("forum_topics").doc(topicId).get();
+        const current = doc.data().pinned || false;
+        await db.collection("forum_topics").doc(topicId).update({
+          pinned: !current,
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        loadTopics();
+        return;
+      }
+
+      const lockBtn = e.target.closest("[data-lock-topic]");
+      if (lockBtn) {
+        const topicId = lockBtn.dataset.lockTopic;
+        const doc = await db.collection("forum_topics").doc(topicId).get();
+        const current = doc.data().locked || false;
+        await db.collection("forum_topics").doc(topicId).update({
+          locked: !current,
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        loadTopics();
+        return;
+      }
+
+      const deleteBtn = e.target.closest("[data-delete-topic]");
+      if (deleteBtn) {
+        const topicId = deleteBtn.dataset.deleteTopic;
+        if (!confirm("Supprimer ce sujet et TOUS ses messages ? Cette action est irréversible.")) return;
+
+        try {
+          // Supprime tous les posts du topic
+          const postsSnap = await db.collection("forum_posts")
+            .where("topicId", "==", topicId)
+            .get();
+
+          const batch = db.batch();
+          postsSnap.forEach(function (doc) {
+            batch.delete(doc.ref);
+          });
+          batch.delete(db.collection("forum_topics").doc(topicId));
+          await batch.commit();
+
+          loadTopics();
+        } catch (err) {
+          console.error("[Admin] Erreur suppression sujet :", err);
+          alert("Erreur : " + (err.message || "impossible de supprimer."));
+        }
+        return;
+      }
+    });
+  </script>
+</body>
+</html>
