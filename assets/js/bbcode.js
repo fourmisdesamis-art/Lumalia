@@ -103,7 +103,20 @@
       return "<ol class=\"bb-list\">" + items.map(function (i) { return "<li>" + i.trim() + "</li>"; }).join("") + "</ol>";
     });
 
-    // 12. Sauts de ligne (après avoir traité le reste)
+        // 12. Séparateur horizontal
+    text = text.replace(/\[hr\]/gi, '<hr class="bb-hr">');
+
+    // 13. YouTube
+    text = text.replace(/\[youtube\]([\s\S]*?)\[\/youtube\]/gi, function (_, url) {
+      const clean = url.trim();
+      // Extrait l'ID de la vidéo
+      const match = clean.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+      if (!match) return "[vidéo YouTube invalide]";
+      const id = match[1];
+      return '<div class="bb-video"><iframe src="https://www.youtube.com/embed/' + id + '" title="YouTube" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>';
+    });
+
+    // 14. Sauts de ligne (après avoir traité le reste)
     text = text.replace(/\n/g, "<br>");
 
     return text;
