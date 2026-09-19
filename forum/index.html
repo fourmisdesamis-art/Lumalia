@@ -980,10 +980,25 @@
       }
     });
 
+        // ============================================================
+    // LANCEMENT — attend que Firebase ait restauré la session
     // ============================================================
-    // LANCEMENT
-    // ============================================================
-    render();
+    let renderDone = false;
+
+    // Firebase notifie l'état de connexion dès que la session est prête
+    auth.onAuthStateChanged(function (user) {
+      if (renderDone) return; // on ne rend qu'une seule fois
+      renderDone = true;
+      render();
+    });
+
+    // Filet de sécurité : si Firebase met trop longtemps, on rend quand même
+    setTimeout(function () {
+      if (!renderDone) {
+        renderDone = true;
+        render();
+      }
+    }, 1500);
   </script>
 </body>
 </html>
