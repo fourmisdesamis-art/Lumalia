@@ -23,6 +23,18 @@
     "rights": "All rights reserved.",
     "notAffiliated": "Lumalia is not affiliated with Mojang or Microsoft."
   },
+  "nav": {
+  "home": "Home",
+  "servers": "Servers",
+  "launcher": "Launcher",
+  "news": "News",
+  "community": "Community",
+  "settings": "Settings",
+  "discord": "Join Discord",
+  "login": "Login",
+  "signup": "Sign up",
+  "menu": "Menu"
+},
   "settings": {
     "label": "Preferences",
     "title": "Settings",
