@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Administration du forum — Lumalia</title>
+  <title>Forum — Lumalia</title>
+  <meta name="description" content="Le forum officiel de Lumalia : discussions, annonces et communauté.">
 
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png">
@@ -16,7 +17,7 @@
 
   <link rel="stylesheet" href="/assets/css/global.css">
   <link rel="stylesheet" href="/assets/css/forum.css">
-  <link rel="stylesheet" href="/assets/css/forum-admin.css">
+  <link rel="stylesheet" href="/assets/css/forum-extras.css">
 
   <script src="/assets/js/theme.js"></script>
   <meta name="theme-color" content="#ffffff">
@@ -54,10 +55,10 @@
           </div>
         </div>
 
+        <a href="/forum" class="navbar__link">Forum</a>
         <a href="/launcher" class="navbar__link" data-i18n="nav.launcher">Launcher</a>
         <a href="/actualites" class="navbar__link" data-i18n="nav.news">Actualités</a>
         <a href="/communaute" class="navbar__link" data-i18n="nav.community">Communauté</a>
-        <a href="/forum" class="navbar__link" data-i18n="nav.forum">Forum</a>
         <a href="/parametres" class="navbar__link" data-i18n="nav.settings">Paramètres</a>
       </nav>
 
@@ -91,150 +92,148 @@
 
   <!-- ==================== MAIN ==================== -->
   <main>
-    <section class="admin">
+    <section class="forum">
       <div class="container">
-        <div class="admin__layout" id="admin-layout" style="display:none;">
 
-          <!-- ========== SIDEBAR ========== -->
-          <aside class="admin__sidebar">
-            <div class="admin__sidebar-title">Administration</div>
-            <nav class="admin__nav">
-              <button class="admin__nav-item active" data-tab="categories">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
-                Catégories
-              </button>
-              <button class="admin__nav-item" data-tab="topics">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                Modération
-              </button>
-            </nav>
-          </aside>
+        <nav class="forum__breadcrumb" id="breadcrumb">
+          <a href="/">Accueil</a>
+          <span>›</span>
+          <a href="/forum">Forum</a>
+        </nav>
 
-          <!-- ========== CONTENU ========== -->
-          <div class="admin__content">
-
-            <!-- ===== ONGLET CATÉGORIES ===== -->
-            <div class="admin__panel active" data-panel="categories">
-              <div class="admin__header">
-                <div>
-                  <h1>Catégories</h1>
-                  <p>Gérez les catégories, sous-catégories et leurs permissions.</p>
-                </div>
-                <button type="button" class="btn btn-primary" id="new-category-btn">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                  Nouvelle catégorie
-                </button>
-              </div>
-
-              <div class="admin__card">
-                <div class="admin__card-title">Catégories existantes</div>
-                <div id="categories-list">
-                  <div class="admin__empty">Chargement…</div>
-                </div>
-              </div>
-            </div>
-
-            <!-- ===== ONGLET MODÉRATION ===== -->
-            <div class="admin__panel" data-panel="topics">
-              <div class="admin__header">
-                <div>
-                  <h1>Modération</h1>
-                  <p>Verrouillez, épinglez ou supprimez les sujets.</p>
-                </div>
-              </div>
-
-              <div class="admin__card">
-                <div class="admin__card-title">Derniers sujets</div>
-                <div id="topics-list">
-                  <div class="admin__empty">Chargement…</div>
-                </div>
-              </div>
-            </div>
-
-          </div>
+        <div id="forum-content">
+          <div class="forum__loading">Chargement du forum…</div>
         </div>
 
-        <!-- Message d'accès refusé -->
-        <div id="access-denied" style="display:none; padding: 4rem 2rem; text-align: center;">
-          <h1 style="margin-bottom: 1rem;">Accès refusé</h1>
-          <p style="color: var(--text-soft); margin-bottom: 1.5rem;">Vous n'avez pas les permissions nécessaires pour accéder à cette page.</p>
-          <a href="/forum" class="btn btn-primary">Retour au forum</a>
-        </div>
-
-        <!-- Message de chargement -->
-        <div id="admin-loading" style="padding: 4rem 2rem; text-align: center; color: var(--text-muted);">
-          Vérification des permissions…
-        </div>
       </div>
     </section>
   </main>
 
-  <!-- ==================== MODAL CATÉGORIE ==================== -->
-  <div class="modal" id="category-modal">
-    <div class="modal__dialog">
-      <div class="modal__header">
-        <h2 id="category-modal-title">Nouvelle catégorie</h2>
-        <button type="button" class="modal__close" id="category-modal-close" aria-label="Fermer">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-        </button>
-      </div>
-
-      <form class="admin__form" id="category-form" novalidate>
-        <input type="hidden" id="cat-edit-id" value="">
-
-        <div class="admin__field">
-          <label for="cat-name">Nom</label>
-          <input type="text" id="cat-name" placeholder="Ex : Général" required maxlength="100">
-        </div>
-
-        <div class="admin__field">
-          <label for="cat-desc">Description</label>
-          <textarea id="cat-desc" placeholder="Une courte description…" maxlength="300"></textarea>
-        </div>
-
-        <div class="admin__field-row">
-          <div class="admin__field">
-            <label for="cat-parent">Catégorie parente</label>
-            <select id="cat-parent">
-              <option value="">— Aucune (catégorie racine) —</option>
-            </select>
-          </div>
-          <div class="admin__field">
-            <label for="cat-order">Ordre d'affichage</label>
-            <input type="number" id="cat-order" value="0" min="0">
-          </div>
-        </div>
-
-        <div class="admin__field-row">
-          <label class="admin__switch">
-            <input type="checkbox" id="cat-locked">
-            <span>Verrouillée (personne ne peut poster)</span>
-          </label>
-          <label class="admin__switch">
-            <input type="checkbox" id="cat-staff-only">
-            <span>Staff uniquement</span>
-          </label>
-        </div>
-
-        <div class="admin__status" id="category-status"></div>
-
-        <div class="modal__actions">
-          <button type="button" class="btn btn-ghost" id="category-cancel">Annuler</button>
-          <button type="submit" class="btn btn-primary" id="category-submit">Enregistrer</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
   <!-- ==================== FOOTER ==================== -->
   <footer class="footer">
     <div class="container">
-      <div class="footer__bottom" style="margin-top:0; border:none;">
+      <div class="footer__inner">
+        <div class="footer__brand">
+          <a href="/" class="navbar__logo">
+            <img src="/assets/img/logo-lumalia.png" alt="" class="navbar__logo-mark" width="32" height="32">
+            <span>Lumalia</span>
+          </a>
+          <p>Lumalia rassemble plusieurs communautés autour de serveurs Minecraft Java &amp; Bedrock.</p>
+        </div>
+        <div class="footer__cols">
+          <div class="footer__col">
+            <h5>Navigation</h5>
+            <a href="/serveurs">Serveurs</a>
+            <a href="/launcher">Launcher</a>
+            <a href="/actualites">Actualités</a>
+            <a href="/communaute">Communauté</a>
+          </div>
+          <div class="footer__col">
+            <h5>Ressources</h5>
+            <a href="#">Statut des serveurs</a>
+            <a href="#">Documentation</a>
+            <a href="#">Support</a>
+          </div>
+          <div class="footer__col">
+            <h5>Légal</h5>
+            <a href="#">Conditions d'utilisation</a>
+            <a href="#">Confidentialité</a>
+            <a href="#">Cookies</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer__bottom">
         <span>© <span id="footer-year"></span> Lumalia. Tous droits réservés.</span>
         <span>Lumalia n'est pas affilié à Mojang ni Microsoft.</span>
       </div>
     </div>
   </footer>
+
+  <!-- ==================== MODAL NOUVEAU SUJET ==================== -->
+  <div class="modal" id="new-topic-modal">
+    <div class="modal__dialog">
+      <div class="modal__header">
+        <h2>Nouveau sujet</h2>
+        <button type="button" class="modal__close" id="modal-close" aria-label="Fermer">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <form class="modal__form" id="new-topic-form" novalidate>
+        <div class="modal__field">
+          <label for="topic-title">Titre du sujet</label>
+          <input type="text" id="topic-title" placeholder="Un titre clair et précis…" required minlength="3" maxlength="200">
+          <small>Entre 3 et 200 caractères.</small>
+        </div>
+
+        <div class="modal__field">
+          <label for="topic-content">Premier message</label>
+          <textarea id="topic-content" placeholder="Écrivez votre message… (BBcode supporté)" required></textarea>
+          <small>BBcode supporté : [b]gras[/b], [i]italique[/i], [color=#ff0000]couleur[/color], [quote]citation[/quote]</small>
+        </div>
+
+        <div class="modal__status" id="new-topic-status" role="status" aria-live="polite"></div>
+
+        <div class="modal__actions">
+          <button type="button" class="btn btn-ghost" id="modal-cancel">Annuler</button>
+          <button type="submit" class="btn btn-primary" id="modal-submit">Créer le sujet</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL SIGNALEMENT ==================== -->
+  <div class="modal forum__report-modal" id="report-modal">
+    <div class="modal__dialog">
+      <div class="modal__header">
+        <h2>Signaler ce message</h2>
+        <button type="button" class="modal__close" id="report-modal-close" aria-label="Fermer">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <form class="modal__form" id="report-form">
+        <input type="hidden" id="report-post-id">
+        <input type="hidden" id="report-topic-id">
+        <input type="hidden" id="report-cat-id">
+
+        <div class="forum__report-reasons" id="report-reasons">
+          <label class="forum__report-reason">
+            <input type="radio" name="reason" value="Spam">
+            <span>Spam ou publicité</span>
+          </label>
+          <label class="forum__report-reason">
+            <input type="radio" name="reason" value="Contenu inapproprié">
+            <span>Contenu inapproprié</span>
+          </label>
+          <label class="forum__report-reason">
+            <input type="radio" name="reason" value="Harcèlement">
+            <span>Harcèlement / insultes</span>
+          </label>
+          <label class="forum__report-reason">
+            <input type="radio" name="reason" value="Hors-sujet">
+            <span>Hors-sujet</span>
+          </label>
+          <label class="forum__report-reason">
+            <input type="radio" name="reason" value="Autre">
+            <span>Autre raison</span>
+          </label>
+        </div>
+
+        <div class="modal__field">
+          <label for="report-message">Détails (optionnel)</label>
+          <textarea id="report-message" placeholder="Expliquez brièvement pourquoi vous signalez ce message…" maxlength="500"></textarea>
+        </div>
+
+        <div class="modal__status" id="report-status"></div>
+
+        <div class="modal__actions">
+          <button type="button" class="btn btn-ghost" id="report-cancel">Annuler</button>
+          <button type="submit" class="btn btn-primary" id="report-submit">Envoyer le signalement</button>
+        </div>
+      </form>
+    </div>
+  </div>
 
   <div class="bg-blobs" aria-hidden="true"><span></span><span></span></div>
   <canvas id="luma-bg" aria-hidden="true"></canvas>
@@ -245,14 +244,16 @@
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 
   <script src="/assets/js/i18n.js"></script>
+  <script src="/assets/js/bbcode.js"></script>
   <script src="/assets/js/navbar.js"></script>
   <script src="/assets/js/background.js"></script>
+  <script src="/assets/js/forum-extras.js"></script>
 
   <script>
     document.getElementById("footer-year").textContent = new Date().getFullYear();
 
     // ============================================================
-    // CONFIGURATION FIREBASE
+    // CONFIG FIREBASE
     // ============================================================
     const firebaseConfig = {
       apiKey: "AIzaSyBSCqSsBTXk9Q8sBX88NgrdDHUAHT0Cq6I",
@@ -268,17 +269,6 @@
     const db = firebase.firestore();
 
     // ============================================================
-    // VARIABLES
-    // ============================================================
-    let currentUser = null;
-    let currentGrade = "";
-    let allCategories = [];
-
-    const layoutEl = document.getElementById("admin-layout");
-    const accessDeniedEl = document.getElementById("access-denied");
-    const loadingEl = document.getElementById("admin-loading");
-
-    // ============================================================
     // UTILITAIRES
     // ============================================================
     function escapeHtml(str) {
@@ -290,418 +280,1015 @@
         .replace(/'/g, "&#039;");
     }
 
-    function slugify(str) {
-      return String(str || "")
-        .toLowerCase()
-        .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/(^-|-$)/g, "")
-        .substring(0, 80);
+    function formatDate(timestamp) {
+      if (!timestamp) return "—";
+      const d = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+      const now = new Date();
+      const diff = (now - d) / 1000;
+      if (diff < 60) return "à l'instant";
+      if (diff < 3600) return "il y a " + Math.floor(diff / 60) + " min";
+      if (diff < 86400) return "il y a " + Math.floor(diff / 3600) + " h";
+      if (diff < 604800) return "il y a " + Math.floor(diff / 86400) + " j";
+      return d.toLocaleDateString("fr-FR", { day: "numeric", month: "short", year: "numeric" });
     }
 
-    function isStaff(grade) {
-      if (!grade) return false;
-      return grade === "HA" || grade === "Administrateur" || grade === "Admin";
+    function getGradeClass(grade) {
+      if (!grade) return "";
+      const g = grade.toLowerCase();
+      if (g.includes("admin")) return "forum__post-author-grade--admin";
+      if (g === "ha") return "forum__post-author-grade--ha";
+      if (g.includes("modo")) return "forum__post-author-grade--modo";
+      return "";
     }
 
     // ============================================================
-    // VÉRIFICATION DES PERMISSIONS
+    // ROUTEUR
     // ============================================================
-    auth.onAuthStateChanged(async function (user) {
-      if (!user) {
-        loadingEl.style.display = "none";
-        accessDeniedEl.style.display = "block";
+    const params = new URLSearchParams(window.location.search);
+    const categorySlug = params.get("c");
+    const topicSlug = params.get("t");
+    const searchQuery = params.get("q");
+
+    const contentEl = document.getElementById("forum-content");
+    const breadcrumbEl = document.getElementById("breadcrumb");
+
+    let uploadedImages = [];
+
+    // ============================================================
+    // RENDU
+    // ============================================================
+    async function render() {
+      try {
+        if (searchQuery) {
+          await renderSearch(searchQuery);
+        } else if (categorySlug && topicSlug) {
+          await renderTopic(categorySlug, topicSlug);
+        } else if (categorySlug) {
+          await renderCategory(categorySlug);
+        } else {
+          await renderHome();
+        }
+      } catch (err) {
+        console.error("[Forum]", err);
+        contentEl.innerHTML = '<div class="forum__empty"><p>Erreur de chargement. Veuillez réessayer.</p></div>';
+      }
+    }
+
+    // ---------- VUE : Liste des catégories ----------
+    async function renderHome() {
+      const snap = await db.collection("forum_categories").get();
+
+      const categories = [];
+      snap.forEach(function (doc) { categories.push({ id: doc.id, ...doc.data() }); });
+      categories.sort(function (a, b) { return (a.order || 0) - (b.order || 0); });
+
+      const roots = categories.filter(function (c) {
+        return c.parentId === null || c.parentId === undefined;
+      });
+
+      let html = '<div class="forum__header">'
+        + '<div>'
+        + '<span class="label">Communauté</span>'
+        + '<h1>Forum Lumalia</h1>'
+        + '<p>Discutez, échangez et partagez avec la communauté.</p>'
+        + '</div>'
+        + '</div>';
+
+      // Barre de recherche
+      html += '<form class="forum__search" id="search-form">'
+        + '<input type="search" id="search-input" placeholder="Rechercher un sujet…" value="' + escapeHtml(searchQuery || "") + '">'
+        + '<button type="submit" class="btn btn-primary">Rechercher</button>'
+        + '</form>';
+
+      if (roots.length === 0) {
+        html += '<div class="forum__empty">'
+          + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>'
+          + '<p>Aucune catégorie pour le moment.</p>'
+          + '</div>';
+        contentEl.innerHTML = html;
         return;
       }
 
-      currentUser = user;
+      const counts = {};
+      for (const cat of roots) {
+        const countSnap = await db.collection("forum_topics")
+          .where("categoryId", "==", cat.id)
+          .get();
+        counts[cat.id] = countSnap.size;
+      }
+
+      html += '<div class="forum__section">';
+      html += '<div class="forum__section-header">'
+        + '<h2>Catégories</h2>'
+        + '<span class="forum__section-stats">' + roots.length + ' catégorie' + (roots.length > 1 ? "s" : "") + '</span>'
+        + '</div>';
+
+      roots.forEach(function (cat) {
+        html += '<a href="/forum?c=' + cat.id + '" class="forum__cat">';
+        html += '<div class="forum__cat-icon">'
+          + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>'
+          + '</div>';
+        html += '<div class="forum__cat-body">';
+        html += '<div class="forum__cat-title"><h3>' + escapeHtml(cat.name) + '</h3>';
+        if (cat.locked) html += '<span class="forum__badge forum__badge--locked">🔒 Verrouillé</span>';
+        if (cat.staffOnly) html += '<span class="forum__badge forum__badge--staff">Staff uniquement</span>';
+        html += '</div>';
+        if (cat.description) html += '<div class="forum__cat-desc">' + escapeHtml(cat.description) + '</div>';
+        html += '</div>';
+        html += '<div class="forum__cat-meta">';
+        html += '<div><strong>' + (counts[cat.id] || 0) + '</strong>sujet' + (counts[cat.id] > 1 ? "s" : "") + '</div>';
+        html += '</div>';
+        html += '</a>';
+      });
+
+      html += '</div>';
+
+      contentEl.innerHTML = html;
+      bindSearch();
+    }
+
+    // ---------- VUE : Résultats de recherche ----------
+    async function renderSearch(query) {
+      let html = '<div class="forum__header">'
+        + '<div>'
+        + '<h1>Recherche</h1>'
+        + '<p>Résultats pour « ' + escapeHtml(query) + ' »</p>'
+        + '</div>'
+        + '</div>';
+
+      html += '<form class="forum__search" id="search-form">'
+        + '<input type="search" id="search-input" placeholder="Rechercher un sujet…" value="' + escapeHtml(query) + '">'
+        + '<button type="submit" class="btn btn-primary">Rechercher</button>'
+        + '</form>';
+
+      const results = await window.LumaForum.searchTopics(query);
+
+      html += '<div class="forum__section">';
+      html += '<div class="forum__section-header">'
+        + '<h2>Résultats</h2>'
+        + '<span class="forum__section-stats">' + results.length + ' résultat' + (results.length > 1 ? "s" : "") + '</span>'
+        + '</div>';
+
+      if (results.length === 0) {
+        html += '<div class="forum__empty"><p>Aucun sujet trouvé.</p></div>';
+      } else {
+        results.forEach(function (topic) {
+          const initial = (topic.authorName || "?").charAt(0).toUpperCase();
+          html += '<a href="/forum?c=' + topic.categoryId + '&t=' + topic.id + '" class="forum__topic">';
+          html += '<div class="forum__topic-avatar">' + initial + '</div>';
+          html += '<div class="forum__topic-body">';
+          html += '<div class="forum__topic-title">';
+          if (topic.pinned) html += '<span class="forum__badge forum__badge--pinned">📌 Épinglé</span>';
+          if (topic.locked) html += '<span class="forum__badge forum__badge--locked">🔒</span>';
+          html += '<h3>' + escapeHtml(topic.title) + '</h3>';
+          html += '</div>';
+          html += '<div class="forum__topic-info">par <strong>' + escapeHtml(topic.authorName) + '</strong> · ' + formatDate(topic.createdAt) + '</div>';
+          html += '</div>';
+          html += '</a>';
+        });
+      }
+
+      html += '</div>';
+
+      contentEl.innerHTML = html;
+      bindSearch();
+    }
+
+    function bindSearch() {
+      const form = document.getElementById("search-form");
+      if (!form) return;
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        const q = document.getElementById("search-input").value.trim();
+        if (q.length < 2) {
+          alert("Entrez au moins 2 caractères.");
+          return;
+        }
+        window.location.href = "/forum?q=" + encodeURIComponent(q);
+      });
+    }
+
+    // ---------- VUE : Catégorie ----------
+    async function renderCategory(catId) {
+      const catDoc = await db.collection("forum_categories").doc(catId).get();
+
+      if (!catDoc.exists) {
+        contentEl.innerHTML = '<div class="forum__empty"><p>Catégorie introuvable.</p></div>';
+        return;
+      }
+
+      const cat = catDoc.data();
+
+      breadcrumbEl.innerHTML = '<a href="/">Accueil</a> <span>›</span> <a href="/forum">Forum</a> <span>›</span> <span>' + escapeHtml(cat.name) + '</span>';
+
+      const subSnap = await db.collection("forum_categories").where("parentId", "==", catId).get();
+      const subs = [];
+      subSnap.forEach(function (doc) { subs.push({ id: doc.id, ...doc.data() }); });
+      subs.sort(function (a, b) { return (a.order || 0) - (b.order || 0); });
+
+      const topicsSnap = await db.collection("forum_topics").where("categoryId", "==", catId).get();
+      const topics = [];
+      topicsSnap.forEach(function (doc) { topics.push({ id: doc.id, ...doc.data() }); });
+
+      topics.sort(function (a, b) {
+        if (a.pinned && !b.pinned) return -1;
+        if (!a.pinned && b.pinned) return 1;
+        const aDate = a.lastReplyAt ? a.lastReplyAt.toMillis() : (a.createdAt ? a.createdAt.toMillis() : 0);
+        const bDate = b.lastReplyAt ? b.lastReplyAt.toMillis() : (b.createdAt ? b.createdAt.toMillis() : 0);
+        return bDate - aDate;
+      });
+
+      const user = auth.currentUser;
+      const canPost = user && !cat.locked;
+
+      let html = '<div class="forum__header">'
+        + '<div>'
+        + '<h1>' + escapeHtml(cat.name) + '</h1>'
+        + (cat.description ? '<p>' + escapeHtml(cat.description) + '</p>' : '')
+        + '</div>';
+
+      if (canPost) {
+        html += '<button type="button" class="btn btn-primary forum__new-topic" id="new-topic-btn">'
+          + '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>'
+          + 'Nouveau sujet'
+          + '</button>';
+      } else if (!user && !cat.locked) {
+        html += '<a href="/connexion" class="btn btn-ghost">Connectez-vous pour poster</a>';
+      }
+
+      html += '</div>';
+
+      if (subs.length > 0) {
+        html += '<div class="forum__section">';
+        html += '<div class="forum__section-header"><h2>Sous-catégories</h2></div>';
+        subs.forEach(function (sub) {
+          html += '<a href="/forum?c=' + sub.id + '" class="forum__cat">';
+          html += '<div class="forum__cat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>';
+          html += '<div class="forum__cat-body">';
+          html += '<div class="forum__cat-title"><h3>' + escapeHtml(sub.name) + '</h3>';
+          if (sub.locked) html += '<span class="forum__badge forum__badge--locked">🔒</span>';
+          if (sub.staffOnly) html += '<span class="forum__badge forum__badge--staff">Staff</span>';
+          html += '</div>';
+          if (sub.description) html += '<div class="forum__cat-desc">' + escapeHtml(sub.description) + '</div>';
+          html += '</div></a>';
+        });
+        html += '</div>';
+      }
+
+      html += '<div class="forum__section">';
+      html += '<div class="forum__section-header">'
+        + '<h2>Discussions</h2>'
+        + '<span class="forum__section-stats">' + topics.length + ' sujet' + (topics.length > 1 ? "s" : "") + '</span>'
+        + '</div>';
+
+      if (topics.length === 0) {
+        html += '<div class="forum__empty">'
+          + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>'
+          + '<p>Aucune discussion dans cette catégorie.</p>'
+          + '</div>';
+      } else {
+        topics.forEach(function (topic) {
+          const initial = (topic.authorName || "?").charAt(0).toUpperCase();
+          html += '<a href="/forum?c=' + catId + '&t=' + topic.id + '" class="forum__topic">';
+          html += '<div class="forum__topic-avatar">' + initial + '</div>';
+          html += '<div class="forum__topic-body">';
+          html += '<div class="forum__topic-title">';
+          if (topic.pinned) html += '<span class="forum__badge forum__badge--pinned">📌 Épinglé</span>';
+          if (topic.locked) html += '<span class="forum__badge forum__badge--locked">🔒</span>';
+          html += '<h3>' + escapeHtml(topic.title) + '</h3>';
+          html += '</div>';
+          html += '<div class="forum__topic-info">par <strong>' + escapeHtml(topic.authorName) + '</strong> · ' + formatDate(topic.createdAt) + '</div>';
+          html += '</div>';
+          html += '<div class="forum__topic-stats">';
+          html += '<div class="forum__topic-stat"><strong>' + (topic.repliesCount || 0) + '</strong>réponses</div>';
+          html += '<div class="forum__topic-stat"><strong>' + (topic.views || 0) + '</strong>vues</div>';
+          html += '</div>';
+          html += '</a>';
+        });
+      }
+
+      html += '</div>';
+
+      contentEl.innerHTML = html;
+    }
+
+    // ---------- VUE : Sujet ----------
+    async function renderTopic(catId, topicId) {
+      const topicDoc = await db.collection("forum_topics").doc(topicId).get();
+
+      if (!topicDoc.exists) {
+        contentEl.innerHTML = '<div class="forum__empty"><p>Sujet introuvable.</p></div>';
+        return;
+      }
+
+      const topic = topicDoc.data();
+
+      try {
+        await db.collection("forum_topics").doc(topicId).update({
+          views: firebase.firestore.FieldValue.increment(1)
+        });
+      } catch (e) {}
+
+      const catDoc = await db.collection("forum_categories").doc(catId).get();
+      const catName = catDoc.exists ? catDoc.data().name : "Catégorie";
+
+      breadcrumbEl.innerHTML = '<a href="/">Accueil</a> <span>›</span> <a href="/forum">Forum</a> <span>›</span> <a href="/forum?c=' + catId + '">' + escapeHtml(catName) + '</a> <span>›</span> <span>' + escapeHtml(topic.title) + '</span>';
+
+      const postsSnap = await db.collection("forum_posts").where("topicId", "==", topicId).get();
+      const posts = [];
+      postsSnap.forEach(function (doc) { posts.push({ id: doc.id, ...doc.data() }); });
+      posts.sort(function (a, b) {
+        const aDate = a.createdAt ? a.createdAt.toMillis() : 0;
+        const bDate = b.createdAt ? b.createdAt.toMillis() : 0;
+        return aDate - bDate;
+      });
+
+      const user = auth.currentUser;
+
+      let html = '<div class="forum__topic-header">';
+      html += '<div class="forum__topic-title">';
+      if (topic.pinned) html += '<span class="forum__badge forum__badge--pinned">📌 Épinglé</span>';
+      if (topic.locked) html += '<span class="forum__badge forum__badge--locked">🔒 Verrouillé</span>';
+      html += '</div>';
+      html += '<h1>' + escapeHtml(topic.title) + '</h1>';
+      html += '<div class="forum__topic-header-meta">';
+      html += '<span>par <strong>' + escapeHtml(topic.authorName) + '</strong></span>';
+      html += '<span>·</span>';
+      html += '<span>' + formatDate(topic.createdAt) + '</span>';
+      html += '<span>·</span>';
+      html += '<span>' + posts.length + ' message' + (posts.length > 1 ? "s" : "") + '</span>';
+      html += '<span>·</span>';
+      html += '<span>' + (topic.views || 0) + ' vue' + (topic.views > 1 ? "s" : "") + '</span>';
+      html += '</div>';
+      if (user) {
+        html += '<button type="button" class="forum__follow-btn" id="follow-btn" data-topic="' + topicId + '">'
+          + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>'
+          + '<span>Suivre</span>'
+          + '</button>';
+      }
+      html += '</div>';
+
+      // Messages
+      html += '<div class="forum__posts">';
+      posts.forEach(function (post) {
+        const initial = (post.authorName || "?").charAt(0).toUpperCase();
+        const gradeClass = getGradeClass(post.authorGrade);
+        const isAuthor = user && user.uid === post.authorId;
+        const reactions = post.reactions || {};
+        const likeList = reactions["👍"] || [];
+        const hasLiked = user && likeList.includes(user.uid);
+
+        html += '<article class="forum__post" data-post-id="' + post.id + '">';
+        html += '<div class="forum__post-author">';
+        html += '<div class="forum__post-avatar">' + initial + '</div>';
+        html += '<div class="forum__post-author-name">' + escapeHtml(post.authorName) + '</div>';
+        if (post.authorGrade) {
+          html += '<div class="forum__post-author-grade ' + gradeClass + '">' + escapeHtml(post.authorGrade) + '</div>';
+        }
+        html += '<div class="forum__post-author-date">' + formatDate(post.createdAt) + '</div>';
+        html += '</div>';
+        html += '<div class="forum__post-content">';
+        html += '<div class="forum__post-body" data-body-for="' + post.id + '">'
+          + (window.LumaBBCode ? window.LumaBBCode.render(post.content) : escapeHtml(post.content))
+          + '</div>';
+
+        if (isAuthor) {
+          html += '<div class="forum__post-editor" data-editor-for="' + post.id + '">';
+          html += '<textarea></textarea>';
+          html += '<div class="forum__post-editor-actions">';
+          html += '<button type="button" class="btn btn-ghost btn-sm" data-cancel-edit="' + post.id + '">Annuler</button>';
+          html += '<button type="button" class="btn btn-primary btn-sm" data-save-edit="' + post.id + '">Enregistrer</button>';
+          html += '</div>';
+          html += '</div>';
+        }
+
+        html += '<div class="forum__post-footer">';
+        html += '<div>';
+        if (post.editedAt) {
+          html += '<span class="forum__post-edited">Modifié ' + formatDate(post.editedAt) + '</span>';
+        }
+        html += '</div>';
+        html += '<div class="forum__post-actions">';
+
+        html += '<button class="forum__reaction' + (hasLiked ? " active" : "") + '" data-reaction="👍" data-post="' + post.id + '">'
+          + '<span class="forum__reaction-emoji">👍</span>'
+          + '<span>' + likeList.length + '</span>'
+          + '</button>';
+
+        if (isAuthor) {
+          html += '<button class="forum__post-action" data-edit-post="' + post.id + '">Modifier</button>';
+          html += '<button class="forum__post-action" data-delete-post="' + post.id + '">Supprimer</button>';
+        } else if (user) {
+          html += '<button class="forum__post-action" data-report-post="' + post.id + '" data-report-topic="' + topicId + '" data-report-cat="' + catId + '">⚠️ Signaler</button>';
+        }
+
+        html += '</div>';
+        html += '</div>';
+        html += '</div>';
+        html += '</article>';
+      });
+      html += '</div>';
+
+      // Formulaire de réponse
+      if (topic.locked) {
+        html += '<div class="forum__locked">'
+          + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>'
+          + '<span>Ce sujet est verrouillé. Vous ne pouvez plus y répondre.</span>'
+          + '</div>';
+      } else {
+        html += '<div class="forum__reply">';
+        html += '<div class="forum__reply-header"><h2>Répondre</h2></div>';
+        html += '<div class="forum__reply-toolbar">';
+        html += '<button type="button" data-bb="b" title="Gras"><strong>B</strong></button>';
+        html += '<button type="button" data-bb="i" title="Italique"><em>I</em></button>';
+        html += '<button type="button" data-bb="u" title="Souligné"><u>U</u></button>';
+        html += '<button type="button" data-bb="s" title="Barré"><s>S</s></button>';
+        html += '<span class="divider"></span>';
+        html += '<button type="button" data-bb="quote" title="Citation">❝</button>';
+        html += '<button type="button" data-bb="code" title="Code">&lt;/&gt;</button>';
+        html += '<button type="button" data-bb="center" title="Centrer">≡</button>';
+        html += '</div>';
+        html += '<textarea id="reply-content" placeholder="Écrivez votre message… (BBcode supporté)"></textarea>';
+        html += '<div class="forum__dropzone" id="reply-dropzone">'
+          + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>'
+          + 'Glissez une image ici ou cliquez pour en choisir une'
+          + '</div>';
+        html += '<input type="file" id="reply-file" accept="image/*" style="display:none">';
+        html += '<div class="forum__upload-preview" id="reply-preview"></div>';
+        html += '<div class="forum__reply-footer">';
+        html += '<span class="forum__reply-hint">Ctrl + Entrée pour envoyer · BBcode supporté</span>';
+        html += '<button type="button" class="btn btn-primary btn-sm" id="reply-submit">Envoyer</button>';
+        html += '</div>';
+        html += '<div class="forum__reply-status" id="reply-status"></div>';
+        html += '</div>';
+      }
+
+      contentEl.innerHTML = html;
+
+      bindReplyEvents(topicId, catId);
+      bindToolbarEvents();
+      bindFollowButton(topicId);
+      checkFollowState(topicId);
+    }
+
+    // ============================================================
+    // BINDINGS
+    // ============================================================
+    function bindToolbarEvents() {
+      const textarea = document.getElementById("reply-content");
+      if (!textarea) return;
+
+      document.querySelectorAll("[data-bb]").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          const tag = btn.dataset.bb;
+          const start = textarea.selectionStart;
+          const end = textarea.selectionEnd;
+          const selected = textarea.value.substring(start, end);
+          const before = textarea.value.substring(0, start);
+          const after = textarea.value.substring(end);
+          const wrapped = "[" + tag + "]" + (selected || "texte") + "[/" + tag + "]";
+          textarea.value = before + wrapped + after;
+          textarea.focus();
+          textarea.selectionStart = textarea.selectionEnd = start + wrapped.length;
+        });
+      });
+    }
+
+    function bindReplyEvents(topicId, catId) {
+      const submitBtn = document.getElementById("reply-submit");
+      const textarea = document.getElementById("reply-content");
+      const statusEl = document.getElementById("reply-status");
+
+      if (!submitBtn || !textarea) return;
+
+      textarea.addEventListener("keydown", function (e) {
+        if (e.ctrlKey && e.key === "Enter") {
+          e.preventDefault();
+          submitBtn.click();
+        }
+      });
+
+      submitBtn.addEventListener("click", async function () {
+        const content = textarea.value.trim();
+
+        if (content.length < 1 && uploadedImages.length === 0) {
+          statusEl.textContent = "Le message ne peut pas être vide.";
+          statusEl.className = "forum__reply-status forum__reply-status--error";
+          return;
+        }
+
+        const user = auth.currentUser;
+        if (!user) {
+          window.location.href = "/connexion";
+          return;
+        }
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Envoi…";
+        statusEl.textContent = "Publication en cours…";
+        statusEl.className = "forum__reply-status forum__reply-status--info";
+
+        try {
+          const userDoc = await db.collection("Utilisateurs").doc(user.uid).get();
+          const userData = userDoc.exists ? userDoc.data() : {};
+          const authorName = userData.username || user.displayName || "Anonyme";
+          const authorGrade = userData.grade || "Membre";
+
+          // Ajoute les images au contenu
+          let fullContent = content;
+          if (uploadedImages.length > 0) {
+            fullContent += (fullContent ? "\n\n" : "") + uploadedImages.map(function (url) {
+              return "[img]" + url + "[/img]";
+            }).join("\n");
+          }
+
+          await db.collection("forum_posts").add({
+            topicId: topicId,
+            categoryId: catId,
+            authorId: user.uid,
+            authorName: authorName,
+            authorGrade: authorGrade,
+            content: fullContent,
+            editedAt: null,
+            editedBy: null,
+            reactions: {},
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+
+          await db.collection("forum_topics").doc(topicId).update({
+            repliesCount: firebase.firestore.FieldValue.increment(1),
+            lastReplyAt: firebase.firestore.FieldValue.serverTimestamp(),
+            lastReplyBy: user.uid
+          });
+
+          // Notifie les followers
+          if (window.LumaForum) {
+            const tDoc = await db.collection("forum_topics").doc(topicId).get();
+            const tData = tDoc.data();
+            await window.LumaForum.notifyFollowers(topicId, catId, tData.title, authorName, user.uid);
+          }
+
+          uploadedImages = [];
+          statusEl.textContent = "✅ Message publié !";
+          statusEl.className = "forum__reply-status forum__reply-status--success";
+
+          setTimeout(function () { window.location.reload(); }, 600);
+
+        } catch (err) {
+          console.error("[Forum]", err);
+          statusEl.textContent = "Erreur : " + (err.message || "impossible de publier.");
+          statusEl.className = "forum__reply-status forum__reply-status--error";
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Envoyer";
+        }
+      });
+
+      // ===== Upload d'images =====
+      const dropzone = document.getElementById("reply-dropzone");
+      const fileInput = document.getElementById("reply-file");
+      const previewEl = document.getElementById("reply-preview");
+
+      if (dropzone && fileInput) {
+        dropzone.addEventListener("click", function () { fileInput.click(); });
+
+        fileInput.addEventListener("change", function () {
+          handleFiles(fileInput.files);
+          fileInput.value = "";
+        });
+
+        dropzone.addEventListener("dragover", function (e) {
+          e.preventDefault();
+          dropzone.classList.add("dragover");
+        });
+        dropzone.addEventListener("dragleave", function () {
+          dropzone.classList.remove("dragover");
+        });
+        dropzone.addEventListener("drop", function (e) {
+          e.preventDefault();
+          dropzone.classList.remove("dragover");
+          handleFiles(e.dataTransfer.files);
+        });
+      }
+
+      async function handleFiles(files) {
+        const user = auth.currentUser;
+        if (!user) {
+          alert("Connectez-vous pour uploader des images.");
+          return;
+        }
+
+        for (const file of files) {
+          if (!file.type.startsWith("image/")) {
+            alert("Seules les images sont autorisées.");
+            continue;
+          }
+
+          const tempId = "temp_" + Date.now() + Math.random();
+          const placeholder = document.createElement("div");
+          placeholder.className = "forum__upload-item";
+          placeholder.id = tempId;
+          placeholder.innerHTML = '<div style="display:grid;place-items:center;height:100%;font-size:0.7rem;color:var(--text-muted);">Envoi…</div>';
+          previewEl.appendChild(placeholder);
+
+          try {
+            const url = await window.LumaForum.uploadImage(file, user.uid);
+            uploadedImages.push(url);
+            placeholder.innerHTML = '<img src="' + url + '" alt=""><button type="button" class="forum__upload-remove" data-remove="' + url + '">✕</button>';
+          } catch (err) {
+            console.error("[Upload]", err);
+            placeholder.innerHTML = '<div style="display:grid;place-items:center;height:100%;font-size:0.7rem;color:var(--danger);">Erreur</div>';
+            setTimeout(function () { placeholder.remove(); }, 2000);
+          }
+        }
+      }
+
+      // Retire une image
+      document.addEventListener("click", function (e) {
+        const removeBtn = e.target.closest("[data-remove]");
+        if (removeBtn) {
+          const url = removeBtn.dataset.remove;
+          uploadedImages = uploadedImages.filter(function (u) { return u !== url; });
+          removeBtn.closest(".forum__upload-item").remove();
+        }
+      });
+    }
+
+    // ---------- Suivi de sujet ----------
+    function bindFollowButton(topicId) {
+      const btn = document.getElementById("follow-btn");
+      if (!btn) return;
+
+      btn.addEventListener("click", async function () {
+        const user = auth.currentUser;
+        if (!user) {
+          window.location.href = "/connexion";
+          return;
+        }
+
+        const isActive = btn.classList.contains("active");
+        btn.disabled = true;
+
+        try {
+          if (isActive) {
+            await window.LumaForum.unfollow(user.uid, topicId);
+            btn.classList.remove("active");
+            btn.querySelector("span").textContent = "Suivre";
+          } else {
+            await window.LumaForum.follow(user.uid, topicId, categorySlug);
+            btn.classList.add("active");
+            btn.querySelector("span").textContent = "Suivi";
+          }
+        } catch (err) {
+          console.error(err);
+          alert("Erreur : " + err.message);
+        }
+
+        btn.disabled = false;
+      });
+    }
+
+    async function checkFollowState(topicId) {
+      const user = auth.currentUser;
+      if (!user) return;
+
+      const btn = document.getElementById("follow-btn");
+      if (!btn) return;
+
+      const following = await window.LumaForum.isFollowing(user.uid, topicId);
+      if (following) {
+        btn.classList.add("active");
+        btn.querySelector("span").textContent = "Suivi";
+      }
+    }
+
+    // ============================================================
+    // ACTIONS (édition, suppression, réactions, signalement)
+    // ============================================================
+    document.addEventListener("click", async function (e) {
+      // Modifier
+      const editBtn = e.target.closest("[data-edit-post]");
+      if (editBtn) {
+        const postId = editBtn.dataset.editPost;
+        const editor = document.querySelector('[data-editor-for="' + postId + '"]');
+        const body = document.querySelector('[data-body-for="' + postId + '"]');
+        if (editor && body) {
+          const post = await db.collection("forum_posts").doc(postId).get();
+          if (post.exists) editor.querySelector("textarea").value = post.data().content;
+          editor.classList.add("open");
+          body.style.display = "none";
+          editBtn.style.display = "none";
+        }
+        return;
+      }
+
+      const cancelEditBtn = e.target.closest("[data-cancel-edit]");
+      if (cancelEditBtn) {
+        const postId = cancelEditBtn.dataset.cancelEdit;
+        const editor = document.querySelector('[data-editor-for="' + postId + '"]');
+        const body = document.querySelector('[data-body-for="' + postId + '"]');
+        const editBtn = document.querySelector('[data-edit-post="' + postId + '"]');
+        if (editor) editor.classList.remove("open");
+        if (body) body.style.display = "";
+        if (editBtn) editBtn.style.display = "";
+        return;
+      }
+
+      const saveEditBtn = e.target.closest("[data-save-edit]");
+      if (saveEditBtn) {
+        const postId = saveEditBtn.dataset.saveEdit;
+        const editor = document.querySelector('[data-editor-for="' + postId + '"]');
+        const textarea = editor.querySelector("textarea");
+        const newContent = textarea.value.trim();
+        if (newContent.length < 1) { alert("Message vide."); return; }
+        saveEditBtn.disabled = true;
+        saveEditBtn.textContent = "Enregistrement…";
+        try {
+          await db.collection("forum_posts").doc(postId).update({
+            content: newContent,
+            editedAt: firebase.firestore.FieldValue.serverTimestamp(),
+            editedBy: auth.currentUser.uid
+          });
+          window.location.reload();
+        } catch (err) {
+          alert("Erreur : " + err.message);
+          saveEditBtn.disabled = false;
+          saveEditBtn.textContent = "Enregistrer";
+        }
+        return;
+      }
+
+      const deleteBtn = e.target.closest("[data-delete-post]");
+      if (deleteBtn) {
+        const postId = deleteBtn.dataset.deletePost;
+        if (!confirm("Supprimer ce message ?")) return;
+        try {
+          await db.collection("forum_posts").doc(postId).delete();
+          if (topicSlug) {
+            await db.collection("forum_topics").doc(topicSlug).update({
+              repliesCount: firebase.firestore.FieldValue.increment(-1)
+            });
+          }
+          window.location.reload();
+        } catch (err) {
+          alert("Erreur : " + err.message);
+        }
+        return;
+      }
+
+      const reactionBtn = e.target.closest("[data-reaction]");
+      if (reactionBtn) {
+        const postId = reactionBtn.dataset.post;
+        const emoji = reactionBtn.dataset.reaction;
+        const user = auth.currentUser;
+        if (!user) { window.location.href = "/connexion"; return; }
+
+        try {
+          const postRef = db.collection("forum_posts").doc(postId);
+          const post = await postRef.get();
+          const reactions = post.data().reactions || {};
+          const current = reactions[emoji] || [];
+          const hasReacted = current.includes(user.uid);
+          const newList = hasReacted
+            ? current.filter(function (uid) { return uid !== user.uid; })
+            : current.concat([user.uid]);
+
+          const newReactions = Object.assign({}, reactions);
+          if (newList.length === 0) delete newReactions[emoji];
+          else newReactions[emoji] = newList;
+
+          await postRef.update({ reactions: newReactions });
+          reactionBtn.classList.toggle("active", !hasReacted);
+          const countEl = reactionBtn.querySelector("span:last-child");
+          if (countEl) countEl.textContent = newList.length;
+        } catch (err) {
+          console.error(err);
+        }
+        return;
+      }
+    });
+
+    // ============================================================
+    // MODAL Nouveau sujet
+    // ============================================================
+    const modal = document.getElementById("new-topic-modal");
+    const modalForm = document.getElementById("new-topic-form");
+    const modalStatus = document.getElementById("new-topic-status");
+
+    function openModal() {
+      modal.classList.add("open");
+      document.body.style.overflow = "hidden";
+      setTimeout(function () { document.getElementById("topic-title").focus(); }, 100);
+    }
+
+    function closeModal() {
+      modal.classList.remove("open");
+      document.body.style.overflow = "";
+      modalForm.reset();
+      modalStatus.textContent = "";
+    }
+
+    document.getElementById("modal-close")?.addEventListener("click", closeModal);
+    document.getElementById("modal-cancel")?.addEventListener("click", closeModal);
+    modal?.addEventListener("click", function (e) {
+      if (e.target === modal) closeModal();
+    });
+
+    modalForm?.addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const title = document.getElementById("topic-title").value.trim();
+      const content = document.getElementById("topic-content").value.trim();
+      const submitBtn = document.getElementById("modal-submit");
+
+      if (title.length < 3 || title.length > 200) {
+        modalStatus.textContent = "Titre : 3 à 200 caractères.";
+        modalStatus.className = "modal__status modal__status--error";
+        return;
+      }
+      if (content.length < 1) {
+        modalStatus.textContent = "Message vide.";
+        modalStatus.className = "modal__status modal__status--error";
+        return;
+      }
+
+      const user = auth.currentUser;
+      if (!user) { window.location.href = "/connexion"; return; }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Création…";
+      modalStatus.textContent = "Création du sujet…";
+      modalStatus.className = "modal__status modal__status--info";
 
       try {
         const userDoc = await db.collection("Utilisateurs").doc(user.uid).get();
-        if (!userDoc.exists) {
-          loadingEl.style.display = "none";
-          accessDeniedEl.style.display = "block";
-          return;
-        }
+        const userData = userDoc.exists ? userDoc.data() : {};
+        const authorName = userData.username || user.displayName || "Anonyme";
+        const authorGrade = userData.grade || "Membre";
 
-        currentGrade = userDoc.data().grade || "";
+        const slug = title.toLowerCase()
+          .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/(^-|-$)/g, "")
+          .substring(0, 80);
 
-        if (!isStaff(currentGrade)) {
-          loadingEl.style.display = "none";
-          accessDeniedEl.style.display = "block";
-          return;
-        }
+        const topicRef = await db.collection("forum_topics").add({
+          title: title,
+          slug: slug,
+          categoryId: categorySlug,
+          authorId: user.uid,
+          authorName: authorName,
+          authorGrade: authorGrade,
+          locked: false,
+          pinned: false,
+          views: 0,
+          repliesCount: 0,
+          lastReplyAt: firebase.firestore.FieldValue.serverTimestamp(),
+          lastReplyBy: user.uid,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
 
-        // Accès autorisé
-        loadingEl.style.display = "none";
-        layoutEl.style.display = "grid";
+        await db.collection("forum_posts").add({
+          topicId: topicRef.id,
+          categoryId: categorySlug,
+          authorId: user.uid,
+          authorName: authorName,
+          authorGrade: authorGrade,
+          content: content,
+          editedAt: null,
+          editedBy: null,
+          reactions: {},
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
 
-        // Charge les catégories
-        await loadCategories();
+        modalStatus.textContent = "✅ Sujet créé ! Redirection…";
+        modalStatus.className = "modal__status modal__status--success";
+        setTimeout(function () {
+          window.location.href = "/forum?c=" + categorySlug + "&t=" + topicRef.id;
+        }, 800);
 
       } catch (err) {
-        console.error("[Admin]", err);
-        loadingEl.textContent = "Erreur : " + (err.message || "impossible de vérifier les permissions.");
+        console.error(err);
+        modalStatus.textContent = "Erreur : " + err.message;
+        modalStatus.className = "modal__status modal__status--error";
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Créer le sujet";
       }
     });
 
-    // ============================================================
-    // ONGLETS
-    // ============================================================
-    document.querySelectorAll(".admin__nav-item").forEach(function (btn) {
-      btn.addEventListener("click", function () {
-        const tab = btn.dataset.tab;
-        document.querySelectorAll(".admin__nav-item").forEach(function (b) {
-          b.classList.toggle("active", b === btn);
-        });
-        document.querySelectorAll(".admin__panel").forEach(function (p) {
-          p.classList.toggle("active", p.dataset.panel === tab);
-        });
-
-        if (tab === "topics") loadTopics();
-      });
+    document.addEventListener("click", function (e) {
+      if (e.target.closest("#new-topic-btn")) openModal();
     });
 
     // ============================================================
-    // CHARGEMENT DES CATÉGORIES
+    // MODAL Signalement
     // ============================================================
-    async function loadCategories() {
-      const snap = await db.collection("forum_categories").get();
-      allCategories = [];
-      snap.forEach(function (doc) {
-        allCategories.push({ id: doc.id, ...doc.data() });
+    const reportModal = document.getElementById("report-modal");
+    const reportForm = document.getElementById("report-form");
+    const reportStatus = document.getElementById("report-status");
+
+    function openReportModal(postId, topicId, catId) {
+      reportForm.reset();
+      document.getElementById("report-post-id").value = postId;
+      document.getElementById("report-topic-id").value = topicId;
+      document.getElementById("report-cat-id").value = catId;
+      reportStatus.textContent = "";
+      document.querySelectorAll(".forum__report-reason").forEach(function (el) {
+        el.classList.remove("selected");
       });
-      allCategories.sort(function (a, b) { return (a.order || 0) - (b.order || 0); });
-
-      renderCategories();
-      renderCategorySelect();
-    }
-
-    function renderCategories() {
-      const container = document.getElementById("categories-list");
-
-      if (allCategories.length === 0) {
-        container.innerHTML = '<div class="admin__empty">Aucune catégorie. Cliquez sur "Nouvelle catégorie" pour en créer une.</div>';
-        return;
-      }
-
-      let html = "";
-      allCategories.forEach(function (cat) {
-        const parent = cat.parentId ? allCategories.find(function (c) { return c.id === cat.parentId; }) : null;
-
-        html += '<div class="admin__cat-item">';
-        html += '<div class="admin__cat-info">';
-        html += '<strong>' + escapeHtml(cat.name) + '</strong>';
-        html += '<span>'
-          + (parent ? '↳ dans ' + escapeHtml(parent.name) + ' · ' : '')
-          + 'Ordre : ' + (cat.order || 0)
-          + '</span>';
-        html += '</div>';
-
-        html += '<div class="admin__cat-badges">';
-        if (cat.locked) html += '<span class="forum__badge forum__badge--locked">🔒 Verrouillée</span>';
-        if (cat.staffOnly) html += '<span class="forum__badge forum__badge--staff">Staff</span>';
-        html += '</div>';
-
-        html += '<div class="admin__cat-actions">';
-        html += '<button class="admin__icon-btn" data-edit-cat="' + cat.id + '" title="Modifier">'
-          + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>'
-          + '</button>';
-        html += '<button class="admin__icon-btn danger" data-delete-cat="' + cat.id + '" title="Supprimer">'
-          + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>'
-          + '</button>';
-        html += '</div>';
-        html += '</div>';
-      });
-
-      container.innerHTML = html;
-    }
-
-    function renderCategorySelect() {
-      const select = document.getElementById("cat-parent");
-      let html = '<option value="">— Aucune (catégorie racine) —</option>';
-      allCategories.forEach(function (cat) {
-        html += '<option value="' + cat.id + '">' + escapeHtml(cat.name) + '</option>';
-      });
-      select.innerHTML = html;
-    }
-
-    // ============================================================
-    // MODAL CATÉGORIE
-    // ============================================================
-    const modal = document.getElementById("category-modal");
-    const form = document.getElementById("category-form");
-    const formTitle = document.getElementById("category-modal-title");
-    const statusEl = document.getElementById("category-status");
-    const editIdInput = document.getElementById("cat-edit-id");
-
-    function openCategoryModal(cat) {
-      form.reset();
-      statusEl.textContent = "";
-      statusEl.className = "admin__status";
-
-      if (cat) {
-        formTitle.textContent = "Modifier la catégorie";
-        editIdInput.value = cat.id;
-        document.getElementById("cat-name").value = cat.name || "";
-        document.getElementById("cat-desc").value = cat.description || "";
-        document.getElementById("cat-parent").value = cat.parentId || "";
-        document.getElementById("cat-order").value = cat.order || 0;
-        document.getElementById("cat-locked").checked = !!cat.locked;
-        document.getElementById("cat-staff-only").checked = !!cat.staffOnly;
-      } else {
-        formTitle.textContent = "Nouvelle catégorie";
-        editIdInput.value = "";
-        document.getElementById("cat-order").value = 0;
-      }
-
-      modal.classList.add("open");
+      reportModal.classList.add("open");
       document.body.style.overflow = "hidden";
     }
 
-    function closeCategoryModal() {
-      modal.classList.remove("open");
+    function closeReportModal() {
+      reportModal.classList.remove("open");
       document.body.style.overflow = "";
     }
 
-    document.getElementById("new-category-btn").addEventListener("click", function () {
-      openCategoryModal(null);
+    document.getElementById("report-modal-close")?.addEventListener("click", closeReportModal);
+    document.getElementById("report-cancel")?.addEventListener("click", closeReportModal);
+    reportModal?.addEventListener("click", function (e) {
+      if (e.target === reportModal) closeReportModal();
     });
 
-    document.getElementById("category-modal-close").addEventListener("click", closeCategoryModal);
-    document.getElementById("category-cancel").addEventListener("click", closeCategoryModal);
-    modal.addEventListener("click", function (e) {
-      if (e.target === modal) closeCategoryModal();
+    document.addEventListener("click", function (e) {
+      const reportBtn = e.target.closest("[data-report-post]");
+      if (reportBtn) {
+        openReportModal(
+          reportBtn.dataset.reportPost,
+          reportBtn.dataset.reportTopic,
+          reportBtn.dataset.reportCat
+        );
+      }
     });
 
-    // ============================================================
-    // ENREGISTREMENT CATÉGORIE
-    // ============================================================
-    form.addEventListener("submit", async function (e) {
+    document.getElementById("report-reasons")?.addEventListener("change", function () {
+      document.querySelectorAll(".forum__report-reason").forEach(function (el) {
+        el.classList.toggle("selected", el.querySelector("input").checked);
+      });
+    });
+
+    reportForm?.addEventListener("submit", async function (e) {
       e.preventDefault();
-      const submitBtn = document.getElementById("category-submit");
-      const editId = editIdInput.value;
+      const submitBtn = document.getElementById("report-submit");
+      const user = auth.currentUser;
+      if (!user) { window.location.href = "/connexion"; return; }
 
-      const name = document.getElementById("cat-name").value.trim();
-      const desc = document.getElementById("cat-desc").value.trim();
-      const parentId = document.getElementById("cat-parent").value || null;
-      const order = parseInt(document.getElementById("cat-order").value, 10) || 0;
-      const locked = document.getElementById("cat-locked").checked;
-      const staffOnly = document.getElementById("cat-staff-only").checked;
-
-      if (name.length < 1) {
-        statusEl.textContent = "Le nom est obligatoire.";
-        statusEl.className = "admin__status admin__status--error";
+      const reasonEl = document.querySelector('input[name="reason"]:checked');
+      if (!reasonEl) {
+        reportStatus.textContent = "Choisissez une raison.";
+        reportStatus.className = "modal__status modal__status--error";
         return;
       }
 
       submitBtn.disabled = true;
-      submitBtn.textContent = "Enregistrement…";
-      statusEl.textContent = "Enregistrement…";
-      statusEl.className = "admin__status admin__status--info";
+      submitBtn.textContent = "Envoi…";
+      reportStatus.textContent = "Envoi…";
+      reportStatus.className = "modal__status modal__status--info";
 
       try {
-        if (editId) {
-          // Update
-          await db.collection("forum_categories").doc(editId).update({
-            name: name,
-            description: desc,
-            parentId: parentId,
-            order: order,
-            locked: locked,
-            staffOnly: staffOnly,
-            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-          });
-        } else {
-          // Create
-          await db.collection("forum_categories").add({
-            name: name,
-            slug: slugify(name),
-            description: desc,
-            parentId: parentId,
-            order: order,
-            locked: locked,
-            staffOnly: staffOnly,
-            createdBy: currentUser.uid,
-            createdAt: firebase.firestore.FieldValue.serverTimestamp()
-          });
-        }
+        const userDoc = await db.collection("Utilisateurs").doc(user.uid).get();
+        const username = userDoc.exists ? (userDoc.data().username || "Anonyme") : "Anonyme";
 
-        statusEl.textContent = "✅ Catégorie enregistrée !";
-        statusEl.className = "admin__status admin__status--success";
+        await window.LumaForum.reportPost({
+          postId: document.getElementById("report-post-id").value,
+          topicId: document.getElementById("report-topic-id").value,
+          categoryId: document.getElementById("report-cat-id").value,
+          reporterId: user.uid,
+          reporterName: username,
+          reason: reasonEl.value,
+          message: document.getElementById("report-message").value.trim()
+        });
 
-        await loadCategories();
-
-        setTimeout(function () {
-          closeCategoryModal();
-          submitBtn.disabled = false;
-          submitBtn.textContent = "Enregistrer";
-        }, 800);
+        reportStatus.textContent = "✅ Signalement envoyé. Merci !";
+        reportStatus.className = "modal__status modal__status--success";
+        setTimeout(closeReportModal, 1200);
 
       } catch (err) {
-        console.error("[Admin] Erreur save catégorie :", err);
-        statusEl.textContent = "Erreur : " + (err.message || "impossible d'enregistrer.");
-        statusEl.className = "admin__status admin__status--error";
-        submitBtn.disabled = false;
-        submitBtn.textContent = "Enregistrer";
+        reportStatus.textContent = "Erreur : " + err.message;
+        reportStatus.className = "modal__status modal__status--error";
       }
+
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Envoyer le signalement";
     });
 
     // ============================================================
-    // ACTIONS SUR LES CATÉGORIES
+    // LANCEMENT
     // ============================================================
-    document.getElementById("categories-list").addEventListener("click", async function (e) {
-      // Modifier
-      const editBtn = e.target.closest("[data-edit-cat]");
-      if (editBtn) {
-        const cat = allCategories.find(function (c) { return c.id === editBtn.dataset.editCat; });
-        if (cat) openCategoryModal(cat);
-        return;
-      }
+    let renderDone = false;
 
-      // Supprimer
-      const deleteBtn = e.target.closest("[data-delete-cat]");
-      if (deleteBtn) {
-        const catId = deleteBtn.dataset.deleteCat;
-        const cat = allCategories.find(function (c) { return c.id === catId; });
-        if (!cat) return;
-
-        const confirmMsg = "Supprimer la catégorie \"" + cat.name + "\" ?\n\nATTENTION : tous les sujets et messages dans cette catégorie ne seront pas supprimés automatiquement. Continuer ?";
-        if (!confirm(confirmMsg)) return;
-
-        try {
-          await db.collection("forum_categories").doc(catId).delete();
-          await loadCategories();
-        } catch (err) {
-          console.error("[Admin] Erreur suppression :", err);
-          alert("Erreur : " + (err.message || "impossible de supprimer."));
-        }
-        return;
-      }
+    auth.onAuthStateChanged(function () {
+      if (renderDone) return;
+      renderDone = true;
+      render();
     });
 
-    // ============================================================
-    // CHARGEMENT DES SUJETS (modération)
-    // ============================================================
-    async function loadTopics() {
-      const container = document.getElementById("topics-list");
-
-      try {
-        const snap = await db.collection("forum_topics").limit(50).get();
-
-        const topics = [];
-        snap.forEach(function (doc) {
-          topics.push({ id: doc.id, ...doc.data() });
-        });
-
-        topics.sort(function (a, b) {
-          const aDate = a.createdAt ? a.createdAt.toMillis() : 0;
-          const bDate = b.createdAt ? b.createdAt.toMillis() : 0;
-          return bDate - aDate;
-        });
-
-        if (topics.length === 0) {
-          container.innerHTML = '<div class="admin__empty">Aucun sujet pour le moment.</div>';
-          return;
-        }
-
-        let html = "";
-        topics.forEach(function (topic) {
-          const cat = allCategories.find(function (c) { return c.id === topic.categoryId; });
-          const catName = cat ? cat.name : "(catégorie supprimée)";
-
-          html += '<div class="admin__topic">';
-          html += '<div class="admin__topic-info">';
-          html += '<strong>' + escapeHtml(topic.title) + '</strong>';
-          html += '<span>dans ' + escapeHtml(catName) + ' · par ' + escapeHtml(topic.authorName || "?") + '</span>';
-          html += '</div>';
-
-          html += '<div class="admin__cat-badges">';
-          if (topic.pinned) html += '<span class="forum__badge forum__badge--pinned">📌</span>';
-          if (topic.locked) html += '<span class="forum__badge forum__badge--locked">🔒</span>';
-          html += '</div>';
-
-          html += '<div class="admin__topic-actions">';
-          html += '<a href="/forum?c=' + topic.categoryId + '&t=' + topic.id + '" class="admin__icon-btn" title="Voir">'
-            + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>'
-            + '</a>';
-          html += '<button class="admin__icon-btn" data-pin-topic="' + topic.id + '" title="' + (topic.pinned ? "Désépingler" : "Épingler") + '">'
-            + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="17" x2="12" y2="22"/><path d="M5 17h14v-1.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V6h1a2 2 0 0 0 0-4H8a2 2 0 0 0 0 4h1v4.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24z"/></svg>'
-            + '</button>';
-          html += '<button class="admin__icon-btn" data-lock-topic="' + topic.id + '" title="' + (topic.locked ? "Déverrouiller" : "Verrouiller") + '">'
-            + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>'
-            + '</button>';
-          html += '<button class="admin__icon-btn danger" data-delete-topic="' + topic.id + '" title="Supprimer">'
-            + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>'
-            + '</button>';
-          html += '</div>';
-          html += '</div>';
-        });
-
-        container.innerHTML = html;
-
-      } catch (err) {
-        console.error("[Admin] Erreur topics :", err);
-        container.innerHTML = '<div class="admin__empty">Erreur de chargement.</div>';
+    setTimeout(function () {
+      if (!renderDone) {
+        renderDone = true;
+        render();
       }
-    }
-
-    // ============================================================
-    // ACTIONS SUR LES SUJETS
-    // ============================================================
-    document.getElementById("topics-list").addEventListener("click", async function (e) {
-      const pinBtn = e.target.closest("[data-pin-topic]");
-      if (pinBtn) {
-        const topicId = pinBtn.dataset.pinTopic;
-        const doc = await db.collection("forum_topics").doc(topicId).get();
-        const current = doc.data().pinned || false;
-        await db.collection("forum_topics").doc(topicId).update({
-          pinned: !current,
-          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-        });
-        loadTopics();
-        return;
-      }
-
-      const lockBtn = e.target.closest("[data-lock-topic]");
-      if (lockBtn) {
-        const topicId = lockBtn.dataset.lockTopic;
-        const doc = await db.collection("forum_topics").doc(topicId).get();
-        const current = doc.data().locked || false;
-        await db.collection("forum_topics").doc(topicId).update({
-          locked: !current,
-          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-        });
-        loadTopics();
-        return;
-      }
-
-      const deleteBtn = e.target.closest("[data-delete-topic]");
-      if (deleteBtn) {
-        const topicId = deleteBtn.dataset.deleteTopic;
-        if (!confirm("Supprimer ce sujet et TOUS ses messages ? Cette action est irréversible.")) return;
-
-        try {
-          // Supprime tous les posts du topic
-          const postsSnap = await db.collection("forum_posts")
-            .where("topicId", "==", topicId)
-            .get();
-
-          const batch = db.batch();
-          postsSnap.forEach(function (doc) {
-            batch.delete(doc.ref);
-          });
-          batch.delete(db.collection("forum_topics").doc(topicId));
-          await batch.commit();
-
-          loadTopics();
-        } catch (err) {
-          console.error("[Admin] Erreur suppression sujet :", err);
-          alert("Erreur : " + (err.message || "impossible de supprimer."));
-        }
-        return;
-      }
-    });
+    }, 1500);
   </script>
 </body>
 </html>
