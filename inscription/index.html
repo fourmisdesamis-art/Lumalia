@@ -216,15 +216,15 @@
     document.getElementById("footer-year").textContent = new Date().getFullYear();
 
     // ============================================================
-    // CONFIGURATION FIREBASE — REMPLACE PAR TES VALEURS
+    // CONFIGURATION FIREBASE
     // ============================================================
     const firebaseConfig = {
-      apiKey: « AIzaSyBSCqSsBTXk9Q8sBX88NgrdDHUAHT0Cq6I »,
-      authDomain: « lumalia.firebaseapp.com »,
-      projectId: « lumalia »,
-      storageBucket: « lumalia.firebasestorage.app »,
-      messageageSenderId: « 189011821397 »,
-      appId: « 1:189011821397 :web :03c8609d35d488dce2a5dc »
+      apiKey: "AIzaSyBSCqSsBTXk9Q8sBX88NgrdDHUAHT0Cq6I",
+      authDomain: "lumalia.firebaseapp.com",
+      projectId: "lumalia",
+      storageBucket: "lumalia.firebasestorage.app",
+      messagingSenderId: "189011821397",
+      appId: "1:189011821397:web:03c8609d35d488dce2a5dc"
     };
 
     firebase.initializeApp(firebaseConfig);
@@ -248,12 +248,14 @@
     const submitBtn = document.getElementById("signup-submit");
 
     function showError(field, message) {
-      const el = document.querySelector(`[data-error-for="${field}"]`);
+      const el = document.querySelector('[data-error-for="' + field + '"]');
       if (el) el.textContent = message;
     }
 
     function clearErrors() {
-      document.querySelectorAll(".auth__error").forEach(el => el.textContent = "");
+      document.querySelectorAll(".auth__error").forEach(function (el) {
+        el.textContent = "";
+      });
       statusEl.textContent = "";
       statusEl.className = "auth__status";
     }
@@ -279,14 +281,14 @@
       return valid;
     }
 
-    form.addEventListener("submit", async (e) => {
+    form.addEventListener("submit", async function (e) {
       e.preventDefault();
       clearErrors();
 
       const data = {
         email: form.email.value.trim(),
         username: form.username.value.trim(),
-        password: form.password.value,
+        password: form.password.value
       };
 
       if (!validateForm(data)) return;
@@ -313,31 +315,31 @@
           username: data.username,
           twofaEnabled: false,
           emailVerified: false,
-          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
         });
 
         statusEl.textContent = "Étape 3/3 : envoi de l'email de vérification…";
 
-        // 4. Générer un token unique pour EmailJS
+        // 4. Générer un token unique
         const token = crypto.randomUUID();
 
-        // 5. Stocker le token en localStorage (pour la page /2fa/)
+        // 5. Stocker le token en localStorage
         localStorage.setItem("luma_pending_signup", JSON.stringify({
           uid: user.uid,
           email: data.email,
           username: data.username,
           token: token,
-          createdAt: Date.now(),
+          createdAt: Date.now()
         }));
 
         // 6. Envoyer l'email de vérification via EmailJS
-        const verifyLink = `https://lumania.fr/2fa/?token=${token}`;
+        const verifyLink = "https://lumania.fr/2fa/?token=" + token;
 
         await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
           to_email: data.email,
           to_name: data.username,
           verification_link: verifyLink,
-          app_name: "Lumalia",
+          app_name: "Lumalia"
         });
 
         statusEl.textContent = "✅ Compte créé ! Un email de vérification vient de vous être envoyé. Vérifiez votre boîte (et vos spams).";
