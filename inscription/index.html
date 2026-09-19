@@ -24,7 +24,7 @@
 <body>
 
   <!-- NAVBAR -->
-  <header class="navbar">
+    <header class="navbar">
     <div class="container navbar__inner">
       <a href="/" class="navbar__logo" aria-label="Lumalia — Accueil">
         <img src="/assets/img/logo-lumalia.png" alt="" class="navbar__logo-mark" width="32" height="32">
@@ -70,6 +70,7 @@
       </nav>
 
       <div class="navbar__actions">
+
         <div class="lang-switch">
           <button class="lang-switch__btn" type="button" aria-label="Changer de langue">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -95,10 +96,17 @@
           </svg>
         </button>
 
-        <a href="/inscription" class="btn btn-ghost btn-sm navbar__cta" data-i18n="nav.signup">
+        <!-- Lien Connexion (masqué si connecté) -->
+        <a href="/connexion" class="btn btn-ghost btn-sm navbar__cta" data-i18n="nav.login" data-auth-link>
+          Connexion
+        </a>
+
+        <!-- Lien S'inscrire (masqué si connecté) -->
+        <a href="/inscription" class="btn btn-ghost btn-sm navbar__cta" data-i18n="nav.signup" data-auth-link>
           S'inscrire
         </a>
 
+        <!-- Bouton Discord (toujours visible) -->
         <a href="https://discord.gg/lumalia" target="_blank" rel="noopener" class="btn btn-primary btn-sm navbar__cta" data-i18n="nav.discord">
           Rejoindre Discord
         </a>
