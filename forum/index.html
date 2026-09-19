@@ -273,4 +273,395 @@
 
       if (roots.length === 0) {
         html += '<div class="forum__empty">'
-          + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 
+          + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>'
+          + '<p>Aucune catégorie pour le moment.</p>'
+          + '</div>';
+      } else {
+        html += '<div class="forum__section">';
+        html += '<div class="forum__section-header">'
+          + '<h2>Catégories</h2>'
+          + '<span class="forum__section-stats">' + roots.length + ' catégorie' + (roots.length > 1 ? "s" : "") + '</span>'
+          + '</div>';
+
+        // Compte les sujets par catégorie
+        for (const cat of roots) {
+          const topicsSnap = await db.collection("forum_topics")
+            .where("categoryId", "==", cat.id)
+            .orderBy("lastReplyAt", "desc")
+            .limit(1)
+            .get();
+
+          const countSnap = await db.collection("forum_topics")
+            .where("categoryId", "==", cat.id)
+            .get();
+
+          const topicsCount = countSnap.size;
+          let lastTopic = null;
+          if (!topicsSnap.empty) {
+            const t = topicsSnap.docs[0].data();
+            lastTopic = t;
+          }
+
+          html += '<a href="/forum?c=' + cat.id + '" class="forum__cat">';
+          html += '<div class="forum__cat-icon">'
+            + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>'
+            + '</div>';
+          html += '<div class="forum__cat-body">';
+          html += '<div class="forum__cat-title"><h3>' + escapeHtml(cat.name) + '</h3>';
+          if (cat.locked) html += '<span class="forum__badge forum__badge--locked">🔒 Verrouillé</span>';
+          if (cat.staffOnly) html += '<span class="forum__badge forum__badge--staff">Staff uniquement</span>';
+          html += '</div>';
+          if (cat.description) html += '<div class="forum__cat-desc">' + escapeHtml(cat.description) + '</div>';
+          html += '</div>';
+          html += '<div class="forum__cat-meta">';
+          html += '<div><strong>' + topicsCount + '</strong>sujet' + (topicsCount > 1 ? "s" : "") + '</div>';
+          if (lastTopic) {
+            html += '<div style="max-width:200px;">Dernier :<br><strong>' + escapeHtml(lastTopic.title) + '</strong></div>';
+          }
+          html += '</div>';
+          html += '</a>';
+        }
+
+        html += '</div>';
+      }
+
+      contentEl.innerHTML = html;
+    }
+
+    // ---------- VUE : Sujets d'une catégorie ----------
+    async function renderCategory(catId) {
+      const catDoc = await db.collection("forum_categories").doc(catId).get();
+
+      if (!catDoc.exists) {
+        contentEl.innerHTML = '<div class="forum__empty"><p>Catégorie introuvable.</p></div>';
+        return;
+      }
+
+      const cat = catDoc.data();
+
+      // Met à jour le breadcrumb
+      breadcrumbEl.innerHTML = '<a href="/">Accueil</a> <span>›</span> <a href="/forum">Forum</a> <span>›</span> <span>' + escapeHtml(cat.name) + '</span>';
+
+      // Récupère les sous-catégories (parentId = catId)
+      const subSnap = await db.collection("forum_categories")
+        .where("parentId", "==", catId)
+        .orderBy("order", "asc")
+        .get();
+
+      const subs = [];
+      subSnap.forEach(function (doc) {
+        subs.push({ id: doc.id, ...doc.data() });
+      });
+
+      // Récupère les sujets
+      const topicsSnap = await db.collection("forum_topics")
+        .where("categoryId", "==", catId)
+        .orderBy("pinned", "desc")
+        .orderBy("lastReplyAt", "desc")
+        .get();
+
+      const topics = [];
+      topicsSnap.forEach(function (doc) {
+        topics.push({ id: doc.id, ...doc.data() });
+      });
+
+      let html = '<div class="forum__header">'
+        + '<div>'
+        + '<h1>' + escapeHtml(cat.name) + '</h1>'
+        + (cat.description ? '<p>' + escapeHtml(cat.description) + '</p>' : '')
+        + '</div>'
+        + '</div>';
+
+      // Sous-catégories
+      if (subs.length > 0) {
+        html += '<div class="forum__section">';
+        html += '<div class="forum__section-header"><h2>Sous-catégories</h2></div>';
+        subs.forEach(function (sub) {
+          html += '<a href="/forum?c=' + sub.id + '" class="forum__cat">';
+          html += '<div class="forum__cat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>';
+          html += '<div class="forum__cat-body">';
+          html += '<div class="forum__cat-title"><h3>' + escapeHtml(sub.name) + '</h3>';
+          if (sub.locked) html += '<span class="forum__badge forum__badge--locked">🔒</span>';
+          if (sub.staffOnly) html += '<span class="forum__badge forum__badge--staff">Staff</span>';
+          html += '</div>';
+          if (sub.description) html += '<div class="forum__cat-desc">' + escapeHtml(sub.description) + '</div>';
+          html += '</div></a>';
+        });
+        html += '</div>';
+      }
+
+      // Sujets
+      html += '<div class="forum__section">';
+      html += '<div class="forum__section-header">'
+        + '<h2>Discussions</h2>'
+        + '<span class="forum__section-stats">' + topics.length + ' sujet' + (topics.length > 1 ? "s" : "") + '</span>'
+        + '</div>';
+
+      if (topics.length === 0) {
+        html += '<div class="forum__empty">'
+          + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>'
+          + '<p>Aucune discussion dans cette catégorie.</p>'
+          + '</div>';
+      } else {
+        topics.forEach(function (topic) {
+          const initial = (topic.authorName || "?").charAt(0).toUpperCase();
+          html += '<a href="/forum?c=' + catId + '&t=' + topic.id + '" class="forum__topic">';
+          html += '<div class="forum__topic-avatar">' + initial + '</div>';
+          html += '<div class="forum__topic-body">';
+          html += '<div class="forum__topic-title">';
+          if (topic.pinned) html += '<span class="forum__badge forum__badge--pinned">📌 Épinglé</span>';
+          if (topic.locked) html += '<span class="forum__badge forum__badge--locked">🔒</span>';
+          html += '<h3>' + escapeHtml(topic.title) + '</h3>';
+          html += '</div>';
+          html += '<div class="forum__topic-info">par <strong>' + escapeHtml(topic.authorName) + '</strong> · ' + formatDate(topic.createdAt) + '</div>';
+          html += '</div>';
+          html += '<div class="forum__topic-stats">';
+          html += '<div class="forum__topic-stat"><strong>' + (topic.repliesCount || 0) + '</strong>réponses</div>';
+          html += '<div class="forum__topic-stat"><strong>' + (topic.views || 0) + '</strong>vues</div>';
+          html += '</div>';
+          html += '</a>';
+        });
+      }
+
+      html += '</div>';
+
+      contentEl.innerHTML = html;
+    }
+
+    // ---------- VUE : Affichage d'un sujet ----------
+    async function renderTopic(catId, topicId) {
+      const topicDoc = await db.collection("forum_topics").doc(topicId).get();
+
+      if (!topicDoc.exists) {
+        contentEl.innerHTML = '<div class="forum__empty"><p>Sujet introuvable.</p></div>';
+        return;
+      }
+
+      const topic = topicDoc.data();
+
+      // Incrémente les vues (avec try/catch car la règle update est limitée)
+      try {
+        await db.collection("forum_topics").doc(topicId).update({
+          views: firebase.firestore.FieldValue.increment(1)
+        });
+      } catch (e) {
+        console.warn("[Forum] Impossible d'incrémenter les vues :", e);
+      }
+
+      const catDoc = await db.collection("forum_categories").doc(catId).get();
+      const catName = catDoc.exists ? catDoc.data().name : "Catégorie";
+
+      // Breadcrumb
+      breadcrumbEl.innerHTML = '<a href="/">Accueil</a> <span>›</span> <a href="/forum">Forum</a> <span>›</span> <a href="/forum?c=' + catId + '">' + escapeHtml(catName) + '</a> <span>›</span> <span>' + escapeHtml(topic.title) + '</span>';
+
+      // Charge les messages
+      const postsSnap = await db.collection("forum_posts")
+        .where("topicId", "==", topicId)
+        .orderBy("createdAt", "asc")
+        .get();
+
+      const posts = [];
+      postsSnap.forEach(function (doc) {
+        posts.push({ id: doc.id, ...doc.data() });
+      });
+
+      let html = '<div class="forum__topic-header">';
+      html += '<div class="forum__topic-title">';
+      if (topic.pinned) html += '<span class="forum__badge forum__badge--pinned">📌 Épinglé</span>';
+      if (topic.locked) html += '<span class="forum__badge forum__badge--locked">🔒 Verrouillé</span>';
+      html += '</div>';
+      html += '<h1>' + escapeHtml(topic.title) + '</h1>';
+      html += '<div class="forum__topic-header-meta">';
+      html += '<span>par <strong>' + escapeHtml(topic.authorName) + '</strong></span>';
+      html += '<span>·</span>';
+      html += '<span>' + formatDate(topic.createdAt) + '</span>';
+      html += '<span>·</span>';
+      html += '<span>' + (posts.length) + ' message' + (posts.length > 1 ? "s" : "") + '</span>';
+      html += '<span>·</span>';
+      html += '<span>' + (topic.views || 0) + ' vue' + (topic.views > 1 ? "s" : "") + '</span>';
+      html += '</div>';
+      html += '</div>';
+
+      // Messages
+      html += '<div class="forum__posts">';
+      posts.forEach(function (post) {
+        const initial = (post.authorName || "?").charAt(0).toUpperCase();
+        const gradeClass = getGradeClass(post.authorGrade);
+
+        html += '<article class="forum__post" data-post-id="' + post.id + '">';
+        html += '<div class="forum__post-author">';
+        html += '<div class="forum__post-avatar">' + initial + '</div>';
+        html += '<div class="forum__post-author-name">' + escapeHtml(post.authorName) + '</div>';
+        if (post.authorGrade) {
+          html += '<div class="forum__post-author-grade ' + gradeClass + '">' + escapeHtml(post.authorGrade) + '</div>';
+        }
+        html += '<div class="forum__post-author-date">' + formatDate(post.createdAt) + '</div>';
+        html += '</div>';
+        html += '<div class="forum__post-content">';
+        html += '<div class="forum__post-body">' + (window.LumaBBCode ? window.LumaBBCode.render(post.content) : escapeHtml(post.content)) + '</div>';
+        html += '<div class="forum__post-footer">';
+        html += '<div>';
+        if (post.editedAt) {
+          html += '<span class="forum__post-edited">Modifié ' + formatDate(post.editedAt) + '</span>';
+        }
+        html += '</div>';
+        html += '<div class="forum__post-actions">';
+        html += '<button class="forum__post-action" data-reaction="👍" data-post="' + post.id + '">👍 <span>0</span></button>';
+        html += '</div>';
+        html += '</div>';
+        html += '</div>';
+        html += '</article>';
+      });
+      html += '</div>';
+
+      // Formulaire de réponse
+      if (topic.locked) {
+        html += '<div class="forum__locked">'
+          + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>'
+          + '<span>Ce sujet est verrouillé. Vous ne pouvez plus y répondre.</span>'
+          + '</div>';
+      } else {
+        html += '<div class="forum__reply">';
+        html += '<div class="forum__reply-header"><h2>Répondre</h2></div>';
+        html += '<div class="forum__reply-toolbar">';
+        html += '<button type="button" data-bb="b" title="Gras"><strong>B</strong></button>';
+        html += '<button type="button" data-bb="i" title="Italique"><em>I</em></button>';
+        html += '<button type="button" data-bb="u" title="Souligné"><u>U</u></button>';
+        html += '<button type="button" data-bb="s" title="Barré"><s>S</s></button>';
+        html += '<span class="divider"></span>';
+        html += '<button type="button" data-bb="quote" title="Citation">❝</button>';
+        html += '<button type="button" data-bb="code" title="Code">&lt;/&gt;</button>';
+        html += '<button type="button" data-bb="center" title="Centrer">≡</button>';
+        html += '</div>';
+        html += '<textarea id="reply-content" placeholder="Écrivez votre message… (BBcode supporté)"></textarea>';
+        html += '<div class="forum__reply-footer">';
+        html += '<span class="forum__reply-hint">Ctrl + Entrée pour envoyer · BBcode supporté</span>';
+        html += '<button type="button" class="btn btn-primary btn-sm" id="reply-submit">Envoyer</button>';
+        html += '</div>';
+        html += '<div class="forum__reply-status" id="reply-status"></div>';
+        html += '</div>';
+      }
+
+      contentEl.innerHTML = html;
+
+      // Bind les événements
+      bindReplyEvents(topicId, catId);
+      bindToolbarEvents();
+    }
+
+    // ============================================================
+    // BINDS
+    // ============================================================
+    function bindToolbarEvents() {
+      const textarea = document.getElementById("reply-content");
+      if (!textarea) return;
+
+      document.querySelectorAll("[data-bb]").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          const tag = btn.dataset.bb;
+          const start = textarea.selectionStart;
+          const end = textarea.selectionEnd;
+          const selected = textarea.value.substring(start, end);
+          const before = textarea.value.substring(0, start);
+          const after = textarea.value.substring(end);
+
+          const wrapped = "[" + tag + "]" + (selected || "texte") + "[/" + tag + "]";
+          textarea.value = before + wrapped + after;
+          textarea.focus();
+          textarea.selectionStart = textarea.selectionEnd = start + wrapped.length;
+        });
+      });
+    }
+
+    function bindReplyEvents(topicId, catId) {
+      const submitBtn = document.getElementById("reply-submit");
+      const textarea = document.getElementById("reply-content");
+      const statusEl = document.getElementById("reply-status");
+
+      if (!submitBtn || !textarea) return;
+
+      // Ctrl + Entrée pour envoyer
+      textarea.addEventListener("keydown", function (e) {
+        if (e.ctrlKey && e.key === "Enter") {
+          e.preventDefault();
+          submitBtn.click();
+        }
+      });
+
+      submitBtn.addEventListener("click", async function () {
+        const content = textarea.value.trim();
+
+        if (content.length < 1) {
+          statusEl.textContent = "Le message ne peut pas être vide.";
+          statusEl.className = "forum__reply-status forum__reply-status--error";
+          return;
+        }
+        if (content.length > 10000) {
+          statusEl.textContent = "Message trop long (max 10 000 caractères).";
+          statusEl.className = "forum__reply-status forum__reply-status--error";
+          return;
+        }
+
+        const user = auth.currentUser;
+        if (!user) {
+          window.location.href = "/connexion";
+          return;
+        }
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Envoi…";
+        statusEl.textContent = "Publication en cours…";
+        statusEl.className = "forum__reply-status forum__reply-status--info";
+
+        try {
+          // Récupère le pseudo et grade
+          const userDoc = await db.collection("Utilisateurs").doc(user.uid).get();
+          const userData = userDoc.exists ? userDoc.data() : {};
+          const authorName = userData.username || user.displayName || "Anonyme";
+          const authorGrade = userData.grade || "Membre";
+
+          // Crée le message
+          await db.collection("forum_posts").add({
+            topicId: topicId,
+            categoryId: catId,
+            authorId: user.uid,
+            authorName: authorName,
+            authorGrade: authorGrade,
+            content: content,
+            editedAt: null,
+            editedBy: null,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+
+          // Met à jour le topic
+          await db.collection("forum_topics").doc(topicId).update({
+            repliesCount: firebase.firestore.FieldValue.increment(1),
+            lastReplyAt: firebase.firestore.FieldValue.serverTimestamp(),
+            lastReplyBy: user.uid
+          });
+
+          statusEl.textContent = "✅ Message publié !";
+          statusEl.className = "forum__reply-status forum__reply-status--success";
+
+          // Recharge la page pour afficher le nouveau message
+          setTimeout(function () {
+            window.location.reload();
+          }, 600);
+
+        } catch (err) {
+          console.error("[Forum]", err);
+          statusEl.textContent = "Erreur : " + (err.message || "impossible de publier.");
+          statusEl.className = "forum__reply-status forum__reply-status--error";
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Envoyer";
+        }
+      });
+    }
+
+    // ============================================================
+    // LANCEMENT
+    // ============================================================
+    render();
+  </script>
+</body>
+</html>
