@@ -605,3 +605,202 @@
   }
   .forum__post-author-date { margin: 0 0 0 auto; }
 }
+
+/* ---------- Bouton nouveau sujet ---------- */
+.forum__new-topic {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* ---------- Modal (création de sujet) ---------- */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background: rgba(11, 13, 18, 0.6);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+.modal.open {
+  display: flex;
+}
+
+.modal__dialog {
+  width: 100%;
+  max-width: 640px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: 1.75rem;
+  animation: modalIn 0.2s ease;
+}
+
+@keyframes modalIn {
+  from { opacity: 0; transform: translateY(10px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0)    scale(1); }
+}
+
+.modal__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+.modal__header h2 {
+  font-size: 1.25rem;
+  font-family: var(--font-subtitle);
+}
+.modal__close {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  background: transparent;
+  cursor: pointer;
+  color: var(--text-muted);
+  transition: all var(--t-fast);
+}
+.modal__close:hover {
+  background: var(--bg-soft);
+  color: var(--text);
+}
+
+.modal__form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+.modal__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.modal__field label {
+  font-family: var(--font-label);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--text-soft);
+}
+.modal__field input,
+.modal__field textarea {
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  transition: border-color var(--t-fast), box-shadow var(--t-fast);
+  resize: vertical;
+}
+.modal__field textarea {
+  min-height: 140px;
+}
+.modal__field input:focus,
+.modal__field textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+.modal__field small {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.modal__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.modal__status {
+  font-size: 0.85rem;
+  min-height: 1.2em;
+  text-align: center;
+}
+.modal__status--error { color: var(--danger); }
+.modal__status--success { color: var(--success); }
+.modal__status--info { color: var(--text-soft); }
+
+/* ---------- Édition inline ---------- */
+.forum__post-editor {
+  display: none;
+  margin-top: 0.75rem;
+  padding: 0.75rem;
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+.forum__post-editor.open {
+  display: block;
+}
+.forum__post-editor textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  resize: vertical;
+}
+.forum__post-editor textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.forum__post-editor-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+/* ---------- Réactions ---------- */
+.forum__reactions {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.forum__reaction {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.3rem 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  background: transparent;
+  color: var(--text-muted);
+  font-family: var(--font-label);
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition: all var(--t-fast);
+}
+.forum__reaction:hover {
+  background: var(--bg-soft);
+  border-color: var(--border-strong);
+}
+.forum__reaction.active {
+  background: var(--accent-soft);
+  border-color: transparent;
+  color: var(--accent);
+  font-weight: 600;
+}
+.forum__reaction-emoji {
+  font-size: 0.95rem;
+  line-height: 1;
+}
