@@ -17,6 +17,7 @@
 
   <link rel="stylesheet" href="/assets/css/global.css">
   <link rel="stylesheet" href="/assets/css/forum.css">
+  <link rel="stylesheet" href="/assets/css/forum-extras.css">
 
   <script src="/assets/js/theme.js"></script>
   <meta name="theme-color" content="#ffffff">
@@ -54,10 +55,10 @@
           </div>
         </div>
 
+        <a href="/forum" class="navbar__link">Forum</a>
         <a href="/launcher" class="navbar__link" data-i18n="nav.launcher">Launcher</a>
         <a href="/actualites" class="navbar__link" data-i18n="nav.news">Actualités</a>
         <a href="/communaute" class="navbar__link" data-i18n="nav.community">Communauté</a>
-        <a href="/forum" class="navbar__link" data-i18n="nav.forum">Forum</a>
         <a href="/parametres" class="navbar__link" data-i18n="nav.settings">Paramètres</a>
       </nav>
 
@@ -181,6 +182,59 @@
     </div>
   </div>
 
+  <!-- ==================== MODAL SIGNALEMENT ==================== -->
+  <div class="modal forum__report-modal" id="report-modal">
+    <div class="modal__dialog">
+      <div class="modal__header">
+        <h2>Signaler ce message</h2>
+        <button type="button" class="modal__close" id="report-modal-close" aria-label="Fermer">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <form class="modal__form" id="report-form">
+        <input type="hidden" id="report-post-id">
+        <input type="hidden" id="report-topic-id">
+        <input type="hidden" id="report-cat-id">
+
+        <div class="forum__report-reasons" id="report-reasons">
+          <label class="forum__report-reason">
+            <input type="radio" name="reason" value="Spam">
+            <span>Spam ou publicité</span>
+          </label>
+          <label class="forum__report-reason">
+            <input type="radio" name="reason" value="Contenu inapproprié">
+            <span>Contenu inapproprié</span>
+          </label>
+          <label class="forum__report-reason">
+            <input type="radio" name="reason" value="Harcèlement">
+            <span>Harcèlement / insultes</span>
+          </label>
+          <label class="forum__report-reason">
+            <input type="radio" name="reason" value="Hors-sujet">
+            <span>Hors-sujet</span>
+          </label>
+          <label class="forum__report-reason">
+            <input type="radio" name="reason" value="Autre">
+            <span>Autre raison</span>
+          </label>
+        </div>
+
+        <div class="modal__field">
+          <label for="report-message">Détails (optionnel)</label>
+          <textarea id="report-message" placeholder="Expliquez brièvement pourquoi vous signalez ce message…" maxlength="500"></textarea>
+        </div>
+
+        <div class="modal__status" id="report-status"></div>
+
+        <div class="modal__actions">
+          <button type="button" class="btn btn-ghost" id="report-cancel">Annuler</button>
+          <button type="submit" class="btn btn-primary" id="report-submit">Envoyer le signalement</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <div class="bg-blobs" aria-hidden="true"><span></span><span></span></div>
   <canvas id="luma-bg" aria-hidden="true"></canvas>
 
@@ -193,12 +247,13 @@
   <script src="/assets/js/bbcode.js"></script>
   <script src="/assets/js/navbar.js"></script>
   <script src="/assets/js/background.js"></script>
+  <script src="/assets/js/forum-extras.js"></script>
 
   <script>
     document.getElementById("footer-year").textContent = new Date().getFullYear();
 
     // ============================================================
-    // CONFIGURATION FIREBASE
+    // CONFIG FIREBASE
     // ============================================================
     const firebaseConfig = {
       apiKey: "AIzaSyBSCqSsBTXk9Q8sBX88NgrdDHUAHT0Cq6I",
@@ -230,12 +285,10 @@
       const d = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
       const now = new Date();
       const diff = (now - d) / 1000;
-
       if (diff < 60) return "à l'instant";
       if (diff < 3600) return "il y a " + Math.floor(diff / 60) + " min";
       if (diff < 86400) return "il y a " + Math.floor(diff / 3600) + " h";
       if (diff < 604800) return "il y a " + Math.floor(diff / 86400) + " j";
-
       return d.toLocaleDateString("fr-FR", { day: "numeric", month: "short", year: "numeric" });
     }
 
@@ -254,16 +307,21 @@
     const params = new URLSearchParams(window.location.search);
     const categorySlug = params.get("c");
     const topicSlug = params.get("t");
+    const searchQuery = params.get("q");
 
-    // ============================================================
-    // VUES
-    // ============================================================
     const contentEl = document.getElementById("forum-content");
     const breadcrumbEl = document.getElementById("breadcrumb");
 
+    let uploadedImages = [];
+
+    // ============================================================
+    // RENDU
+    // ============================================================
     async function render() {
       try {
-        if (categorySlug && topicSlug) {
+        if (searchQuery) {
+          await renderSearch(searchQuery);
+        } else if (categorySlug && topicSlug) {
           await renderTopic(categorySlug, topicSlug);
         } else if (categorySlug) {
           await renderCategory(categorySlug);
@@ -281,13 +339,8 @@
       const snap = await db.collection("forum_categories").get();
 
       const categories = [];
-      snap.forEach(function (doc) {
-        categories.push({ id: doc.id, ...doc.data() });
-      });
-
-      categories.sort(function (a, b) {
-        return (a.order || 0) - (b.order || 0);
-      });
+      snap.forEach(function (doc) { categories.push({ id: doc.id, ...doc.data() }); });
+      categories.sort(function (a, b) { return (a.order || 0) - (b.order || 0); });
 
       const roots = categories.filter(function (c) {
         return c.parentId === null || c.parentId === undefined;
@@ -300,6 +353,12 @@
         + '<p>Discutez, échangez et partagez avec la communauté.</p>'
         + '</div>'
         + '</div>';
+
+      // Barre de recherche
+      html += '<form class="forum__search" id="search-form">'
+        + '<input type="search" id="search-input" placeholder="Rechercher un sujet…" value="' + escapeHtml(searchQuery || "") + '">'
+        + '<button type="submit" class="btn btn-primary">Rechercher</button>'
+        + '</form>';
 
       if (roots.length === 0) {
         html += '<div class="forum__empty">'
@@ -345,9 +404,71 @@
       html += '</div>';
 
       contentEl.innerHTML = html;
+      bindSearch();
     }
 
-    // ---------- VUE : Sujets d'une catégorie ----------
+    // ---------- VUE : Résultats de recherche ----------
+    async function renderSearch(query) {
+      let html = '<div class="forum__header">'
+        + '<div>'
+        + '<h1>Recherche</h1>'
+        + '<p>Résultats pour « ' + escapeHtml(query) + ' »</p>'
+        + '</div>'
+        + '</div>';
+
+      html += '<form class="forum__search" id="search-form">'
+        + '<input type="search" id="search-input" placeholder="Rechercher un sujet…" value="' + escapeHtml(query) + '">'
+        + '<button type="submit" class="btn btn-primary">Rechercher</button>'
+        + '</form>';
+
+      const results = await window.LumaForum.searchTopics(query);
+
+      html += '<div class="forum__section">';
+      html += '<div class="forum__section-header">'
+        + '<h2>Résultats</h2>'
+        + '<span class="forum__section-stats">' + results.length + ' résultat' + (results.length > 1 ? "s" : "") + '</span>'
+        + '</div>';
+
+      if (results.length === 0) {
+        html += '<div class="forum__empty"><p>Aucun sujet trouvé.</p></div>';
+      } else {
+        results.forEach(function (topic) {
+          const initial = (topic.authorName || "?").charAt(0).toUpperCase();
+          html += '<a href="/forum?c=' + topic.categoryId + '&t=' + topic.id + '" class="forum__topic">';
+          html += '<div class="forum__topic-avatar">' + initial + '</div>';
+          html += '<div class="forum__topic-body">';
+          html += '<div class="forum__topic-title">';
+          if (topic.pinned) html += '<span class="forum__badge forum__badge--pinned">📌 Épinglé</span>';
+          if (topic.locked) html += '<span class="forum__badge forum__badge--locked">🔒</span>';
+          html += '<h3>' + escapeHtml(topic.title) + '</h3>';
+          html += '</div>';
+          html += '<div class="forum__topic-info">par <strong>' + escapeHtml(topic.authorName) + '</strong> · ' + formatDate(topic.createdAt) + '</div>';
+          html += '</div>';
+          html += '</a>';
+        });
+      }
+
+      html += '</div>';
+
+      contentEl.innerHTML = html;
+      bindSearch();
+    }
+
+    function bindSearch() {
+      const form = document.getElementById("search-form");
+      if (!form) return;
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        const q = document.getElementById("search-input").value.trim();
+        if (q.length < 2) {
+          alert("Entrez au moins 2 caractères.");
+          return;
+        }
+        window.location.href = "/forum?q=" + encodeURIComponent(q);
+      });
+    }
+
+    // ---------- VUE : Catégorie ----------
     async function renderCategory(catId) {
       const catDoc = await db.collection("forum_categories").doc(catId).get();
 
@@ -360,24 +481,14 @@
 
       breadcrumbEl.innerHTML = '<a href="/">Accueil</a> <span>›</span> <a href="/forum">Forum</a> <span>›</span> <span>' + escapeHtml(cat.name) + '</span>';
 
-      const subSnap = await db.collection("forum_categories")
-        .where("parentId", "==", catId)
-        .get();
-
+      const subSnap = await db.collection("forum_categories").where("parentId", "==", catId).get();
       const subs = [];
-      subSnap.forEach(function (doc) {
-        subs.push({ id: doc.id, ...doc.data() });
-      });
+      subSnap.forEach(function (doc) { subs.push({ id: doc.id, ...doc.data() }); });
       subs.sort(function (a, b) { return (a.order || 0) - (b.order || 0); });
 
-      const topicsSnap = await db.collection("forum_topics")
-        .where("categoryId", "==", catId)
-        .get();
-
+      const topicsSnap = await db.collection("forum_topics").where("categoryId", "==", catId).get();
       const topics = [];
-      topicsSnap.forEach(function (doc) {
-        topics.push({ id: doc.id, ...doc.data() });
-      });
+      topicsSnap.forEach(function (doc) { topics.push({ id: doc.id, ...doc.data() }); });
 
       topics.sort(function (a, b) {
         if (a.pinned && !b.pinned) return -1;
@@ -461,7 +572,7 @@
       contentEl.innerHTML = html;
     }
 
-    // ---------- VUE : Affichage d'un sujet ----------
+    // ---------- VUE : Sujet ----------
     async function renderTopic(catId, topicId) {
       const topicDoc = await db.collection("forum_topics").doc(topicId).get();
 
@@ -476,29 +587,23 @@
         await db.collection("forum_topics").doc(topicId).update({
           views: firebase.firestore.FieldValue.increment(1)
         });
-      } catch (e) {
-        console.warn("[Forum] Impossible d'incrémenter les vues :", e);
-      }
+      } catch (e) {}
 
       const catDoc = await db.collection("forum_categories").doc(catId).get();
       const catName = catDoc.exists ? catDoc.data().name : "Catégorie";
 
       breadcrumbEl.innerHTML = '<a href="/">Accueil</a> <span>›</span> <a href="/forum">Forum</a> <span>›</span> <a href="/forum?c=' + catId + '">' + escapeHtml(catName) + '</a> <span>›</span> <span>' + escapeHtml(topic.title) + '</span>';
 
-      const postsSnap = await db.collection("forum_posts")
-        .where("topicId", "==", topicId)
-        .get();
-
+      const postsSnap = await db.collection("forum_posts").where("topicId", "==", topicId).get();
       const posts = [];
-      postsSnap.forEach(function (doc) {
-        posts.push({ id: doc.id, ...doc.data() });
-      });
-
+      postsSnap.forEach(function (doc) { posts.push({ id: doc.id, ...doc.data() }); });
       posts.sort(function (a, b) {
         const aDate = a.createdAt ? a.createdAt.toMillis() : 0;
         const bDate = b.createdAt ? b.createdAt.toMillis() : 0;
         return aDate - bDate;
       });
+
+      const user = auth.currentUser;
 
       let html = '<div class="forum__topic-header">';
       html += '<div class="forum__topic-title">';
@@ -515,14 +620,19 @@
       html += '<span>·</span>';
       html += '<span>' + (topic.views || 0) + ' vue' + (topic.views > 1 ? "s" : "") + '</span>';
       html += '</div>';
+      if (user) {
+        html += '<button type="button" class="forum__follow-btn" id="follow-btn" data-topic="' + topicId + '">'
+          + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>'
+          + '<span>Suivre</span>'
+          + '</button>';
+      }
       html += '</div>';
 
+      // Messages
       html += '<div class="forum__posts">';
       posts.forEach(function (post) {
         const initial = (post.authorName || "?").charAt(0).toUpperCase();
         const gradeClass = getGradeClass(post.authorGrade);
-
-        const user = auth.currentUser;
         const isAuthor = user && user.uid === post.authorId;
         const reactions = post.reactions || {};
         const likeList = reactions["👍"] || [];
@@ -558,7 +668,6 @@
           html += '<span class="forum__post-edited">Modifié ' + formatDate(post.editedAt) + '</span>';
         }
         html += '</div>';
-
         html += '<div class="forum__post-actions">';
 
         html += '<button class="forum__reaction' + (hasLiked ? " active" : "") + '" data-reaction="👍" data-post="' + post.id + '">'
@@ -567,14 +676,10 @@
           + '</button>';
 
         if (isAuthor) {
-          html += '<button class="forum__post-action" data-edit-post="' + post.id + '">'
-            + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>'
-            + 'Modifier'
-            + '</button>';
-          html += '<button class="forum__post-action" data-delete-post="' + post.id + '">'
-            + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>'
-            + 'Supprimer'
-            + '</button>';
+          html += '<button class="forum__post-action" data-edit-post="' + post.id + '">Modifier</button>';
+          html += '<button class="forum__post-action" data-delete-post="' + post.id + '">Supprimer</button>';
+        } else if (user) {
+          html += '<button class="forum__post-action" data-report-post="' + post.id + '" data-report-topic="' + topicId + '" data-report-cat="' + catId + '">⚠️ Signaler</button>';
         }
 
         html += '</div>';
@@ -584,6 +689,7 @@
       });
       html += '</div>';
 
+      // Formulaire de réponse
       if (topic.locked) {
         html += '<div class="forum__locked">'
           + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>'
@@ -603,6 +709,12 @@
         html += '<button type="button" data-bb="center" title="Centrer">≡</button>';
         html += '</div>';
         html += '<textarea id="reply-content" placeholder="Écrivez votre message… (BBcode supporté)"></textarea>';
+        html += '<div class="forum__dropzone" id="reply-dropzone">'
+          + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>'
+          + 'Glissez une image ici ou cliquez pour en choisir une'
+          + '</div>';
+        html += '<input type="file" id="reply-file" accept="image/*" style="display:none">';
+        html += '<div class="forum__upload-preview" id="reply-preview"></div>';
         html += '<div class="forum__reply-footer">';
         html += '<span class="forum__reply-hint">Ctrl + Entrée pour envoyer · BBcode supporté</span>';
         html += '<button type="button" class="btn btn-primary btn-sm" id="reply-submit">Envoyer</button>';
@@ -615,10 +727,12 @@
 
       bindReplyEvents(topicId, catId);
       bindToolbarEvents();
+      bindFollowButton(topicId);
+      checkFollowState(topicId);
     }
 
     // ============================================================
-    // BINDS
+    // BINDINGS
     // ============================================================
     function bindToolbarEvents() {
       const textarea = document.getElementById("reply-content");
@@ -632,7 +746,6 @@
           const selected = textarea.value.substring(start, end);
           const before = textarea.value.substring(0, start);
           const after = textarea.value.substring(end);
-
           const wrapped = "[" + tag + "]" + (selected || "texte") + "[/" + tag + "]";
           textarea.value = before + wrapped + after;
           textarea.focus();
@@ -658,13 +771,8 @@
       submitBtn.addEventListener("click", async function () {
         const content = textarea.value.trim();
 
-        if (content.length < 1) {
+        if (content.length < 1 && uploadedImages.length === 0) {
           statusEl.textContent = "Le message ne peut pas être vide.";
-          statusEl.className = "forum__reply-status forum__reply-status--error";
-          return;
-        }
-        if (content.length > 10000) {
-          statusEl.textContent = "Message trop long (max 10 000 caractères).";
           statusEl.className = "forum__reply-status forum__reply-status--error";
           return;
         }
@@ -686,13 +794,21 @@
           const authorName = userData.username || user.displayName || "Anonyme";
           const authorGrade = userData.grade || "Membre";
 
+          // Ajoute les images au contenu
+          let fullContent = content;
+          if (uploadedImages.length > 0) {
+            fullContent += (fullContent ? "\n\n" : "") + uploadedImages.map(function (url) {
+              return "[img]" + url + "[/img]";
+            }).join("\n");
+          }
+
           await db.collection("forum_posts").add({
             topicId: topicId,
             categoryId: catId,
             authorId: user.uid,
             authorName: authorName,
             authorGrade: authorGrade,
-            content: content,
+            content: fullContent,
             editedAt: null,
             editedBy: null,
             reactions: {},
@@ -705,12 +821,18 @@
             lastReplyBy: user.uid
           });
 
+          // Notifie les followers
+          if (window.LumaForum) {
+            const tDoc = await db.collection("forum_topics").doc(topicId).get();
+            const tData = tDoc.data();
+            await window.LumaForum.notifyFollowers(topicId, catId, tData.title, authorName, user.uid);
+          }
+
+          uploadedImages = [];
           statusEl.textContent = "✅ Message publié !";
           statusEl.className = "forum__reply-status forum__reply-status--success";
 
-          setTimeout(function () {
-            window.location.reload();
-          }, 600);
+          setTimeout(function () { window.location.reload(); }, 600);
 
         } catch (err) {
           console.error("[Forum]", err);
@@ -720,10 +842,233 @@
           submitBtn.textContent = "Envoyer";
         }
       });
+
+      // ===== Upload d'images =====
+      const dropzone = document.getElementById("reply-dropzone");
+      const fileInput = document.getElementById("reply-file");
+      const previewEl = document.getElementById("reply-preview");
+
+      if (dropzone && fileInput) {
+        dropzone.addEventListener("click", function () { fileInput.click(); });
+
+        fileInput.addEventListener("change", function () {
+          handleFiles(fileInput.files);
+          fileInput.value = "";
+        });
+
+        dropzone.addEventListener("dragover", function (e) {
+          e.preventDefault();
+          dropzone.classList.add("dragover");
+        });
+        dropzone.addEventListener("dragleave", function () {
+          dropzone.classList.remove("dragover");
+        });
+        dropzone.addEventListener("drop", function (e) {
+          e.preventDefault();
+          dropzone.classList.remove("dragover");
+          handleFiles(e.dataTransfer.files);
+        });
+      }
+
+      async function handleFiles(files) {
+        const user = auth.currentUser;
+        if (!user) {
+          alert("Connectez-vous pour uploader des images.");
+          return;
+        }
+
+        for (const file of files) {
+          if (!file.type.startsWith("image/")) {
+            alert("Seules les images sont autorisées.");
+            continue;
+          }
+
+          const tempId = "temp_" + Date.now() + Math.random();
+          const placeholder = document.createElement("div");
+          placeholder.className = "forum__upload-item";
+          placeholder.id = tempId;
+          placeholder.innerHTML = '<div style="display:grid;place-items:center;height:100%;font-size:0.7rem;color:var(--text-muted);">Envoi…</div>';
+          previewEl.appendChild(placeholder);
+
+          try {
+            const url = await window.LumaForum.uploadImage(file, user.uid);
+            uploadedImages.push(url);
+            placeholder.innerHTML = '<img src="' + url + '" alt=""><button type="button" class="forum__upload-remove" data-remove="' + url + '">✕</button>';
+          } catch (err) {
+            console.error("[Upload]", err);
+            placeholder.innerHTML = '<div style="display:grid;place-items:center;height:100%;font-size:0.7rem;color:var(--danger);">Erreur</div>';
+            setTimeout(function () { placeholder.remove(); }, 2000);
+          }
+        }
+      }
+
+      // Retire une image
+      document.addEventListener("click", function (e) {
+        const removeBtn = e.target.closest("[data-remove]");
+        if (removeBtn) {
+          const url = removeBtn.dataset.remove;
+          uploadedImages = uploadedImages.filter(function (u) { return u !== url; });
+          removeBtn.closest(".forum__upload-item").remove();
+        }
+      });
+    }
+
+    // ---------- Suivi de sujet ----------
+    function bindFollowButton(topicId) {
+      const btn = document.getElementById("follow-btn");
+      if (!btn) return;
+
+      btn.addEventListener("click", async function () {
+        const user = auth.currentUser;
+        if (!user) {
+          window.location.href = "/connexion";
+          return;
+        }
+
+        const isActive = btn.classList.contains("active");
+        btn.disabled = true;
+
+        try {
+          if (isActive) {
+            await window.LumaForum.unfollow(user.uid, topicId);
+            btn.classList.remove("active");
+            btn.querySelector("span").textContent = "Suivre";
+          } else {
+            await window.LumaForum.follow(user.uid, topicId, categorySlug);
+            btn.classList.add("active");
+            btn.querySelector("span").textContent = "Suivi";
+          }
+        } catch (err) {
+          console.error(err);
+          alert("Erreur : " + err.message);
+        }
+
+        btn.disabled = false;
+      });
+    }
+
+    async function checkFollowState(topicId) {
+      const user = auth.currentUser;
+      if (!user) return;
+
+      const btn = document.getElementById("follow-btn");
+      if (!btn) return;
+
+      const following = await window.LumaForum.isFollowing(user.uid, topicId);
+      if (following) {
+        btn.classList.add("active");
+        btn.querySelector("span").textContent = "Suivi";
+      }
     }
 
     // ============================================================
-    // MODAL : Nouveau sujet
+    // ACTIONS (édition, suppression, réactions, signalement)
+    // ============================================================
+    document.addEventListener("click", async function (e) {
+      // Modifier
+      const editBtn = e.target.closest("[data-edit-post]");
+      if (editBtn) {
+        const postId = editBtn.dataset.editPost;
+        const editor = document.querySelector('[data-editor-for="' + postId + '"]');
+        const body = document.querySelector('[data-body-for="' + postId + '"]');
+        if (editor && body) {
+          const post = await db.collection("forum_posts").doc(postId).get();
+          if (post.exists) editor.querySelector("textarea").value = post.data().content;
+          editor.classList.add("open");
+          body.style.display = "none";
+          editBtn.style.display = "none";
+        }
+        return;
+      }
+
+      const cancelEditBtn = e.target.closest("[data-cancel-edit]");
+      if (cancelEditBtn) {
+        const postId = cancelEditBtn.dataset.cancelEdit;
+        const editor = document.querySelector('[data-editor-for="' + postId + '"]');
+        const body = document.querySelector('[data-body-for="' + postId + '"]');
+        const editBtn = document.querySelector('[data-edit-post="' + postId + '"]');
+        if (editor) editor.classList.remove("open");
+        if (body) body.style.display = "";
+        if (editBtn) editBtn.style.display = "";
+        return;
+      }
+
+      const saveEditBtn = e.target.closest("[data-save-edit]");
+      if (saveEditBtn) {
+        const postId = saveEditBtn.dataset.saveEdit;
+        const editor = document.querySelector('[data-editor-for="' + postId + '"]');
+        const textarea = editor.querySelector("textarea");
+        const newContent = textarea.value.trim();
+        if (newContent.length < 1) { alert("Message vide."); return; }
+        saveEditBtn.disabled = true;
+        saveEditBtn.textContent = "Enregistrement…";
+        try {
+          await db.collection("forum_posts").doc(postId).update({
+            content: newContent,
+            editedAt: firebase.firestore.FieldValue.serverTimestamp(),
+            editedBy: auth.currentUser.uid
+          });
+          window.location.reload();
+        } catch (err) {
+          alert("Erreur : " + err.message);
+          saveEditBtn.disabled = false;
+          saveEditBtn.textContent = "Enregistrer";
+        }
+        return;
+      }
+
+      const deleteBtn = e.target.closest("[data-delete-post]");
+      if (deleteBtn) {
+        const postId = deleteBtn.dataset.deletePost;
+        if (!confirm("Supprimer ce message ?")) return;
+        try {
+          await db.collection("forum_posts").doc(postId).delete();
+          if (topicSlug) {
+            await db.collection("forum_topics").doc(topicSlug).update({
+              repliesCount: firebase.firestore.FieldValue.increment(-1)
+            });
+          }
+          window.location.reload();
+        } catch (err) {
+          alert("Erreur : " + err.message);
+        }
+        return;
+      }
+
+      const reactionBtn = e.target.closest("[data-reaction]");
+      if (reactionBtn) {
+        const postId = reactionBtn.dataset.post;
+        const emoji = reactionBtn.dataset.reaction;
+        const user = auth.currentUser;
+        if (!user) { window.location.href = "/connexion"; return; }
+
+        try {
+          const postRef = db.collection("forum_posts").doc(postId);
+          const post = await postRef.get();
+          const reactions = post.data().reactions || {};
+          const current = reactions[emoji] || [];
+          const hasReacted = current.includes(user.uid);
+          const newList = hasReacted
+            ? current.filter(function (uid) { return uid !== user.uid; })
+            : current.concat([user.uid]);
+
+          const newReactions = Object.assign({}, reactions);
+          if (newList.length === 0) delete newReactions[emoji];
+          else newReactions[emoji] = newList;
+
+          await postRef.update({ reactions: newReactions });
+          reactionBtn.classList.toggle("active", !hasReacted);
+          const countEl = reactionBtn.querySelector("span:last-child");
+          if (countEl) countEl.textContent = newList.length;
+        } catch (err) {
+          console.error(err);
+        }
+        return;
+      }
+    });
+
+    // ============================================================
+    // MODAL Nouveau sujet
     // ============================================================
     const modal = document.getElementById("new-topic-modal");
     const modalForm = document.getElementById("new-topic-form");
@@ -740,43 +1085,33 @@
       document.body.style.overflow = "";
       modalForm.reset();
       modalStatus.textContent = "";
-      modalStatus.className = "modal__status";
     }
 
     document.getElementById("modal-close")?.addEventListener("click", closeModal);
     document.getElementById("modal-cancel")?.addEventListener("click", closeModal);
-
     modal?.addEventListener("click", function (e) {
       if (e.target === modal) closeModal();
     });
 
-    document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape" && modal.classList.contains("open")) closeModal();
-    });
-
     modalForm?.addEventListener("submit", async function (e) {
       e.preventDefault();
-
       const title = document.getElementById("topic-title").value.trim();
       const content = document.getElementById("topic-content").value.trim();
       const submitBtn = document.getElementById("modal-submit");
 
       if (title.length < 3 || title.length > 200) {
-        modalStatus.textContent = "Le titre doit faire entre 3 et 200 caractères.";
+        modalStatus.textContent = "Titre : 3 à 200 caractères.";
         modalStatus.className = "modal__status modal__status--error";
         return;
       }
       if (content.length < 1) {
-        modalStatus.textContent = "Le premier message ne peut pas être vide.";
+        modalStatus.textContent = "Message vide.";
         modalStatus.className = "modal__status modal__status--error";
         return;
       }
 
       const user = auth.currentUser;
-      if (!user) {
-        window.location.href = "/connexion";
-        return;
-      }
+      if (!user) { window.location.href = "/connexion"; return; }
 
       submitBtn.disabled = true;
       submitBtn.textContent = "Création…";
@@ -827,173 +1162,127 @@
 
         modalStatus.textContent = "✅ Sujet créé ! Redirection…";
         modalStatus.className = "modal__status modal__status--success";
-
         setTimeout(function () {
           window.location.href = "/forum?c=" + categorySlug + "&t=" + topicRef.id;
         }, 800);
 
       } catch (err) {
-        console.error("[Forum] Erreur création sujet :", err);
-        modalStatus.textContent = "Erreur : " + (err.message || "impossible de créer le sujet.");
+        console.error(err);
+        modalStatus.textContent = "Erreur : " + err.message;
         modalStatus.className = "modal__status modal__status--error";
         submitBtn.disabled = false;
         submitBtn.textContent = "Créer le sujet";
       }
     });
 
-    // ============================================================
-    // BOUTON "Nouveau sujet"
-    // ============================================================
     document.addEventListener("click", function (e) {
-      if (e.target.closest("#new-topic-btn")) {
-        openModal();
-      }
+      if (e.target.closest("#new-topic-btn")) openModal();
     });
 
     // ============================================================
-    // ÉDITION, SUPPRESSION ET RÉACTIONS
+    // MODAL Signalement
     // ============================================================
-    document.addEventListener("click", async function (e) {
-      // ---- Modifier un message ----
-      const editBtn = e.target.closest("[data-edit-post]");
-      if (editBtn) {
-        const postId = editBtn.dataset.editPost;
-        const editor = document.querySelector('[data-editor-for="' + postId + '"]');
-        const body = document.querySelector('[data-body-for="' + postId + '"]');
-        if (editor && body) {
-          const post = await db.collection("forum_posts").doc(postId).get();
-          if (post.exists) {
-            editor.querySelector("textarea").value = post.data().content;
-          }
-          editor.classList.add("open");
-          body.style.display = "none";
-          editBtn.style.display = "none";
-        }
-        return;
-      }
+    const reportModal = document.getElementById("report-modal");
+    const reportForm = document.getElementById("report-form");
+    const reportStatus = document.getElementById("report-status");
 
-      // ---- Annuler l'édition ----
-      const cancelEditBtn = e.target.closest("[data-cancel-edit]");
-      if (cancelEditBtn) {
-        const postId = cancelEditBtn.dataset.cancelEdit;
-        const editor = document.querySelector('[data-editor-for="' + postId + '"]');
-        const body = document.querySelector('[data-body-for="' + postId + '"]');
-        const editBtn = document.querySelector('[data-edit-post="' + postId + '"]');
-        if (editor) editor.classList.remove("open");
-        if (body) body.style.display = "";
-        if (editBtn) editBtn.style.display = "";
-        return;
-      }
+    function openReportModal(postId, topicId, catId) {
+      reportForm.reset();
+      document.getElementById("report-post-id").value = postId;
+      document.getElementById("report-topic-id").value = topicId;
+      document.getElementById("report-cat-id").value = catId;
+      reportStatus.textContent = "";
+      document.querySelectorAll(".forum__report-reason").forEach(function (el) {
+        el.classList.remove("selected");
+      });
+      reportModal.classList.add("open");
+      document.body.style.overflow = "hidden";
+    }
 
-      // ---- Sauvegarder l'édition ----
-      const saveEditBtn = e.target.closest("[data-save-edit]");
-      if (saveEditBtn) {
-        const postId = saveEditBtn.dataset.saveEdit;
-        const editor = document.querySelector('[data-editor-for="' + postId + '"]');
-        const textarea = editor.querySelector("textarea");
-        const newContent = textarea.value.trim();
+    function closeReportModal() {
+      reportModal.classList.remove("open");
+      document.body.style.overflow = "";
+    }
 
-        if (newContent.length < 1) {
-          alert("Le message ne peut pas être vide.");
-          return;
-        }
+    document.getElementById("report-modal-close")?.addEventListener("click", closeReportModal);
+    document.getElementById("report-cancel")?.addEventListener("click", closeReportModal);
+    reportModal?.addEventListener("click", function (e) {
+      if (e.target === reportModal) closeReportModal();
+    });
 
-        saveEditBtn.disabled = true;
-        saveEditBtn.textContent = "Enregistrement…";
-
-        try {
-          await db.collection("forum_posts").doc(postId).update({
-            content: newContent,
-            editedAt: firebase.firestore.FieldValue.serverTimestamp(),
-            editedBy: auth.currentUser.uid
-          });
-          window.location.reload();
-        } catch (err) {
-          console.error("[Forum] Erreur édition :", err);
-          alert("Erreur : " + (err.message || "impossible de modifier."));
-          saveEditBtn.disabled = false;
-          saveEditBtn.textContent = "Enregistrer";
-        }
-        return;
-      }
-
-      // ---- Supprimer un message ----
-      const deleteBtn = e.target.closest("[data-delete-post]");
-      if (deleteBtn) {
-        const postId = deleteBtn.dataset.deletePost;
-        if (!confirm("Voulez-vous vraiment supprimer ce message ?")) return;
-
-        try {
-          await db.collection("forum_posts").doc(postId).delete();
-          if (topicSlug) {
-            await db.collection("forum_topics").doc(topicSlug).update({
-              repliesCount: firebase.firestore.FieldValue.increment(-1)
-            });
-          }
-          window.location.reload();
-        } catch (err) {
-          console.error("[Forum] Erreur suppression :", err);
-          alert("Erreur : " + (err.message || "impossible de supprimer."));
-        }
-        return;
-      }
-
-      // ---- Réactions ----
-      const reactionBtn = e.target.closest("[data-reaction]");
-      if (reactionBtn) {
-        const postId = reactionBtn.dataset.post;
-        const emoji = reactionBtn.dataset.reaction;
-        const user = auth.currentUser;
-
-        if (!user) {
-          window.location.href = "/connexion";
-          return;
-        }
-
-        try {
-          const postRef = db.collection("forum_posts").doc(postId);
-          const post = await postRef.get();
-          const reactions = post.data().reactions || {};
-          const current = reactions[emoji] || [];
-
-          const hasReacted = current.includes(user.uid);
-          const newList = hasReacted
-            ? current.filter(function (uid) { return uid !== user.uid; })
-            : current.concat([user.uid]);
-
-          const newReactions = Object.assign({}, reactions);
-          if (newList.length === 0) {
-            delete newReactions[emoji];
-          } else {
-            newReactions[emoji] = newList;
-          }
-
-          await postRef.update({ reactions: newReactions });
-
-          reactionBtn.classList.toggle("active", !hasReacted);
-          const countEl = reactionBtn.querySelector("span:last-child");
-          if (countEl) countEl.textContent = newList.length;
-
-        } catch (err) {
-          console.error("[Forum] Erreur réaction :", err);
-        }
-        return;
+    document.addEventListener("click", function (e) {
+      const reportBtn = e.target.closest("[data-report-post]");
+      if (reportBtn) {
+        openReportModal(
+          reportBtn.dataset.reportPost,
+          reportBtn.dataset.reportTopic,
+          reportBtn.dataset.reportCat
+        );
       }
     });
 
-        // ============================================================
-    // LANCEMENT — attend que Firebase ait restauré la session
+    document.getElementById("report-reasons")?.addEventListener("change", function () {
+      document.querySelectorAll(".forum__report-reason").forEach(function (el) {
+        el.classList.toggle("selected", el.querySelector("input").checked);
+      });
+    });
+
+    reportForm?.addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const submitBtn = document.getElementById("report-submit");
+      const user = auth.currentUser;
+      if (!user) { window.location.href = "/connexion"; return; }
+
+      const reasonEl = document.querySelector('input[name="reason"]:checked');
+      if (!reasonEl) {
+        reportStatus.textContent = "Choisissez une raison.";
+        reportStatus.className = "modal__status modal__status--error";
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Envoi…";
+      reportStatus.textContent = "Envoi…";
+      reportStatus.className = "modal__status modal__status--info";
+
+      try {
+        const userDoc = await db.collection("Utilisateurs").doc(user.uid).get();
+        const username = userDoc.exists ? (userDoc.data().username || "Anonyme") : "Anonyme";
+
+        await window.LumaForum.reportPost({
+          postId: document.getElementById("report-post-id").value,
+          topicId: document.getElementById("report-topic-id").value,
+          categoryId: document.getElementById("report-cat-id").value,
+          reporterId: user.uid,
+          reporterName: username,
+          reason: reasonEl.value,
+          message: document.getElementById("report-message").value.trim()
+        });
+
+        reportStatus.textContent = "✅ Signalement envoyé. Merci !";
+        reportStatus.className = "modal__status modal__status--success";
+        setTimeout(closeReportModal, 1200);
+
+      } catch (err) {
+        reportStatus.textContent = "Erreur : " + err.message;
+        reportStatus.className = "modal__status modal__status--error";
+      }
+
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Envoyer le signalement";
+    });
+
+    // ============================================================
+    // LANCEMENT
     // ============================================================
     let renderDone = false;
 
-    // Firebase notifie l'état de connexion dès que la session est prête
-    auth.onAuthStateChanged(function (user) {
-      if (renderDone) return; // on ne rend qu'une seule fois
+    auth.onAuthStateChanged(function () {
+      if (renderDone) return;
       renderDone = true;
       render();
     });
 
-    // Filet de sécurité : si Firebase met trop longtemps, on rend quand même
     setTimeout(function () {
       if (!renderDone) {
         renderDone = true;
