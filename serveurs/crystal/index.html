@@ -4,22 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Crystal — Lumalia</title>
-  <meta name="description" content="Crystal, le serveur principal de Lumalia : survie longue durée, projets collectifs et événements réguliers.">
+  <meta name="description" content="Crystal, le premier serveur Java de Lumalia : survie, économie, événements et projets collectifs.">
 
-      <!-- Favicon -->
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png">
-  <link rel="manifest" href="/assets/img/site.webmanifest">
-
-  <!-- Open Graph -->
-  <meta property="og:title" content="Crystal — Lumalia">
-  <meta property="og:description" content="Crystal, le serveur principal de Lumalia.">
-  <meta property="og:image" content="https://lumania.fr/assets/img/logo-lumalia.png">
-  <meta property="og:url" content="https://lumania.fr/serveurs/crystal">
-  <meta property="og:type" content="website">
-  <meta name="twitter:card" content="summary_large_image">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,14 +16,15 @@
   <link href="https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/style.css" rel="stylesheet">
 
   <link rel="stylesheet" href="/assets/css/global.css">
-  <link rel="stylesheet" href="/assets/css/serveur-detail.css">
+  <link rel="stylesheet" href="/assets/css/serveur-page.css">
 
   <script src="/assets/js/theme.js"></script>
   <meta name="theme-color" content="#ffffff">
 </head>
 <body>
 
-    <header class="navbar">
+  <!-- ==================== NAVBAR ==================== -->
+  <header class="navbar">
     <div class="container navbar__inner">
       <a href="/" class="navbar__logo" aria-label="Lumalia — Accueil">
         <img src="/assets/img/logo-lumalia.png" alt="" class="navbar__logo-mark" width="32" height="32">
@@ -50,45 +40,31 @@
             <div class="navbar__dropdown-inner">
               <a href="/serveurs/crystal" class="navbar__dropdown-item">
                 <span class="navbar__dropdown-item__logo navbar__dropdown-item__logo--crystal">C</span>
-                <span class="navbar__dropdown-item__text">
-                  <strong>Crystal</strong>
-                  <span>Java</span>
-                </span>
+                <span class="navbar__dropdown-item__text"><strong>Crystal</strong><span>Java</span></span>
               </a>
               <a href="/serveurs/azur" class="navbar__dropdown-item">
                 <span class="navbar__dropdown-item__logo navbar__dropdown-item__logo--azur">A</span>
-                <span class="navbar__dropdown-item__text">
-                  <strong>Azur</strong>
-                  <span>Java</span>
-                </span>
+                <span class="navbar__dropdown-item__text"><strong>Azur</strong><span>Java</span></span>
               </a>
               <a href="/serveurs/green" class="navbar__dropdown-item">
                 <span class="navbar__dropdown-item__logo navbar__dropdown-item__logo--green">G</span>
-                <span class="navbar__dropdown-item__text">
-                  <strong>Green</strong>
-                  <span>Java · US</span>
-                </span>
+                <span class="navbar__dropdown-item__text"><strong>Green</strong><span>Java · US</span></span>
               </a>
             </div>
           </div>
         </div>
 
+        <a href="/forum" class="navbar__link">Forum</a>
         <a href="/launcher" class="navbar__link" data-i18n="nav.launcher">Launcher</a>
         <a href="/actualites" class="navbar__link" data-i18n="nav.news">Actualités</a>
         <a href="/communaute" class="navbar__link" data-i18n="nav.community">Communauté</a>
-        <a href="/forum" class="navbar__link" data-i18n="nav.forum">Forum</a>
         <a href="/parametres" class="navbar__link" data-i18n="nav.settings">Paramètres</a>
       </nav>
 
       <div class="navbar__actions">
-
         <div class="lang-switch">
           <button class="lang-switch__btn" type="button" aria-label="Changer de langue">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <circle cx="12" cy="12" r="10"/>
-              <path d="M2 12h20"/>
-              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
-            </svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
             <span class="lang-switch__label">FR</span>
           </button>
           <div class="lang-switch__menu" role="menu">
@@ -98,29 +74,13 @@
         </div>
 
         <button class="navbar__icon-btn" type="button" data-theme-toggle aria-label="Changer de thème">
-          <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-          </svg>
-          <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:none">
-            <circle cx="12" cy="12" r="4"/>
-            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
-          </svg>
+          <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
         </button>
 
-        <!-- Lien Connexion (masqué si connecté) -->
-        <a href="/connexion" class="btn btn-ghost btn-sm navbar__cta" data-i18n="nav.login" data-auth-link>
-          Connexion
-        </a>
-
-        <!-- Lien S'inscrire (masqué si connecté) -->
-        <a href="/inscription" class="btn btn-ghost btn-sm navbar__cta" data-i18n="nav.signup" data-auth-link>
-          S'inscrire
-        </a>
-
-        <!-- Bouton Discord (toujours visible) -->
-        <a href="https://discord.gg/bv5jdZAE4v" target="_blank" rel="noopener" class="btn btn-primary btn-sm navbar__cta" data-i18n="nav.discord">
-          Rejoindre Discord
-        </a>
+        <a href="/connexion" class="btn btn-ghost btn-sm navbar__cta" data-i18n="nav.login" data-auth-link>Connexion</a>
+        <a href="/inscription" class="btn btn-ghost btn-sm navbar__cta" data-i18n="nav.signup" data-auth-link>S'inscrire</a>
+        <a href="https://discord.gg/lumalia" target="_blank" rel="noopener" class="btn btn-primary btn-sm navbar__cta" data-i18n="nav.discord">Rejoindre Discord</a>
 
         <button class="navbar__burger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="navbar-links">
           <span></span>
@@ -129,62 +89,144 @@
     </div>
   </header>
 
+  <!-- ==================== HERO ==================== -->
+  <section class="server-hero">
+    <div class="server-hero__bg"></div>
+    <div class="container server-hero__inner">
+      <div class="server-hero__logo server-hero__logo--crystal" id="hero-logo">C</div>
+      <div class="server-hero__text">
+        <div class="server-hero__since" id="hero-since">Actif depuis —</div>
+        <div class="server-hero__title">
+          <h1 id="hero-name">Crystal</h1>
+          <span class="server-hero__status server-hero__status--online" id="hero-status">En ligne</span>
+        </div>
+        <p class="server-hero__tagline" id="hero-tagline">Chargement…</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== MAIN ==================== -->
   <main>
-    <section class="server-detail">
+    <section class="server-page">
       <div class="container">
+        <div class="server-layout">
 
-        <div class="server-detail__hero">
-          <div class="server-detail__logo server-detail__logo--crystal">C</div>
-          <div class="server-detail__title">
-            <span class="label" data-i18n="server.detail.label">Serveur</span>
-            <h1>Crystal</h1>
-            <div class="server-detail__meta">
-              <span class="server-big-card__tag">Java</span>
-              <span class="server-big-card__tag">Survie</span>
-              <span class="server-big-card__tag">Économie</span>
-              <span class="server-big-card__tag">Events</span>
+          <!-- ========== SIDEBAR ========== -->
+          <aside class="server-sidebar">
+
+            <div class="server-sidebar__group">
+              <div class="server-sidebar__label">Général</div>
+              <nav class="server-sidebar__nav">
+                <button class="server-sidebar__item active" data-tab="apropos">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                  À propos
+                </button>
+                <button class="server-sidebar__item" data-tab="staff">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                  Staff
+                </button>
+                <button class="server-sidebar__item" data-tab="activites">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                  Activités
+                </button>
+                <button class="server-sidebar__item" data-tab="journal">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                  Journal
+                </button>
+              </nav>
             </div>
+
+            <div class="server-sidebar__group">
+              <div class="server-sidebar__label">Liens externes</div>
+              <nav class="server-sidebar__nav">
+                <a href="https://discord.gg/lumalia" target="_blank" rel="noopener" class="server-sidebar__item server-sidebar__item--external">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                  Discord
+                </a>
+                <a href="/forum" class="server-sidebar__item server-sidebar__item--external">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                  Forum
+                </a>
+                <a href="/launcher" class="server-sidebar__item server-sidebar__item--external">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  Launcher
+                </a>
+              </nav>
+            </div>
+
+          </aside>
+
+          <!-- ========== CONTENU ========== -->
+          <div class="server-content">
+
+            <!-- Onglet À propos -->
+            <div class="server-panel active" data-panel="apropos">
+              <div class="server-card">
+                <div class="server-card__title">À propos</div>
+
+                <div class="server-stats">
+                  <div class="server-stat">
+                    <div class="server-stat__value" id="stat-players">—</div>
+                    <div class="server-stat__label">Joueurs connectés</div>
+                  </div>
+                  <div class="server-stat">
+                    <div class="server-stat__value" id="stat-max">—</div>
+                    <div class="server-stat__label">Capacité max</div>
+                  </div>
+                  <div class="server-stat">
+                    <div class="server-stat__value" id="stat-unique">—</div>
+                    <div class="server-stat__label">Joueurs uniques</div>
+                  </div>
+                  <div class="server-stat">
+                    <div class="server-stat__value" id="stat-staff">—</div>
+                    <div class="server-stat__label">Membres du staff</div>
+                  </div>
+                </div>
+
+                <p class="server-description" id="description">
+                  Chargement de la description…
+                </p>
+              </div>
+            </div>
+
+            <!-- Onglet Staff -->
+            <div class="server-panel" data-panel="staff">
+              <div class="server-card">
+                <div class="server-card__title">Membres du staff</div>
+                <div class="server-staff" id="staff-list">
+                  <div class="server-empty">Chargement…</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Onglet Activités -->
+            <div class="server-panel" data-panel="activites">
+              <div class="server-card">
+                <div class="server-card__title">Activités du serveur</div>
+                <div class="server-activities" id="activities-list">
+                  <div class="server-empty">Chargement…</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Onglet Journal -->
+            <div class="server-panel" data-panel="journal">
+              <div class="server-card">
+                <div class="server-card__title">Journal du serveur</div>
+                <div class="server-journal" id="journal-list">
+                  <div class="server-empty">Chargement…</div>
+                </div>
+              </div>
+            </div>
+
           </div>
+
         </div>
-
-        <div class="server-detail__body">
-          <p data-i18n="server.crystal.intro">
-            Crystal est le cœur de Lumalia : un monde vivant, façonné par ses joueurs, pensé pour durer.
-          </p>
-
-          <h2 data-i18n="server.crystal.about">À propos</h2>
-          <p data-i18n="server.crystal.aboutText">
-            Ici, pas de reset sauvage ni de saisons jetables. On construit ensemble, sur la durée, avec une économie stable et des projets portés par la communauté. Que vous soyez bâtisseur, explorateur ou commerçant, vous trouverez votre place.
-          </p>
-
-          <h2 data-i18n="server.crystal.features">Ce qui vous attend</h2>
-          <ul>
-            <li data-i18n="server.crystal.feature1">Un monde survie persistant avec une carte qui grandit au fil des explorations</li>
-            <li data-i18n="server.crystal.feature2">Une économie joueur-driven avec boutiques et métiers</li>
-            <li data-i18n="server.crystal.feature3">Des événements réguliers organisés par l'équipe et la communauté</li>
-            <li data-i18n="server.crystal.feature4">Un système de protections pour vos constructions</li>
-            <li data-i18n="server.crystal.feature5">Un chat global et des canaux de discussion par projet</li>
-          </ul>
-
-          <h2 data-i18n="server.crystal.join">Comment rejoindre ?</h2>
-          <p data-i18n="server.crystal.joinText">
-            Le serveur ouvre très bientôt. En attendant, rejoignez notre Discord pour être prévenu en premier et participer aux préparatifs.
-          </p>
-
-          <div class="server-detail__actions">
-            <a href="https://discord.gg/lumalia" target="_blank" rel="noopener" class="btn btn-primary" data-i18n="nav.discord">
-              Rejoindre Discord
-            </a>
-            <a href="/serveurs" class="btn btn-ghost" data-i18n="server.detail.back">
-              ← Retour aux serveurs
-            </a>
-          </div>
-        </div>
-
       </div>
     </section>
   </main>
 
+  <!-- ==================== FOOTER ==================== -->
   <footer class="footer">
     <div class="container">
       <div class="footer__inner">
@@ -195,7 +237,6 @@
           </a>
           <p data-i18n="footer.tagline">Lumalia rassemble plusieurs communautés autour de serveurs Minecraft Java &amp; Bedrock.</p>
         </div>
-
         <div class="footer__cols">
           <div class="footer__col">
             <h5 data-i18n="footer.navigation">Navigation</h5>
@@ -204,14 +245,12 @@
             <a href="/actualites" data-i18n="nav.news">Actualités</a>
             <a href="/communaute" data-i18n="nav.community">Communauté</a>
           </div>
-
           <div class="footer__col">
             <h5 data-i18n="footer.resources">Ressources</h5>
             <a href="#" data-i18n="footer.status">Statut des serveurs</a>
             <a href="#" data-i18n="footer.docs">Documentation</a>
             <a href="#" data-i18n="footer.support">Support</a>
           </div>
-
           <div class="footer__col">
             <h5 data-i18n="footer.legal">Légal</h5>
             <a href="#" data-i18n="footer.terms">Conditions d'utilisation</a>
@@ -220,7 +259,6 @@
           </div>
         </div>
       </div>
-
       <div class="footer__bottom">
         <span>© <span id="footer-year"></span> Lumalia. <span data-i18n="footer.rights">Tous droits réservés.</span></span>
         <span data-i18n="footer.notAffiliated">Lumalia n'est pas affilié à Mojang ni Microsoft.</span>
@@ -228,18 +266,177 @@
     </div>
   </footer>
 
-  <div class="bg-blobs" aria-hidden="true">
-    <span></span>
-    <span></span>
-  </div>
+  <div class="bg-blobs" aria-hidden="true"><span></span><span></span></div>
   <canvas id="luma-bg" aria-hidden="true"></canvas>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 
   <script src="/assets/js/i18n.js"></script>
   <script src="/assets/js/navbar.js"></script>
-  <script src="/assets/js/bbcode.js"></script>
   <script src="/assets/js/background.js"></script>
+
   <script>
     document.getElementById("footer-year").textContent = new Date().getFullYear();
+
+    var firebaseConfig = {
+      apiKey: "AIzaSyBSCqSsBTXk9Q8sBX88NgrdDHUAHT0Cq6I",
+      authDomain: "lumalia.firebaseapp.com",
+      projectId: "lumalia",
+      storageBucket: "lumalia.firebasestorage.app",
+      messagingSenderId: "189011821397",
+      appId: "1:189011821397:web:03c8609d35d488dce2a5dc"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    var db = firebase.firestore();
+
+    // ============================================================
+    // CONFIG DU SERVEUR (à modifier pour Azur et Green)
+    // ============================================================
+    var SERVER_SLUG = "crystal";
+
+    // ============================================================
+    // ONGLETS
+    // ============================================================
+    document.querySelectorAll(".server-sidebar__item[data-tab]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var tab = btn.dataset.tab;
+
+        document.querySelectorAll(".server-sidebar__item[data-tab]").forEach(function (b) {
+          b.classList.toggle("active", b === btn);
+        });
+
+        document.querySelectorAll(".server-panel").forEach(function (p) {
+          p.classList.toggle("active", p.dataset.panel === tab);
+        });
+      });
+    });
+
+    // ============================================================
+    // CHARGEMENT DES DONNÉES
+    // ============================================================
+    function escapeHtml(str) {
+      return String(str || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    async function loadServer() {
+      try {
+        var doc = await db.collection("server_details").doc(SERVER_SLUG).get();
+
+        if (!doc.exists) {
+          console.warn("[Serveur] Aucune donnée pour", SERVER_SLUG);
+          return;
+        }
+
+        var data = doc.data();
+
+        // Header
+        if (data.name) document.getElementById("hero-name").textContent = data.name;
+        if (data.activeSince) document.getElementById("hero-since").textContent = "Actif depuis " + data.activeSince;
+        if (data.tagline) document.getElementById("hero-tagline").textContent = data.tagline;
+
+        // Status
+        var statusEl = document.getElementById("hero-status");
+        var status = data.status || "online";
+        var statusLabels = { online: "En ligne", maintenance: "Maintenance", offline: "Hors ligne" };
+        statusEl.textContent = statusLabels[status] || "En ligne";
+        statusEl.className = "server-hero__status server-hero__status--" + status;
+
+        // Description
+        if (data.description) document.getElementById("description").textContent = data.description;
+
+        // Stats
+        var stats = data.stats || {};
+        document.getElementById("stat-players").textContent = stats.playersOnline != null ? stats.playersOnline : "—";
+        document.getElementById("stat-max").textContent = stats.playersMax != null ? stats.playersMax : "—";
+        document.getElementById("stat-unique").textContent = stats.uniquePlayers != null ? stats.uniquePlayers : "—";
+        document.getElementById("stat-staff").textContent = (data.staff || []).length;
+
+        // Staff
+        renderStaff(data.staff || []);
+
+        // Activités
+        renderActivities(data.activities || []);
+
+        // Journal
+        renderJournal(data.journal || []);
+
+      } catch (err) {
+        console.error("[Serveur] Erreur :", err);
+      }
+    }
+
+    function renderStaff(staff) {
+      var el = document.getElementById("staff-list");
+      if (staff.length === 0) {
+        el.innerHTML = '<div class="server-empty">Aucun membre du staff pour le moment.</div>';
+        return;
+      }
+
+      var html = "";
+      staff.forEach(function (member) {
+        var initial = (member.username || "?").charAt(0).toUpperCase();
+        html += '<div class="server-staff-item">';
+        html += '<div class="server-staff-avatar">' + initial + '</div>';
+        html += '<div class="server-staff-info">';
+        html += '<strong>' + escapeHtml(member.username) + '</strong>';
+        html += '<span>' + escapeHtml(member.role || "Membre") + '</span>';
+        html += '</div>';
+        html += '</div>';
+      });
+      el.innerHTML = html;
+    }
+
+    function renderActivities(activities) {
+      var el = document.getElementById("activities-list");
+      if (activities.length === 0) {
+        el.innerHTML = '<div class="server-empty">Aucune activité renseignée.</div>';
+        return;
+      }
+
+      var html = "";
+      activities.forEach(function (act) {
+        html += '<div class="server-activity">';
+        html += '<div class="server-activity__icon">' + (act.icon || "⚔️") + '</div>';
+        html += '<h4>' + escapeHtml(act.name) + '</h4>';
+        html += '<p>' + escapeHtml(act.desc || "") + '</p>';
+        html += '</div>';
+      });
+      el.innerHTML = html;
+    }
+
+    function renderJournal(journal) {
+      var el = document.getElementById("journal-list");
+      if (journal.length === 0) {
+        el.innerHTML = '<div class="server-empty">Aucune actualité pour le moment.</div>';
+        return;
+      }
+
+      // Trie par date descendante
+      journal.sort(function (a, b) {
+        return String(b.date || "").localeCompare(String(a.date || ""));
+      });
+
+      var html = "";
+      journal.forEach(function (entry) {
+        html += '<div class="server-journal-item">';
+        html += '<div class="server-journal-item__date">' + escapeHtml(entry.date) + '</div>';
+        html += '<h4>' + escapeHtml(entry.title) + '</h4>';
+        html += '<p>' + escapeHtml(entry.content) + '</p>';
+        html += '</div>';
+      });
+      el.innerHTML = html;
+    }
+
+    loadServer();
   </script>
 </body>
 </html>
