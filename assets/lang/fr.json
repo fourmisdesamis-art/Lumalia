@@ -81,9 +81,9 @@
       "label": "01 · Les serveurs",
       "title": "Trois mondes, une seule adresse",
       "subtitle": "Chaque serveurs Lumalia possède son ambiance, sa communauté et ses règles. À vous de choisir votre serveur",
-      "crystal": "Un monde vivant, pensé pour la survie longue durée et les projets de groupe.",
-      "azur": "Un espace créatif sans limites, pensé pour les builders et les projets fous.",
-      "green": "Notre univers nord-américain, avec des événements pensés pour le fuseau US."
+      "crystal": "Un serveur sur le thème de la Lune et du Soleil",
+      "azur": "Un serveur sur le thème du Moyen Age",
+      "green": "Le premier serveur US de Lumalia, il n'a pas encore de thème défini"
     },
     "launcher": {
       "label": "02 · Le launcher",
@@ -105,8 +105,8 @@
         "desc": "Plusieurs imformations ont été dévoilés sur le discord"
       },
       "item2": {
-        "title": "Le launcher entre en phase de test",
-        "desc": "Une nouvelle façon de rejoindre Lumalia, plus fluide et centralisée."
+        "title": "Le launcher arrive bientôt",
+        "desc": "Le launcher permet d'introduire plus d'option"
       },
       "item3": {
         "title": "La communauté Discord s'agrandit",
@@ -116,25 +116,25 @@
     "community": {
       "label": "04 · La communauté",
       "title": "On construit Lumalia ensemble",
-      "subtitle": "Vos retours façonnent le réseau. Venez discuter, proposer, tester, et suivre l'avancement du projet en direct.",
+      "subtitle": "Vos retours façonnent le réseau. Venez discuter, proposer, tester, cela nous aident énormément pour le développemenent et les mises à jour",
       "cta": "Ouvrir Discord"
     }
   },
   "servers": {
-    "label": "01 · Les univers",
-    "title": "Choisissez votre univers",
+    "label": "01 · Les serveurs",
+    "title": "Choisissez votre serveur",
     "subtitle": "Trois mondes, trois ambiances, une seule communauté. Chaque serveur Lumalia possède sa propre identité, sa population et ses événements.",
     "crystal": {
-      "type": "Java · Survie",
-      "desc": "Notre serveur principal, taillé pour la survie longue durée, les projets collectifs et les constructions ambitieuses."
+      "type": "Java",
+      "desc": "Un serveur sur le thème de la Lune et du Solei"
     },
     "azur": {
-      "type": "Java · Créatif",
-      "desc": "Un espace créatif sans limites, pensé pour les builders, les projets fous et l'expérimentation libre."
+      "type": "Java",
+      "desc": "Un serveur sur le thème du Moyen Age"
     },
     "green": {
       "type": "Java · US",
-      "desc": "Notre univers nord-américain, avec des événements calés sur le fuseau US et une communauté locale dédiée."
+      "desc": "Le premier serveur de Lumalia, il n'a pas encore de thème défini"
     }
   },
   "server": {
