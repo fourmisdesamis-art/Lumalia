@@ -341,4 +341,437 @@
         }
         a:hover { opacity: .75; }
         ul, ol { padding-left: 1.5em; margin-bottom: 1em; }
-        li { margin-bottom: 0
+        li { margin-bottom: 0.35em; }
+        img {
+          max-width: 100%;
+          height: auto;
+          border-radius: 12px;
+          display: block;
+          margin: 1em 0;
+        }
+        blockquote {
+          border-left: 3px solid ${cssVars.accent};
+          background: ${cssVars.accentSoft};
+          padding: 0.75rem 1rem;
+          margin: 1em 0;
+          border-radius: 0 8px 8px 0;
+          font-style: italic;
+        }
+        code {
+          background: ${cssVars.accentSoft};
+          padding: 0.15em 0.4em;
+          border-radius: 4px;
+          font-family: "Geist Mono", monospace;
+          font-size: 0.9em;
+        }
+        pre {
+          background: ${cssVars.accentSoft};
+          padding: 1rem;
+          border-radius: 8px;
+          overflow-x: auto;
+          margin: 1em 0;
+        }
+        pre code { background: transparent; padding: 0; }
+        hr {
+          border: none;
+          border-top: 1px solid ${cssVars.border};
+          margin: 1.5em 0;
+        }
+        table {
+          width: 100%;
+          border-collapse: collapse;
+          margin: 1em 0;
+        }
+        th, td {
+          padding: 0.5rem 0.75rem;
+          border: 1px solid ${cssVars.border};
+          text-align: left;
+        }
+        th {
+          background: ${cssVars.accentSoft};
+          font-weight: 600;
+        }
+      `;
+
+      // Construit le HTML de l'iframe
+      return `<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>${baseStyles}</style>
+</head>
+<body>${content}</body>
+</html>`;
+    }
+
+    function renderSandboxedIframe(content, container) {
+      var iframe = document.createElement("iframe");
+      iframe.className = "news-article__iframe";
+      iframe.setAttribute("sandbox", "allow-same-origin allow-popups");
+      iframe.setAttribute("loading", "lazy");
+      iframe.style.height = "200px";
+
+      iframe.srcdoc = buildSandboxedHtml(content);
+
+      // Ajuste la hauteur automatiquement
+      iframe.addEventListener("load", function () {
+        setTimeout(function () {
+          try {
+            var doc = iframe.contentDocument || iframe.contentWindow.document;
+            var h = doc.body.scrollHeight;
+            iframe.style.height = (h + 20) + "px";
+          } catch (e) {
+            console.warn("[News] Impossible d'ajuster la hauteur", e);
+          }
+        }, 100);
+      });
+
+      container.innerHTML = "";
+      container.appendChild(iframe);
+    }
+
+    // ============================================================
+    // CHARGEMENT DES ACTUALITÉS
+    // ============================================================
+    async function loadNews() {
+      try {
+        var snap = await db.collection("news").get();
+
+        allNews = [];
+        snap.forEach(function (doc) {
+          allNews.push({ id: doc.id, ...doc.data() });
+        });
+
+        // Tri par date descendante
+        allNews.sort(function (a, b) {
+          var aDate = a.createdAt ? a.createdAt.toMillis() : 0;
+          var bDate = b.createdAt ? b.createdAt.toMillis() : 0;
+          return bDate - aDate;
+        });
+
+        // Si on est en mode "détail", on affiche un article
+        if (newsSlug) {
+          await renderArticle(newsSlug);
+        } else {
+          renderList();
+        }
+      } catch (err) {
+        console.error("[News]", err);
+        newsContentEl.innerHTML = '<div class="news-empty"><p>Erreur de chargement.</p></div>';
+      }
+    }
+
+    // ============================================================
+    // LISTE DES ACTUALITÉS
+    // ============================================================
+    function renderList() {
+      // Filtre selon les permissions
+      var visible = allNews.filter(function (n) {
+        return n.published || isHA;
+      });
+
+      if (visible.length === 0) {
+        newsContentEl.innerHTML = '<div class="news-empty">'
+          + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6z"/></svg>'
+          + '<p>Aucune actualité pour le moment.</p>'
+          + '</div>';
+        return;
+      }
+
+      var html = '<div class="news-grid">';
+      visible.forEach(function (n) {
+        var initial = (n.authorName || "?").charAt(0).toUpperCase();
+        var isDraft = !n.published;
+
+        html += '<a href="/actualites?n=' + n.id + '" class="news-card">';
+
+        // Cover
+        html += '<div class="news-card__cover">';
+        if (n.cover) {
+          html += '<img src="' + escapeHtml(n.cover) + '" alt="">';
+        } else {
+          html += '<div class="news-card__cover-placeholder">' + escapeHtml((n.title || "?").charAt(0)) + '</div>';
+        }
+        if (isDraft) {
+          html += '<span class="news-card__badge news-card__badge--draft">Brouillon</span>';
+        }
+        html += '</div>';
+
+        // Body
+        html += '<div class="news-card__body">';
+        html += '<div class="news-card__meta">';
+        html += '<span>📅 ' + formatDate(n.createdAt) + '</span>';
+        html += '</div>';
+        html += '<h3>' + escapeHtml(n.title) + '</h3>';
+        if (n.excerpt) {
+          html += '<p class="news-card__excerpt">' + escapeHtml(n.excerpt) + '</p>';
+        }
+        html += '<div class="news-card__footer">';
+        html += '<div class="news-card__author">';
+        html += '<div class="news-card__author-avatar">' + initial + '</div>';
+        html += '<span>' + escapeHtml(n.authorName || "Anonyme") + '</span>';
+        html += '</div>';
+        html += '<span>Lire →</span>';
+        html += '</div>';
+        html += '</div>';
+        html += '</a>';
+      });
+      html += '</div>';
+
+      newsContentEl.innerHTML = html;
+    }
+
+    // ============================================================
+    // ARTICLE DÉTAILLÉ
+    // ============================================================
+    async function renderArticle(newsId) {
+      var article = allNews.find(function (n) { return n.id === newsId; });
+
+      if (!article) {
+        newsContentEl.innerHTML = '<div class="news-empty"><p>Article introuvable.</p></div>';
+        return;
+      }
+
+      // Si pas publié et pas HA → caché
+      if (!article.published && !isHA) {
+        newsContentEl.innerHTML = '<div class="news-empty"><p>Article introuvable.</p></div>';
+        return;
+      }
+
+      // Change le titre de la page
+      document.getElementById("news-title").textContent = article.title;
+      document.getElementById("news-subtitle").textContent = article.excerpt || "";
+
+      var html = '<div class="news-article">';
+
+      html += '<a href="/actualites" class="news-article__back">← Retour aux actualités</a>';
+
+      html += '<div class="news-article__header">';
+      html += '<h1>' + escapeHtml(article.title) + '</h1>';
+      html += '<div class="news-article__meta">';
+      html += '<span>📅 ' + formatDate(article.createdAt) + '</span>';
+      html += '<span>✍️ ' + escapeHtml(article.authorName || "Anonyme") + '</span>';
+      if (!article.published) {
+        html += '<span style="color:#f59e0b;font-weight:600;">Brouillon</span>';
+      }
+      html += '</div>';
+      html += '</div>';
+
+      if (article.cover) {
+        html += '<div class="news-article__cover"><img src="' + escapeHtml(article.cover) + '" alt=""></div>';
+      }
+
+      // Contenu sandboxé
+      html += '<div id="news-article-content"></div>';
+
+      // Actions admin
+      html += '<div class="news-article__actions' + (isHA ? " can-edit" : "") + '">';
+      html += '<button type="button" class="btn btn-ghost btn-sm" data-edit-news="' + article.id + '">✏️ Modifier</button>';
+      html += '<button type="button" class="btn btn-ghost btn-sm" style="color:var(--danger);" data-delete-news="' + article.id + '">🗑️ Supprimer</button>';
+      html += '</div>';
+
+      html += '</div>';
+
+      newsContentEl.innerHTML = html;
+
+      // Injecte l'iframe sandboxée
+      var container = document.getElementById("news-article-content");
+      renderSandboxedIframe(article.content || "", container);
+    }
+
+    // ============================================================
+    // ÉDITEUR (création / modification)
+    // ============================================================
+    var editorModal = document.getElementById("news-editor-modal");
+    var editorForm = document.getElementById("news-editor-form");
+    var editorStatus = document.getElementById("news-editor-status");
+    var editorTitle = document.getElementById("news-editor-title");
+    var editIdInput = document.getElementById("news-edit-id");
+    var contentInput = document.getElementById("news-content-input");
+    var previewEl = document.getElementById("news-preview");
+
+    function openEditor(article) {
+      editorForm.reset();
+      editorStatus.textContent = "";
+      editorStatus.className = "modal__status";
+
+      if (article) {
+        editorTitle.textContent = "Modifier l'actualité";
+        editIdInput.value = article.id;
+        document.getElementById("news-title-input").value = article.title || "";
+        document.getElementById("news-excerpt-input").value = article.excerpt || "";
+        document.getElementById("news-cover-input").value = article.cover || "";
+        document.getElementById("news-content-input").value = article.content || "";
+        document.getElementById("news-published-input").checked = !!article.published;
+      } else {
+        editorTitle.textContent = "Nouvelle actualité";
+        editIdInput.value = "";
+        document.getElementById("news-published-input").checked = true;
+      }
+
+      updatePreview();
+
+      editorModal.classList.add("open");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeEditor() {
+      editorModal.classList.remove("open");
+      document.body.style.overflow = "";
+      previewEl.innerHTML = '<em style="color: var(--text-muted); font-size: 0.85rem;">L\'aperçu apparaîtra ici…</em>';
+    }
+
+    function updatePreview() {
+      var content = contentInput.value.trim();
+      if (!content) {
+        previewEl.innerHTML = '<em style="color: var(--text-muted); font-size: 0.85rem;">L\'aperçu apparaîtra ici…</em>';
+        return;
+      }
+      renderSandboxedIframe(content, previewEl);
+    }
+
+    contentInput.addEventListener("input", function () {
+      clearTimeout(contentInput._previewTimer);
+      contentInput._previewTimer = setTimeout(updatePreview, 600);
+    });
+
+    document.getElementById("create-news-btn").addEventListener("click", function () {
+      openEditor(null);
+    });
+
+    document.getElementById("news-editor-close").addEventListener("click", closeEditor);
+    document.getElementById("news-editor-cancel").addEventListener("click", closeEditor);
+    editorModal.addEventListener("click", function (e) {
+      if (e.target === editorModal) closeEditor();
+    });
+
+    editorForm.addEventListener("submit", async function (e) {
+      e.preventDefault();
+      var submitBtn = document.getElementById("news-editor-submit");
+      var editId = editIdInput.value;
+
+      var title = document.getElementById("news-title-input").value.trim();
+      var excerpt = document.getElementById("news-excerpt-input").value.trim();
+      var cover = document.getElementById("news-cover-input").value.trim();
+      var content = contentInput.value.trim();
+      var published = document.getElementById("news-published-input").checked;
+
+      if (title.length < 1) {
+        editorStatus.textContent = "Le titre est obligatoire.";
+        editorStatus.className = "modal__status modal__status--error";
+        return;
+      }
+      if (content.length < 1) {
+        editorStatus.textContent = "Le contenu est obligatoire.";
+        editorStatus.className = "modal__status modal__status--error";
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Enregistrement…";
+      editorStatus.textContent = "Enregistrement…";
+      editorStatus.className = "modal__status modal__status--info";
+
+      try {
+        var userDoc = await db.collection("Utilisateurs").doc(currentUser.uid).get();
+        var authorName = userDoc.exists ? (userDoc.data().username || "Anonyme") : "Anonyme";
+
+        var data = {
+          title: title,
+          slug: slugify(title),
+          excerpt: excerpt,
+          cover: cover,
+          content: content,
+          published: published,
+          authorId: currentUser.uid,
+          authorName: authorName,
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        };
+
+        if (editId) {
+          await db.collection("news").doc(editId).update(data);
+        } else {
+          data.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+          await db.collection("news").add(data);
+        }
+
+        editorStatus.textContent = "✅ Enregistré !";
+        editorStatus.className = "modal__status modal__status--success";
+
+        setTimeout(function () {
+          closeEditor();
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Enregistrer";
+          window.location.href = "/actualites";
+        }, 800);
+
+      } catch (err) {
+        console.error("[News] Erreur :", err);
+        editorStatus.textContent = "Erreur : " + (err.message || "impossible d'enregistrer.");
+        editorStatus.className = "modal__status modal__status--error";
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Enregistrer";
+      }
+    });
+
+    // ============================================================
+    // ACTIONS SUR LES ARTICLES (modifier / supprimer)
+    // ============================================================
+    document.addEventListener("click", async function (e) {
+      var editBtn = e.target.closest("[data-edit-news]");
+      if (editBtn) {
+        var article = allNews.find(function (n) { return n.id === editBtn.dataset.editNews; });
+        if (article) openEditor(article);
+        return;
+      }
+
+      var deleteBtn = e.target.closest("[data-delete-news]");
+      if (deleteBtn) {
+        if (!confirm("Supprimer cette actualité ? Cette action est irréversible.")) return;
+        var newsId = deleteBtn.dataset.deleteNews;
+        try {
+          await db.collection("news").doc(newsId).delete();
+          window.location.href = "/actualites";
+        } catch (err) {
+          alert("Erreur : " + err.message);
+        }
+        return;
+      }
+    });
+
+    // ============================================================
+    // INITIALISATION
+    // ============================================================
+    auth.onAuthStateChanged(async function (user) {
+      currentUser = user;
+
+      if (user) {
+        try {
+          var doc = await db.collection("Utilisateurs").doc(user.uid).get();
+          if (doc.exists) {
+            currentGrade = doc.data().grade || "";
+            var g = currentGrade.toLowerCase();
+            isHA = g === "ha" || g === "administrateur" || g === "admin";
+          }
+        } catch (err) {
+          console.warn("[News] Erreur rôle :", err);
+        }
+      }
+
+      // Affiche le bouton "Nouvelle actualité" si HA/Admin
+      if (isHA) {
+        createBtn.classList.add("visible");
+      }
+
+      await loadNews();
+    });
+
+    // Fallback si Firebase met trop longtemps
+    setTimeout(function () {
+      if (newsContentEl.querySelector(".news-loading")) {
+        loadNews();
+      }
+    }, 1500);
+  </script>
+</body>
+</html>
