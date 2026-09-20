@@ -24,7 +24,6 @@
 </head>
 <body>
 
-  <!-- ==================== NAVBAR ==================== -->
   <header class="navbar">
     <div class="container navbar__inner">
       <a href="/" class="navbar__logo" aria-label="Lumalia — Accueil">
@@ -90,7 +89,6 @@
     </div>
   </header>
 
-  <!-- ==================== MAIN ==================== -->
   <main>
     <section class="forum">
       <div class="container">
@@ -109,7 +107,6 @@
     </section>
   </main>
 
-  <!-- ==================== FOOTER ==================== -->
   <footer class="footer">
     <div class="container">
       <div class="footer__inner">
@@ -305,7 +302,7 @@
     }
 
     // ============================================================
-    // ARBRE DE CATÉGORIES (récursif)
+    // ARBRE DE CATÉGORIES
     // ============================================================
     function buildCategoryTree(categories, parentId, isStaff) {
       var children = categories.filter(function (c) {
@@ -321,25 +318,31 @@
       });
     }
 
+    // Rendu d'une branche récursive
     function renderCategoryBranch(cat, categories, allCounts, level, isStaff) {
       level = level || 0;
       var children = buildCategoryTree(categories, cat.id, isStaff);
       var hasChildren = children.length > 0;
 
-      var indent = level * 24;
-      var bgOpacity = Math.max(0.02, 0.06 - level * 0.01);
+      // Dégradé progressif selon la profondeur
+      var borderColors = ["#7c5cff", "#a78bfa", "#c4b5fd", "#ddd6fe"];
+      var borderColor = borderColors[Math.min(level, borderColors.length - 1)];
+      var fontSize = Math.max(0.85, 1 - level * 0.05);
 
-      var html = '<div class="forum__cat-wrapper" style="margin-left:' + indent + 'px;">';
-      html += '<a href="/forum?c=' + cat.id + '" class="forum__cat" style="background: rgba(124,92,255,' + bgOpacity + ');">';
-      html += '<div class="forum__cat-icon" style="' + (level > 0 ? 'width:34px;height:34px;' : '') + '">';
-      html += '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"' + (level > 0 ? ' style="width:16px;height:16px;"' : '') + '>';
-      html += '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>';
-      html += '</div>';
+      var html = '<div class="forum__cat-node" data-level="' + level + '">';
+
+      html += '<a href="/forum?c=' + cat.id + '" class="forum__cat" style="border-left: 3px solid ' + borderColor + ';">';
+      html += '<div class="forum__cat-icon">'
+        + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:' + (level > 0 ? 16 : 20) + 'px;height:' + (level > 0 ? 16 : 20) + 'px;"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>'
+        + '</div>';
       html += '<div class="forum__cat-body">';
-      html += '<div class="forum__cat-title"><h3 style="' + (level > 0 ? 'font-size:0.92rem;' : '') + '">' + escapeHtml(cat.name) + '</h3>';
+      html += '<div class="forum__cat-title"><h3 style="font-size:' + fontSize + 'rem;">' + escapeHtml(cat.name) + '</h3>';
       if (cat.locked) html += '<span class="forum__badge forum__badge--locked">🔒</span>';
       if (cat.staffOnly) html += '<span class="forum__badge forum__badge--staff">Staff</span>';
-      if (hasChildren) html += '<span class="forum__badge" style="background:var(--accent-soft);color:var(--accent);border-color:transparent;">' + children.length + ' sous-cat.</span>';
+      if (hasChildren) {
+        html += '<span class="forum__badge" style="background:var(--accent-soft);color:var(--accent);border-color:transparent;">'
+          + children.length + ' sous-cat.</span>';
+      }
       html += '</div>';
       if (cat.description) html += '<div class="forum__cat-desc">' + escapeHtml(cat.description) + '</div>';
       html += '</div>';
@@ -348,10 +351,13 @@
       html += '</div>';
       html += '</a>';
 
+      // Rendu récursif des enfants
       if (hasChildren) {
+        html += '<div class="forum__cat-children">';
         children.forEach(function (child) {
           html += renderCategoryBranch(child, categories, allCounts, level + 1, isStaff);
         });
+        html += '</div>';
       }
 
       html += '</div>';
@@ -374,7 +380,7 @@
         }
       } catch (err) {
         console.error("[Forum]", err);
-        contentEl.innerHTML = '<div class="forum__empty"><p>Erreur de chargement.</p></div>';
+        contentEl.innerHTML = '<div class="forum__empty"><p>Erreur de chargement : ' + escapeHtml(err.message || err) + '</p></div>';
       }
     }
 
@@ -400,7 +406,7 @@
         + '</div>';
 
       html += '<form class="forum__search" id="search-form">'
-        + '<input type="search" id="search-input" placeholder="Rechercher un sujet…" value="' + escapeHtml(searchQuery || "") + '">'
+        + '<input type="search" id="search-input" placeholder="Rechercher un sujet…" value="">'
         + '<button type="submit" class="btn btn-primary">Rechercher</button>'
         + '</form>';
 
@@ -422,14 +428,15 @@
       html += '<div class="forum__section">';
       html += '<div class="forum__section-header">'
         + '<h2>Catégories</h2>'
-        + '<span class="forum__section-stats">' + roots.length + ' catégorie' + (roots.length > 1 ? "s" : "") + ' principale' + (roots.length > 1 ? "s" : "") + '</span>'
+        + '<span class="forum__section-stats">' + roots.length + ' catégorie' + (roots.length > 1 ? "s" : "") + '</span>'
         + '</div>';
+      html += '<div class="forum__cat-tree">';
 
       roots.forEach(function (cat) {
         html += renderCategoryBranch(cat, categories, counts, 0, isStaff);
       });
 
-      html += '</div>';
+      html += '</div></div>';
 
       contentEl.innerHTML = html;
       bindSearch();
@@ -441,8 +448,9 @@
     async function renderSearch(query) {
       var html = '<div class="forum__header">'
         + '<div>'
-        + '<h1>Recherche</h1>'
-        + '<p>Résultats pour « ' + escapeHtml(query) + ' »</p>'
+        + '<span class="label">Recherche</span>'
+        + '<h1>Résultats</h1>'
+        + '<p>Recherche pour « ' + escapeHtml(query) + ' »</p>'
         + '</div>'
         + '</div>';
 
@@ -451,7 +459,35 @@
         + '<button type="submit" class="btn btn-primary">Rechercher</button>'
         + '</form>';
 
-      var results = await window.LumaForum.searchTopics(query);
+      var results = [];
+      try {
+        if (window.LumaForum && typeof window.LumaForum.searchTopics === "function") {
+          results = await window.LumaForum.searchTopics(query);
+        } else {
+          // Fallback : recherche directe
+          var snap = await db.collection("forum_topics").limit(500).get();
+          var q = query.toLowerCase().trim();
+          snap.forEach(function (doc) {
+            var data = doc.data();
+            if ((data.title || "").toLowerCase().indexOf(q) !== -1) {
+              var item = { id: doc.id };
+              for (var k in data) if (data.hasOwnProperty(k)) item[k] = data[k];
+              results.push(item);
+            }
+          });
+          results.sort(function (a, b) {
+            var aDate = a.createdAt ? a.createdAt.toMillis() : 0;
+            var bDate = b.createdAt ? b.createdAt.toMillis() : 0;
+            return bDate - aDate;
+          });
+        }
+      } catch (err) {
+        console.error("[Recherche]", err);
+        html += '<div class="forum__empty"><p>Erreur de recherche : ' + escapeHtml(err.message || "") + '</p></div>';
+        contentEl.innerHTML = html;
+        bindSearch();
+        return;
+      }
 
       html += '<div class="forum__section">';
       html += '<div class="forum__section-header">'
@@ -460,7 +496,7 @@
         + '</div>';
 
       if (results.length === 0) {
-        html += '<div class="forum__empty"><p>Aucun sujet trouvé.</p></div>';
+        html += '<div class="forum__empty"><p>Aucun sujet trouvé pour « ' + escapeHtml(query) + ' ».</p></div>';
       } else {
         results.forEach(function (topic) {
           var initial = (topic.authorName || "?").charAt(0).toUpperCase();
@@ -541,11 +577,11 @@
       });
 
       var counts = {};
-      for (var i = 0; i < subs.length; i++) {
+      for (var i = 0; i < allCats.length; i++) {
         var cSnap = await db.collection("forum_topics")
-          .where("categoryId", "==", subs[i].id)
+          .where("categoryId", "==", allCats[i].id)
           .get();
-        counts[subs[i].id] = cSnap.size;
+        counts[allCats[i].id] = cSnap.size;
       }
 
       var user = auth.currentUser;
@@ -574,10 +610,11 @@
           + '<h2>Sous-catégories</h2>'
           + '<span class="forum__section-stats">' + subs.length + '</span>'
           + '</div>';
+        html += '<div class="forum__cat-tree">';
         subs.forEach(function (sub) {
           html += renderCategoryBranch(sub, allCats, counts, 0, isStaff);
         });
-        html += '</div>';
+        html += '</div></div>';
       }
 
       html += '<div class="forum__section">';
@@ -865,10 +902,8 @@
             var tDoc = await db.collection("forum_topics").doc(topicId).get();
             var tData = tDoc.data();
 
-            // Notifie les followers
             await window.LumaForum.notifyFollowers(topicId, catId, tData.title, authorName, user.uid);
 
-            // Notifie les mentions
             if (content) {
               await window.LumaForum.notifyMentions(
                 content,
@@ -957,7 +992,6 @@
         }
       });
 
-      // Autocomplétion des mentions
       setupMentionAutocomplete(textarea);
     }
 
@@ -1192,7 +1226,6 @@
             editedBy: auth.currentUser.uid
           });
 
-          // Notifie les mentions lors de l'édition
           if (window.LumaForum) {
             var editPost = await db.collection("forum_posts").doc(postId4).get();
             if (editPost.exists) {
@@ -1278,7 +1311,6 @@
         var ta = document.getElementById("topic-title");
         if (ta) ta.focus();
       }, 100);
-      // Active l'autocomplétion sur le champ de contenu
       var contentField = document.getElementById("topic-content");
       if (contentField && !contentField.dataset.mentionSetup) {
         contentField.dataset.mentionSetup = "1";
@@ -1368,7 +1400,6 @@
           createdAt: firebase.firestore.FieldValue.serverTimestamp()
         });
 
-        // Notifie les mentions dans le premier message
         if (window.LumaForum && content) {
           await window.LumaForum.notifyMentions(
             content,
