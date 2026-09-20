@@ -66,15 +66,15 @@
   "home": {
     "hero": {
       "eyebrow": "Réseau ouvert · Java",
-      "title1": "Un réseau,",
-      "title2": "mille histoires",
+      "title1": "Des serveurs,",
+      "title2": "plusieurs histoires",
       "subtitle": "Lumalia, c'est un serveur Minecraftt pour tous. Plusieurs serveurs, plusieurs communautés, une infinité d'histoires a découvrir",
       "ctaPrimary": "Obtenir le launcher",
       "ctaSecondary": "Explorer les univers"
     },
     "stats": {
       "online": "Joueurs connectés",
-      "servers": "Univers ouverts",
+      "servers": "Serveurs ouverts",
       "uptime": "En ligne"
     },
     "universes": {
