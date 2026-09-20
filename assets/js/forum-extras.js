@@ -259,7 +259,7 @@
         var base64 = reader.result.split(",")[1];
 
         var formData = new FormData();
-        formData.append("key", 24caa6941630a33005bf7375722ad310);
+        formData.append("key", IMGBB_API_KEY);
         formData.append("image", base64);
         formData.append("name", "lumalia_" + Date.now());
 
