@@ -17,7 +17,7 @@
     "logout": "Déconnexion"
   },
   "footer": {
-    "tagline": "Lumalia rassemble plusieurs communautés autour de serveurs Minecraft Java & Bedrock.",
+    "tagline": "Lumalia rassemble plusieurs communautés autour de serveurs Minecraft Java",
     "navigation": "Navigation",
     "resources": "Ressources",
     "legal": "Légal",
@@ -65,10 +65,10 @@
   },
   "home": {
     "hero": {
-      "eyebrow": "Réseau ouvert · Java & Bedrock",
+      "eyebrow": "Réseau ouvert · Java",
       "title1": "Un réseau,",
       "title2": "mille histoires",
-      "subtitle": "Lumalia réunit des joueurs de tous horizons autour d'expériences uniques. Un compte, plusieurs univers, une seule communauté.",
+      "subtitle": "Lumalia, c'est un serveur Minecraftt pour tous. Plusieurs serveurs, plusieurs communautés, une infinité d'histoires a découvrir",
       "ctaPrimary": "Obtenir le launcher",
       "ctaSecondary": "Explorer les univers"
     },
