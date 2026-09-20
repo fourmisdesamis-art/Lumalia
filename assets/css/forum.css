@@ -804,3 +804,52 @@
   font-size: 0.95rem;
   line-height: 1;
 }
+
+/* ---------- Arbre de catégories (récursif) ---------- */
+.forum__cat-tree {
+  display: flex;
+  flex-direction: column;
+}
+
+.forum__cat-node {
+  display: flex;
+  flex-direction: column;
+}
+
+.forum__cat-children {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  margin-left: 32px;
+  padding-left: 16px;
+  border-left: 1px dashed var(--border);
+}
+
+.forum__cat-children::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -1px;
+  width: 1px;
+  height: 20px;
+  background: var(--border);
+}
+
+/* Ajustement pour les niveaux plus profonds */
+.forum__cat-node[data-level="1"] .forum__cat {
+  padding: 0.9rem 1.25rem;
+}
+.forum__cat-node[data-level="2"] .forum__cat {
+  padding: 0.8rem 1.1rem;
+}
+.forum__cat-node[data-level="3"] .forum__cat,
+.forum__cat-node[data-level="4"] .forum__cat {
+  padding: 0.7rem 1rem;
+}
+
+/* Les sous-catégories n'ont pas de bordure basse forte */
+.forum__cat-node[data-level="1"] .forum__cat,
+.forum__cat-node[data-level="2"] .forum__cat,
+.forum__cat-node[data-level="3"] .forum__cat {
+  border-bottom: 1px solid var(--border);
+}
