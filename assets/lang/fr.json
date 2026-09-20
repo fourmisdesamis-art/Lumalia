@@ -5,9 +5,16 @@
     "launcher": "Launcher",
     "news": "Actualités",
     "community": "Communauté",
+    "forum": "Forum",
     "settings": "Paramètres",
     "discord": "Rejoindre Discord",
-    "menu": "Menu"
+    "login": "Connexion",
+    "signup": "S'inscrire",
+    "menu": "Menu",
+    "profile": "Mon profil",
+    "notifications": "Notifications",
+    "admin": "Admin",
+    "logout": "Déconnexion"
   },
   "footer": {
     "tagline": "Lumalia rassemble plusieurs communautés autour de serveurs Minecraft Java & Bedrock.",
@@ -23,18 +30,6 @@
     "rights": "Tous droits réservés.",
     "notAffiliated": "Lumalia n'est pas affilié à Mojang ni Microsoft."
   },
-  "nav": {
-  "home": "Accueil",
-  "servers": "Serveurs",
-  "launcher": "Launcher",
-  "news": "Actualités",
-  "community": "Communauté",
-  "settings": "Paramètres",
-  "discord": "Rejoindre Discord",
-  "login": "Connexion",
-  "signup": "S'inscrire",
-  "menu": "Menu"
-},
   "settings": {
     "label": "Préférences",
     "title": "Paramètres",
@@ -55,7 +50,18 @@
     "comingSoon": "Bientôt",
     "discover": "Découvrir",
     "join": "Rejoindre",
-    "back": "Retour"
+    "back": "Retour",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "close": "Fermer",
+    "confirm": "Confirmer",
+    "search": "Rechercher",
+    "send": "Envoyer",
+    "error": "Erreur",
+    "success": "Succès",
+    "loadingError": "Erreur de chargement."
   },
   "home": {
     "hero": {
@@ -72,17 +78,17 @@
       "uptime": "En ligne"
     },
     "universes": {
-      "label": "01 · Les univers",
+      "label": "01 · Les serveurs",
       "title": "Trois mondes, une seule adresse",
-      "subtitle": "Chaque univers Lumalia possède son ambiance, sa communauté et ses règles. À vous de choisir où poser vos valises.",
+      "subtitle": "Chaque serveurs Lumalia possède son ambiance, sa communauté et ses règles. À vous de choisir votre serveur",
       "crystal": "Un monde vivant, pensé pour la survie longue durée et les projets de groupe.",
-      "onyx": "L'expérience Lumalia accessible depuis mobile et consoles, sans compromis.",
+      "azur": "Un espace créatif sans limites, pensé pour les builders et les projets fous.",
       "green": "Notre univers nord-américain, avec des événements pensés pour le fuseau US."
     },
     "launcher": {
       "label": "02 · Le launcher",
       "title": "Rejoindre Lumalia, en un clic",
-      "subtitle": "Plus besoin de jongler entre les adresses IP. Notre launcher gère tout : connexion, mise à jour, choix de l'univers.",
+      "subtitle": "Notre launcher gère tout : connexion, mise à jour, choix des serveurs etc",
       "cta": "Voir le launcher"
     },
     "news": {
@@ -95,8 +101,8 @@
         "event": "Événement"
       },
       "item1": {
-        "title": "Crystal ouvre ses portes très bientôt",
-        "desc": "Les premiers détails sur le lancement viennent d'être dévoilés."
+        "title": "Le Crystal est déjà ouvert !",
+        "desc": "Plusieurs imformations ont été dévoilés sur le discord"
       },
       "item2": {
         "title": "Le launcher entre en phase de test",
@@ -174,6 +180,269 @@
       "feature5": "Un pont inter-serveurs avec Crystal pour les événements communs",
       "join": "Comment rejoindre ?",
       "joinText": "Green ouvre ses portes prochainement. Inscrivez-vous sur le Discord pour être notifié du lancement."
+    }
+  },
+  "auth": {
+    "signup": {
+      "label": "Créer un compte",
+      "title": "Rejoignez Lumalia",
+      "subtitle": "Quelques informations et vous serez prêt à commencer l'aventure.",
+      "email": "Adresse email",
+      "username": "Pseudo",
+      "password": "Mot de passe",
+      "continue": "Continuer",
+      "alreadyAccount": "Déjà un compte ?",
+      "loginLink": "Se connecter",
+      "emailPlaceholder": "vous@exemple.com",
+      "usernamePlaceholder": "VotrePseudo",
+      "passwordPlaceholder": "••••••••"
+    },
+    "login": {
+      "label": "Connexion",
+      "title": "Bon retour !",
+      "subtitle": "Connectez-vous pour retrouver votre univers.",
+      "remember": "Rester connecté",
+      "continue": "Continuer",
+      "noAccount": "Pas encore de compte ?",
+      "signupLink": "S'inscrire"
+    },
+    "twofa": {
+      "label": "Double authentification",
+      "title": "Activez la 2FA",
+      "subtitle": "Scannez le QR code avec votre application d'authentification (Google Authenticator, Authy, 1Password…).",
+      "manualTitle": "Ou entrez manuellement ce code dans votre application :",
+      "copy": "Copier",
+      "codeLabel": "Code à 6 chiffres",
+      "verify": "Vérifier et activer",
+      "verifying": "Vérification…",
+      "codeLabelShort": "Code à 6 chiffres",
+      "verifyShort": "Vérifier",
+      "success": "🎉 C'est bon !",
+      "successText": "Votre compte Lumalia est maintenant sécurisé avec la double authentification.",
+      "goHome": "Aller à l'accueil"
+    },
+    "errors": {
+      "emailInvalid": "Adresse email invalide.",
+      "usernameTooShort": "Le pseudo doit faire au moins 3 caractères.",
+      "passwordTooShort": "Le mot de passe doit faire au moins 8 caractères.",
+      "messageEmpty": "Le message ne peut pas être vide.",
+      "messageTooLong": "Message trop long (max 10 000 caractères).",
+      "reasonRequired": "Veuillez choisir une raison.",
+      "codeInvalid": "Code invalide.",
+      "codeIncorrect": "Code incorrect. Réessayez (vérifiez l'heure de votre téléphone).",
+      "genericError": "Erreur : ",
+      "loginError": "Email ou mot de passe incorrect.",
+      "tooManyRequests": "Trop de tentatives. Réessayez dans quelques minutes.",
+      "networkError": "Problème de connexion. Vérifiez votre réseau."
+    }
+  },
+  "profile": {
+    "title": "Mon profil",
+    "subtitle": "Retrouvez toutes vos informations Lumalia.",
+    "cardAccount": "Informations du compte",
+    "labelPseudo": "Pseudo",
+    "labelEmail": "Email",
+    "labelGrade": "Grade",
+    "labelUuid": "UUID",
+    "label2fa": "2FA",
+    "labelBio": "Bio",
+    "labelCreated": "Membre depuis",
+    "gradeDefault": "Membre",
+    "twofaEnabled": "Activée",
+    "twofaDisabled": "Désactivée",
+    "tabsProfile": "Profil",
+    "tabsSettings": "Paramètres",
+    "logout": "Déconnexion",
+    "logoutConfirm": "Voulez-vous vraiment vous déconnecter ?",
+    "settingsTitle": "Paramètres du compte",
+    "settingsSubtitle": "Modifiez vos informations personnelles.",
+    "editable": "Informations modifiables",
+    "nonEditable": "Informations non modifiables",
+    "editUsernameLabel": "Pseudo",
+    "editUsernameHint": "Entre 3 et 16 caractères.",
+    "editBioLabel": "Bio",
+    "editBioPlaceholder": "Quelques mots sur vous…",
+    "editBioHint": "Maximum 200 caractères.",
+    "save": "Enregistrer les modifications",
+    "saving": "Enregistrement…",
+    "cancel": "Annuler",
+    "gradeHint": "Le grade est attribué par l'équipe Lumalia.",
+    "usernameInvalid": "Le pseudo doit faire entre 3 et 16 caractères.",
+    "saved": "✅ Modifications enregistrées !",
+    "notLoggedIn": "Vous devez être connecté pour accéder à cette page."
+  },
+  "forum": {
+    "label": "Communauté",
+    "title": "Forum Lumalia",
+    "subtitle": "Discutez, échangez et partagez avec la communauté.",
+    "search": {
+      "placeholder": "Rechercher un sujet…",
+      "button": "Rechercher",
+      "minChars": "Entrez au moins 2 caractères.",
+      "title": "Résultats",
+      "subtitle": "Recherche pour",
+      "noResults": "Aucun sujet trouvé",
+      "results": "résultat",
+      "resultsPlural": "résultats"
+    },
+    "categories": {
+      "title": "Catégories",
+      "count": "catégorie",
+      "countPlural": "catégories",
+      "mainCount": "catégorie principale",
+      "mainCountPlural": "catégories principales",
+      "noCategories": "Aucune catégorie.",
+      "subCategories": "Sous-catégories",
+      "subCat": "sous-cat.",
+      "topics": "sujet",
+      "topicsPlural": "sujets",
+      "locked": "Verrouillé",
+      "staffOnly": "Staff uniquement",
+      "pinned": "Épinglé",
+      "discussions": "Discussions",
+      "noDiscussions": "Aucune discussion dans cette catégorie.",
+      "notFound": "Catégorie introuvable."
+    },
+    "newTopic": {
+      "button": "Nouveau sujet",
+      "title": "Nouveau sujet",
+      "titleLabel": "Titre du sujet",
+      "titlePlaceholder": "Un titre clair et précis…",
+      "titleHint": "Entre 3 et 200 caractères.",
+      "contentLabel": "Premier message",
+      "contentPlaceholder": "Écrivez votre message… (BBcode supporté)",
+      "contentHint": "BBcode supporté · Mentionnez avec @pseudo",
+      "create": "Créer le sujet",
+      "creating": "Création…",
+      "success": "✅ Créé !",
+      "loginRequired": "Connectez-vous pour poster",
+      "loginRequiredShort": "Connectez-vous pour poster un sujet."
+    },
+    "topic": {
+      "by": "par",
+      "message": "message",
+      "messages": "messages",
+      "view": "vue",
+      "views": "vues",
+      "reply": "réponse",
+      "replies": "réponses",
+      "follow": "Suivre",
+      "following": "Suivi",
+      "locked": "Ce sujet est verrouillé.",
+      "editedAt": "Modifié",
+      "notFound": "Sujet introuvable."
+    },
+    "reply": {
+      "title": "Répondre",
+      "placeholder": "Écrivez votre message… (BBcode · @pseudo pour mentionner)",
+      "send": "Envoyer",
+      "sending": "Envoi…",
+      "hint": "Ctrl + Entrée pour envoyer · @pseudo pour mentionner",
+      "published": "✅ Publié !"
+    },
+    "post": {
+      "edit": "Modifier",
+      "delete": "Supprimer",
+      "deleteConfirm": "Supprimer ce message ?",
+      "modDelete": "🛡️ Supprimer",
+      "modDeleteConfirm": "Supprimer ce message en tant que modérateur ?",
+      "report": "⚠️ Signaler",
+      "save": "Enregistrer",
+      "cancel": "Annuler",
+      "saving": "Enregistrement…"
+    },
+    "report": {
+      "title": "Signaler ce message",
+      "reasonSpam": "Spam ou publicité",
+      "reasonInappropriate": "Contenu inapproprié",
+      "reasonHarassment": "Harcèlement / insultes",
+      "reasonOffTopic": "Hors-sujet",
+      "reasonOther": "Autre raison",
+      "detailsLabel": "Détails (optionnel)",
+      "detailsPlaceholder": "Expliquez…",
+      "send": "Envoyer",
+      "sending": "Envoi…",
+      "success": "✅ Signalement envoyé !",
+      "chooseReason": "Choisissez une raison."
+    },
+    "moderation": {
+      "deleteNotifTitle": "Message supprimé",
+      "deleteNotifMessage": "Un modérateur a supprimé votre message."
+    }
+  },
+  "notifications": {
+    "title": "Notifications",
+    "subtitle": "Suivez l'activité de vos sujets préférés.",
+    "markAllRead": "Tout marquer comme lu",
+    "empty": "Aucune notification pour le moment.",
+    "forumReply": "Nouvelle réponse",
+    "forumReplyMessage": "a répondu à",
+    "forumMention": "Vous avez été mentionné",
+    "forumMentionMessage": "vous a mentionné dans un message",
+    "error": "Erreur de chargement."
+  },
+  "admin": {
+    "title": "Administration",
+    "accessDenied": "Accès refusé",
+    "accessDeniedText": "Vous n'avez pas les permissions nécessaires pour accéder à cette page.",
+    "backToForum": "Retour au forum",
+    "loading": "Vérification des permissions…",
+    "tabs": {
+      "categories": "Catégories",
+      "topics": "Modération",
+      "reports": "Signalements"
+    },
+    "categories": {
+      "title": "Catégories",
+      "subtitle": "Gérez les catégories et sous-catégories (récursif illimité).",
+      "newButton": "Nouvelle catégorie",
+      "existing": "Catégories existantes",
+      "empty": "Aucune catégorie.",
+      "main": "Principale",
+      "level": "Niv.",
+      "order": "Ordre",
+      "deleteConfirm": "Supprimer la catégorie",
+      "deleteWarning": "ATTENTION : tous les sujets et messages dans cette catégorie ne seront pas supprimés automatiquement. Continuer ?"
+    },
+    "categoryModal": {
+      "titleNew": "Nouvelle catégorie",
+      "titleEdit": "Modifier la catégorie",
+      "nameLabel": "Nom",
+      "namePlaceholder": "Ex : Général",
+      "descLabel": "Description",
+      "descPlaceholder": "Une courte description…",
+      "parentLabel": "Catégorie parente",
+      "parentNone": "— Aucune (racine) —",
+      "orderLabel": "Ordre d'affichage",
+      "lockedLabel": "Verrouillée",
+      "staffOnlyLabel": "Staff uniquement",
+      "save": "Enregistrer",
+      "saving": "Enregistrement…",
+      "success": "✅ Catégorie enregistrée !",
+      "nameRequired": "Le nom est obligatoire."
+    },
+    "topics": {
+      "title": "Modération",
+      "subtitle": "Verrouillez, épinglez ou supprimez les sujets.",
+      "recent": "Derniers sujets",
+      "empty": "Aucun sujet.",
+      "in": "dans",
+      "by": "par",
+      "deletedCategory": "(supprimée)",
+      "deleteConfirm": "Supprimer ce sujet et TOUS ses messages ?"
+    },
+    "reports": {
+      "title": "Signalements",
+      "subtitle": "Traitez les messages signalés par la communauté.",
+      "filterPending": "En attente",
+      "filterResolved": "Traités",
+      "filterAll": "Tous",
+      "empty": "Aucun signalement.",
+      "reportedBy": "Signalé par",
+      "status": "Statut",
+      "view": "Voir",
+      "markResolved": "Traité",
+      "dismiss": "Rejeter"
     }
   }
 }
