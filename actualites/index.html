@@ -100,7 +100,7 @@
             <h1 id="news-title">Actualités</h1>
             <p id="news-subtitle">Toutes les nouvelles de Lumalia, en direct.</p>
           </div>
-          <button type="button" class="btn btn-primary news-page__create-btn" id="create-news-btn">
+          <button type="button" class="btn btn-primary news-page__create-btn" id="create-news-btn" style="display: none;">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
             Nouvelle actualité
           </button>
@@ -155,7 +155,7 @@
   </footer>
 
   <!-- ==================== MODAL ÉDITEUR ==================== -->
-  <div class="modal news-editor-modal" id="news-editor-modal">
+  <div class="modal news-editor-modal" id="news-editor-modal" style="display: none;">
     <div class="modal__dialog">
       <div class="modal__header">
         <h2 id="news-editor-title">Nouvelle actualité</h2>
@@ -174,7 +174,7 @@
 
         <div class="news-editor__field">
           <label for="news-excerpt-input">Résumé (affiché dans la liste)</label>
-          <textarea id="news-excerpt-input" placeholder="Un court résumé de l'article…" maxlength="300"></textarea>
+          <textarea id="news-excerpt-input" placeholder="Un court résumé de l'article…" maxlength="300" rows="3"></textarea>
         </div>
 
         <div class="news-editor__field">
@@ -184,7 +184,7 @@
 
         <div class="news-editor__field">
           <label for="news-content-input">Contenu (HTML/CSS libre)</label>
-          <textarea id="news-content-input" class="news-editor__content" placeholder="<h1 style='color: #7c5cff'>Mon titre</h1>&#10;<p>Mon contenu…</p>"></textarea>
+          <textarea id="news-content-input" class="news-editor__content" rows="15" placeholder="<h1 style='color: #7c5cff'>Mon titre</h1>&#10;<p>Mon contenu…</p>"></textarea>
           <small>
             HTML + CSS libre · JavaScript désactivé · Liens ouverts dans un nouvel onglet
           </small>
@@ -250,6 +250,10 @@
 
     var newsContentEl = document.getElementById("news-content");
     var createBtn = document.getElementById("create-news-btn");
+    var editorModal = document.getElementById("news-editor-modal");
+
+    // ⚠️ Cacher le modal par défaut (au cas où le CSS ne le fait pas)
+    editorModal.style.display = "none";
 
     // ============================================================
     // ROUTEUR
@@ -288,28 +292,11 @@
     // SANDBOX HTML/CSS — isoler le contenu dans une iframe
     // ============================================================
     function buildSandboxedHtml(content) {
-      // Styles de base injectés dans l'iframe (pour matcher le thème du site)
       var theme = document.documentElement.getAttribute("data-theme") || "light";
 
       var cssVars = theme === "dark"
-        ? {
-            bg: "#0b0d12",
-            text: "#f4f5f8",
-            textSoft: "#a3a9bd",
-            textMuted: "#6f7488",
-            border: "#1f2230",
-            accent: "#8f73ff",
-            accentSoft: "rgba(143,115,255,0.15)"
-          }
-        : {
-            bg: "#ffffff",
-            text: "#0b0d12",
-            textSoft: "#5a6072",
-            textMuted: "#8b91a3",
-            border: "#e6e8ee",
-            accent: "#7c5cff",
-            accentSoft: "rgba(124,92,255,0.1)"
-          };
+        ? { bg: "#0b0d12", text: "#f4f5f8", textSoft: "#a3a9bd", textMuted: "#6f7488", border: "#1f2230", accent: "#8f73ff", accentSoft: "rgba(143,115,255,0.15)" }
+        : { bg: "#ffffff", text: "#0b0d12", textSoft: "#5a6072", textMuted: "#8b91a3", border: "#e6e8ee", accent: "#7c5cff", accentSoft: "rgba(124,92,255,0.1)" };
 
       var baseStyles = `
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -333,67 +320,21 @@
         h2 { font-size: 1.5rem; margin-top: 1.5em; }
         h3 { font-size: 1.2rem; margin-top: 1.25em; }
         p { margin-bottom: 1em; }
-        a {
-          color: ${cssVars.accent};
-          text-decoration: underline;
-          text-underline-offset: 2px;
-          transition: opacity .15s;
-        }
+        a { color: ${cssVars.accent}; text-decoration: underline; text-underline-offset: 2px; transition: opacity .15s; }
         a:hover { opacity: .75; }
         ul, ol { padding-left: 1.5em; margin-bottom: 1em; }
         li { margin-bottom: 0.35em; }
-        img {
-          max-width: 100%;
-          height: auto;
-          border-radius: 12px;
-          display: block;
-          margin: 1em 0;
-        }
-        blockquote {
-          border-left: 3px solid ${cssVars.accent};
-          background: ${cssVars.accentSoft};
-          padding: 0.75rem 1rem;
-          margin: 1em 0;
-          border-radius: 0 8px 8px 0;
-          font-style: italic;
-        }
-        code {
-          background: ${cssVars.accentSoft};
-          padding: 0.15em 0.4em;
-          border-radius: 4px;
-          font-family: "Geist Mono", monospace;
-          font-size: 0.9em;
-        }
-        pre {
-          background: ${cssVars.accentSoft};
-          padding: 1rem;
-          border-radius: 8px;
-          overflow-x: auto;
-          margin: 1em 0;
-        }
+        img { max-width: 100%; height: auto; border-radius: 12px; display: block; margin: 1em 0; }
+        blockquote { border-left: 3px solid ${cssVars.accent}; background: ${cssVars.accentSoft}; padding: 0.75rem 1rem; margin: 1em 0; border-radius: 0 8px 8px 0; font-style: italic; }
+        code { background: ${cssVars.accentSoft}; padding: 0.15em 0.4em; border-radius: 4px; font-family: "Geist Mono", monospace; font-size: 0.9em; }
+        pre { background: ${cssVars.accentSoft}; padding: 1rem; border-radius: 8px; overflow-x: auto; margin: 1em 0; }
         pre code { background: transparent; padding: 0; }
-        hr {
-          border: none;
-          border-top: 1px solid ${cssVars.border};
-          margin: 1.5em 0;
-        }
-        table {
-          width: 100%;
-          border-collapse: collapse;
-          margin: 1em 0;
-        }
-        th, td {
-          padding: 0.5rem 0.75rem;
-          border: 1px solid ${cssVars.border};
-          text-align: left;
-        }
-        th {
-          background: ${cssVars.accentSoft};
-          font-weight: 600;
-        }
+        hr { border: none; border-top: 1px solid ${cssVars.border}; margin: 1.5em 0; }
+        table { width: 100%; border-collapse: collapse; margin: 1em 0; }
+        th, td { padding: 0.5rem 0.75rem; border: 1px solid ${cssVars.border}; text-align: left; }
+        th { background: ${cssVars.accentSoft}; font-weight: 600; }
       `;
 
-      // Construit le HTML de l'iframe
       return `<!DOCTYPE html>
 <html>
 <head>
@@ -413,7 +354,6 @@
 
       iframe.srcdoc = buildSandboxedHtml(content);
 
-      // Ajuste la hauteur automatiquement
       iframe.addEventListener("load", function () {
         setTimeout(function () {
           try {
@@ -442,14 +382,12 @@
           allNews.push({ id: doc.id, ...doc.data() });
         });
 
-        // Tri par date descendante
         allNews.sort(function (a, b) {
           var aDate = a.createdAt ? a.createdAt.toMillis() : 0;
           var bDate = b.createdAt ? b.createdAt.toMillis() : 0;
           return bDate - aDate;
         });
 
-        // Si on est en mode "détail", on affiche un article
         if (newsSlug) {
           await renderArticle(newsSlug);
         } else {
@@ -462,10 +400,9 @@
     }
 
     // ============================================================
-    // LISTE DES ACTUALITÉS
+    // LISTE
     // ============================================================
     function renderList() {
-      // Filtre selon les permissions
       var visible = allNews.filter(function (n) {
         return n.published || isHA;
       });
@@ -485,7 +422,6 @@
 
         html += '<a href="/actualites?n=' + n.id + '" class="news-card">';
 
-        // Cover
         html += '<div class="news-card__cover">';
         if (n.cover) {
           html += '<img src="' + escapeHtml(n.cover) + '" alt="">';
@@ -497,7 +433,6 @@
         }
         html += '</div>';
 
-        // Body
         html += '<div class="news-card__body">';
         html += '<div class="news-card__meta">';
         html += '<span>📅 ' + formatDate(n.createdAt) + '</span>';
@@ -522,7 +457,7 @@
     }
 
     // ============================================================
-    // ARTICLE DÉTAILLÉ
+    // ARTICLE
     // ============================================================
     async function renderArticle(newsId) {
       var article = allNews.find(function (n) { return n.id === newsId; });
@@ -532,18 +467,15 @@
         return;
       }
 
-      // Si pas publié et pas HA → caché
       if (!article.published && !isHA) {
         newsContentEl.innerHTML = '<div class="news-empty"><p>Article introuvable.</p></div>';
         return;
       }
 
-      // Change le titre de la page
       document.getElementById("news-title").textContent = article.title;
       document.getElementById("news-subtitle").textContent = article.excerpt || "";
 
       var html = '<div class="news-article">';
-
       html += '<a href="/actualites" class="news-article__back">← Retour aux actualités</a>';
 
       html += '<div class="news-article__header">';
@@ -561,10 +493,9 @@
         html += '<div class="news-article__cover"><img src="' + escapeHtml(article.cover) + '" alt=""></div>';
       }
 
-      // Contenu sandboxé
       html += '<div id="news-article-content"></div>';
 
-      // Actions admin
+      // Actions admin (uniquement pour HA)
       html += '<div class="news-article__actions' + (isHA ? " can-edit" : "") + '">';
       html += '<button type="button" class="btn btn-ghost btn-sm" data-edit-news="' + article.id + '">✏️ Modifier</button>';
       html += '<button type="button" class="btn btn-ghost btn-sm" style="color:var(--danger);" data-delete-news="' + article.id + '">🗑️ Supprimer</button>';
@@ -574,15 +505,13 @@
 
       newsContentEl.innerHTML = html;
 
-      // Injecte l'iframe sandboxée
       var container = document.getElementById("news-article-content");
       renderSandboxedIframe(article.content || "", container);
     }
 
     // ============================================================
-    // ÉDITEUR (création / modification)
+    // ÉDITEUR
     // ============================================================
-    var editorModal = document.getElementById("news-editor-modal");
     var editorForm = document.getElementById("news-editor-form");
     var editorStatus = document.getElementById("news-editor-status");
     var editorTitle = document.getElementById("news-editor-title");
@@ -611,12 +540,12 @@
 
       updatePreview();
 
-      editorModal.classList.add("open");
+      editorModal.style.display = "flex";
       document.body.style.overflow = "hidden";
     }
 
     function closeEditor() {
-      editorModal.classList.remove("open");
+      editorModal.style.display = "none";
       document.body.style.overflow = "";
       previewEl.innerHTML = '<em style="color: var(--text-muted); font-size: 0.85rem;">L\'aperçu apparaîtra ici…</em>';
     }
@@ -635,7 +564,7 @@
       contentInput._previewTimer = setTimeout(updatePreview, 600);
     });
 
-    document.getElementById("create-news-btn").addEventListener("click", function () {
+    createBtn.addEventListener("click", function () {
       openEditor(null);
     });
 
@@ -715,7 +644,7 @@
     });
 
     // ============================================================
-    // ACTIONS SUR LES ARTICLES (modifier / supprimer)
+    // ACTIONS (modifier / supprimer)
     // ============================================================
     document.addEventListener("click", async function (e) {
       var editBtn = e.target.closest("[data-edit-news]");
@@ -750,23 +679,25 @@
           var doc = await db.collection("Utilisateurs").doc(user.uid).get();
           if (doc.exists) {
             currentGrade = doc.data().grade || "";
-            var g = currentGrade.toLowerCase();
-            isHA = g === "ha" || g === "administrateur" || g === "admin";
+            var g = currentGrade.trim().toLowerCase();
+            // ⚠️ Uniquement HA (pas Admin)
+            isHA = (g === "ha");
           }
         } catch (err) {
           console.warn("[News] Erreur rôle :", err);
         }
       }
 
-      // Affiche le bouton "Nouvelle actualité" si HA/Admin
+      // Affiche le bouton "Nouvelle actualité" uniquement pour HA
       if (isHA) {
-        createBtn.classList.add("visible");
+        createBtn.style.display = "inline-flex";
+      } else {
+        createBtn.style.display = "none";
       }
 
       await loadNews();
     });
 
-    // Fallback si Firebase met trop longtemps
     setTimeout(function () {
       if (newsContentEl.querySelector(".news-loading")) {
         loadNews();
