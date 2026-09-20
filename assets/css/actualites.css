@@ -401,3 +401,28 @@
   .news-grid { grid-template-columns: 1fr; }
   .news-editor__row { grid-template-columns: 1fr; }
 }
+
+/* ---------- Corrections ---------- */
+
+/* Modal caché par défaut (au cas où) */
+.news-editor-modal {
+  display: none;
+}
+.news-editor-modal.open,
+.news-editor-modal[style*="display: flex"] {
+  display: flex !important;
+}
+
+/* Textarea contenu : au moins 15 lignes visibles */
+.news-editor__content {
+  min-height: 380px !important;
+  line-height: 1.6 !important;
+  font-family: "Geist Mono", ui-monospace, monospace !important;
+  font-size: 0.85rem !important;
+  tab-size: 2;
+}
+
+/* Textarea résumé */
+#news-excerpt-input {
+  min-height: 80px !important;
+}
