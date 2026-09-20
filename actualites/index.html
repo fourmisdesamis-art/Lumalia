@@ -155,7 +155,8 @@
   </footer>
 
   <!-- ==================== MODAL ÉDITEUR ==================== -->
-  <div class="modal news-editor-modal" id="news-editor-modal" style="display: none;">
+  <!-- style="display:none !important" garantit qu'il est caché même si le CSS ne charge pas -->
+  <div class="modal news-editor-modal" id="news-editor-modal" style="display: none !important;">
     <div class="modal__dialog">
       <div class="modal__header">
         <h2 id="news-editor-title">Nouvelle actualité</h2>
@@ -252,7 +253,7 @@
     var createBtn = document.getElementById("create-news-btn");
     var editorModal = document.getElementById("news-editor-modal");
 
-    // ⚠️ Cacher le modal par défaut (au cas où le CSS ne le fait pas)
+    // Sécurité : on cache le modal au cas où
     editorModal.style.display = "none";
 
     // ============================================================
@@ -289,7 +290,7 @@
     }
 
     // ============================================================
-    // SANDBOX HTML/CSS — isoler le contenu dans une iframe
+    // SANDBOX HTML/CSS — isolation complète + liens externes
     // ============================================================
     function buildSandboxedHtml(content) {
       var theme = document.documentElement.getAttribute("data-theme") || "light";
@@ -320,7 +321,7 @@
         h2 { font-size: 1.5rem; margin-top: 1.5em; }
         h3 { font-size: 1.2rem; margin-top: 1.25em; }
         p { margin-bottom: 1em; }
-        a { color: ${cssVars.accent}; text-decoration: underline; text-underline-offset: 2px; transition: opacity .15s; }
+        a { color: ${cssVars.accent}; text-decoration: underline; text-underline-offset: 2px; transition: opacity .15s; cursor: pointer; }
         a:hover { opacity: .75; }
         ul, ol { padding-left: 1.5em; margin-bottom: 1em; }
         li { margin-bottom: 0.35em; }
@@ -335,20 +336,40 @@
         th { background: ${cssVars.accentSoft}; font-weight: 600; }
       `;
 
+      // Script qui force tous les liens à s'ouvrir dans un nouvel onglet
+      // ET empêche la navigation dans l'iframe
+      var linkScript = `
+        document.addEventListener('click', function(e) {
+          var link = e.target.closest('a');
+          if (link && link.href) {
+            e.preventDefault();
+            window.open(link.href, '_blank', 'noopener,noreferrer');
+          }
+        });
+        document.addEventListener('DOMContentLoaded', function() {
+          document.querySelectorAll('a').forEach(function(a) {
+            a.setAttribute('target', '_blank');
+            a.setAttribute('rel', 'noopener noreferrer');
+          });
+        });
+      `;
+
       return `<!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <style>${baseStyles}</style>
 </head>
-<body>${content}</body>
+<body>${content}<script>${linkScript}<\/script></body>
 </html>`;
     }
 
     function renderSandboxedIframe(content, container) {
       var iframe = document.createElement("iframe");
       iframe.className = "news-article__iframe";
-      iframe.setAttribute("sandbox", "allow-same-origin allow-popups");
+      // sandbox : sans "allow-top-navigation" → impossible de changer la page du parent
+      // "allow-popups" permet window.open
+      iframe.setAttribute("sandbox", "allow-same-origin allow-popups allow-popups-to-escape-sandbox");
       iframe.setAttribute("loading", "lazy");
       iframe.style.height = "200px";
 
@@ -371,7 +392,7 @@
     }
 
     // ============================================================
-    // CHARGEMENT DES ACTUALITÉS
+    // CHARGEMENT
     // ============================================================
     async function loadNews() {
       try {
@@ -495,7 +516,6 @@
 
       html += '<div id="news-article-content"></div>';
 
-      // Actions admin (uniquement pour HA)
       html += '<div class="news-article__actions' + (isHA ? " can-edit" : "") + '">';
       html += '<button type="button" class="btn btn-ghost btn-sm" data-edit-news="' + article.id + '">✏️ Modifier</button>';
       html += '<button type="button" class="btn btn-ghost btn-sm" style="color:var(--danger);" data-delete-news="' + article.id + '">🗑️ Supprimer</button>';
@@ -540,12 +560,13 @@
 
       updatePreview();
 
-      editorModal.style.display = "flex";
+      // Affiche le modal en flex
+      editorModal.style.setProperty("display", "flex", "important");
       document.body.style.overflow = "hidden";
     }
 
     function closeEditor() {
-      editorModal.style.display = "none";
+      editorModal.style.setProperty("display", "none", "important");
       document.body.style.overflow = "";
       previewEl.innerHTML = '<em style="color: var(--text-muted); font-size: 0.85rem;">L\'aperçu apparaîtra ici…</em>';
     }
@@ -644,7 +665,7 @@
     });
 
     // ============================================================
-    // ACTIONS (modifier / supprimer)
+    // ACTIONS
     // ============================================================
     document.addEventListener("click", async function (e) {
       var editBtn = e.target.closest("[data-edit-news]");
@@ -680,7 +701,7 @@
           if (doc.exists) {
             currentGrade = doc.data().grade || "";
             var g = currentGrade.trim().toLowerCase();
-            // ⚠️ Uniquement HA (pas Admin)
+            // UNIQUEMENT HA
             isHA = (g === "ha");
           }
         } catch (err) {
@@ -688,7 +709,6 @@
         }
       }
 
-      // Affiche le bouton "Nouvelle actualité" uniquement pour HA
       if (isHA) {
         createBtn.style.display = "inline-flex";
       } else {
