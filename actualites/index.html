@@ -155,8 +155,7 @@
   </footer>
 
   <!-- ==================== MODAL ÉDITEUR ==================== -->
-  <!-- style="display:none !important" garantit qu'il est caché même si le CSS ne charge pas -->
-  <div class="modal news-editor-modal" id="news-editor-modal" style="display: none !important;">
+  <div class="modal news-editor-modal" id="news-editor-modal">
     <div class="modal__dialog">
       <div class="modal__header">
         <h2 id="news-editor-title">Nouvelle actualité</h2>
@@ -253,9 +252,6 @@
     var createBtn = document.getElementById("create-news-btn");
     var editorModal = document.getElementById("news-editor-modal");
 
-    // Sécurité : on cache le modal au cas où
-    editorModal.style.display = "none";
-
     // ============================================================
     // ROUTEUR
     // ============================================================
@@ -290,7 +286,7 @@
     }
 
     // ============================================================
-    // SANDBOX HTML/CSS — isolation complète + liens externes
+    // SANDBOX HTML/CSS
     // ============================================================
     function buildSandboxedHtml(content) {
       var theme = document.documentElement.getAttribute("data-theme") || "light";
@@ -299,77 +295,68 @@
         ? { bg: "#0b0d12", text: "#f4f5f8", textSoft: "#a3a9bd", textMuted: "#6f7488", border: "#1f2230", accent: "#8f73ff", accentSoft: "rgba(143,115,255,0.15)" }
         : { bg: "#ffffff", text: "#0b0d12", textSoft: "#5a6072", textMuted: "#8b91a3", border: "#e6e8ee", accent: "#7c5cff", accentSoft: "rgba(124,92,255,0.1)" };
 
-      var baseStyles = `
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-          font-family: Inter, system-ui, -apple-system, sans-serif;
-          font-size: 15px;
-          line-height: 1.7;
-          color: ${cssVars.text};
-          background: transparent;
-          padding: 0;
-          word-wrap: break-word;
-        }
-        h1, h2, h3, h4, h5, h6 {
-          font-family: "Space Grotesk", "Poppins", sans-serif;
-          font-weight: 600;
-          line-height: 1.25;
-          margin-bottom: 0.75em;
-          letter-spacing: -0.02em;
-        }
-        h1 { font-size: 2rem; }
-        h2 { font-size: 1.5rem; margin-top: 1.5em; }
-        h3 { font-size: 1.2rem; margin-top: 1.25em; }
-        p { margin-bottom: 1em; }
-        a { color: ${cssVars.accent}; text-decoration: underline; text-underline-offset: 2px; transition: opacity .15s; cursor: pointer; }
-        a:hover { opacity: .75; }
-        ul, ol { padding-left: 1.5em; margin-bottom: 1em; }
-        li { margin-bottom: 0.35em; }
-        img { max-width: 100%; height: auto; border-radius: 12px; display: block; margin: 1em 0; }
-        blockquote { border-left: 3px solid ${cssVars.accent}; background: ${cssVars.accentSoft}; padding: 0.75rem 1rem; margin: 1em 0; border-radius: 0 8px 8px 0; font-style: italic; }
-        code { background: ${cssVars.accentSoft}; padding: 0.15em 0.4em; border-radius: 4px; font-family: "Geist Mono", monospace; font-size: 0.9em; }
-        pre { background: ${cssVars.accentSoft}; padding: 1rem; border-radius: 8px; overflow-x: auto; margin: 1em 0; }
-        pre code { background: transparent; padding: 0; }
-        hr { border: none; border-top: 1px solid ${cssVars.border}; margin: 1.5em 0; }
-        table { width: 100%; border-collapse: collapse; margin: 1em 0; }
-        th, td { padding: 0.5rem 0.75rem; border: 1px solid ${cssVars.border}; text-align: left; }
-        th { background: ${cssVars.accentSoft}; font-weight: 600; }
-      `;
+      var baseStyles = ''
+        + '* { box-sizing: border-box; margin: 0; padding: 0; }'
+        + 'body {'
+        + '  font-family: Inter, system-ui, -apple-system, sans-serif;'
+        + '  font-size: 15px;'
+        + '  line-height: 1.7;'
+        + '  color: ' + cssVars.text + ';'
+        + '  background: transparent;'
+        + '  padding: 0;'
+        + '  word-wrap: break-word;'
+        + '}'
+        + 'h1, h2, h3, h4, h5, h6 {'
+        + '  font-family: "Space Grotesk", "Poppins", sans-serif;'
+        + '  font-weight: 600;'
+        + '  line-height: 1.25;'
+        + '  margin-bottom: 0.75em;'
+        + '  letter-spacing: -0.02em;'
+        + '}'
+        + 'h1 { font-size: 2rem; }'
+        + 'h2 { font-size: 1.5rem; margin-top: 1.5em; }'
+        + 'h3 { font-size: 1.2rem; margin-top: 1.25em; }'
+        + 'p { margin-bottom: 1em; }'
+        + 'a { color: ' + cssVars.accent + '; text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }'
+        + 'a:hover { opacity: 0.75; }'
+        + 'ul, ol { padding-left: 1.5em; margin-bottom: 1em; }'
+        + 'li { margin-bottom: 0.35em; }'
+        + 'img { max-width: 100%; height: auto; border-radius: 12px; display: block; margin: 1em 0; }'
+        + 'blockquote { border-left: 3px solid ' + cssVars.accent + '; background: ' + cssVars.accentSoft + '; padding: 0.75rem 1rem; margin: 1em 0; border-radius: 0 8px 8px 0; font-style: italic; }'
+        + 'code { background: ' + cssVars.accentSoft + '; padding: 0.15em 0.4em; border-radius: 4px; font-family: "Geist Mono", monospace; font-size: 0.9em; }'
+        + 'pre { background: ' + cssVars.accentSoft + '; padding: 1rem; border-radius: 8px; overflow-x: auto; margin: 1em 0; }'
+        + 'pre code { background: transparent; padding: 0; }'
+        + 'hr { border: none; border-top: 1px solid ' + cssVars.border + '; margin: 1.5em 0; }'
+        + 'table { width: 100%; border-collapse: collapse; margin: 1em 0; }'
+        + 'th, td { padding: 0.5rem 0.75rem; border: 1px solid ' + cssVars.border + '; text-align: left; }'
+        + 'th { background: ' + cssVars.accentSoft + '; font-weight: 600; }';
 
       // Script qui force tous les liens à s'ouvrir dans un nouvel onglet
-      // ET empêche la navigation dans l'iframe
-      var linkScript = `
-        document.addEventListener('click', function(e) {
-          var link = e.target.closest('a');
-          if (link && link.href) {
-            e.preventDefault();
-            window.open(link.href, '_blank', 'noopener,noreferrer');
-          }
-        });
-        document.addEventListener('DOMContentLoaded', function() {
-          document.querySelectorAll('a').forEach(function(a) {
-            a.setAttribute('target', '_blank');
-            a.setAttribute('rel', 'noopener noreferrer');
-          });
-        });
-      `;
+      var linkScript = ''
+        + 'document.addEventListener("click", function(e) {'
+        + '  var link = e.target.closest("a");'
+        + '  if (link && link.href) {'
+        + '    e.preventDefault();'
+        + '    window.open(link.href, "_blank", "noopener,noreferrer");'
+        + '  }'
+        + '});';
 
-      return `<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<style>${baseStyles}</style>
-</head>
-<body>${content}<script>${linkScript}<\/script></body>
-</html>`;
+      return '<!DOCTYPE html>'
+        + '<html>'
+        + '<head>'
+        + '<meta charset="UTF-8">'
+        + '<style>' + baseStyles + '</style>'
+        + '</head>'
+        + '<body>' + content
+        + '<scr' + 'ipt>' + linkScript + '</scr' + 'ipt>'
+        + '</body>'
+        + '</html>';
     }
 
     function renderSandboxedIframe(content, container) {
       var iframe = document.createElement("iframe");
       iframe.className = "news-article__iframe";
-      // sandbox : sans "allow-top-navigation" → impossible de changer la page du parent
-      // "allow-popups" permet window.open
-      iframe.setAttribute("sandbox", "allow-same-origin allow-popups allow-popups-to-escape-sandbox");
+      iframe.setAttribute("sandbox", "allow-same-origin allow-scripts allow-popups allow-popups-to-escape-sandbox");
       iframe.setAttribute("loading", "lazy");
       iframe.style.height = "200px";
 
@@ -400,7 +387,9 @@
 
         allNews = [];
         snap.forEach(function (doc) {
-          allNews.push({ id: doc.id, ...doc.data() });
+          var data = doc.data();
+          data.id = doc.id;
+          allNews.push(data);
         });
 
         allNews.sort(function (a, b) {
@@ -560,13 +549,12 @@
 
       updatePreview();
 
-      // Affiche le modal en flex
-      editorModal.style.setProperty("display", "flex", "important");
+      editorModal.classList.add("open");
       document.body.style.overflow = "hidden";
     }
 
     function closeEditor() {
-      editorModal.style.setProperty("display", "none", "important");
+      editorModal.classList.remove("open");
       document.body.style.overflow = "";
       previewEl.innerHTML = '<em style="color: var(--text-muted); font-size: 0.85rem;">L\'aperçu apparaîtra ici…</em>';
     }
@@ -701,7 +689,6 @@
           if (doc.exists) {
             currentGrade = doc.data().grade || "";
             var g = currentGrade.trim().toLowerCase();
-            // UNIQUEMENT HA
             isHA = (g === "ha");
           }
         } catch (err) {
