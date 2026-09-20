@@ -846,3 +846,8 @@ ol.bb-list {
   height: 100%;
   display: block;
 }
+
+/* ⚠️ Forcer le modal editor news à être caché */
+#news-editor-modal:not(.open) {
+  display: none !important;
+}
