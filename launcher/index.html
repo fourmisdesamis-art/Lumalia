@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Launcher — Lumalia</title>
+  <meta name="description" content="Téléchargez le launcher officiel de Lumalia pour rejoindre nos serveurs Minecraft en un clic.">
+
+  <!-- Favicon -->
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png">
+  <link rel="manifest" href="/assets/img/site.webmanifest">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Télécharger le launcher — Lumalia">
+  <meta property="og:description" content="Rejoignez Lumalia en un clic avec le launcher officiel.">
+  <meta property="og:image" content="https://lumania.fr/assets/img/logo-lumalia.png">
+  <meta property="og:url" content="https://lumania.fr/launcher">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Polices -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Poppins:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/style.css" rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/assets/css/global.css">
+  <link rel="stylesheet" href="/assets/css/launcher.css">
+
+  <!-- Thème (avant le body pour éviter le flash) -->
+  <script src="/assets/js/theme.js"></script>
+  <meta name="theme-color" content="#ffffff">
+</head>
+<body>
+
+  <!-- ==================== NAVBAR ==================== -->
+  <header class="navbar">
+    <div class="container navbar__inner">
+      <a href="/" class="navbar__logo" aria-label="Lumalia — Accueil">
+        <img src="/assets/img/logo-lumalia.png" alt="" class="navbar__logo-mark" width="32" height="32">
+        <span>Lumalia</span>
+      </a>
+
+      <nav class="navbar__links" id="navbar-links">
+        <a href="/" class="navbar__link" data-i18n="nav.home">Accueil</a>
+
+        <div class="navbar__item">
+          <a href="/serveurs" class="navbar__link navbar__link--parent" data-i18n="nav.servers">Serveurs</a>
+          <div class="navbar__dropdown">
+            <div class="navbar__dropdown-inner">
+              <a href="/serveurs/crystal" class="navbar__dropdown-item">
+                <span class="navbar__dropdown-item__logo navbar__dropdown-item__logo--crystal">C</span>
+                <span class="navbar__dropdown-item__text">
+                  <strong>Crystal</strong>
+                  <span>Java</span>
+                </span>
+              </a>
+              <a href="/serveurs/azur" class="navbar__dropdown-item">
+                <span class="navbar__dropdown-item__logo navbar__dropdown-item__logo--azur">A</span>
+                <span class="navbar__dropdown-item__text">
+                  <strong>Azur</strong>
+                  <span>Java</span>
+                </span>
+              </a>
+              <a href="/serveurs/green" class="navbar__dropdown-item">
+                <span class="navbar__dropdown-item__logo navbar__dropdown-item__logo--green">G</span>
+                <span class="navbar__dropdown-item__text">
+                  <strong>Green</strong>
+                  <span>Java · US</span>
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <a href="/launcher" class="navbar__link" aria-current="page" data-i18n="nav.launcher">Launcher</a>
+        <a href="/actualites" class="navbar__link" data-i18n="nav.news">Actualités</a>
+        <a href="/communaute" class="navbar__link" data-i18n="nav.community">Communauté</a>
+        <a href="/forum" class="navbar__link" data-i18n="nav.forum">Forum</a>
+        <a href="/parametres" class="navbar__link" data-i18n="nav.settings">Paramètres</a>
+      </nav>
+
+      <div class="navbar__actions">
+
+        <div class="lang-switch">
+          <button class="lang-switch__btn" type="button" aria-label="Changer de langue">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M2 12h20"/>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+            </svg>
+            <span class="lang-switch__label">FR</span>
+          </button>
+          <div class="lang-switch__menu" role="menu">
+            <button class="lang-switch__item" data-lang="fr" role="menuitem">Français</button>
+            <button class="lang-switch__item" data-lang="en" role="menuitem">English</button>
+          </div>
+        </div>
+
+        <button class="navbar__icon-btn" type="button" data-theme-toggle aria-label="Changer de thème">
+          <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+          <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:none">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+          </svg>
+        </button>
+
+        <a href="/connexion" class="btn btn-ghost btn-sm navbar__cta" data-auth-link>Connexion</a>
+        <a href="/inscription" class="btn btn-ghost btn-sm navbar__cta" data-auth-link>S'inscrire</a>
+        <a href="https://discord.gg/bv5jdZAE4v" target="_blank" rel="noopener" class="btn btn-primary btn-sm navbar__cta">Rejoindre Discord</a>
+
+        <button class="navbar__burger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="navbar-links">
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== MAIN ==================== -->
+  <main>
+
+    <!-- HERO LAUNCHER -->
+    <section class="launcher-hero">
+      <div class="container">
+        <span class="label launcher-hero__label">Launcher officiel</span>
+
+        <h1 class="launcher-hero__title">
+          Jouez à Lumalia<br>
+          <span class="accent">en un clic</span>
+        </h1>
+
+        <p class="launcher-hero__subtitle">
+          Le launcher Lumalia gère tout&nbsp;: téléchargement des fichiers, mises à jour, connexion à votre compte et lancement du jeu.
+        </p>
+
+        <!-- BOUTON DE TÉLÉCHARGEMENT (dynamique) -->
+        <div class="launcher-hero__cta">
+          <a href="https://github.com/fourmisdesamis-art/Voltyx-Launcher/releases/latest"
+             class="btn btn-primary btn-download"
+             id="download-btn"
+             target="_blank"
+             rel="noopener">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            <span id="download-btn-text">Télécharger pour Windows</span>
+          </a>
+
+          <a href="https://github.com/fourmisdesamis-art/Voltyx-Launcher/releases"
+             class="btn btn-ghost"
+             target="_blank"
+             rel="noopener">
+            Voir toutes les versions
+          </a>
+        </div>
+
+        <!-- Infos version (dynamique) -->
+        <div class="launcher-hero__version" id="version-info">
+          <span class="launcher-hero__version-dot"></span>
+          <span>Chargement de la dernière version…</span>
+        </div>
+
+        <div class="launcher-hero__features">
+          <div class="launcher-hero__feature">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+            Compatible Windows 10 / 11
+          </div>
+          <div class="launcher-hero__feature">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+            Mises à jour automatiques
+          </div>
+          <div class="launcher-hero__feature">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+            Forge 1.16.5 inclus
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- APERÇU DU LAUNCHER -->
+    <section class="section reveal">
+      <div class="container">
+        <div class="section-header">
+          <span class="label">Aperçu</span>
+          <h2>Une interface pensée pour vous</h2>
+          <p>Un design épuré, des thèmes clair et sombre, et toutes les infos utiles en un coup d'œil.</p>
+        </div>
+
+        <div class="launcher-preview">
+          <div class="launcher-preview__mockup">
+            <img src="/assets/img/launcher-preview.png" alt="Aperçu du launcher Lumalia" loading="lazy">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- NOUVEAUTÉS (changelog dynamique) -->
+    <section class="section reveal">
+      <div class="container">
+        <div class="section-header">
+          <span class="label">Nouveautés</span>
+          <h2>Quoi de neuf dans la dernière version</h2>
+          <p id="changelog-subtitle">Chargement des nouveautés…</p>
+        </div>
+
+        <div class="changelog" id="changelog">
+          <div class="changelog__loading">Chargement…</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRÉREQUIS / FAQ -->
+    <section class="section reveal">
+      <div class="container">
+        <div class="section-header">
+          <span class="label">Prérequis</span>
+          <h2>Avant de télécharger</h2>
+        </div>
+
+        <div class="faq">
+          <details class="faq__item">
+            <summary>Quel système d'exploitation est requis ?</summary>
+            <p>Le launcher Lumalia est disponible pour <strong>Windows 10 et 11</strong> (64 bits). Une version macOS/Linux pourrait arriver plus tard.</p>
+          </details>
+
+          <details class="faq__item">
+            <summary>Ai-je besoin d'un compte Minecraft ?</summary>
+            <p>Oui, un compte Microsoft avec Minecraft Java Edition est nécessaire pour jouer en multijoueur sur Lumalia. Le launcher vous guide pour la connexion.</p>
+          </details>
+
+          <details class="faq__item">
+            <summary>Combien de RAM faut-il ?</summary>
+            <p>4 Go de RAM minimum sont recommandés. Vous pouvez ajuster la quantité allouée dans les paramètres du launcher.</p>
+          </details>
+
+          <details class="faq__item">
+            <summary>Le launcher se met-il à jour automatiquement ?</summary>
+            <p>Oui ! Dès qu'une nouvelle version est disponible, une fenêtre s'ouvre au lancement et vous propose de mettre à jour en un clic.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__inner">
+
+        <div class="footer__brand">
+          <a href="/" class="navbar__logo">
+            <img src="/assets/img/logo-lumalia.png" alt="" class="navbar__logo-mark" width="32" height="32">
+            <span>Lumalia</span>
+          </a>
+          <p>Lumalia rassemble plusieurs communautés autour de serveurs Minecraft Java &amp; Bedrock.</p>
+        </div>
+
+        <div class="footer__cols">
+          <div class="footer__col">
+            <h5>Navigation</h5>
+            <a href="/serveurs">Serveurs</a>
+            <a href="/forum">Forum</a>
+            <a href="/launcher">Launcher</a>
+            <a href="/actualites">Actualités</a>
+            <a href="/communaute">Communauté</a>
+          </div>
+
+          <div class="footer__col">
+            <h5>Ressources</h5>
+            <a href="#">Statut des serveurs</a>
+            <a href="#">Documentation</a>
+            <a href="#">Support</a>
+          </div>
+
+          <div class="footer__col">
+            <h5>Légal</h5>
+            <a href="#">Conditions d'utilisation</a>
+            <a href="#">Confidentialité</a>
+            <a href="#">Cookies</a>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="footer__bottom">
+        <span>© <span id="footer-year"></span> Lumalia. Tous droits réservés.</span>
+        <span>Lumalia n'est pas affilié à Mojang ni Microsoft.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Fond animé -->
+  <div class="bg-blobs" aria-hidden="true">
+    <span></span>
+    <span></span>
+  </div>
+  <canvas id="luma-bg" aria-hidden="true"></canvas>
+
+  <!-- Scripts -->
+  <script src="/assets/js/i18n.js"></script>
+  <script src="/assets/js/navbar.js"></script>
+  <script src="/assets/js/background.js"></script>
+  <script src="/assets/js/launcher.js"></script>
+  <script>
+    document.getElementById("footer-year").textContent = new Date().getFullYear();
+
+    const revealEls = document.querySelectorAll(".reveal");
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.classList.add("visible");
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    revealEls.forEach((el) => io.observe(el));
+  </script>
+</body>
+</html>
