@@ -350,6 +350,7 @@
   <script src="/assets/js/bbcode.js"></script>
   <script src="/assets/js/background.js"></script>
   <script>
+    // 1. Votre script existant (Footer + Animations)
     document.getElementById("footer-year").textContent = new Date().getFullYear();
 
     const revealEls = document.querySelectorAll(".reveal");
@@ -362,6 +363,19 @@
       });
     }, { threshold: 0.12 });
     revealEls.forEach((el) => io.observe(el));
+
+    // 2. Enregistrement du Service Worker pour la PWA (Lumalia)
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then(registration => {
+            console.log('Service Worker enregistré avec succès:', registration);
+          })
+          .catch(error => {
+            console.log('Échec de l\'enregistrement du Service Worker:', error);
+          });
+      });
+    }
   </script>
 </body>
 </html>
