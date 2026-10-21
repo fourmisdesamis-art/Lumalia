@@ -1,242 +1,213 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="noindex, nofollow">
-<title>Maintenance en cours</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Maintenance - Lumalia</title>
+    
+    <!-- Script de configuration et de verrouillage -->
+    <script>
+        (function() {
+            // ==========================================
+            // CONFIGURATION
+            const MAINTENANCE = true; // true = active le blocage | false = redirige vers le site
+            const REDIRECT_URL = "/index.html"; // Lien vers ton site quand maintenance = false
+            const RELOAD_TIME = 60000; // Rechargement auto toutes les 60 secondes (60000 ms)
+            // ==========================================
 
-<script>
-(function () {
-  "use strict";
+            // Si la maintenance est désactivée, on redirige
+            if (MAINTENANCE === false) {
+                window.location.replace(REDIRECT_URL);
+                return;
+            }
 
-  /* ============================================================
-     CONFIG
-     ============================================================ */
-  var MAINTENANCE   = true;              // true = page active + verrouillée | false = désactivée
-  var REDIRECT_URL  = "index.html";      // où rediriger quand MAINTENANCE = false
-  /* ============================================================ */
+            // Si la maintenance est active, on lance le verrouillage
+            window.addEventListener('DOMContentLoaded', () => {
+                
+                // 1. Rechargement automatique de la page
+                setTimeout(() => {
+                    window.location.reload();
+                }, RELOAD_TIME);
 
-  /* --- Si la maintenance est désactivée : on renvoie vers le site --- */
-  if (MAINTENANCE === false) {
-    window.location.replace(REDIRECT_URL);
-    return;
-  }
+                // 2. Bloquer le bouton "Retour" (Ajout d'un historique factice)
+                try {
+                    history.pushState(null, null, location.href);
+                    window.addEventListener('popstate', function() {
+                        history.pushState(null, null, location.href);
+                    });
+                } catch(e) {}
 
-  /* --- Sinon : on verrouille la page --- */
-  function verrouiller() {
+                // 3. Popup de confirmation si on essaie de fermer l'onglet
+                window.addEventListener('beforeunload', function(e) {
+                    e.preventDefault();
+                    e.returnValue = "Le site est en maintenance. Voulez-vous vraiment quitter ?";
+                    return e.returnValue;
+                });
 
-    /* 1) Bouton retour / avance bloqué */
-    try {
-      history.pushState({ __lock: true }, "", location.href);
-      window.addEventListener("popstate", function () {
-        history.pushState({ __lock: true }, "", location.href);
-      });
-    } catch (e) {}
+                // 4. Bloquer les raccourcis clavier de navigation
+                window.addEventListener('keydown', function(e) {
+                    // Alt + Flèche gauche/droite
+                    if (e.altKey && (e.key === "ArrowLeft" || e.key === "ArrowRight")) {
+                        e.preventDefault();
+                    }
+                    // Retour arrière (hors champ de texte)
+                    if (e.key === "Backspace" && !['INPUT', 'TEXTAREA'].includes(e.target.tagName)) {
+                        e.preventDefault();
+                    }
+                    // Ctrl/Cmd + L (barre d'adresse) ou W (fermer onglet)
+                    if ((e.ctrlKey || e.metaKey) && (e.key === 'l' || e.key === 'w')) {
+                        e.preventDefault();
+                    }
+                });
+            });
+        })();
+    </script>
 
-    /* 2) Confirmation navigateur avant fermeture / navigation */
-    window.addEventListener("beforeunload", function (e) {
-      e.preventDefault();
-      e.returnValue = "";
-      return "";
-    });
+    <style>
+        /* Design inspiré de ton image */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-    /* 3) Raccourcis clavier de navigation */
-    window.addEventListener("keydown", function (e) {
-      var k   = (e.key || "").toLowerCase();
-      var mod = e.ctrlKey || e.metaKey;
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #ffffff;
+            color: #333333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
 
-      // Alt + ← / →
-      if (e.altKey && (k === "arrowleft" || k === "arrowright")) {
-        e.preventDefault(); e.stopPropagation(); return false;
-      }
-      // Backspace hors champ de saisie
-      if (k === "backspace" && !/^(input|textarea|select)$/i.test(e.target.tagName || "")) {
-        e.preventDefault(); return false;
-      }
-      // Ctrl/Cmd + L / T / N / W
-      if (mod && (k === "l" || k === "t" || k === "n" || k === "w")) {
-        e.preventDefault(); return false;
-      }
-      // F5 et Ctrl+R restent autorisés (recharger ne fait pas quitter la page)
-    }, true);
+        .container {
+            width: 100%;
+            max-width: 650px;
+            text-align: center;
+        }
 
-    /* 4) Liens et formulaires bloqués (au cas où il y en aurait) */
-    document.addEventListener("click", function (e) {
-      var a = e.target && e.target.closest && e.target.closest("a[href]");
-      if (a) { e.preventDefault(); e.stopPropagation(); }
-    }, true);
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 40px;
+        }
 
-    document.addEventListener("submit", function (e) {
-      e.preventDefault(); e.stopPropagation();
-    }, true);
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            fill: #1a1a1a;
+        }
 
-    /* 5) Glisser-déposer de fichier = navigation → bloqué */
-    ["dragover", "drop"].forEach(function (ev) {
-      window.addEventListener(ev, function (e) { e.preventDefault(); }, false);
-    });
+        .brand-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            letter-spacing: -0.5px;
+        }
 
-    /* 6) Si la page est dans une iframe, on casse le cadre */
-    if (window.top !== window.self) {
-      try { window.top.location.href = window.location.href; } catch (e) {}
-    }
-  }
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 20px;
+            letter-spacing: -0.5px;
+        }
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", verrouiller);
-  } else {
-    verrouiller();
-  }
-})();
-</script>
+        .subtitle {
+            font-size: 1.1rem;
+            color: #6b7280;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            padding: 0 10px;
+        }
 
-<style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { height: 100%; }
+        hr {
+            border: none;
+            border-top: 1px solid #e5e7eb;
+            margin: 30px 0;
+        }
 
-  body {
-    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Ubuntu, sans-serif;
-    background: #0b1020;
-    color: #e2e8f0;
-    display: grid;
-    place-items: center;
-    padding: 24px;
-    overflow: hidden;                 /* pas de scroll */
-    position: relative;
-    -webkit-user-select: none;
-    user-select: none;
-  }
+        .info-text {
+            text-align: left;
+            font-size: 0.95rem;
+            color: #6b7280;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
 
-  /* Halo animé en arrière-plan */
-  body::before {
-    content: "";
-    position: fixed;
-    inset: -25%;
-    z-index: 0;
-    pointer-events: none;
-    background:
-      radial-gradient(circle at 25% 25%, rgba(99, 102, 241, .35), transparent 45%),
-      radial-gradient(circle at 78% 72%, rgba(139, 92, 246, .30), transparent 45%),
-      radial-gradient(circle at 50% 105%, rgba(56, 189, 248, .22), transparent 50%);
-    animation: derive 20s ease-in-out infinite alternate;
-  }
-  @keyframes derive {
-    from { transform: translate3d(-3%, -3%, 0) scale(1); }
-    to   { transform: translate3d(3%, 3%, 0) scale(1.12); }
-  }
+        .info-text strong {
+            color: #1a1a1a;
+            font-weight: 600;
+        }
 
-  .card {
-    position: relative;
-    z-index: 1;
-    width: min(560px, 100%);
-    padding: 52px 40px 44px;
-    text-align: center;
-    border-radius: 24px;
-    border: 1px solid rgba(148, 163, 184, .16);
-    background: rgba(15, 23, 42, .62);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    box-shadow:
-      0 40px 90px -30px rgba(0, 0, 0, .9),
-      inset 0 1px 0 rgba(255, 255, 255, .05);
-    animation: apparait .8s cubic-bezier(.16, 1, .3, 1) both;
-  }
-  @keyframes apparait {
-    from { opacity: 0; transform: translateY(24px) scale(.97); }
-    to   { opacity: 1; transform: none; }
-  }
+        .btn-discord {
+            display: inline-block;
+            margin-top: 30px;
+            background-color: #5865F2; /* Couleur Discord / Violet de ton image */
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            padding: 12px 24px;
+            border-radius: 8px;
+            transition: background-color 0.2s ease;
+        }
 
-  .icon {
-    width: 88px;
-    height: 88px;
-    margin: 0 auto 28px;
-    display: grid;
-    place-items: center;
-    border-radius: 50%;
-    border: 1px solid rgba(99, 102, 241, .35);
-    background: radial-gradient(circle at 30% 30%,
-                rgba(99, 102, 241, .35),
-                rgba(99, 102, 241, .08));
-    box-shadow: 0 0 40px rgba(99, 102, 241, .35);
-  }
-  .icon svg {
-    width: 44px;
-    height: 44px;
-    stroke: #a5b4fc;
-    transform-origin: 50% 50%;
-    animation: tourne 8s linear infinite;
-  }
-  @keyframes tourne { to { transform: rotate(360deg); } }
+        .btn-discord:hover {
+            background-color: #4752C4;
+        }
 
-  h1 {
-    font-size: clamp(1.5rem, 4vw, 2rem);
-    font-weight: 700;
-    letter-spacing: -.02em;
-    margin-bottom: 14px;
-  }
-
-  p {
-    color: #94a3b8;
-    line-height: 1.65;
-    font-size: .98rem;
-  }
-
-  .bar {
-    position: relative;
-    margin-top: 32px;
-    height: 6px;
-    border-radius: 99px;
-    overflow: hidden;
-    background: rgba(148, 163, 184, .15);
-  }
-  .bar::after {
-    content: "";
-    position: absolute;
-    top: 0; left: 0;
-    height: 100%;
-    width: 40%;
-    border-radius: 99px;
-    background: linear-gradient(90deg, #6366f1, #8b5cf6, #38bdf8);
-    animation: glisse 1.8s cubic-bezier(.4, 0, .2, 1) infinite;
-  }
-  @keyframes glisse {
-    0%   { transform: translateX(-100%); }
-    100% { transform: translateX(250%); }
-  }
-
-  .hint {
-    margin-top: 22px;
-    font-size: .8rem;
-    color: #64748b;
-  }
-
-  @media (max-width: 480px) {
-    .card { padding: 40px 24px 34px; border-radius: 20px; }
-    .icon { width: 72px; height: 72px; margin-bottom: 22px; }
-    .icon svg { width: 36px; height: 36px; }
-  }
-</style>
+        /* Responsive */
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+            .subtitle { font-size: 1rem; }
+            .info-text { font-size: 0.9rem; }
+        }
+    </style>
 </head>
 <body>
 
-  <div class="card">
-    <div class="icon">
-      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"
-           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <circle cx="12" cy="12" r="3"></circle>
-        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-      </svg>
+    <div class="container">
+        
+        <!-- En-tête avec Logo et Nom -->
+        <div class="header">
+            <!-- Icône SVG rappelant un cube / diamant -->
+            <svg class="logo-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" fill="currentColor"/>
+            </svg>
+            <span class="brand-name">Lumalia</span>
+        </div>
+
+        <!-- Titre principal -->
+        <h1>Mise à jour en cours</h1>
+
+        <!-- Texte explicatif -->
+        <p class="subtitle">
+            Une nouvelle version du site va être installer actuellement...
+        </p>
+
+        <!-- Ligne de séparation -->
+        <hr>
+
+        <!-- Détails supplémentaires -->
+        <p class="info-text">
+            <strong>Seul le site web redémarre</strong>
+        </p>
+        <p class="info-text">
+            <strong>Le site reviendra dans 1 semaine</strong> l'équipe a envoyer une annonce sur le discord
+        </p>
+
+        <!-- Bouton Discord -->
+        <a href="https://discord.gg/xvFxyzWTzF" target="_blank" rel="noopener noreferrer" class="btn-discord">
+            Ouvrir le Discord
+        </a>
+
     </div>
-
-    <h1>Maintenance en cours</h1>
-    <p>
-      Le site est actuellement en maintenance.<br>
-      Une nouvelle mise à jour du site arrive, merci de patienter
-    </p>
-
-    <div class="bar"></div>
-    <p class="hint">Ne fermez pas cette page.</p>
-  </div>
 
 </body>
 </html>
