@@ -4,209 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
-    <title>Maintenance - Lumalia</title>
-    
-    <!-- Script de configuration et de verrouillage -->
-    <script>
-        (function() {
-            // ==========================================
-            // CONFIGURATION
-            const MAINTENANCE = true; // true = active le blocage | false = redirige vers le site
-            const RELOAD_TIME = 60000; // Rechargement auto toutes les 60 secondes (60000 ms)
-            // ==========================================
-
-            // Si la maintenance est désactivée, on redirige
-            if (MAINTENANCE === false) {
-                window.location.replace(REDIRECT_URL);
-                return;
-            }
-
-            // Si la maintenance est active, on lance le verrouillage
-            window.addEventListener('DOMContentLoaded', () => {
-                
-                // 1. Rechargement automatique de la page
-                setTimeout(() => {
-                    window.location.reload();
-                }, RELOAD_TIME);
-
-                // 2. Bloquer le bouton "Retour" (Ajout d'un historique factice)
-                try {
-                    history.pushState(null, null, location.href);
-                    window.addEventListener('popstate', function() {
-                        history.pushState(null, null, location.href);
-                    });
-                } catch(e) {}
-
-                // 3. Popup de confirmation si on essaie de fermer l'onglet
-                window.addEventListener('beforeunload', function(e) {
-                    e.preventDefault();
-                    e.returnValue = "Le site est en maintenance. Voulez-vous vraiment quitter ?";
-                    return e.returnValue;
-                });
-
-                // 4. Bloquer les raccourcis clavier de navigation
-                window.addEventListener('keydown', function(e) {
-                    // Alt + Flèche gauche/droite
-                    if (e.altKey && (e.key === "ArrowLeft" || e.key === "ArrowRight")) {
-                        e.preventDefault();
-                    }
-                    // Retour arrière (hors champ de texte)
-                    if (e.key === "Backspace" && !['INPUT', 'TEXTAREA'].includes(e.target.tagName)) {
-                        e.preventDefault();
-                    }
-                    // Ctrl/Cmd + L (barre d'adresse) ou W (fermer onglet)
-                    if ((e.ctrlKey || e.metaKey) && (e.key === 'l' || e.key === 'w')) {
-                        e.preventDefault();
-                    }
-                });
-            });
-        })();
-    </script>
-
-    <style>
-        /* Design inspiré de ton image */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #ffffff;
-            color: #333333;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 650px;
-            text-align: center;
-        }
-
-        .header {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 40px;
-        }
-
-        .logo-icon {
-            width: 32px;
-            height: 32px;
-            fill: #1a1a1a;
-        }
-
-        .brand-name {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: #1a1a1a;
-            letter-spacing: -0.5px;
-        }
-
-        h1 {
-            font-size: 2.2rem;
-            font-weight: 700;
-            color: #1a1a1a;
-            margin-bottom: 20px;
-            letter-spacing: -0.5px;
-        }
-
-        .subtitle {
-            font-size: 1.1rem;
-            color: #6b7280;
-            line-height: 1.6;
-            margin-bottom: 30px;
-            padding: 0 10px;
-        }
-
-        hr {
-            border: none;
-            border-top: 1px solid #e5e7eb;
-            margin: 30px 0;
-        }
-
-        .info-text {
-            text-align: left;
-            font-size: 0.95rem;
-            color: #6b7280;
-            line-height: 1.6;
-            margin-bottom: 16px;
-        }
-
-        .info-text strong {
-            color: #1a1a1a;
-            font-weight: 600;
-        }
-
-        .btn-discord {
-            display: inline-block;
-            margin-top: 30px;
-            background-color: #5865F2; /* Couleur Discord / Violet de ton image */
-            color: #ffffff;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1rem;
-            padding: 12px 24px;
-            border-radius: 8px;
-            transition: background-color 0.2s ease;
-        }
-
-        .btn-discord:hover {
-            background-color: #4752C4;
-        }
-
-        /* Responsive */
-        @media (max-width: 600px) {
-            h1 { font-size: 1.8rem; }
-            .subtitle { font-size: 1rem; }
-            .info-text { font-size: 0.9rem; }
-        }
-    </style>
+    <title>Mise à jour en cours - Lumalia</title>
+    <link rel="icon" href="./favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
 </head>
 <body>
-
-    <div class="container">
-        
-        <!-- En-tête avec Logo et Nom -->
+    <main class="container">
         <div class="header">
-            <!-- Icône SVG rappelant un cube / diamant -->
             <svg class="logo-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" fill="currentColor"/>
             </svg>
             <span class="brand-name">Lumalia</span>
         </div>
 
-        <!-- Titre principal -->
         <h1>Mise à jour en cours</h1>
-
-        <!-- Texte explicatif -->
         <p class="subtitle">
-            Une nouvelle version du site va être installer actuellement...
+            Une nouvelle version du site est en cours d'installation.
         </p>
 
-        <!-- Ligne de séparation -->
+        <p class="launch-status" role="status">Installation de la nouvelle version</p>
+        <div class="progress-track" role="progressbar" aria-label="Mise à jour du site" aria-valuetext="En cours">
+            <span class="progress-indicator" aria-hidden="true"></span>
+        </div>
+
         <hr>
+        <div class="notice">
+            <p class="info-text">
+                <strong>Seul le site web redémarre.</strong>
+            </p>
+            <p class="info-text">
+                Le site reviendra dans une semaine. L'équipe a publié une annonce sur le Discord.
+            </p>
+        </div>
 
-        <!-- Détails supplémentaires -->
-        <p class="info-text">
-            <strong>Seul le site web redémarre</strong>
-        </p>
-        <p class="info-text">
-            <strong>Le site reviendra dans 1 semaine</strong> l'équipe a envoyer une annonce sur le discord
-        </p>
-
-        <!-- Bouton Discord -->
         <a href="https://discord.gg/xvFxyzWTzF" target="_blank" rel="noopener noreferrer" class="btn-discord">
             Ouvrir le Discord
         </a>
-
-    </div>
-
+    </main>
 </body>
 </html>

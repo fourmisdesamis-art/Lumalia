@@ -1,0 +1,273 @@
+:root {
+    color-scheme: light;
+    --color-text: #1a1a1a;
+    --color-muted: #6b7280;
+    --color-accent: #5865f2;
+    --color-line: #e5e7eb;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    min-height: 100vh;
+    min-height: 100svh;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: #ffffff;
+    color: #333333;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.container {
+    width: 100%;
+    max-width: 560px;
+    text-align: center;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 40px;
+}
+
+.logo-icon {
+    width: 32px;
+    height: 32px;
+    fill: var(--color-text);
+}
+
+.brand-name {
+    color: var(--color-text);
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+h1 {
+    margin-bottom: 20px;
+    color: var(--color-text);
+    font-size: 2.2rem;
+    font-weight: 700;
+}
+
+.subtitle {
+    margin-bottom: 30px;
+    padding: 0 10px;
+    color: var(--color-muted);
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+.launch-status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    margin: 0 auto 12px;
+    color: var(--color-text);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.launch-status::before {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    box-shadow: 0 0 0 4px rgba(88, 101, 242, 0.12);
+    content: "";
+    animation: status-pulse 1.8s ease-in-out infinite;
+}
+
+.progress-track {
+    position: relative;
+    width: min(100%, 280px);
+    height: 7px;
+    margin: 0 auto 28px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: var(--color-line);
+}
+
+.progress-indicator {
+    position: absolute;
+    inset-block: 0;
+    left: 0;
+    width: 34%;
+    overflow: hidden;
+    border-radius: inherit;
+    background: var(--color-accent);
+    box-shadow: 0 0 10px rgba(88, 101, 242, 0.25);
+    transform: translateX(-110%);
+    animation: progress-sweep 1.35s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+
+.progress-indicator::after {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.75), transparent);
+    content: "";
+    animation: progress-shine 800ms ease-in-out infinite;
+}
+
+hr {
+    margin: 28px 0 20px;
+    border: 0;
+    border-top: 1px solid var(--color-line);
+}
+
+.notice {
+    padding: 16px 18px;
+    border: 1px solid #ececf4;
+    border-radius: 10px;
+    background: #fafaff;
+    text-align: left;
+}
+
+.info-text {
+    margin-bottom: 10px;
+    color: var(--color-muted);
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.info-text:last-child {
+    margin-bottom: 0;
+}
+
+.info-text strong {
+    color: var(--color-text);
+    font-weight: 600;
+}
+
+.btn-discord {
+    display: inline-block;
+    margin-top: 30px;
+    padding: 12px 24px;
+    border-radius: 8px;
+    background: var(--color-accent);
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+}
+
+.btn-discord:hover {
+    transform: translateY(-2px);
+    background: #4752c4;
+    box-shadow: 0 6px 16px rgba(71, 82, 196, 0.2);
+}
+
+.btn-discord:focus-visible {
+    outline: 3px solid rgba(88, 101, 242, 0.35);
+    outline-offset: 3px;
+}
+
+@keyframes reveal-up {
+    from {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes logo-arrive {
+    from {
+        opacity: 0;
+        transform: scale(0.8) rotate(-12deg);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) rotate(0);
+    }
+}
+
+@keyframes progress-sweep {
+    from { transform: translateX(-110%); }
+    to { transform: translateX(390%); }
+}
+
+@keyframes progress-shine {
+    from { transform: translateX(-120%); }
+    to { transform: translateX(120%); }
+}
+
+@keyframes status-pulse {
+    50% { box-shadow: 0 0 0 7px rgba(88, 101, 242, 0.04); }
+}
+
+.page-ready .header {
+    animation: reveal-up 600ms ease-out both;
+}
+
+.page-ready .logo-icon {
+    animation: logo-arrive 700ms 80ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.page-ready h1 {
+    animation: reveal-up 600ms 100ms ease-out both;
+}
+
+.page-ready .subtitle {
+    animation: reveal-up 600ms 180ms ease-out both;
+}
+
+.page-ready .launch-status {
+    animation: reveal-up 500ms 260ms ease-out both;
+}
+
+.page-ready .progress-track {
+    animation: reveal-up 500ms 330ms ease-out both;
+}
+
+.page-ready hr,
+.page-ready .notice {
+    animation: reveal-up 500ms 400ms ease-out both;
+}
+
+.page-ready .btn-discord {
+    animation: reveal-up 500ms 480ms ease-out both;
+}
+
+@media (max-width: 600px) {
+    h1 { font-size: 1.8rem; }
+    .subtitle { font-size: 1rem; }
+    .info-text { font-size: 0.9rem; }
+    .notice { padding: 14px 15px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .page-ready .header,
+    .page-ready .logo-icon,
+    .page-ready h1,
+    .page-ready .subtitle,
+    .page-ready .launch-status,
+    .page-ready .progress-track,
+    .page-ready hr,
+    .page-ready .notice,
+    .page-ready .btn-discord,
+    .launch-status::before,
+    .progress-indicator,
+    .progress-indicator::after {
+        animation: none;
+    }
+
+    .progress-indicator {
+        transform: translateX(0);
+    }
+
+    .btn-discord {
+        transition: none;
+    }
+}
