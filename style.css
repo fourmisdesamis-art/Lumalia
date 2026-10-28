@@ -182,6 +182,11 @@ hr {
     }
 }
 
+@keyframes reduced-reveal {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
 @keyframes logo-arrive {
     from {
         opacity: 0;
@@ -256,15 +261,23 @@ hr {
     .page-ready .progress-track,
     .page-ready hr,
     .page-ready .notice,
-    .page-ready .btn-discord,
+    .page-ready .btn-discord {
+        animation-name: reduced-reveal;
+        animation-duration: 700ms;
+        animation-timing-function: ease-out;
+    }
+
     .launch-status::before,
-    .progress-indicator,
     .progress-indicator::after {
         animation: none;
     }
 
     .progress-indicator {
-        transform: translateX(0);
+        animation-duration: 3.2s;
+    }
+
+    .btn-discord:hover {
+        transform: none;
     }
 
     .btn-discord {
