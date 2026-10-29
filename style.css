@@ -271,6 +271,20 @@ h1 {
     margin-bottom: 24px;
 }
 
+.download-meta-text {
+    color: var(--color-muted);
+    font-size: 1.05rem;
+    line-height: 1.6;
+    margin: 10px auto 26px;
+    max-width: 50ch;
+}
+
+.discord-wrap {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
 .download-actions {
     display: flex;
     flex-direction: column;
