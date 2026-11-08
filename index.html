@@ -4,24 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lumalia</title>
-    <!-- Lien vers ton CSS -->
     <link rel="stylesheet" href="assets/css/style.css">
-    <!-- Icônes FontAwesome -->
+    <!-- Icônes FontAwesome pour le soleil et la flèche -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-    <!-- Fond étoilé (géré en CSS) -->
-    <div class="background-space"></div>
+    <!-- L'IMAGE DE FOND GALACTIQUE UPDATE -->
+    <div class="background-container">
+        <img src="assets/img/GalactiqueUpdateMJ.png" alt="Fond Galactique" class="bg-image">
+    </div>
 
     <!-- ===== NAVBAR ===== -->
     <nav class="navbar">
         <div class="nav-container">
             
-            <!-- Logo -->
+            <!-- Logo (Image + Texte) -->
             <a href="#" class="logo">
-                <img src="assets/img/logo.png" alt="Logo Lumalia">
-                Lumalia
+                <img src="assets/img/logo.png" alt="Logo Lumalia" class="logo-img">
+                <span class="logo-text">Lumalia</span>
             </a>
 
             <!-- Liens de navigation -->
@@ -31,14 +32,16 @@
                 <li><a href="#">Wiki</a></li>
                 <li><a href="#">Launcher</a></li>
                 
-                <!-- Menu déroulant Communauté -->
+                <!-- Menu Communauté (CORRIGÉ POUR NE PAS DISPARAÎTRE) -->
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle">Communauté</a>
-                    <!-- La bande qui apparait -->
-                    <ul class="dropdown-content">
-                        <li><a href="#">Forum</a></li>
-                        <li><a href="#">Staff</a></li>
-                    </ul>
+                    <!-- Ce conteneur invisible comble le vide pour que la souris ne sorte pas -->
+                    <div class="dropdown-wrapper">
+                        <ul class="dropdown-content">
+                            <li><a href="#">Forum</a></li>
+                            <li><a href="#">Staff</a></li>
+                        </ul>
+                    </div>
                 </li>
             </ul>
 
@@ -46,31 +49,28 @@
             <div class="nav-right">
                 <div class="lang-selector">
                     <span>FR</span>
-                    <i class="fa-regular fa-sun"></i>
+                    <i class="fa-regular fa-sun sun-icon"></i>
                 </div>
 
                 <!-- Menu Compte (Anilyse) -->
                 <div class="account-section">
                     <button id="account-btn" class="account-btn">
-                        <img src="https://minotar.net/helm/Anilyse/24.png" alt="icon" class="account-icon">
+                        <img src="assets/img/logo.png" alt="icon" class="account-icon"> <!-- J'ai mis ton logo en attendant ta tête de joueur -->
                         <span id="username-display">Anilyse</span> 
                         <i class="fa-solid fa-chevron-down arrow"></i>
                     </button>
 
                     <!-- Menu déroulant du compte -->
                     <div id="account-menu" class="dropdown-menu">
-                        <!-- Vue Connecté -->
                         <div id="logged-in-view">
-                            <a href="/dashboard">Dashboard</a>
-                            <a href="/parametres">Paramètres</a>
+                            <a href="#">Dashboard</a>
+                            <a href="#">Paramètres</a>
                             <hr>
                             <a href="#" id="logout-btn" class="logout-link">Déconnexion</a>
                         </div>
-                        
-                        <!-- Vue Déconnecté -->
                         <div id="logged-out-view" style="display: none;">
-                            <a href="/connexion">Connexion</a>
-                            <a href="/inscription">Inscription</a>
+                            <a href="#">Connexion</a>
+                            <a href="#">Inscription</a>
                         </div>
                     </div>
                 </div>
@@ -80,15 +80,6 @@
 
     <!-- ===== SECTION PRINCIPALE ===== -->
     <main class="hero">
-        
-        <!-- Les blocs Minecraft en fond (à remplacer par tes vraies images si tu les as) -->
-        <div class="bg-blocks">
-            <div class="block block-white"></div>
-            <div class="block block-blue"></div>
-            <div class="block block-green"></div>
-            <div class="block block-red"></div>
-        </div>
-
         <!-- Texte central -->
         <div class="hero-content">
             <h1>Des serveurs,<br>plusieurs histoires</h1>
@@ -98,14 +89,8 @@
                 <a href="#" class="btn btn-gray">Explorez le Serveur</a>
             </div>
         </div>
-
-        <!-- Badge Galactique Update (Image) -->
-        <a href="#" class="galactic-badge">
-            <img src="assets/img/GalactiqueUpdateMJ.png" alt="Galactique Update">
-        </a>
     </main>
 
-    <!-- Lien vers ton JS -->
     <script type="module" src="assets/js/script.js"></script>
 </body>
 </html>
