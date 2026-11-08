@@ -6,58 +6,56 @@
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Arial', sans-serif; /* Police simple pour coller à l'image */
     color: white;
-    overflow-x: hidden;
+    overflow: hidden; /* Empêche de scroller si l'image est fixe */
     background-color: #000;
-    min-height: 100vh;
+    height: 100vh;
     position: relative;
 }
 
-/* Fond étoilé */
-.background-space {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-image: url('https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=80&w=2071&auto=format&fit=crop');
-    background-size: cover;
-    background-position: center;
-    z-index: -2;
-}
-
-/* Effet de vignette/assombrissement pour faire ressortir le texte */
-.background-space::after {
-    content: '';
+/* ===== L'IMAGE DE FOND ===== */
+.background-container {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: radial-gradient(circle, transparent 20%, rgba(0,0,0,0.6) 100%);
+    z-index: -1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
 }
 
-/* ===== NAVBAR (Style exact de l'image) ===== */
+.bg-image {
+    /* On force l'image à couvrir tout l'écran sans se déformer */
+    min-width: 100%;
+    min-height: 100%;
+    object-fit: cover;
+    /* Optionnel : floute légèrement l'image si elle est trop nette par rapport au texte */
+    /* filter: blur(2px); */ 
+}
+
+/* ===== NAVBAR (Le gris exact) ===== */
 .navbar {
-    /* Le gris bleuté de ta navbar */
-    background-color: #8fa3ba; 
-    position: fixed;
-    top: 15px; /* Un peu détaché du haut comme sur l'image */
+    background-color: #7a8694; /* Le gris bleuté de ton screen */
+    position: absolute;
+    top: 15px;
     left: 50%;
     transform: translateX(-50%);
-    width: 95%;
-    max-width: 1400px;
-    border-radius: 50px; /* Bords très arrondis */
+    width: 96%;
+    max-width: 1500px;
+    border-radius: 50px;
     z-index: 1000;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    padding: 5px 20px;
 }
 
 .nav-container {
-    padding: 8px 25px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    height: 50px;
 }
 
 /* Logo */
@@ -65,124 +63,137 @@ body {
     display: flex;
     align-items: center;
     gap: 10px;
-    color: #1a1a1a; /* Texte noir */
     text-decoration: none;
+    color: #1a1a1a;
     font-weight: 900;
-    font-size: 1.5rem;
+    font-size: 1.6rem;
+    letter-spacing: -0.5px;
 }
 
-.logo img {
+.logo-img {
     height: 35px;
+    width: auto;
 }
 
-/* Liens de navigation */
+/* Liens */
 .nav-links {
     display: flex;
     list-style: none;
-    gap: 30px;
+    gap: 35px;
     align-items: center;
+    margin-left: 20px;
 }
 
 .nav-links li a {
-    color: #1a1a1a; /* Texte noir */
+    color: #1a1a1a;
     text-decoration: none;
-    font-weight: 700;
-    font-size: 1rem;
-    transition: color 0.2s;
+    font-weight: 800;
+    font-size: 1.1rem;
+    font-family: 'Segoe UI', sans-serif;
 }
 
 .nav-links li a:hover {
     color: #ffffff;
 }
 
-/* Menu déroulant Communauté (Bande qui apparait) */
+/* ===== CORRECTION DU MENU COMMUNAUTÉ ===== */
 .dropdown {
     position: relative;
+    height: 50px; /* Prend toute la hauteur de la navbar */
+    display: flex;
+    align-items: center;
 }
 
-.dropdown-content {
+/* Le wrapper comble le vide entre le texte et le menu */
+.dropdown-wrapper {
     display: none;
     position: absolute;
-    top: 100%;
+    top: 100%; /* Juste en dessous du texte */
     left: 50%;
     transform: translateX(-50%);
-    background-color: #8fa3ba; /* Même couleur que la navbar */
-    min-width: 140px;
-    border-radius: 10px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-    padding: 10px 0;
-    margin-top: 15px;
+    padding-top: 15px; /* C'est CE PADDING qui empêche le menu de disparaître */
+    z-index: 1001;
 }
 
-.dropdown:hover .dropdown-content {
+/* On affiche le wrapper au survol */
+.dropdown:hover .dropdown-wrapper {
     display: block;
 }
 
-.dropdown-content li {
+.dropdown-content {
+    background-color: #7a8694; /* Même gris que la navbar */
+    min-width: 160px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
     list-style: none;
+    padding: 10px 0;
+    overflow: hidden;
 }
 
 .dropdown-content li a {
     display: block;
-    padding: 10px 20px;
+    padding: 12px 20px;
     color: #1a1a1a;
     text-align: center;
+    font-weight: bold;
 }
 
 .dropdown-content li a:hover {
     background-color: rgba(255, 255, 255, 0.2);
 }
 
-/* Partie droite */
+/* ===== PARTIE DROITE ===== */
 .nav-right {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 25px;
 }
 
 .lang-selector {
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-weight: 700;
-    font-size: 1rem;
+    gap: 10px;
+    font-weight: 900;
+    font-size: 1.1rem;
     color: #1a1a1a;
 }
 
-/* ===== BOUTON COMPTE (ANILYSE) ===== */
+.sun-icon {
+    font-size: 1.3rem;
+    color: #1a1a1a;
+}
+
+/* Bouton Anilyse */
 .account-section {
     position: relative;
 }
 
 .account-btn {
-    background: #6b7d91; /* Gris plus foncé pour le bouton */
+    background-color: #5c6977; /* Gris plus foncé */
     border: none;
-    padding: 6px 15px;
+    padding: 5px 15px 5px 5px;
     border-radius: 30px;
     cursor: pointer;
-    color: white;
-    font-weight: bold;
-    font-size: 1rem;
+    color: #1a1a1a;
+    font-weight: 900;
+    font-size: 1.1rem;
     display: flex;
     align-items: center;
-    gap: 10px;
-    transition: background 0.2s;
-}
-
-.account-btn:hover {
-    background: #5a6b7e;
+    gap: 12px;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
 }
 
 .account-icon {
-    width: 24px;
-    height: 24px;
+    width: 35px;
+    height: 35px;
     border-radius: 50%;
-    object-fit: cover;
-    background: white;
+    background: #fff;
+    object-fit: contain;
+    padding: 2px;
 }
 
 .account-btn .arrow {
-    font-size: 0.8rem;
+    font-size: 1rem;
     transition: transform 0.3s;
 }
 
@@ -190,18 +201,17 @@ body {
     transform: rotate(180deg);
 }
 
-/* Menu déroulant du compte */
+/* Menu déroulant compte */
 .dropdown-menu {
     display: none;
     position: absolute;
     right: 0;
-    top: 130%;
-    background-color: #8fa3ba;
-    min-width: 180px;
-    border-radius: 10px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    top: 120%;
+    background-color: #7a8694;
+    min-width: 200px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
     overflow: hidden;
-    z-index: 1001;
 }
 
 .dropdown-menu.show {
@@ -210,28 +220,21 @@ body {
 
 .dropdown-menu a {
     color: #1a1a1a;
-    padding: 12px 20px;
+    padding: 15px 20px;
     text-decoration: none;
     display: block;
-    font-weight: 600;
-    transition: background 0.2s;
+    font-weight: 800;
 }
 
 .dropdown-menu a:hover {
     background-color: rgba(255, 255, 255, 0.2);
 }
 
-.dropdown-menu hr {
-    border: none;
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
-    margin: 0;
-}
-
 .logout-link {
-    color: #d32f2f !important;
+    color: #c0392b !important;
 }
 
-/* ===== SECTION HERO ===== */
+/* ===== SECTION HERO (TEXTE & BOUTONS) ===== */
 .hero {
     height: 100vh;
     display: flex;
@@ -239,113 +242,47 @@ body {
     justify-content: center;
     align-items: center;
     text-align: center;
-    position: relative;
-    padding-top: 60px;
-}
-
-/* Les blocs Minecraft en fond */
-.bg-blocks {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    overflow: hidden;
-}
-
-.block {
-    position: absolute;
-    background-size: cover;
-    background-position: center;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    opacity: 0.8;
-}
-
-/* Styles approximatifs pour les blocs (remplace par tes vraies textures si possible) */
-.block-white { 
-    width: 150px; height: 150px; top: 30%; left: 10%; 
-    background-color: #e0e0e0; 
-    border: 10px solid #b0b0b0;
-}
-.block-blue { 
-    width: 250px; height: 250px; top: 10%; left: 40%; 
-    background-color: #4a90e2; 
-    border: 10px solid #2c3e50;
-    transform: translateX(-50%);
-}
-.block-green { 
-    width: 100px; height: 100px; top: 20%; left: 45%; 
-    background-color: #2ecc71; 
-    border: 8px solid #27ae60;
-    transform: translateX(-50%);
-}
-.block-red { 
-    width: 200px; height: 200px; top: 15%; right: 10%; 
-    background-color: #e74c3c; 
-    border: 10px solid #c0392b;
-}
-
-/* Texte central */
-.hero-content {
-    z-index: 10;
-    margin-top: 50px;
+    padding-top: 50px;
 }
 
 .hero-content h1 {
-    font-size: 4.5rem;
+    font-size: 5rem; /* Très gros texte */
     font-weight: 900;
     line-height: 1.1;
-    margin-bottom: 30px;
-    text-shadow: 0 4px 15px rgba(0,0,0,0.8);
+    margin-bottom: 40px;
+    text-shadow: 0 4px 20px rgba(0,0,0,0.9); /* Ombre forte pour lisibilité */
 }
 
 .hero-buttons {
     display: flex;
-    gap: 15px;
+    gap: 20px;
     justify-content: center;
+    align-items: center;
 }
 
+/* Boutons */
 .btn {
-    padding: 12px 30px;
+    padding: 15px 35px;
     border-radius: 50px;
     text-decoration: none;
-    font-weight: 800;
-    font-size: 1.1rem;
+    font-weight: 900;
+    font-size: 1.3rem;
     transition: transform 0.2s;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.4);
 }
 
 .btn:hover {
-    transform: scale(1.05);
+    transform: translateY(-3px);
 }
 
-/* Bouton Cyan (Nous rejoindre) */
+/* Bouton Cyan */
 .btn-cyan {
-    background-color: #4bc2ff;
+    background-color: #2eb8ff;
     color: #000;
 }
 
-/* Bouton Gris (Explorez le Serveur) */
+/* Bouton Gris */
 .btn-gray {
     background-color: #d1d5db;
     color: #000;
-}
-
-/* Badge Galactique Update (Image en bas à gauche) */
-.galactic-badge {
-    position: absolute;
-    bottom: 20px;
-    left: 20px;
-    z-index: 10;
-    transition: transform 0.2s;
-}
-
-.galactic-badge:hover {
-    transform: scale(1.05);
-}
-
-.galactic-badge img {
-    max-width: 400px; /* Ajuste la taille selon ton image */
-    height: auto;
-    display: block;
 }
