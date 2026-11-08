@@ -3,12 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lumalia - Serveurs Minecraft</title>
-    <link rel="stylesheet" href="style.css">
-    <!-- Icônes FontAwesome pour le look pro -->
+    <title>Lumalia</title>
+    <!-- Lien vers ton CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <!-- Icônes FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+
+    <!-- Fond étoilé (géré en CSS) -->
+    <div class="background-space"></div>
 
     <!-- ===== NAVBAR ===== -->
     <nav class="navbar">
@@ -16,7 +20,7 @@
             
             <!-- Logo -->
             <a href="#" class="logo">
-                <img src="https://via.placeholder.com/30/ff69b4/ffffff?text=L" alt="Logo Lumalia">
+                <img src="assets/img/logo.png" alt="Logo Lumalia">
                 Lumalia
             </a>
 
@@ -27,9 +31,10 @@
                 <li><a href="#">Wiki</a></li>
                 <li><a href="#">Launcher</a></li>
                 
-                <!-- Menu déroulant Communauté (au survol) -->
+                <!-- Menu déroulant Communauté -->
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle">Communauté <i class="fa-solid fa-chevron-down"></i></a>
+                    <a href="#" class="dropdown-toggle">Communauté</a>
+                    <!-- La bande qui apparait -->
                     <ul class="dropdown-content">
                         <li><a href="#">Forum</a></li>
                         <li><a href="#">Staff</a></li>
@@ -37,35 +42,35 @@
                 </li>
             </ul>
 
-            <!-- Partie droite : Langue + Compte -->
+            <!-- Partie droite -->
             <div class="nav-right">
                 <div class="lang-selector">
                     <span>FR</span>
-                    <i class="fa-solid fa-sun"></i>
+                    <i class="fa-regular fa-sun"></i>
                 </div>
 
                 <!-- Menu Compte (Anilyse) -->
                 <div class="account-section">
                     <button id="account-btn" class="account-btn">
-                        <img src="https://via.placeholder.com/20/8c9eb5/ffffff?text=U" alt="icon" class="account-icon">
-                        <span id="username-display">Connexion</span> 
+                        <img src="https://minotar.net/helm/Anilyse/24.png" alt="icon" class="account-icon">
+                        <span id="username-display">Anilyse</span> 
                         <i class="fa-solid fa-chevron-down arrow"></i>
                     </button>
 
                     <!-- Menu déroulant du compte -->
                     <div id="account-menu" class="dropdown-menu">
                         <!-- Vue Connecté -->
-                        <div id="logged-in-view" style="display: none;">
-                            <a href="/dashboard"><i class="fa-solid fa-gauge"></i> Dashboard</a>
-                            <a href="/parametres"><i class="fa-solid fa-gear"></i> Paramètres</a>
+                        <div id="logged-in-view">
+                            <a href="/dashboard">Dashboard</a>
+                            <a href="/parametres">Paramètres</a>
                             <hr>
-                            <a href="#" id="logout-btn" class="logout-link"><i class="fa-solid fa-right-from-bracket"></i> Déconnexion</a>
+                            <a href="#" id="logout-btn" class="logout-link">Déconnexion</a>
                         </div>
                         
                         <!-- Vue Déconnecté -->
-                        <div id="logged-out-view">
-                            <a href="/connexion"><i class="fa-solid fa-right-to-bracket"></i> Connexion</a>
-                            <a href="/inscription"><i class="fa-solid fa-user-plus"></i> Inscription</a>
+                        <div id="logged-out-view" style="display: none;">
+                            <a href="/connexion">Connexion</a>
+                            <a href="/inscription">Inscription</a>
                         </div>
                     </div>
                 </div>
@@ -73,22 +78,34 @@
         </div>
     </nav>
 
-    <!-- ===== SECTION HERO (Contenu principal) ===== -->
+    <!-- ===== SECTION PRINCIPALE ===== -->
     <main class="hero">
+        
+        <!-- Les blocs Minecraft en fond (à remplacer par tes vraies images si tu les as) -->
+        <div class="bg-blocks">
+            <div class="block block-white"></div>
+            <div class="block block-blue"></div>
+            <div class="block block-green"></div>
+            <div class="block block-red"></div>
+        </div>
+
+        <!-- Texte central -->
         <div class="hero-content">
             <h1>Des serveurs,<br>plusieurs histoires</h1>
             
             <div class="hero-buttons">
-                <a href="#" class="btn btn-primary">Nous rejoindre</a>
-                <a href="#" class="btn btn-secondary">Explorez le Serveur</a>
+                <a href="#" class="btn btn-cyan">Nous rejoindre</a>
+                <a href="#" class="btn btn-gray">Explorez le Serveur</a>
             </div>
         </div>
 
-        <!-- Badge en bas à gauche -->
-        <a href="#" class="galactic-badge">GALACTIQUE UPDATE</a>
+        <!-- Badge Galactique Update (Image) -->
+        <a href="#" class="galactic-badge">
+            <img src="assets/img/GalactiqueUpdateMJ.png" alt="Galactique Update">
+        </a>
     </main>
 
-    <!-- Le script Firebase (type module) -->
-    <script type="module" src="script.js"></script>
+    <!-- Lien vers ton JS -->
+    <script type="module" src="assets/js/script.js"></script>
 </body>
 </html>
