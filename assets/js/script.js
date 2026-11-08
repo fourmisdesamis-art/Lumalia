@@ -1,7 +1,6 @@
 // ==========================================
 // 1. CONFIGURATION FIREBASE
 // ==========================================
-// Remplace ces valeurs par celles de TON projet Firebase
 const firebaseConfig = {
     apiKey: "TON_API_KEY",
     authDomain: "TON_PROJET.firebaseapp.com",
@@ -11,11 +10,9 @@ const firebaseConfig = {
     appId: "TON_APP_ID"
 };
 
-// Imports Firebase (version modulaire via CDN)
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-// Initialisation de Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
@@ -31,12 +28,12 @@ const logoutBtn = document.getElementById('logout-btn');
 
 // Ouvrir / Fermer le menu au clic
 accountBtn.addEventListener('click', (e) => {
-    e.stopPropagation(); // Empêche la fermeture immédiate par le clic sur window
+    e.stopPropagation();
     accountMenu.classList.toggle('show');
     accountBtn.classList.toggle('active');
 });
 
-// Fermer le menu si on clique n'importe où ailleurs sur la page
+// Fermer le menu si on clique ailleurs
 window.addEventListener('click', (e) => {
     if (!accountMenu.contains(e.target) && !accountBtn.contains(e.target)) {
         accountMenu.classList.remove('show');
@@ -45,28 +42,19 @@ window.addEventListener('click', (e) => {
 });
 
 // ==========================================
-// 3. GESTION DE L'ÉTAT DE CONNEXION (FIREBASE)
+// 3. GESTION DE L'ÉTAT DE CONNEXION
 // ==========================================
 onAuthStateChanged(auth, (user) => {
     if (user) {
-        // ---- UTILISATEUR CONNECTÉ ----
-        // Affiche le pseudo (ou l'email si pas de pseudo défini)
+        // Connecté
         usernameDisplay.textContent = user.displayName || user.email.split('@')[0];
-        
-        // Affiche le menu connecté, cache le menu déconnecté
         loggedInView.style.display = 'block';
         loggedOutView.style.display = 'none';
-        
-        console.log("Utilisateur connecté :", user.email);
     } else {
-        // ---- UTILISATEUR DÉCONNECTÉ ----
+        // Déconnecté
         usernameDisplay.textContent = "Connexion";
-        
-        // Cache le menu connecté, affiche le menu déconnecté
         loggedInView.style.display = 'none';
         loggedOutView.style.display = 'block';
-        
-        console.log("Aucun utilisateur connecté.");
     }
 });
 
@@ -74,15 +62,11 @@ onAuthStateChanged(auth, (user) => {
 // 4. BOUTON DÉCONNEXION
 // ==========================================
 logoutBtn.addEventListener('click', (e) => {
-    e.preventDefault(); // Empêche le lien de recharger la page
-    
+    e.preventDefault();
     signOut(auth).then(() => {
-        // La déconnexion a réussi, onAuthStateChanged va automatiquement mettre à jour l'UI
-        console.log("Déconnexion réussie.");
         accountMenu.classList.remove('show');
         accountBtn.classList.remove('active');
     }).catch((error) => {
-        console.error("Erreur lors de la déconnexion :", error);
-        alert("Une erreur est survenue lors de la déconnexion.");
+        console.error("Erreur :", error);
     });
 });
